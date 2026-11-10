@@ -1,0 +1,19 @@
+# API schema upgrade notice
+
+To reduce your integration costs and improve our protocol compatibility, the ModelArk API service is expected to be upgraded gradually from  **(UTC+8) September 9, 2026, 00:00**. The upgrade covers the parameter structure and compatibility enhancement for some APIs. For the upgrade details, see the table below.
+
+
+<span aceTableMode="list" aceTableWidth="2,1,2,2"></span>
+|Upgrade |Affected APIs |Before |After |
+|---|---|---|---|
+|Responses API returns encrypted reasoning content by default |Responses |`"include":["reasoning.encrypted_content"]` must be explicitly passed in the request. |When the model generates `encrypted_content`, `reasoning.encrypted_content` is returned by default, without the need to pass this parameter explicitly. |
+|Standardization of the Responses API output format |Responses |In streaming output, parameters without valid content are omitted from the response. |The `response.created` and `response.in_progress` events in streaming output additionally return the `status` and `output` parameters; when there is no content, an empty array is returned.<br><br>The reasoning item of `response.output_item.added` additionally returns the `summary` parameter, and the message item additionally returns the `content` parameter; when there is no content, an empty array is returned. |
+|New `cache_creation_input_tokens` parameter returned in `usage` |Messages |`usage` does not return the `cache_creation_input_tokens` parameter. |The returned `usage` additionally includes `cache_creation_input_tokens`; the value is 0 when this billing scenario does not apply. |
+|Error tolerance for unsupported input modalities |Chat, Responses, Messages |When a model receives input in a modality it does not support, it returns an error and rejects the request. |The GLM 5.2 and DeepSeek V4 official releases no longer return an error immediately when they receive unsupported modalities such as images, video, or audio. |
+|Support for the `logprobs` / `top_logprobs` parameters |Chat |The API does not accept `logprobs` / `top_logprobs`. |The DeepSeek V4 official releases and GLM\-5.2 support `logprobs` / `top_logprobs` for both input and output. |
+|Support for the `developer` role type |Chat |An error is returned when `content` is passed with `role=developer`. |`role=developer` input is supported and no longer returns an error. |
+|Upper limit of the `stop` / `stop_sequence` array for the DeepSeek series raised from 4 to 16 |Chat, Messages |The DeepSeek series supports a maximum of 4 `stop` / `stop_sequence` entries, and if the number exceeds 4, it returns an error. |The upper limit is raised to 16. |
+|Undecryptable `encrypted_content` or `signature` input no longer returns an error |Chat, Responses, Messages |The API returns an error immediately when it receives `encrypted_content` or `signature` that cannot be parsed. |`encrypted_content` and `signature` values that cannot be parsed are tolerated and no longer trigger an immediate error. |
+|Certain types of invalid `content` input no longer return an error |Chat, Responses, Messages |The API returns an error immediately when it receives invalid `content` input such as `null` or an empty value. |Invalid `content` input is tolerated in some scenarios and no longer triggers an immediate error. |
+|An empty `tool_call_id` no longer returns an error |Chat, Responses, Messages |The API returns an error immediately when it receives invalid `tool_call_id` input such as `null` or an empty value. |Invalid `tool_call_id` input is tolerated in some scenarios and no longer triggers an immediate error. |
+|Added support for `phase=commentary` and `phase=final_answer` in Codex. |Responses |In Codex, the API is not compatible with the `phase` parameter. |In Codex, the API adds support for the `phase` parameter for both input and output. |
