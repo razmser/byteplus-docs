@@ -152,7 +152,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/sessions/sesn-20260701120100
   }'
 ```
 
-**Text + image (base64)**
+**Text + image (Base64)**
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/sessions/sesn-20260701120100-klmno/events \
@@ -220,7 +220,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/sessions/sesn-20260701120100
   }'
 ```
 
-**Text + document (base64 PDF)**
+**Text + document (Base64 PDF)**
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/sessions/sesn-20260701120100-klmno/events \
@@ -811,12 +811,8 @@ The following `session.usage` example includes the session's cumulative runtime,
   "processed_at": "2026-09-26T14:30:29.220Z",
   "usage": {
     "active_seconds": 147.661,
-    "cache_creation": {
-      "ephemeral_1h_input_tokens": 0,
-      "ephemeral_5m_input_tokens": 0
-    },
     "cache_read_input_tokens": 271227,
-    "input_tokens": 34,
+    "input_tokens": 381008,
     "output_tokens": 7774,
     "server_tool_use": {
       "web_fetch_requests": 0,
@@ -826,7 +822,9 @@ The following `session.usage` example includes the session's cumulative runtime,
 }
 ```
 
-`session.usage.id` is generated from the corresponding `session.status_idle` event ID, in the format `sevt-usg-<idle_event_id>`. The two events have the same `processed_at`. The client should preserve the order returned by the server and not sort or deduplicate events only by `processed_at`. The two parameters in `cache_creation` in the current event always return `0`.
+In cumulative statistics for sessions and threads, `input_tokens` is the total number of input tokens, and `output_tokens` is the total number of output tokens. `cache_read_input_tokens` is the portion of `input_tokens` that hit the prompt cache. It is a detailed metric; do not add it to `input_tokens` again.
+
+`session.usage.id` is generated from the corresponding `session.status_idle` event ID, in the format `sevt-usg-<idle_event_id>`. The two events have the same `processed_at`. The client should preserve the order returned by the server and not sort or deduplicate events only by `processed_at`.`usage.active_seconds` is the cumulative number of seconds that the session was actually running: only when a session returns from `running` to `idle` or ends with `terminated` does the system add the duration of that run; time for a session that is currently still running is not counted yet.
 
 To query the latest cumulative usage and duration recorded by the server, call `GET /sessions/{session_id}` to read the session's `usage` and `stats`. To troubleshoot consumption and startup latency by thread, call `GET /sessions/{session_id}/threads/{thread_id}` to read the current thread's `usage` and `stats`. For the statistics integrity boundaries of existing sessions, see [Manage sessions](manage-session.md).
 
@@ -842,7 +840,6 @@ The `model_usage` carried by `span.model_request_end` records only the current m
   "model_usage": {
     "input_tokens": 1820,
     "output_tokens": 42,
-    "cache_creation_input_tokens": 1500,
     "cache_read_input_tokens": 0,
     "speed": "standard"
   }
@@ -851,13 +848,11 @@ The `model_usage` carried by `span.model_request_end` records only the current m
 
 Meaning of the `model_usage` parameters:
 
-* **`input_tokens`**: Uncached input tokens.
+* **`input_tokens`**: The total number of input tokens for the current request.
 
-* **`output_tokens`**: All output tokens.
+* **`output_tokens`**: The total number of output tokens for the current request.
 
-* **`cache_creation_input_tokens`**: Number of input tokens written to the prompt cache in this request.
-
-* **`cache_read_input_tokens`**: Number of input tokens read from the prompt cache in this request.
+* **`cache_read_input_tokens`**: The portion of this request's input that hits the prompt cache. This value is included in `input_tokens`.
 
 * **`speed`**: Speed tier of the current request.
 

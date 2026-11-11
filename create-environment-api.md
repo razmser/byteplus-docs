@@ -22,9 +22,9 @@ Defines the runtime mode and startup configuration of the environment.
 
 > **Tip**
 
-* > When creating a `cloud` environment, you must provide `networking`, and `networking.type` can currently only be set to `unrestricted`.
+* > When creating a `cloud` environment, you must provide `config.networking` and select `unrestricted` or `limited` in `config.networking.type`.
 
-* > When creating a `self_hosted` environment, you can provide only `type`.
+* > When creating a `self_hosted` environment, provide only `type` in `config`. Do not configure cloud sandbox parameters such as `networking`, `packages`, `env`, `setup_script`, or `tos`.
 
 **type** `string` `Required`  |  Environment type
 
@@ -46,13 +46,47 @@ Environment variables used when the environment runs, passed in as string key\-v
 
 `config.networking`
 
-The outbound network configuration of the environment.
+The outbound network configuration of the environment. Required when creating a `cloud` environment; not required when creating a `self_hosted` environment.
 
 **type** `string` `Required`  |  Outbound network policy type
 
 `config.networking.type`
 
-The outbound network mode of the environment.`unrestricted` means outbound targets are not restricted.
+The outbound network mode of the environment. Options: `unrestricted`, `limited`.
+
+> **Tip**
+
+* > `unrestricted` means outbound destinations are not restricted, but the platform's general security blocking policies still apply.
+
+* > `limited` means access is allowed only to destinations covered by the DNS/IP rules required by the platform, domain names in `allowed_hosts`, and additional package repository domains added when `allow_package_managers` is enabled.
+
+* > `limited` is a fail\-closed policy: if no allowed domains are configured, the sandbox can still start normally, but all external network access is blocked.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+> **Tip**
+
+> When enabled, the platform adds package manager repository domains to the `limited` outbound rules for installing `apt`, `cargo`, `gem`, `go`, `npm`, and `pip` dependencies. When disabled or omitted, dependencies declared in `packages` do not automatically allow access to external package repositories.
+
+> If package manager repository domains are not configured on the platform side, enabling this parameter causes the request to fail.
+
+**allowed_hosts** `string[]`  |  Host allowlist
+
+`config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
+
+> **Tip**
+
+* > Only bare domain names or leftmost wildcard domain names are supported, such as `example.com` and `*.example.com`.
+
+* > URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
+
+* > When omitted or passed as an empty array, no additional external domain names are allowed.
 
 **packages** `object`  |  Dependency package configuration
 
@@ -222,7 +256,41 @@ The currently effective outbound network configuration of the environment. For a
 
 `config.networking.type`
 
-The outbound network mode of the environment.`unrestricted` means outbound targets are not restricted.
+The outbound network mode of the environment. Options: `unrestricted`, `limited`.
+
+> **Tip**
+
+* > `unrestricted` means outbound destinations are not restricted, but the platform's general security blocking policies still apply.
+
+* > `limited` means access is allowed only to destinations covered by the DNS/IP rules required by the platform, domain names in `allowed_hosts`, and additional package repository domains added when `allow_package_managers` is enabled.
+
+* > `limited` is a fail\-closed policy: if no allowed domains are configured, the sandbox can still start normally, but all external network access is blocked.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+> **Tip**
+
+> When enabled, the platform adds package manager repository domains to the `limited` outbound rules for installing `apt`, `cargo`, `gem`, `go`, `npm`, and `pip` dependencies. When disabled or omitted, dependencies declared in `packages` do not automatically allow access to external package repositories.
+
+> If package manager repository domains are not configured on the platform side, enabling this parameter causes the request to fail.
+
+**allowed_hosts** `string[]`  |  Host allowlist
+
+`config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
+
+> **Tip**
+
+* > Only bare domain names or leftmost wildcard domain names are supported, such as `example.com` and `*.example.com`.
+
+* > URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
+
+* > When omitted or passed as an empty array, no additional external domain names are allowed.
 
 **packages** `object`  |  Dependency package configuration
 

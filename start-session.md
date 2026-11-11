@@ -2,11 +2,11 @@
 
 A session is one instance of a managed agent running an agent in an environment. A session maintains conversation history across multiple interactions and preserves sandbox state, allowing the agent to remember what it did in previous turns.
 
-It takes two steps to starting a session:
+There are two ways to start a session:
 
-1. **Create a session**: configure the sandbox and bind the agent to the environment. At this point, the agent does **not** start any work.
+1. **Create first, then send the first event**: When creating a session, configure the sandbox and bind the agent and environment. At this point, the agent does **not** start any work. Then use a `user.message` event to hand the task to the agent, and the session enters the `running` state and starts execution.
 
-2. **Send the first event**: use a `user.message` event to hand the task to the agent. The session enters the `running` state and starts execution.
+2. **Send initial events during creation**: Pass `initial_events` in the create request. After creation is complete, the server delivers the events in order and starts the agent, so you do not need to call the send event API again.
 
 ## Prerequisites
 
@@ -83,6 +83,56 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/sessions \
 ```
 
 After the version is locked, even if the agent releases a new version later, this session still runs with the behavior of `version: 1`. This lets you roll out a new version in canary stages without affecting the behavior consistency of existing sessions.
+
+## Send initial events during creation (Optional)
+
+If the task is already clear when you create the session, you can pass `initial_events` directly in the request to combine session creation and sending the first event into a single call. After the session is created, the server delivers the events in the requested order and starts the agent loop, so you do not need to call the send event API again.
+
+**Curl**
+
+```Bash
+curl https://ark.ap-southeast.bytepluses.com/api/v3/sessions \
+  -H "Authorization: Bearer $ARK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent": "agent-20260701120000-abcde",
+    "environment_id": "env-20260701120000-fghij",
+    "initial_events": [
+      {
+        "type": "user.message",
+        "content": [
+          {"type": "text", "text": "Analyze the product materials, clarify the requirement boundaries, and provide acceptance test cases."}
+        ]
+      }
+    ]
+  }'
+```
+
+`initial_events` follows these rules:
+
+* An array with a maximum of 50 items. If omitted or set to `[]`, it is handled as a normal create request, and the session is created in the `idle` state.
+
+* Currently, only `user.message` is supported. Events such as tool results, tool confirmations, and interrupts are based on interactions that have already occurred in the session and can be sent only after the session starts.`user.message` content blocks are consistent with the send event API. They can mix text, images, documents, and video. For the parameter format, see [Session event structure reference](sessions-events-reference-v2.md).
+
+* Events are persisted in the order of the request. The create response does not echo `initial_events`; to confirm whether events have been saved, query with [Get session event list](list-events-api.md).
+
+* After non\-empty `initial_events` is passed, the `status` in the create response may be `running`, or it may still be `idle` because of status synchronization latency. To determine whether the agent has started, use the event list or the session status returned by a later query as the source of truth.
+
+* `running` indicates that the events have been accepted and the agent loop has started. It does not mean the task has completed. Initial events are processed in batches and are not equivalent to a single merged `user.message`.
+
+### Validation and failure handling
+
+The server validates all initial events before creating the session: if any event is invalid, the request fails and no session is created. The following cases all return `InvalidParameter`:
+
+* The number of events exceeds 50.
+
+* `type` is not `user.message`.
+
+* The event content does not meet the validation rules for the send event API.
+
+> **Tip**
+
+> When you use `initial_events`, events start being delivered while the create request is being processed. At this point, the session ID is not available yet, so you cannot establish an SSE connection in advance. If you need to receive the complete real\-time event stream from the first turn, create the session first, then subscribe to the event stream, and finally send the first event; events that have already been generated can be queried from the event list at any time.
 
 ## Override agent configuration (optional)
 
@@ -311,7 +361,7 @@ For multiple vaults matching rules, runtime behavior when no match is found, rot
 
 > **Note**
 
-> **Creating a session only completes sandbox configuration and does not start any work.** You must send a `user.message` event before the agent starts execution.
+> **When****`initial_events`****is not used, creating a session only completes sandbox configuration and does not start any work.** You must send a `user.message` event before the agent starts execution.
 
 This decoupled design lets the client inject vaults credentials and check the sandbox environment before sending the first event to start the agent. To receive events for this turn in real time, take the following steps in order:
 

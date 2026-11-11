@@ -1,10 +1,34 @@
 # Cloud sandbox reference
 
-This topic describes the programming languages, databases, common utilities, and basic resource specifications preinstalled in the Managed Agents cloud sandbox, so you can quickly reference them when configuring environments or evaluating task dependencies.
+This topic describes the environment templates, resource specifications, preinstalled programming languages, databases, and common tools (utilities) in the Managed Agents cloud sandbox, so you can quickly refer to them when configuring environments or evaluating task dependencies.
 
 The cloud sandbox runs in an isolated Linux container provided by ModelArk. Runtimes, database clients, and common command\-line tools are preinstalled and can be used directly by the agent.
 
 > The specifications described in this topic apply to `cloud` environments.
+
+## Environment template
+
+When you create a cloud environment, you can use `config.template_id` to select an environment template. If this parameter is not configured, `base` is used by default.
+
+|Use case |Recommended template |Template description |
+|---|---|---|
+|Execute code, process files, process data, or call command\-line tools. |`base` |Basic cloud sandbox template with common language runtimes, database clients, and command\-line tools preinstalled. |
+|Access web pages, parse pages, inspect frontend pages, or run browser automation tasks. |`browser` |Browser task template with Chromium, Playwright, `playwright-cli`, browser system dependencies, and common Chinese fonts preinstalled in addition to the basic capabilities. |
+
+The `browser` template includes the basic capabilities of the `base` template and additionally provides runtime dependencies required for browser tasks. The following table lists the capability differences between the two templates. System packages and patch versions in the image are updated as part of platform maintenance.
+
+|Capability |`base` |`browser` |
+|---|---|---|
+|Basic language runtimes |Python, Node.js, Go, Rust, Java, Ruby, PHP, and C/C++ build tools are preinstalled. |Same as `base`. |
+|Package management tool |pip, uv, npm, yarn, pnpm, go modules, cargo, maven, gradle, bundler, gem, and composer are preinstalled. |Same as `base`. |
+|Database support |SQLite, local database clients, and common client tools required to connect to external databases are preinstalled. |Same as `base`. |
+|Command\-line tools |git, curl, wget, jq, archive and compression tools, remote access tools, build tools, search tools, and text processing tools are preinstalled. |Same as `base`. |
+|Document and media processing |Command\-line tools for audio and video, images, Office documents, PDFs, OCR, and LaTeX, as well as Chinese and English fonts, are preinstalled. |Same as `base`. |
+|Browser runtime dependencies |Not preinstalled. |Chromium, Playwright, `playwright-cli`, browser system dependencies, and common Chinese fonts are preinstalled. |
+
+> **Tip**
+
+> The template does not include business code dependencies, private source dependencies, or large resources. If a task depends on these items, fixed\-version tools, or other browser automation frameworks, install them by using `config.packages` or `config.build_script`.
 
 ## Programming languages
 
@@ -67,17 +91,41 @@ Multiple categories of commonly used tools are built in, covering scenarios such
 |`vim`, `nano` |Text editors. |
 |`diff`, `patch` |File comparison and patch tools. |
 
+### Document and media processing
+
+|Tool |Description |
+|---|---|
+|`ffmpeg`, `ffprobe` |Convert audio and video formats, and read media streams and encoding information. |
+|ImageMagick (`convert`, `identify`) |Convert and process images, and read image dimensions and format information. |
+|Pandoc, LibreOffice |Convert common documents, presentations, and spreadsheets through the command line or in headless mode. |
+|Poppler (`pdftotext`, `pdftoppm`), `qpdf` |Extract PDF text, convert PDF pages to images, and inspect or process PDF structures. |
+|Tesseract |Recognize text in English and Simplified Chinese images. |
+|`pdflatex`, `xelatex`, `latexmk` |Compile Chinese and English LaTeX documents. |
+|Noto CJK, DejaVu, Liberation |Provide commonly used Chinese and English fonts for document conversion, typesetting, and image rendering. |
+
+> **Tip**
+
+> Document conversion tools run in command\-line or headless mode. The sandbox does not provide a desktop environment. ImageMagick retains PDF and PostScript security restrictions. When you need to extract PDF text or convert pages to images, use Poppler tools. The sandbox does not preinstall the Docker CLI or Docker daemon.
+
 ## Sandbox specifications
 
-The following are the basic resource specifications of the cloud sandbox, which can be used to evaluate runtime resources and network capabilities.
+The following are the basic and optional resource specifications of the cloud sandbox, which can be used to evaluate runtime resources and network capabilities.
 
 |Attributes |Configuration |
 |---|---|
 |Operating system |Ubuntu 22.04 LTS |
 |Architecture |x86_64 (amd64) |
-|Memory |4 GB |
-|Disk space |10 GB |
+|Disk space |About 10 GiB |
 |Network |Enabled by default |
+
+When creating a cloud environment, you can select CPU and memory specifications through `config.spec`. If this parameter is not configured, `1x` is used by default.
+
+|`config.spec` |CPU |Memory |
+|---|---|---|
+|`1x` |2 vCPU |4 GiB |
+|`2x` |4 vCPU |8 GiB |
+|`4x` |8 vCPU |16 GiB |
+|`8x` |16 vCPU |32 GiB |
 
 ## Key directories and agent permissions
 

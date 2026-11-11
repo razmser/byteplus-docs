@@ -316,7 +316,7 @@ Tool type:
 
 * `agent_toolset_20260916`: the current version of the ModelArk built\-in toolset.
 
-* `mcp_toolset`: A tool set provided by the specified MCP service.
+* `mcp_toolset`: A toolset provided by the specified MCP service.
 
 * `custom`: A custom tool executed by the client.
 
@@ -490,7 +490,7 @@ Tool type:
 
 * `agent_toolset_20260916`: the current version of the ModelArk built\-in toolset.
 
-* `mcp_toolset`: A tool set provided by the specified MCP service.
+* `mcp_toolset`: A toolset provided by the specified MCP service.
 
 * `custom`: A custom tool executed by the client.
 
@@ -612,7 +612,7 @@ Duration statistics for the session, including the cumulative runtime duration a
 
 `stats.active_seconds`
 
-The cumulative duration for which at least one thread in the session is in the `running` state, in seconds. This value is the same as `usage.active_seconds`.
+The cumulative number of seconds that the session was actually running. This is the same as `usage.active_seconds`. The system adds the duration of each run only after the session returns from `running` to `idle` or `terminated`; any time for which the session is still running is not counted yet.
 
 **duration_seconds** `number`  |  Total session duration
 

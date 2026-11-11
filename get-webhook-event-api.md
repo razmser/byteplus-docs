@@ -2,9 +2,9 @@
 
 `GET https://ark.ap-southeast.bytepluses.com/api/v3/webhook_endpoints/{endpoint_id}/events/{event_id}`
 
-Query the event envelope associated with a specified webhook endpoint in the last 7 days. The response is the frozen envelope saved at delivery time and is identical to the callback request body.
+Query the event envelope associated with a specified webhook endpoint in the last 7 days. The response is the frozen envelope saved at delivery time. It is consistent with the callback request body and includes the delivery information for this event for the current endpoint.
 
-The API does not return the delivery status or per\-retry details, nor does it reread business resources. Events can still be queried after the endpoint is disabled; after the endpoint is deleted, associated events that have not expired can still be queried during the 7\-day tombstone retention period.
+The API does not reread business resources or provide per\-retry details. Events can still be queried after the endpoint is disabled; after the endpoint is deleted, associated events that have not expired can still be queried during the 7\-day tombstone retention period.
 
 ## Authentication
 
@@ -67,3 +67,37 @@ Webhook event ID, starting with `whe-`. This value is the same as the `webhook-i
 **type** `string`  |  Object type
 
 Object type, fixed as `event`.
+
+**delivery** `object`  |  Delivery information
+
+Delivery information for this event for the current endpoint. This parameter is returned only by the query API. This parameter is omitted if the delivery record has been cleaned up or was never created.
+
+**status** `string`  |  Delivery status
+
+`delivery.status`
+
+Delivery status.`RUNNING` indicates that the delivery has not completed; `SUCCEEDED` indicates that the delivery succeeded; `FAILED` indicates that the delivery ultimately failed; `CANCELED` indicates that deliveries that have not started or are waiting to be retried were canceled because the endpoint was disabled or a subscribed event type was removed; `EXPIRED` indicates that the delivery did not complete within the 24\-hour delivery window.
+
+**attempt_count** `integer`  |  Attempt count
+
+`delivery.attempt_count`
+
+Number of delivery attempts made to the callback URL.
+
+**created_at** `string`  |  Delivery creation time
+
+`delivery.created_at`
+
+Time when the delivery record was created, in RFC 3339 format.
+
+**finished_at** `string`  |  Delivery completion time
+
+`delivery.finished_at`
+
+Time when the delivery completed (succeeded, ultimately failed, was canceled, or expired), in RFC 3339 format. This parameter is omitted if the delivery has not completed.
+
+**last_error_code** `string`  |  Latest failure error code
+
+`delivery.last_error_code`
+
+Error code of the most recent delivery failure.

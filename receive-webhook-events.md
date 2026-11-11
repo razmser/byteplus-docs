@@ -26,7 +26,7 @@ Webhooks support subscribing to the business events in the following table. For 
 
 > **Note**
 
-> Webhook event queries return only frozen event envelopes associated with the endpoint from the last 7 days. They do not return delivery status or per\-retry details, and do not provide event replay. The receiver should still persist events and processing results itself. If you find that notifications are missing, call the query API for the corresponding resource to check its current status. The session events query API is not a webhook history API.
+> Webhook event queries return frozen event envelopes associated with the endpoint from the last 7 days, along with delivery information for the event for the current endpoint (delivery status, number of attempts, latest failure error code, and delivery creation and completion times). You can use this information to determine whether the event was delivered successfully. The query does not provide per\-retry details or event replay. The receiver should still persist events and processing results itself. If you find that notifications are missing, call the query API for the corresponding resource to check its current status. The session events query API is not a webhook history API.
 
 ### Determine session run results
 
@@ -311,7 +311,7 @@ Each call generates a new test event. Retrying directly after a request times ou
 
 After the receiver receives the event, it outputs:
 
-```text
+```Plain Text
 Received event whe-20261012080500-f6g7h: webhook.test
 ```
 
@@ -406,7 +406,7 @@ curl -sS --fail-with-body \
   -H "Authorization: Bearer $ARK_API_KEY"
 ```
 
-The event details are consistent with the original callback request body. The API does not reread business resources, does not return whether delivery succeeded, the HTTP attempt count, or the reason for each failure, and does not support replaying events. Events can still be queried after the endpoint is disabled; after the endpoint is deleted, associated events that have not expired can still be queried during the 7\-day tombstone retention period.
+Event details include the original callback request body plus delivery information for the current endpoint (delivery status, number of attempts, latest failure error code, and delivery creation and completion times), which you can use to determine whether the event was delivered successfully. The API does not re\-read business resources and does not support replaying events. Events can still be queried after the endpoint is disabled; after the endpoint is deleted, associated events that have not expired can still be queried during the 7\-day tombstone retention period.
 
 ## Maintaining endpoints
 

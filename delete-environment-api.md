@@ -8,7 +8,7 @@ Permanently deletes the specified environment in the current project. The enviro
 
 > As long as the environment is still associated with undeleted sessions, the server returns HTTP 400 `InvalidAction`. Sessions whose `status` is `terminated` or whose `archived_at` has a value still count as associated; delete all associated sessions before deleting the environment.
 
-> The delete operation cannot be undone. Deleting an environment that no longer exists returns HTTP 404 `InvalidEnvironment.NotFound`; when retrying after a timeout, you can treat this result as indicating that the resource has already been deleted.
+> The delete operation cannot be undone. When the environment does not exist, has been deleted, or does not belong to the current project, the API returns HTTP 404 `InvalidEnvironment.NotFound`.
 
 ## Authentication
 

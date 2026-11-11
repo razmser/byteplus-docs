@@ -2,7 +2,7 @@
 
 Markdown mirror of [BytePlus ModelArk's documentation](https://docs.byteplus.com/en/docs/ModelArk/).
 
-Contains **334 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
+Contains **345 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
 
 Links to mirrored pages point to local files; external links and images remain online. Code examples and OpenAPI blocks are preserved.
 
@@ -30,6 +30,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [API schema upgrade notice](api-schema-upgrade-notice.md)
 - [Inferential session data application layer encryption scheme](application-layer-encryption-for-inference-session-data.md)
 - [Archive agent](archive-agent-api.md)
+- [Archive deployment](archive-deployment-api.md)
 - [Archive environment](archive-environment-api.md)
 - [Archive session](archive-session-api.md)
 - [Ark CLI guide](ark-cli.md)
@@ -90,6 +91,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [CreateArkOfficialResultQuery - Create a ModelArk artifact verification query](create-ark-official-result-query-api.md)
 - [CreateBatchInferenceJob](create-batch-inference-job-api.md)
 - [Create credential](create-credential-api.md)
+- [Create deployment](create-deployment-api.md)
 - [Create an inference endpoint](create-endpoint-api.md)
 - [CreateEndpointRolling - Create an inference endpoint rolling upgrade task](create-endpoint-rolling-api.md)
 - [Create environment](create-environment-api.md)
@@ -143,6 +145,8 @@ Generated files are replaced by the next successful sync. Original content belon
 - [GetArkOfficialResult - Obtain ModelArk artifact verification result](get-ark-official-result-api.md)
 - [GetBatchInferenceJob](get-batch-inference-job-api.md)
 - [Get credential](get-credential-api.md)
+- [Get deployment details](get-deployment-api.md)
+- [Get deployment run details](get-deployment-run-api.md)
 - [GetEndpoint](get-endpoint-api.md)
 - [GetEndpointCertificate](get-endpoint-certificate-api.md)
 - [GetEndpointRolling - Query inference endpoint rolling upgrade details](get-endpoint-rolling-api.md)
@@ -188,6 +192,8 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Retrieve Security audit logs](list-audit-logs-api.md)
 - [ListBatchInferenceJobs](list-batch-inference-jobs-api.md)
 - [List credentials](list-credentials-api.md)
+- [List deployment runs](list-deployment-runs-api.md)
+- [List deployments](list-deployments-api.md)
 - [ListEndpoints](list-endpoints-api.md)
 - [List environments](list-environments-api.md)
 - [List session events](list-events-api.md)
@@ -244,6 +250,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Online inference (standard)](online-inference-standard.md)
 - [Output item and text response](output-and-text.md)
 - [Overview](overview.md)
+- [Pause deployment](pause-deployment-api.md)
 - [Persistent memory](persistent-memory.md)
 - [Platform functionality overview](platform-functionality-overview.md)
 - [Long-poll for work](poll-work-api.md)
@@ -270,7 +277,9 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Tool use (Responses API)](responses-api-tool-calling.md)
 - [Skylark role creation guide](roleplay-prompt-guide.md)
 - [RollbackEndpointRolling - Roll back inference endpoint rolling upgrade](rollback-endpoint-rolling-api.md)
+- [Run deployment](run-deployment-api.md)
 - [Scan GitHub skills](scan-github-skills-api.md)
+- [Schedule agent runs](schedule-agent-runs.md)
 - [Common SDK usage examples](sdk-common-examples.md)
 - [Retrieve file](search-files-api.md)
 - [Seedance-1.0-pro&pro-fast prompt guide](seedance-1-0-pro-pro-fast.md)
@@ -318,9 +327,11 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Tools & Platform](tools-and-platform.md)
 - [Tools](tools.md)
 - [Best practices for handling burst traffic](traffic-burst-handling-best-practices.md)
+- [Resume deployment](unpause-deployment-api.md)
 - [Update agent](update-agent-api.md)
 - [UpdateBatchInferenceJob](update-batch-inference-job-api.md)
 - [Update credential](update-credential-api.md)
+- [Update deployment](update-deployment-api.md)
 - [UpdateEndpoint](update-endpoint-api.md)
 - [Update environment](update-environment-api.md)
 - [Update memory](update-memory-api.md)

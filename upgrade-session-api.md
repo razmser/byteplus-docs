@@ -20,6 +20,8 @@ A session must meet the following conditions before it can be upgraded:
 
 The `context_management` setting recorded in the session cannot be modified through this API. When other agent configurations are upgraded, the original policy is still retained. If you need to use a new context management policy, update the agent and then create a new session.
 
+When refreshing the environment configuration, this API does not modify the environment template, resource specifications, or prebuild scripts. To change these configurations, first update or create an environment, and then create a new session.
+
 After the request is accepted, the session status changes to `upgrading`. Poll by following the instructions of [Query session details](get-session-api.md), wait until the status returns to `idle`, and then continue sending events. For multi\-agent sessions, you can also use [List threads](list-threads-api.md) to check the status of each thread.
 
 Choose an API based on your goal:
@@ -486,13 +488,59 @@ Fixed as `environment_with_upgrades`.
 
 `environment.config`
 
-Cloud environments support appending dependency packages, merging environment variables, and replacing initialization scripts; self\-hosted environments do not accept these runtime parameters.
+Cloud environments support replacing egress policies, appending dependency packages, merging environment variables, and replacing initialization scripts; self\-hosted environments do not accept these runtime parameters.
 
 **env** `object`  |  Environment variables to add or update
 
 `environment.config.env`
 
 passed as string key\-value pairs. The server merges them with the current configuration, and variables with the same name use the value in this request.
+
+**networking** `object`  |  Container egress policy to use after this upgrade
+
+`environment.config.networking`
+
+If omitted, the current policy is retained; if provided, it replaces the entire policy.
+
+**type** `string` `Required`  |  Outbound network policy type
+
+`environment.config.networking.type`
+
+The type of container outbound network policy used by the environment. Options: `unrestricted`, `limited`.
+
+> **Tip**
+
+* > `unrestricted` means outbound destinations are not restricted, but the platform's general security blocking policies still apply.
+
+* > `limited` means access is allowed only to destinations covered by the DNS/IP rules required by the platform, domain names in `allowed_hosts`, and additional package repository domains added when `allow_package_managers` is enabled.
+
+* > `limited` is a fail\-closed policy: if no allowed domains are configured, the sandbox can still start normally, but all external network access is blocked.
+
+**allow_package_managers** `boolean`  |  Package manager access
+
+`environment.config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+> **Tip**
+
+> When enabled, the platform adds package manager repository domains to the `limited` outbound rules for installing `apt`, `cargo`, `gem`, `go`, `npm`, and `pip` dependencies. When disabled or omitted, dependencies declared in `packages` do not automatically allow access to external package repositories.
+
+> If package manager repository domains are not configured on the platform side, enabling this parameter causes the request to fail.
+
+**allowed_hosts** `string[]`  |  Allowed hosts
+
+`environment.config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
+
+> **Tip**
+
+* > Only bare domain names or leftmost wildcard domain names are supported, such as `example.com` and `*.example.com`.
+
+* > URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
+
+* > When omitted or passed as an empty array, no additional external domain names are allowed.
 
 **packages** `object`  |  Dependency packages to add or update
 
@@ -1572,7 +1620,19 @@ Container outbound network policy.
 
 `environment.config.networking.type`
 
-The outbound network policy currently used by the session.`unrestricted` means outbound targets are not restricted.
+The outbound network policy currently used by the session. Options: `unrestricted`, `limited`.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`environment.config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+**allowed_hosts** `string[]`  |  Allowed hosts
+
+`environment.config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
 
 **packages** `object`  |  Dependency package configuration
 

@@ -94,6 +94,12 @@ The currently effective runtime configuration of the environment.
 
 The runtime mode of the environment.`cloud` means the runtime environment is provided by ModelArk, and `self_hosted` means the runtime environment is provided by the caller.
 
+**build_script** `string`  |  Prebuild script
+
+`data.config.build_script`
+
+The prebuild script configured for the environment. It runs after dependency packages are installed.
+
 **env** `object`  |  Environment variable
 
 `data.config.env`
@@ -110,49 +116,75 @@ The currently effective outbound network configuration of the environment. For a
 
 `data.config.networking.type`
 
-The outbound network mode of the environment.`unrestricted` means outbound targets are not restricted.
+The outbound network mode of the environment. Options: `unrestricted`, `limited`.
+
+> **Tip**
+
+* > `unrestricted` means outbound destinations are not restricted, but the platform's general security blocking policies still apply.
+
+* > `limited` means access is allowed only to destinations covered by the DNS/IP rules required by the platform, domain names in `allowed_hosts`, and additional package repository domains added when `allow_package_managers` is enabled.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`data.config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+> **Tip**
+
+> When set to `true`, this indicates that the package repository domains configured by the platform have been added to the `limited` outbound rules for installing `apt`, `cargo`, `gem`, `go`, `npm`, and `pip` dependencies.
+
+**allowed_hosts** `string[]`  |  Host allowlist
+
+`data.config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
+
+> **Tip**
+
+> Only bare domain names or leftmost wildcard domain names are supported, such as `example.com` and `*.example.com`. URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
 
 **packages** `object`  |  Dependency package configuration
 
 `data.config.packages`
 
-Dependency packages that are preinstalled when the environment starts.
+The dependency packages configured for the environment.
 
 **apt** `string[]`  |  apt package
 
 `data.config.packages.apt`
 
-System packages preinstalled through apt when the environment starts.
+System packages installed through apt during the environment prebuild phase.
 
 **cargo** `string[]`  |  Cargo packages
 
 `data.config.packages.cargo`
 
-Rust crates preinstalled through Cargo when the environment starts.
+Rust crates installed through Cargo during the environment prebuild phase.
 
 **gem** `string[]`  |  gem packages
 
 `data.config.packages.gem`
 
-Ruby packages preinstalled through RubyGems when the environment starts.
+Ruby packages installed through RubyGems during the environment prebuild phase.
 
 **go** `string[]`  |  Go packages
 
 `data.config.packages.go`
 
-Module dependencies preinstalled through the Go toolchain when the environment starts.
+Module dependencies installed through the Go toolchain during the environment prebuild phase.
 
 **npm** `string[]`  |  npm packages
 
 `data.config.packages.npm`
 
-Node.js packages preinstalled through npm when the environment starts.
+Node.js packages installed through npm during the environment prebuild phase.
 
 **pip** `string[]`  |  pip package
 
 `data.config.packages.pip`
 
-Python packages preinstalled through pip when the environment starts.
+Python packages installed through pip during the environment prebuild phase.
 
 **type** `string`  |  Configuration type
 
@@ -166,7 +198,19 @@ Value is fixed to `packages`.
 
 `data.config.setup_script`
 
-The initialization script executed when the environment starts.
+The startup script configured for the environment. It runs when each session sandbox starts.
+
+**spec** `string`  |  Resource specification
+
+`data.config.spec`
+
+The cloud sandbox resource specification currently in effect for the environment.`1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory.
+
+**template_id** `string`  |  Environment template
+
+`data.config.template_id`
+
+The cloud environment template currently used by the environment.`base` means the base template, and `browser` means the browser task template.
 
 **tos** `object`  |  Artifact storage configuration
 

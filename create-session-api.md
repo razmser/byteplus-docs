@@ -4,7 +4,7 @@
 
 Create a session and bind it to the specified agent and environment. When creating a session, you can override some agent or environment configurations for this session. After the session is created, you can use the returned session ID to send events, query the status, upgrade the configuration, archive the session, or delete the session. Archived agents and environments cannot be used to create new sessions.
 
-Prepare the agent and environment before calling this API. To mount files, memory stores, or credentials, you must first create the resources through the corresponding APIs and obtain their IDs.
+Prepare the agent and environment before calling this API. To mount files, memory stores, or credentials, you must first create the resources through the corresponding APIs and obtain their IDs. To submit the first batch of tasks while creating a session, pass `initial_events`; the server delivers the events in order after the session is created and starts the agent loop.
 
 Choose an API based on your goal:
 
@@ -23,6 +23,8 @@ By default, a single agent can have up to 1000 active sessions at the same time.
 * > Passing an `agent_with_overrides` object lets you temporarily adjust the referenced agent's model, system prompt, tools, MCP services, skills, or multi\-agent collaboration configuration for this session. The override does not create a new agent version.
 
 * > Passing an `environment` override object lets you temporarily adjust the referenced environment's certain runtime configuration for this session. The override does not modify the original environment and does not affect other sessions.
+
+* > If you pass a non\-empty `initial_events`, events are delivered immediately after the session is created and the agent loop starts. The create response may be `running`; if you omit `initial_events` or pass an empty array, the session is created as `idle`.
 
 ## Authentication
 
@@ -756,6 +758,24 @@ Session scene marker.
 
 * `dreams`: a session used for Dream memory organization tasks.
 
+**initial_events** `object[]`  |  Initial event list
+
+A list of initial events sent when the session is created, up to 50 events. If you pass a non\-empty list, the server delivers the events in request order and starts the agent loop immediately after the session is created, without requiring another call to the send event API.
+
+Currently, only `user.message` is supported. The event parameters and content block format are the same as in the send event API. For details, see [Session event structure reference](sessions-events-reference-v2.md).
+
+> **Tip**
+
+> If this parameter is omitted or `[]` is passed, the session is created in the `idle` state and the agent loop does not start. The create response does not echo `initial_events`; to confirm whether events have been persisted, query with [Get session event list](list-events-api.md).
+
+> The server validates all initial events before creating the session. If any event is invalid, the request fails. No session is created, and no event records are left behind. Creation fails if there are more than 50 events, if `type` is not `user.message`, or if the event content does not meet the validation rules of the send event API.
+
+**type** `string` `Required`  |  Event type
+
+`initial_events.type`
+
+Event type. Currently, only `user.message` is supported.
+
 ## Response parameters
 
 **agent** `object`  |  Agent information
@@ -1152,7 +1172,7 @@ Whether to use it as the default model for this tool.
 
 The model name returned by the server based on the model ID or inference endpoint ID.
 
-**version** `string`  |  Version
+**version** `string`  |  Model version
 
 `agent.multiagent.agents.tools.configs.models.version`
 
@@ -1486,7 +1506,7 @@ Whether to use it as the default model for this tool.
 
 The model name returned by the server based on the model ID or inference endpoint ID.
 
-**version** `string`  |  Version
+**version** `string`  |  Model version
 
 `agent.multiagent.subagents.predefined_agents.tools.configs.models.version`
 
@@ -1684,7 +1704,7 @@ Whether to use it as the default model for this tool.
 
 The model name returned by the server based on the model ID or inference endpoint ID.
 
-**version** `string`  |  Version
+**version** `string`  |  Model version
 
 `agent.tools.configs.models.version`
 
@@ -1782,7 +1802,9 @@ Unique identifier of the session, in the format of a string that starts with `se
 
 **status** `string`  |  Session status
 
-The running status of the session. After a normal creation succeeds, the initial status is `idle`, and you can continue sending events. Options: `idle` / `running` / `terminated` / `rescheduling` / `initializing` / `failed` / `upgrading`.
+The running status of the session. If `initial_events` is not passed or an empty array is passed, the initial status after successful creation is `idle`, and you can continue to send events.
+
+If non\-empty `initial_events` is passed, the server delivers the events and starts the agent loop. The status in the response depends on the status synchronization progress after the events are accepted, and may be `running` or still `idle`.`running` indicates that the task has been accepted and started. It does not mean that the task has completed. Options: `idle` / `running` / `terminated` / `rescheduling` / `initializing` / `failed` / `upgrading`.
 
 **type** `string`  |  Object type
 
@@ -1862,7 +1884,19 @@ Container outbound network policy configuration.
 
 `environment.config.networking.type`
 
-The outbound network policy currently used by the session.`unrestricted` means outbound targets are not restricted.
+The outbound network policy currently used by the session. Options: `unrestricted`, `limited`.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`environment.config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+**allowed_hosts** `string[]`  |  Allowed hosts
+
+`environment.config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
 
 **packages** `object`  |  Dependency package configuration
 

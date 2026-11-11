@@ -1076,7 +1076,19 @@ Container outbound network policy configuration.
 
 `environment.config.networking.type`
 
-The outbound network policy currently used by the session.`unrestricted` means outbound targets are not restricted.
+The outbound network policy currently used by the session. Options: `unrestricted`, `limited`.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`environment.config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+**allowed_hosts** `string[]`  |  Allowed hosts
+
+`environment.config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
 
 **packages** `object`  |  Dependency package configuration
 

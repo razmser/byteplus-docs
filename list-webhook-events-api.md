@@ -4,7 +4,7 @@
 
 Query the event envelopes associated with a specified webhook endpoint in the last 7 days. The list is sorted by event occurrence time in descending order and supports exact filtering by event ID or event type.
 
-Event retries do not create duplicate list items. Query results come from the frozen envelopes saved during delivery. They do not reread business resources and do not include delivery status or per\-retry details.
+Event retries do not create duplicate list items. Query results come from the frozen envelopes saved at delivery time and do not reread business resources. Each event also returns the delivery information for that event for the current endpoint, but per\-retry details are not provided.
 
 You can still query the endpoint after it is disabled. After an endpoint is deleted, you can still query associated events that have not expired within the 7\-day tombstone retention period.
 
@@ -98,9 +98,43 @@ Webhook event ID, starting with `whe-`. This value is the same as the `webhook-i
 
 `data.type`
 
-Object type. Fixed to `agent`.
+Object type, fixed as `event`.
 
-Value is fixed to `event`.
+**delivery** `object`  |  Delivery information
+
+`data.delivery`
+
+Delivery information for this event for the current endpoint. This parameter is returned only by the query API. This parameter is omitted if the delivery record has been cleaned up or was never created.
+
+**status** `string`  |  Delivery status
+
+`data.delivery.status`
+
+Delivery status.`RUNNING` indicates that the delivery has not completed; `SUCCEEDED` indicates that the delivery succeeded; `FAILED` indicates that the delivery ultimately failed; `CANCELED` indicates that deliveries that had not started or were waiting to be retried were canceled because the endpoint was disabled or a subscribed event type was removed; `EXPIRED` indicates that the delivery did not complete within the 24\-hour delivery window.
+
+**attempt_count** `integer`  |  Attempt count
+
+`data.delivery.attempt_count`
+
+Number of delivery attempts made to the callback URL.
+
+**created_at** `string`  |  Delivery creation time
+
+`data.delivery.created_at`
+
+Time when the delivery record was created, in RFC 3339 format.
+
+**finished_at** `string`  |  Delivery completion time
+
+`data.delivery.finished_at`
+
+Time when the delivery completed (succeeded, ultimately failed, was canceled, or expired), in RFC 3339 format. This parameter is omitted if the delivery has not completed.
+
+**last_error_code** `string`  |  Latest failure error code
+
+`data.delivery.last_error_code`
+
+Error code of the most recent delivery failure.
 
 **next_page** `string / null`  |  Next page identifier
 

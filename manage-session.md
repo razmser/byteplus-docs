@@ -86,7 +86,7 @@ Response example:
   "usage": {
     "active_seconds": 147.661,
     "cache_read_input_tokens": 271227,
-    "input_tokens": 34,
+    "input_tokens": 381008,
     "output_tokens": 7774,
     "server_tool_use": {
       "web_fetch_requests": 0,
@@ -113,15 +113,19 @@ Main response parameters:
 
 * **`usage`**: The cumulative runtime, model tokens, and number of server\-side search requests during the session. For details, see [Session event stream § Track usage](session-event-stream.md).
 
-   * `active_seconds` indicates the cumulative duration for which at least one thread in the session is in the `running` status.
+   * `active_seconds` is the cumulative number of seconds the session has actually spent in the running state. Only when the session moves from the `running` back to `idle` or `terminated` does the system add the duration of that run. Time for a session that is still running is not counted yet.
 
-   * `cache_read_input_tokens`, `input_tokens`, and `output_tokens` record cache\-read, uncached input, and output tokens, respectively.
+   * `input_tokens` is the total number of input tokens for all model requests.
+
+   * `cache_read_input_tokens` is the portion of `input_tokens` that hit the prompt cache. It is provided as a breakdown statistic; do not add it to `input_tokens` again.
+
+   * `output_tokens` is the total number of output tokens.
 
    * `server_tool_use` records the cumulative number of requests initiated by server\-hosted tools. For specific parameters, see [Query session details](get-session-api.md).
 
 * **`stats`**: The cumulative runtime and total duration of the session from creation to the current time or termination.
 
-   * `active_seconds` indicates the cumulative duration for which at least one thread in the session is in the `running` status, in seconds.
+   * `active_seconds` is the same as `usage.active_seconds`, in seconds.
 
    * `duration_seconds` indicates the total duration from creation to the query time. After the session is terminated, this value is fixed as the duration from creation to termination.
 

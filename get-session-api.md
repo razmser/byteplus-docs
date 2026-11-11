@@ -962,7 +962,7 @@ Duration statistics for the session, including the cumulative runtime duration a
 
 `stats.active_seconds`
 
-The cumulative duration for which at least one thread in the session is in the `running` state, in seconds. This value is the same as `usage.active_seconds`.
+The cumulative number of seconds that the session was actually running. This is the same as `usage.active_seconds`. The system adds the duration of each run only after the session returns from `running` to `idle` or `terminated`; any time for which the session is still running is not counted yet.
 
 **duration_seconds** `number`  |  Total session duration
 
@@ -989,6 +989,10 @@ The time when the session was first archived, as a UTC timestamp in RFC 3339 for
 > **Tip**
 
 > For historical sessions that were terminated before the archive feature was launched, the server cannot restore the original termination time, so it may not return this parameter.
+
+**deployment_id** `string`  |  Deployment ID
+
+The ID of the deployment that created this session. This parameter is returned only for sessions created by a deployment. It is not returned for regular sessions.
 
 **environment** `object`  |  Environment information
 
@@ -1052,7 +1056,19 @@ Container outbound network policy configuration.
 
 `environment.config.networking.type`
 
-The outbound network policy currently used by the session.`unrestricted` means outbound targets are not restricted.
+The outbound network policy currently used by the session. Options: `unrestricted`, `limited`.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`environment.config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+**allowed_hosts** `string[]`  |  Allowed hosts
+
+`environment.config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
 
 **packages** `object`  |  Dependency package configuration
 
@@ -1336,7 +1352,7 @@ Cumulative runtime duration, model tokens, and server\-side search request stati
 
 `usage.active_seconds`
 
-The cumulative duration for which the session is in the `running` state, in seconds.
+The cumulative number of seconds that the session was actually in the running state. The system adds the duration of each run only after the session returns from `running` to `idle` or `terminated`; any time for which the session is still running is not counted yet.
 
 **cache_read_input_tokens** `integer`  |  Cache read tokens
 
@@ -1348,7 +1364,7 @@ The cumulative number of input tokens read from the prompt cache by the session.
 
 `usage.input_tokens`
 
-The cumulative number of uncached input tokens consumed by all model requests in the session.
+The cumulative number of input tokens consumed by all model requests in the session.
 
 **output_tokens** `integer`  |  Total output tokens
 
@@ -1373,24 +1389,6 @@ Cumulative number of web fetch requests performed by the server.
 `usage.server_tool_use.web_search_requests`
 
 Cumulative number of web search requests performed by the server.
-
-**cache_creation** `object`  |  Cache creation statistics
-
-`usage.cache_creation`
-
-The cumulative number of prompt cache tokens created by the session. When the cumulative value is 0, the server does not return this parameter.
-
-**ephemeral_5m_input_tokens** `integer`  |  Number of input tokens for the 5\-minute cache
-
-`usage.cache_creation.ephemeral_5m_input_tokens`
-
-The cumulative total number of prompt cache tokens created by the session. The server currently does not distinguish cache validity periods. When the cumulative value is non\-zero, it is returned in this parameter.
-
-**ephemeral_1h_input_tokens** `integer`  |  Number of input tokens for the 1\-hour cache
-
-`usage.cache_creation.ephemeral_1h_input_tokens`
-
-The number of input tokens for the prompt cache with a 1\-hour validity period. The server currently does not return this parameter.
 
 **vault_ids** `string[] / null`  |  Vault ID list
 

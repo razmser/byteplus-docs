@@ -38,6 +38,10 @@ Creation time is less than this value (ISO 8601), exclusive of the boundary.
 
 Creation time is less than or equal to this value (ISO 8601), inclusive of the boundary.
 
+**deployment_id** `string`  |  Deployment ID
+
+Filter by deployment ID. Only sessions created by the specified deployment are returned. Regular sessions do not match this condition.
+
 **include_archived** `boolean` `Default false`  |  Include archived sessions
 
 Whether to include archived sessions in the results.
@@ -1064,6 +1068,12 @@ The time when the session was first archived, as a UTC timestamp in RFC 3339 for
 
 > For historical sessions that were terminated before the archive feature was launched, the server cannot restore the original termination time, so it may not return this parameter.
 
+**deployment_id** `string`  |  Deployment ID
+
+`data.deployment_id`
+
+The ID of the deployment that created this session. This parameter is returned only for sessions created by a deployment. It is not returned for regular sessions.
+
 **environment** `object`  |  Environment information
 
 `data.environment`
@@ -1128,7 +1138,19 @@ Container outbound network policy configuration.
 
 `data.environment.config.networking.type`
 
-The outbound network policy currently used by the session.`unrestricted` means outbound targets are not restricted.
+The outbound network policy currently used by the session. Options: `unrestricted`, `limited`.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`data.environment.config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+**allowed_hosts** `string[]`  |  Allowed hosts
+
+`data.environment.config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
 
 **packages** `object`  |  Dependency package configuration
 

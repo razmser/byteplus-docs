@@ -2,7 +2,9 @@
 
 `POST https://ark.ap-southeast.bytepluses.com/api/v3/environments/{environment_id}`
 
-Update the description, runtime configuration, or custom metadata of the specified environment.
+Update the name, description, runtime configuration, or custom metadata of the specified environment.
+
+The updated runtime configuration applies only to sessions created later; existing sessions continue to use the configuration from when they were created.
 
 ## Authentication
 
@@ -30,7 +32,19 @@ Specifies the environment runtime configuration to update.
 
 * > If the entire `config` is omitted or set to `null`, the runtime configuration of the environment is not changed.
 
-* > `self_hosted` environments do not support modifying the runtime configuration.
+* > Only cloud\-hosted environments support updating environment templates, resource specifications, dependency packages, prebuild scripts, environment variables, startup scripts, and artifact storage. Self\-hosted environments do not support runtime configuration changes.
+
+* > The server validates the merged complete configuration. If the current limit is exceeded, HTTP 400 `InvalidParameter` is returned, and the error message includes the maximum allowed number of bytes.
+
+**build_script** `string`  |  Prebuild script
+
+`config.build_script`
+
+A prebuild script that runs after dependency package installation is complete. It is used to download dependencies, compile projects, or generate files that can be reused by later sessions. The script content must use valid UTF\-8 encoding and cannot contain NUL characters.
+
+> **Tip**
+
+> If omitted or set to `null`, the original prebuild script is retained; if a string is passed in, the original value is replaced, and if an empty string `""` is passed in, it is cleared. This parameter applies only to cloud\-hosted environments.
 
 **env** `object`  |  Environment variable
 
@@ -54,17 +68,53 @@ The outbound network configuration of the environment.
 
 > If omitted or set to `null`, the original outbound network policy is retained; if an object is passed in, the existing `networking` configuration is replaced as a whole.
 
+> For cloud\-hosted environments, `networking.type` can be set to `unrestricted` or `limited`.
+
 **type** `string` `Required`  |  Outbound network policy type
 
 `config.networking.type`
 
-The outbound network mode of the environment.`unrestricted` means outbound targets are not restricted.
+The outbound network mode of the environment. Options: `unrestricted`, `limited`.
+
+> **Tip**
+
+* > `unrestricted` means outbound destinations are not restricted, but the platform's general security blocking policies still apply.
+
+* > `limited` means access is allowed only to destinations covered by the DNS/IP rules required by the platform, domain names in `allowed_hosts`, and additional package repository domains added when `allow_package_managers` is enabled.
+
+* > `limited` is a fail\-closed policy: if no allowed domains are configured, the sandbox can still start normally, but all external network access is blocked.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+> **Tip**
+
+> When enabled, the platform adds package manager repository domains to the `limited` outbound rules for installing `apt`, `cargo`, `gem`, `go`, `npm`, and `pip` dependencies. When disabled or omitted, dependencies declared in `packages` do not automatically allow access to external package repositories.
+
+> If package manager repository domains are not configured on the platform side, enabling this parameter causes the request to fail.
+
+**allowed_hosts** `string[]`  |  Host allowlist
+
+`config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
+
+> **Tip**
+
+* > Only bare domain names or leftmost wildcard domain names are supported, such as `example.com` and `*.example.com`.
+
+* > URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
+
+* > When omitted or passed as an empty array, no additional external domain names are allowed.
 
 **packages** `object`  |  Dependency package configuration
 
 `config.packages`
 
-Dependency packages that are preinstalled when the environment starts.
+Configures dependency packages for subsequently created sessions. After the update, sessions created with this environment can use these dependencies directly without running additional installation commands.
 
 > **Tip**
 
@@ -78,37 +128,37 @@ Dependency packages that are preinstalled when the environment starts.
 
 `config.packages.apt`
 
-System packages preinstalled through apt when the environment starts.
+System packages installed through apt during the environment prebuild phase.
 
 **cargo** `string[]`  |  Cargo packages
 
 `config.packages.cargo`
 
-Rust crates preinstalled through Cargo when the environment starts.
+Rust crates installed through Cargo during the environment prebuild phase.
 
 **gem** `string[]`  |  gem packages
 
 `config.packages.gem`
 
-Ruby packages preinstalled through RubyGems when the environment starts.
+Ruby packages installed through RubyGems during the environment prebuild phase.
 
 **go** `string[]`  |  Go packages
 
 `config.packages.go`
 
-Module dependencies preinstalled through the Go toolchain when the environment starts.
+Module dependencies installed through the Go toolchain during the environment prebuild phase.
 
 **npm** `string[]`  |  npm packages
 
 `config.packages.npm`
 
-Node.js packages preinstalled through npm when the environment starts.
+Node.js packages installed through npm during the environment prebuild phase.
 
 **pip** `string[]`  |  pip package
 
 `config.packages.pip`
 
-Python packages preinstalled through pip when the environment starts.
+Python packages installed through pip during the environment prebuild phase.
 
 **type** `string`  |  Configuration type
 
@@ -122,11 +172,31 @@ Value is fixed to `packages`.
 
 `config.setup_script`
 
-The initialization script executed when the environment starts.
+An initialization script that runs during the startup phase of each session sandbox. It is used to prepare directories, short\-lived data, or runtime configuration required for this run. Initialization logic that needs to read environment variables, session files, or other runtime resources should be placed in this script.
 
 > **Tip**
 
 > If omitted or set to `null`, the original startup script is retained; if a string is passed in, the original value is replaced, and if an empty string `""` is passed in, it is cleared.
+
+**spec** `string`  |  Resource specification
+
+`config.spec`
+
+The CPU and memory specification used by the cloud environment.`1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory.
+
+> **Tip**
+
+> If omitted or set to `null`, the original resource specification is retained; if `1x`, `2x`, `4x`, or `8x` is passed in, the original value is replaced. This parameter applies only to cloud\-hosted environments.
+
+**template_id** `string`  |  Environment template
+
+`config.template_id`
+
+The base template used by the cloud environment.`base` is suitable for general tasks, and `browser` is suitable for web access and browser automation tasks.
+
+> **Tip**
+
+> If omitted or set to `null`, the original environment template is retained; if `base` or `browser` is passed in, the original value is replaced. This parameter applies only to cloud\-hosted environments.
 
 **tos** `object`  |  Artifact storage configuration
 
@@ -140,11 +210,13 @@ Specifies the persistent storage location for agent artifacts.
 
 * > If explicitly passed in, the existing `tos` configuration is replaced as a whole, and both `bucket` and `prefix` must be provided; an empty object `{}` or only one parameter will be rejected.
 
+* > The current API does not support clearing a configured `tos`. To switch to the default ModelArk storage, create a new environment without configuring `tos`.
+
 * > `bucket` must be 3 to 63 bytes long. It can contain only lowercase letters, digits, and hyphens, and must start and end with a lowercase letter or digit.
 
 * > `prefix` can be up to 512 bytes long. It must be a relative directory and cannot contain backslashes, control characters, empty path segments, or `.` or `..` path segments.
 
-* > Before saving the configuration, the server checks that the bucket and prefix already exist, that the bucket is in the same region as the current API access region, and that the role used by ModelArk to access the bucket has read and write permissions.
+* > The bucket must be in the same region as the current API access region, and the current project must have read and write permissions.
 
 * > Updating an environment affects only sessions created afterward. Existing sessions continue to use the environment configuration saved when they were created.
 
@@ -188,7 +260,17 @@ Used to record the business attributes of the environment. Pass it in as string 
 
 **name** `string`  |  Environment name
 
-Environment name. This parameter is used only for compatibility to pass back the current value; the environment name cannot be changed after creation, and the server returns HTTP 409 `Conflict` if a different name is passed in.
+Used to change the environment name so that you can identify and manage the environment based on its current purpose.
+
+> **Tip**
+
+* > If omitted or set to `null`, the current name is retained.
+
+* > The name must be 3 to 64 characters long. It can contain only lowercase letters, digits, periods, underscores, and hyphens, and must start with a lowercase letter or digit. The server does not automatically trim leading or trailing spaces or convert case.
+
+* > The new name must be unique within the current project. If it is already used by another environment that has not been deleted, the server returns HTTP 409 `ResourceConflict`.
+
+* > Changing the name does not change the environment ID or the environment associations of existing agents or sessions.
 
 ## Response parameters
 
@@ -226,6 +308,12 @@ The currently effective runtime configuration of the environment.
 
 The runtime mode of the environment.`cloud` means the runtime environment is provided by ModelArk, and `self_hosted` means the runtime environment is provided by the caller.
 
+**build_script** `string`  |  Prebuild script
+
+`config.build_script`
+
+The prebuild script configured for the environment. It runs after dependency packages are installed.
+
 **env** `object`  |  Environment variable
 
 `config.env`
@@ -242,49 +330,83 @@ The currently effective outbound network configuration of the environment. For a
 
 `config.networking.type`
 
-The outbound network mode of the environment.`unrestricted` means outbound targets are not restricted.
+The outbound network mode of the environment. Options: `unrestricted`, `limited`.
+
+> **Tip**
+
+* > `unrestricted` means outbound destinations are not restricted, but the platform's general security blocking policies still apply.
+
+* > `limited` means access is allowed only to destinations covered by the DNS/IP rules required by the platform, domain names in `allowed_hosts`, and additional package repository domains added when `allow_package_managers` is enabled.
+
+* > `limited` is a fail\-closed policy: if no allowed domains are configured, the sandbox can still start normally, but all external network access is blocked.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+> **Tip**
+
+> When enabled, the platform adds package manager repository domains to the `limited` outbound rules for installing `apt`, `cargo`, `gem`, `go`, `npm`, and `pip` dependencies. When disabled or omitted, dependencies declared in `packages` do not automatically allow access to external package repositories.
+
+> If package manager repository domains are not configured on the platform side, enabling this parameter causes the request to fail.
+
+**allowed_hosts** `string[]`  |  Host allowlist
+
+`config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
+
+> **Tip**
+
+* > Only bare domain names or leftmost wildcard domain names are supported, such as `example.com` and `*.example.com`.
+
+* > URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
+
+* > When omitted or passed as an empty array, no additional external domain names are allowed.
 
 **packages** `object`  |  Dependency package configuration
 
 `config.packages`
 
-Dependency packages that are preinstalled when the environment starts.
+The dependency packages configured for the environment.
 
 **apt** `string[]`  |  apt package
 
 `config.packages.apt`
 
-System packages preinstalled through apt when the environment starts.
+System packages installed through apt during the environment prebuild phase.
 
 **cargo** `string[]`  |  Cargo packages
 
 `config.packages.cargo`
 
-Rust crates preinstalled through Cargo when the environment starts.
+Rust crates installed through Cargo during the environment prebuild phase.
 
 **gem** `string[]`  |  gem packages
 
 `config.packages.gem`
 
-Ruby packages preinstalled through RubyGems when the environment starts.
+Ruby packages installed through RubyGems during the environment prebuild phase.
 
 **go** `string[]`  |  Go packages
 
 `config.packages.go`
 
-Module dependencies preinstalled through the Go toolchain when the environment starts.
+Module dependencies installed through the Go toolchain during the environment prebuild phase.
 
 **npm** `string[]`  |  npm packages
 
 `config.packages.npm`
 
-Node.js packages preinstalled through npm when the environment starts.
+Node.js packages installed through npm during the environment prebuild phase.
 
 **pip** `string[]`  |  pip package
 
 `config.packages.pip`
 
-Python packages preinstalled through pip when the environment starts.
+Python packages installed through pip during the environment prebuild phase.
 
 **type** `string`  |  Configuration type
 
@@ -298,7 +420,19 @@ Value is fixed to `packages`.
 
 `config.setup_script`
 
-The initialization script executed when the environment starts.
+The startup script configured for the environment. It runs when each session sandbox starts.
+
+**spec** `string`  |  Resource specification
+
+`config.spec`
+
+The cloud sandbox resource specification currently in effect for the environment.`1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory.
+
+**template_id** `string`  |  Environment template
+
+`config.template_id`
+
+The cloud environment template currently used by the environment.`base` means the base template, and `browser` means the browser task template.
 
 **tos** `object`  |  Artifact storage configuration
 
