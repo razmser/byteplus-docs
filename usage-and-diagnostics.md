@@ -54,6 +54,29 @@ Run CLI health check (installation / connectivity / configuration)
 arkcli doctor
 ```
 
+### doctor monitor
+
+VMP observability workflows: metric collection, snapshots, watch, capacity and error analysis around endpoints (arkcli v1.0.49). Workflow commands only read control\-plane data; `watch` polls locally until Ctrl+C.
+
+```Bash
+arkcli doctor monitor collect --endpoint <endpoint-id> --metric request.rpm.by_api --summary-only
+```
+
+|Subcommand |Description |
+|---|---|
+|`monitor collect` |Collect metric series; \-\-endpoint selects the endpoint (mutually exclusive with \-\-mine / \-\-model / \-\-name\-regex / \-\-status), repeatable \-\-metric, \-\-window (default 5m) / \-\-step / \-\-range time window, \-\-summary\-only for the summary only |
+|`monitor snapshot` |Capture a point\-in\-time metric snapshot of the endpoint selected via \-\-endpoint |
+|`monitor watch` |Continuous watch on the endpoint selected via \-\-endpoint; \-\-interval (default 15s), \-\-duration (default 5m), \-\-alert\-on threshold alerting, \-\-alert\-for consecutive\-alert count |
+|`monitor top` |Top endpoints by usage |
+|`monitor capacity` |Capacity view; \-\-include\-free\-quota includes free quota |
+|`monitor compare` |Cross\-window / cross\-version comparison; \-\-baseline\-start / \-\-baseline\-end, \-\-max\-qps, \-\-max\-latency\-delta\-pct, \-\-max\-error\-rate\-delta |
+|`monitor errors` |High\-frequency error aggregation |
+|`monitor alert list` |List alert instances; \-\-workspace\-id, \-\-template\-id, \-\-page\-size (default 50) |
+|`monitor alert templates` |List VMP alert templates |
+|`monitor alert template --template-id <id>` |Show a single alert template |
+
+Continuous orchestration (rollout watch with Feishu push, release\-compare reports, daily\-digest inspections, incident drilldown) is handled by the embedded `arkcli-vmp-workflows` Skill; the commands above are one\-shot read\-only collection and queries.
+
 ### doctor +verify\-origin
 
 Verify ModelArk generation\-origin features for 1\-20 images or videos

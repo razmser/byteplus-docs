@@ -4,7 +4,11 @@
 
 This topic describes the input and output parameters of the API for creating video generation tasks. The model generates a video based on the input text, images, audio, videos, or sample task ID. After generation is complete, you can query the task and obtain the generated video.
 
-> **New model available**
+> **Model availability**
+
+> Dreamina Seedance 2.5 flash is now available. For details, see the [Model details](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?name=dreamina-seedance-2-5-flash) page. Starting at 14:00 (UTC+8) on November 15, 2026, the model will be available for online experience and API calls.
+
+> **Must\-read before use**
 
 > Dreamina Seedance 2.5 is now fully available. You can call the API and try the model online on the BytePlus ModelArk platform. Before calling the model, **please carefully read**[**Must\-read before use**](seedance-2-5.md#2.5_compatibility)**to ensure that you correctly set the task type and configure parameters**.
 

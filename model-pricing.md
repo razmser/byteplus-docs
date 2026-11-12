@@ -106,52 +106,6 @@ Only the following models support audio input for Standard and Flex inference. O
 |`seed-2-0-mini-260428` |[0, 128] |$0.75 |$0.30 |
 ||(128, 256] |$1.50 |$0.60 |
 
-Retiring models
-
-These models are retiring and will be retired on November 11, 2026.
-
-**Standard**
-
-|Model ID |Recommended replacement |Prompt length (K tokens) |Input |Cached input |Cache storage |Output |
-|---|---|---|---|---|---|---|
-|`seed-2-0-lite-260228` |`seed-2-0-lite-260428` |[0, 128] |$0.25 |$0.05 |$0.0083 |$2.00 |
-|||(128, 256] |$0.50 |$0.10 |$0.0083 |$4.00 |
-|`seed-2-0-mini-260215` |`seed-2-0-mini-260428` |[0, 128] |$0.10 |$0.02 |$0.0083 |$0.40 |
-|||(128, 256] |$0.20 |$0.04 |$0.0083 |$0.80 |
-|`seed-1-8-251228` |`seed-2-0-lite-260428` |[0, 128] |$0.25 |$0.05 |$0.0083 |$2.00 |
-|||(128, 256] |$0.50 |$0.05 |$0.0083 |$4.00 |
-|`seed-1-6-250915` |`seed-2-0-lite-260428` |[0, 128] |$0.25 |$0.05 |$0.0083 |$2.00 |
-|||(128, 256] |$0.50 |$0.05 |$0.0083 |$4.00 |
-|`seed-1-6-flash-250715` |`seed-2-0-mini-260428` |[0, 128] |$0.075 |$0.015 |$0.0083 |$0.30 |
-|||(128, 256] |$0.10 |$0.015 |$0.0083 |$0.80 |
-|`deepseek-v3-2-251201` |`deepseek-v4-flash-ga-260731` |[0, 32] |$0.28 |$0.056 |$0.0083 |$0.42 |
-|||(32, 128] |$0.56 |$0.056 |$0.0083 |$0.84 |
-|`glm-4-7-251222` |`dola-seed-2-1-turbo-260628` |Not applicable |$0.6 |$0.11 |$0.0083 |$2.2 |
-
-**Flex**
-
-|Availability |
-|---|
-|No retiring model pricing is listed for Flex inference. |
-
-**Batch**
-
-|Model ID |Recommended replacement |Prompt length (K tokens) |Input |Cached input |Output |
-|---|---|---|---|---|---|
-|`seed-2-0-lite-260228` |`seed-2-0-lite-260428` |[0, 128] |$0.125 |$0.05 |$1.00 |
-|||(128, 256] |$0.25 |$0.10 |$2.00 |
-|`seed-2-0-mini-260215` |`seed-2-0-mini-260428` |[0, 128] |$0.05 |$0.02 |$0.20 |
-|||(128, 256] |$0.10 |$0.04 |$0.40 |
-|`seed-1-8-251228` |`seed-2-0-lite-260428` |[0, 128] |$0.125 |$0.05 |$1.00 |
-|||(128, 256] |$0.25 |$0.05 |$2.00 |
-|`seed-1-6-250915` |`seed-2-0-lite-260428` |[0, 128] |$0.125 |$0.05 |$1.00 |
-|||(128, 256] |$0.25 |$0.05 |$2.00 |
-|`seed-1-6-flash-250715` |`seed-2-0-mini-260428` |[0, 128] |$0.038 |$0.015 |$0.15 |
-|||(128, 256] |$0.05 |$0.015 |$0.40 |
-|`deepseek-v3-2-251201` |`deepseek-v4-flash-ga-260731` |[0, 32] |$0.14 |$0.056 |$0.21 |
-|||(32, 128] |$0.28 |$0.056 |$0.42 |
-|`glm-4-7-251222` |`dola-seed-2-1-turbo-260628` |Not applicable |$0.3 |$0.11 |$1.1 |
-
 ### Billing rules
 
 * **Standard:**  `Cost = Input unit price × input tokens + Cached input unit price × cached input tokens + Cache-storage unit price × cache-storage tokens × duration + Output unit price × output tokens`
@@ -185,6 +139,7 @@ A request to `seed-2-0-lite-260428` with 200K input tokens and 14K output tokens
 |Model |Online inference |||Offline inference |
 |---|---|---|---|---|
 | |480p and 720p |1080p |4K | |
+|dreamina\-seedance\-2\-5\-flash\-261115 |$7.0 |Not supported |Not supported |Not supported |
 |dreamina\-seedance\-2\-5\-260628 |$10.70 |$11.7 |Not supported |Not supported |
 |dreamina\-seedance\-2\-0\-260128 |$7.0 |$7.7 |$4.0 |Not supported |
 |dreamina\-seedance\-2\-0\-fast\-260128 |$5.6 |Not supported |Not supported |Not supported |
@@ -197,19 +152,11 @@ A request to `seed-2-0-lite-260428` with 200K input tokens and 14K output tokens
 |Model |Online inference |||Offline inference |
 |---|---|---|---|---|
 | |480p and 720p |1080p |4K | |
+|dreamina\-seedance\-2\-5\-flash\-261115 |$4.3 |Not supported |Not supported |Not supported |
 |dreamina\-seedance\-2\-5\-260628 |$6.40 |$7.0 |Not supported |Not supported |
 |dreamina\-seedance\-2\-0\-260128 |$4.3 |$4.7 |$2.4 |Not supported |
 |dreamina\-seedance\-2\-0\-fast\-260128 |$3.3 |Not supported |Not supported |Not supported |
 |dreamina\-seedance\-2\-0\-mini\-260615 |$2.1 |Not supported |Not supported |Not supported |
-
-Retiring models
-
-This model is retiring and will be retired on November 11, 2026.
-
-|Model |Online inference ||Offline inference ||
-|---|---|---|---|---|
-| |Video with audio |Video without audio |Video with audio |Video without audio |
-|seedance\-1\-5\-pro\-251215 |$2.4 |$1.2 |$1.2 |$0.6 |
 
 ### Billing rules
 
@@ -229,7 +176,7 @@ This model is retiring and will be retired on November 11, 2026.
 
 > **Minimum token consumption**
 
-> For the Dreamina Seedance 2.0 series and Dreamina Seedance 2.5, minimum token consumption applies when the input includes video:
+> For the Dreamina Seedance 2.0 series and Dreamina Seedance 2.5 series, minimum token consumption applies when the input includes video:
 
 * > If estimated token consumption is below the minimum, the video is billed at the minimum token consumption.
 
@@ -239,23 +186,26 @@ This model is retiring and will be retired on November 11, 2026.
 
 The following estimated prices illustrate typical input and output specifications.
 
-#### Dreamina Seedance 2.5
+#### Dreamina Seedance 2.5 series
 
 **Input without video**
 
-|Resolution |Aspect ratio |Output video duration (seconds) |Price (per video) |
+|Resolution |480p |720p |1080p |
 |---|---|---|---|
-|480p |16:9 |5 |* $0.514 per video<br><br>* $0.103 per second |
-|720p |16:9 |5 |* $1.156 per video<br><br>* $0.231 per second |
-|1080p |16:9 |5 |* $2.843 per video<br><br>* $0.569 per second |
+|Aspect ratio |16:9 |16:9 |16:9 |
+|Output video duration (seconds) |5 |5 |5 |
+|Dreamina Seedance 2.5 |* $0.514 per video<br><br>* $0.103 per second |* $1.156 per video<br><br>* $0.231 per second |* $2.843 per video<br><br>* $0.569 per second |
+|Dreamina Seedance 2.5 Flash |* $0.34 per video<br><br>* $0.07 per second |* $0.76 per video<br><br>* $0.15 per second |Not supported |
 
 **Input with video**
 
-|Resolution |Aspect ratio |Input duration (seconds) |Output duration (seconds) |Price (per video) |
-|---|---|---|---|---|
-|480p |16:9 |2\-30 |5 |$0.553\-$2.152<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |
-|720p |16:9 |2\-30 |5 |$1.244\-$4.838<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |
-|1080p |16:9 |2\-30 |5 |$3.062\-$11.907<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |
+|Resolution |480p |720p |1080p |
+|---|---|---|---|
+|Aspect ratio |16:9 |16:9 |16:9 |
+|Input duration (seconds) |2\-30 |2\-30 |2\-30 |
+|Output duration (seconds) |5 |5 |5 |
+|Dreamina Seedance 2.5 |$0.553\-$2.152<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$1.244\-$4.838<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$3.062\-$11.907<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |
+|Dreamina Seedance 2.5 Flash |$0.37\-$1.45<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$0.84\-$3.25<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |Not supported |
 
 #### Dreamina Seedance 2.0 series
 

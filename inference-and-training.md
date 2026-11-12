@@ -284,6 +284,25 @@ arkcli infer endpoint list
 |`--page-number` |int |Page number (\>=1) |
 |`--page-size` |int |Page size |
 
+### infer endpoint rolling
+
+Endpoint rolling\-release command group: shift traffic to a target model version without recreating the endpoint (arkcli v1.0.46). Write operations (create / cancel / rollback / ptu rolling create / router rolling set) require interactive confirmation; in non\-interactive environments the host manages authorization — \-\-yes authorizes only this rolling, not target\-model activation.
+
+```Bash
+arkcli infer endpoint rolling plan <endpoint-id> --model <model-id>
+```
+
+|Subcommand |Description |
+|---|---|
+|`rolling plan <endpoint-id>` |Read\-only preflight: resolve the target model and check rolling eligibility (SupportRolling / PaymentType / DeploymentType / no in\-progress rolling); zero\-network \-\-dry\-run prints the local plan |
+|`rolling create <endpoint-id>` |Start a rolling switch. \-\-model is required; optional \-\-security\-level, \-\-activate\-target\-model (activate the target model behind a separate confirmation gate), \-\-description, \-\-wait / \-\-wait\-timeout (default 15m) / \-\-poll\-interval |
+|`rolling get <rolling-id>` |Show rolling task detail |
+|`rolling list` |List rolling tasks; supports \-\-endpoint\-id / \-\-status (Running \| Reverting \| Succeeded \| Reverted) / pagination and \-\-format table |
+|`rolling cancel <rolling-id>` |Cancel an in\-progress rolling |
+|`rolling rollback <rolling-id>` |Roll back a rolling |
+|`ptu rolling create/list/cancel` |PTU endpoint rolling entry points |
+|`router rolling set/get` |Smart\-router endpoint rolling configuration |
+
 ### infer endpoint start
 
 Start an infer endpoint. Returns the endpoint's CURRENT status after the start request is accepted (typically 'Scheduling') — the transition to 'Running' is asynchronous; poll `infer endpoint get <id>` until Status='Running' to confirm.
@@ -337,6 +356,7 @@ arkcli train finetune artifacts export <mcj-id>
 |---|---|---|
 |`--artifact-name` |string_slice |Artifact (output) name to export, e.g. global_step_2. Repeatable. |
 |`--custom-model-name-prefix` |string |Prefix for the resulting cm\-\* name. Final name = `<prefix>_<artifact-name>`. Empty = leave the backend default. |
+|`--output-compression-strategies` |string_slice |Export auto\-quantization strategies, repeatable or comma\-separated (e.g. W4A8C16); defaults to the model's required + recommended strategies; pass an empty value to keep only required strategies (arkcli v1.0.47) |
 
 ### train finetune artifacts list
 

@@ -149,36 +149,6 @@ API documentation: [Chat API](chat-api.md) | [Responses API](create-model-respon
 |Z.ai |[glm-5-3-flash-260828](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=glm-5-3-flash) |Yes |Yes |Yes |No |Yes |
 ||[glm-5-2-260617](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=glm-5-2) |Yes |Yes |No |No |Yes |
 
-Retiring models
-
-These models are retiring and will be retired on November 11, 2026.
-
-|Model ID |Recommended replacement |Capabilities |Length limits |Rate limits |
-|---|---|---|---|---|
-|[seed-2-0-lite-260228](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-2-0-lite) |`seed-2-0-lite-260428` |* Deep reasoning<br><br>* Text generation<br><br>* Multimodal understanding<br><br>* Tool use<br><br>* Structured output |* Context: 256K<br><br>* Max input: 224K<br><br>* Max output (incl. CoT): 128K<br><br>* Max CoT: 128K |* Max RPM: 30K<br><br>* Max TPM: 1500K |
-|[seed-2-0-mini-260215](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-2-0-mini) |`seed-2-0-mini-260428` |* Deep reasoning<br><br>* Text generation<br><br>* Multimodal understanding<br><br>* Tool use<br><br>* Structured output |* Context: 256K<br><br>* Max input: 224K<br><br>* Max output (incl. CoT): 128K<br><br>* Max CoT: 128K |* Max RPM: 30K<br><br>* Max TPM: 1500K |
-|[seed-1-8-251228](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-8) |`seed-2-0-lite-260428` |* Deep reasoning<br><br>* Text generation<br><br>* Multimodal understanding<br><br>* Tool use<br><br>* Structured output |* Context: 256K<br><br>* Max input: 224K<br><br>* Max output (incl. CoT): 64K<br><br>* Max CoT: 32K |* Max RPM: 30K<br><br>* Max TPM: 1500K |
-|[seed-1-6-250915](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-6) |`seed-2-0-lite-260428` |* Deep reasoning<br><br>* Text generation<br><br>* Multimodal understanding<br><br>* Tool use<br><br>* Structured output |* Context: 256K<br><br>* Max input: 224K<br><br>* Max output (incl. CoT): 64K<br><br>* Max CoT: 32K |* Max RPM: 15K<br><br>* Max TPM: 800K |
-|[seed-1-6-flash-250715](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-6-flash) |`seed-2-0-mini-260428` |* Deep reasoning<br><br>* Text generation<br><br>* Visual grounding<br><br>* Multimodal understanding<br><br>* Tool use<br><br>* Structured output |* Context: 256K<br><br>* Max input: 224K<br><br>* Max output (incl. CoT): 64K<br><br>* Max CoT: 32K |* Max RPM: 15K<br><br>* Max TPM: 800K |
-|[seed-1-6-flash-250615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-6-flash) |`seed-2-0-mini-260428` |* Deep reasoning<br><br>* Text generation<br><br>* Multimodal understanding<br><br>* Tool use<br><br>* Structured output |* Context: 256K<br><br>* Max input: 224K<br><br>* Max output (incl. CoT): 64K<br><br>* Max CoT: 32K |* Max RPM: 15K<br><br>* Max TPM: 800K |
-|[seed-1-6-250615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-6) |`seed-2-0-lite-260428` |* Deep reasoning<br><br>* Text generation<br><br>* Visual grounding<br><br>* Multimodal understanding<br><br>* Tool use<br><br>* Structured output |* Context: 256K<br><br>* Max input: 224K<br><br>* Max output (incl. CoT): 64K<br><br>* Max CoT: 32K |* Max RPM: 15K<br><br>* Max TPM: 800K |
-|[deepseek-v3-2-251201](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=deepseek-v3-2) |`deepseek-v4-flash-ga-260731` |* Deep reasoning<br><br>* Text generation<br><br>* Tool use<br><br>* Structured output |* Context: 128K<br><br>* Max input: 128K<br><br>* Max output (incl. CoT): 64K<br><br>* Max CoT: 32K |* Max RPM: 15K<br><br>* Max TPM: 1500K |
-|[glm-4-7-251222](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=glm-4-7) |`dola-seed-2-1-turbo-260628` |* Deep reasoning<br><br>* Text generation<br><br>* Tool use |* Context: 200K<br><br>* Max input: 200K<br><br>* Max output (incl. CoT): 128K<br><br>* Max CoT: 128K |* Max RPM: 15K<br><br>* Max TPM: 1500K |
-
-**Context caching**
-
-|Model ID |Implicit caching APIs |Explicit caching |
-|---|---|---|
-|[seed-2-0-lite-260228](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-2-0-lite) |* [Responses API](create-model-responses-api.md)<br><br>* [Chat API](chat-api.md) |* [Responses API](create-model-responses-api.md)<br><br>   * Prefix caching<br><br>   * Session caching |
-|[seed-2-0-mini-260215](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-2-0-mini) |* [Responses API](create-model-responses-api.md)<br><br>* [Chat API](chat-api.md) |* [Responses API](create-model-responses-api.md)<br><br>   * Prefix caching<br><br>   * Session caching |
-|[seed-1-8-251228](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-8) |* [Batch API (Chat)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api)<br><br>* [Batch Inference API (Job)](create-batch-inference-job-api.md) |* [Responses API](create-model-responses-api.md)<br><br>   * Prefix caching<br><br>   * Session caching |
-|[seed-1-6-250915](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-6) |* [Batch API (Chat)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api)<br><br>* [Batch Inference API (Job)](create-batch-inference-job-api.md) |* [Responses API](create-model-responses-api.md)<br><br>   * Prefix caching<br><br>   * Session caching |
-|[seed-1-6-flash-250715](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-6-flash) |* [Batch API (Chat)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api)<br><br>* [Batch Inference API (Job)](create-batch-inference-job-api.md) |* [Responses API](create-model-responses-api.md)<br><br>   * Prefix caching<br><br>   * Session caching |
-|[seed-1-6-flash-250615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-6-flash) |* [Batch API (Chat)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api)<br><br>* [Batch Inference API (Job)](create-batch-inference-job-api.md) |* [Responses API](create-model-responses-api.md)<br><br>   * Prefix caching<br><br>   * Session caching |
-|[seed-1-6-250615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seed-1-6) |* [Batch API (Chat)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api)<br><br>* [Batch Inference API (Job)](create-batch-inference-job-api.md) |* [Responses API](create-model-responses-api.md)<br><br>   * Prefix caching<br><br>   * Session caching |
-|[deepseek-v3-2-251201](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=deepseek-v3-2) |* [Batch API (Chat)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api)<br><br>* [Batch Inference API (Job)](create-batch-inference-job-api.md) |* [Responses API](create-model-responses-api.md)<br><br>   * Prefix caching<br><br>   * Session caching |
-|[glm-4-7-251222](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=glm-4-7) |* [Batch API (Chat)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api)<br><br>* [Batch Inference API (Job)](create-batch-inference-job-api.md) |* [Responses API](create-model-responses-api.md)<br><br>   * Prefix caching<br><br>   * Session caching |
-
 ## Video generation
 
 Tutorials: [Video generation tutorial](video-generation-tutorial.md) | [Dreamina Seedance 2.5 tutorial](seedance-2-5.md) | [Dreamina Seedance 2.5 prompt guide](seedance-2-5-prompt-guide.md)
@@ -218,14 +188,6 @@ API documentation: [Create task](create-video-generation-task-api.md) | [List ta
 |[dreamina-seedance-2-0-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |Non\-4K enterprise: 600<br><br>Non\-4K individual: 180<br><br>4K, all users: 15 |Non\-4K enterprise: 10<br><br>Non\-4K individual: 3<br><br>4K, all users: 1 |Not supported |
 |[seedance-1-0-pro-fast-251015](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedance-1-0-pro-fast) |600 |10 |TPD 500B |
 |[seedance-1-0-pro-250528](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedance-1-0-pro) |600 |10 |TPD 500B |
-
-Retiring models
-
-This model is retiring and will be retired on November 11, 2026.
-
-|Model ID |Recommended replacement |Capabilities |Output |Limits |
-|---|---|---|---|---|
-|[seedance-1-5-pro-251215](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedance-1-5-pro) |`dreamina-seedance-2-0-mini-260615` |R2V<br><br>FLF I2V<br><br>I2V<br><br>T2V |Format: `.mp4`<br><br>Resolution: 480p<br><br>Resolution: 720p<br><br>Resolution: 1080p<br><br>Frame rate: 24 fps<br><br>Duration: 4\-12 seconds |Default max RPM: 600<br><br>Default max concurrency: 10<br><br>Flex TPD 500B |
 
 ## Image generation
 
@@ -287,11 +249,3 @@ API documentation: [Embeddings Multimodal API](multimodal-vectorization-api.md)
 |Model ID |Context |Max vector dimension |Max RPM |Max TPM |
 |---|---|---|---|---|
 |[skylark-embedding-vision-251215](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=skylark-embedding-vision) |128K |2048 |1.2K |1200K |
-
-Retiring models
-
-This model is retiring and will be retired on November 11, 2026.
-
-|Model ID |Recommended replacement |
-|---|---|
-|[skylark-embedding-vision-250615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=skylark-embedding-vision) |`skylark-embedding-vision-251215` |

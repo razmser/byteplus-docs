@@ -2,6 +2,10 @@
 
 Dreamina Seedance 2.5 (hereinafter referred to as Seedance 2.5) is a next\-generation video creation model with major improvements in long\-form storytelling, omni reference support, and editing. It can generate up to 30 seconds of video in one request, extend videos over multiple rounds, accept up to 50 omni reference assets per request, and perform precise timestamp\-based editing. Improved visual quality produces results with a more realistic, cinematic look.
 
+> **Model availability**
+
+> Dreamina Seedance 2.5 flash is now available. For details, see the [Model details](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?name=dreamina-seedance-2-5-flash) page. Starting at 14:00 (UTC+8) on November 15, 2026, the model will be available for online experience and API calls.
+
 This tutorial introduces the key capabilities and usage of Seedance 2.5 to help you call the [Create video generation task API](create-video-generation-task-api.md).
 
 > **tip**
