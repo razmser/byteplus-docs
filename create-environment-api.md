@@ -24,13 +24,27 @@ Defines the runtime mode and startup configuration of the environment.
 
 * > When creating a `cloud` environment, you must provide `config.networking` and select `unrestricted` or `limited` in `config.networking.type`.
 
-* > When creating a `self_hosted` environment, provide only `type` in `config`. Do not configure cloud sandbox parameters such as `networking`, `packages`, `env`, `setup_script`, or `tos`.
+* > When creating a `cloud` environment, you can configure the environment template, resource specification, dependency packages, prebuild script, environment variables, startup script, and artifact storage.
+
+* > When creating a `self_hosted` environment, provide only `type` in `config`. Do not configure cloud sandbox parameters such as `networking`, `template_id`, `spec`, `packages`, `build_script`, `env`, `setup_script`, or `tos`.
+
+* > The server validates the size of the complete `config`. If the current limit is exceeded, HTTP 400 `InvalidParameter` is returned, and the error message includes the maximum allowed number of bytes.
 
 **type** `string` `Required`  |  Environment type
 
 `config.type`
 
 The runtime mode of the environment.`cloud` means the runtime environment is provided by ModelArk, and `self_hosted` means the runtime environment is provided by the caller.
+
+**build_script** `string`  |  Prebuild script
+
+`config.build_script`
+
+A prebuild script that runs after dependency package installation is complete. It is used to download dependencies, compile projects, or generate files that can be reused by later sessions. The script content must use valid UTF\-8 encoding and cannot contain NUL characters.
+
+> **Tip**
+
+> Applies only to cloud\-hosted environments. If omitted, it defaults to an empty string, and no prebuild script is run.
 
 **env** `object`  |  Environment variable
 
@@ -92,7 +106,7 @@ The list of external domain names that the sandbox is allowed to directly access
 
 `config.packages`
 
-Dependency packages that are preinstalled when the environment starts.
+The dependency packages to install when creating a cloud environment. After the configuration is complete, sessions created with this environment can use these dependencies directly without running additional installation commands.
 
 > **Tip**
 
@@ -102,37 +116,37 @@ Dependency packages that are preinstalled when the environment starts.
 
 `config.packages.apt`
 
-System packages preinstalled through apt when the environment starts.
+System packages installed through apt during the environment prebuild phase.
 
 **cargo** `string[]`  |  Cargo packages
 
 `config.packages.cargo`
 
-Rust crates preinstalled through Cargo when the environment starts.
+Rust crates installed through Cargo during the environment prebuild phase.
 
 **gem** `string[]`  |  gem packages
 
 `config.packages.gem`
 
-Ruby packages preinstalled through RubyGems when the environment starts.
+Ruby packages installed through RubyGems during the environment prebuild phase.
 
 **go** `string[]`  |  Go packages
 
 `config.packages.go`
 
-Module dependencies preinstalled through the Go toolchain when the environment starts.
+Module dependencies installed through the Go toolchain during the environment prebuild phase.
 
 **npm** `string[]`  |  npm packages
 
 `config.packages.npm`
 
-Node.js packages preinstalled through npm when the environment starts.
+Node.js packages installed through npm during the environment prebuild phase.
 
 **pip** `string[]`  |  pip package
 
 `config.packages.pip`
 
-Python packages preinstalled through pip when the environment starts.
+Python packages installed through pip during the environment prebuild phase.
 
 **type** `string`  |  Configuration type
 
@@ -146,7 +160,19 @@ Value is fixed to `packages`.
 
 `config.setup_script`
 
-The initialization script executed when the environment starts.
+An initialization script that runs during the startup phase of each session sandbox. It is used to prepare directories, short\-lived data, or runtime configuration required for this run. Initialization logic that needs to read environment variables, session files, or other runtime resources should be placed in this script.
+
+**spec** `string` `Default 1x`  |  Resource specification
+
+`config.spec`
+
+The CPU and memory specification used when creating the cloud environment.`1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory. If omitted, `1x` is used by default.
+
+**template_id** `string` `Default base`  |  Template ID
+
+`config.template_id`
+
+The logical template ID used when creating a cloud environment: `base` is suitable for general command\-line and code execution tasks; `browser` is suitable for web access, page parsing, and browser automation tasks; if omitted, `base` is used.
 
 **tos** `object`  |  Artifact storage configuration
 
@@ -164,7 +190,7 @@ Specifies the persistent storage location for agent artifacts.
 
 * > `prefix` can be up to 512 bytes long. It must be a relative directory and cannot contain backslashes, control characters, empty path segments, or `.` or `..` path segments.
 
-* > Before saving the configuration, the server checks that the bucket and prefix already exist, that the bucket is in the same region as the current API access region, and that the role used by ModelArk to access the bucket has read and write permissions.
+* > The bucket must be in the same region as the current API access region, and the current project must have read and write permissions.
 
 * > After you configure `tos`, when the platform registers artifacts from the outputs directory, it uses `{prefix}outputs/{env-id}/{session-id}/` as the write prefix for the Files API. The final object path is determined by `tos.object_key` in the Files API response and usually also includes `ark_processed/{file_id}/{file_type}/{filename}`.
 
@@ -240,6 +266,12 @@ The currently effective runtime configuration of the environment.
 
 The runtime mode of the environment.`cloud` means the runtime environment is provided by ModelArk, and `self_hosted` means the runtime environment is provided by the caller.
 
+**build_script** `string`  |  Prebuild script
+
+`config.build_script`
+
+The prebuild script configured for the environment. It runs after dependency packages are installed.
+
 **env** `object`  |  Environment variable
 
 `config.env`
@@ -296,43 +328,43 @@ The list of external domain names that the sandbox is allowed to directly access
 
 `config.packages`
 
-Dependency packages that are preinstalled when the environment starts.
+The dependency packages configured for the environment.
 
 **apt** `string[]`  |  apt package
 
 `config.packages.apt`
 
-System packages preinstalled through apt when the environment starts.
+System packages installed through apt during the environment prebuild phase.
 
 **cargo** `string[]`  |  Cargo packages
 
 `config.packages.cargo`
 
-Rust crates preinstalled through Cargo when the environment starts.
+Rust crates installed through Cargo during the environment prebuild phase.
 
 **gem** `string[]`  |  gem packages
 
 `config.packages.gem`
 
-Ruby packages preinstalled through RubyGems when the environment starts.
+Ruby packages installed through RubyGems during the environment prebuild phase.
 
 **go** `string[]`  |  Go packages
 
 `config.packages.go`
 
-Module dependencies preinstalled through the Go toolchain when the environment starts.
+Module dependencies installed through the Go toolchain during the environment prebuild phase.
 
 **npm** `string[]`  |  npm packages
 
 `config.packages.npm`
 
-Node.js packages preinstalled through npm when the environment starts.
+Node.js packages installed through npm during the environment prebuild phase.
 
 **pip** `string[]`  |  pip package
 
 `config.packages.pip`
 
-Python packages preinstalled through pip when the environment starts.
+Python packages installed through pip during the environment prebuild phase.
 
 **type** `string`  |  Configuration type
 
@@ -346,7 +378,19 @@ Value is fixed to `packages`.
 
 `config.setup_script`
 
-The initialization script executed when the environment starts.
+The startup script configured for the environment. It runs when each session sandbox starts.
+
+**spec** `string`  |  Resource specification
+
+`config.spec`
+
+The cloud sandbox resource specification currently in effect for the environment.`1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory.
+
+**template_id** `string`  |  Template ID
+
+`config.template_id`
+
+The cloud environment template currently used by the environment.`base` means the base template, and `browser` means the browser task template.
 
 **tos** `object`  |  Artifact storage configuration
 

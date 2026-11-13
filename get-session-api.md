@@ -150,20 +150,6 @@ Model configuration currently used by the session.
 
 Model ID or inference endpoint ID currently used by the session.
 
-**protocol** `string`  |  Invocation protocol
-
-`agent.model.protocol`
-
-Protocol used for session model calls:
-
-* `ark_responses`: ModelArk Responses protocol.
-
-* `openai_chat_completions`: OpenAI Chat Completions compatible protocol.
-
-* `openai_responses`: OpenAI Responses compatible protocol.
-
-* `anthropic_messages`: Anthropic Messages compatible protocol.
-
 **reasoning_effort** `string`  |  Reasoning effort level
 
 `agent.model.reasoning_effort`
@@ -296,11 +282,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `agent.multiagent.agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -600,11 +604,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.subagents.predefined_agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.subagents.predefined_agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `agent.multiagent.subagents.predefined_agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.subagents.predefined_agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -992,7 +1014,7 @@ The time when the session was first archived, as a UTC timestamp in RFC 3339 for
 
 **deployment_id** `string`  |  Deployment ID
 
-The ID of the deployment that created this session. This parameter is returned only for sessions created by a deployment. It is not returned for regular sessions.
+The ID of the deployment that created this session. Only sessions created by a deployment return this parameter; sessions created in other ways do not return this parameter.
 
 **environment** `object`  |  Environment information
 
@@ -1039,6 +1061,12 @@ Runtime configuration for the environment, including the runtime type, network p
 `environment.config.type`
 
 Session runtime environment type: `cloud` indicates a ModelArk\-managed environment, and `self_hosted` indicates a user self\-hosted environment.
+
+**build_script** `string`  |  Build script
+
+`environment.config.build_script`
+
+The build script executed after dependency packages are installed; an empty value means no build script is configured.
 
 **env** `object`  |  Environment variable
 
@@ -1124,6 +1152,18 @@ Dependency package configuration type, fixed as `packages`.
 
 Initialization script executed when the session runtime environment starts; leave it empty or unset to execute no script.
 
+**spec** `string` `Default 1x`  |  Runtime specification
+
+`environment.config.spec`
+
+The runtime specification used by the session, which controls the sandbox CPU and memory configuration. Options: `1x`, `2x`, `4x`, `8x`.
+
+**template_id** `string`  |  Template ID
+
+`environment.config.template_id`
+
+The logical template ID currently used by the session environment.`base` indicates a regular execution template, and `browser` indicates a browser task template.
+
 **tos** `object`  |  Artifact storage configuration
 
 `environment.config.tos`
@@ -1159,12 +1199,6 @@ User\-defined metadata.
 `environment.overridden_fields`
 
 The list of `config` subparameter names actually overridden by the current session relative to the base environment. Returned only when *type* is `environment_with_overrides` and overridden parameters exist.
-
-**scope** `string`  |  Scope
-
-`environment.scope`
-
-Environment scope: `organization` indicates that it is shared within the organization, and `account` indicates that it is visible within the account.
 
 **resources** `object[]`  |  Resource list
 
@@ -1316,14 +1350,6 @@ The object prefix of the mounted directory in TOS.
 
 The ID of the region where the TOS mount source is located.
 
-**scene** `string`  |  Session scene
-
-Session scene marker.
-
-* `default`: regular session.
-
-* `dreams`: a session used for Dream memory organization tasks.
-
 **tags** `object[]`  |  Tag list
 
 An array of session tags. Each item contains `key` and an optional `value`.
@@ -1358,13 +1384,13 @@ The cumulative number of seconds that the session was actually in the running st
 
 `usage.cache_read_input_tokens`
 
-The cumulative number of input tokens read from the prompt cache by the session.
+The cumulative number of input tokens that the session has read from the prompt cache. This is included in `input_tokens`.
 
 **input_tokens** `integer`  |  Total input tokens
 
 `usage.input_tokens`
 
-The cumulative number of input tokens consumed by all model requests in the session.
+The total number of input tokens consumed by all model requests in the session, including tokens read from and written to the cache.
 
 **output_tokens** `integer`  |  Total output tokens
 
@@ -1389,6 +1415,24 @@ Cumulative number of web fetch requests performed by the server.
 `usage.server_tool_use.web_search_requests`
 
 Cumulative number of web search requests performed by the server.
+
+**cache_creation** `object`  |  Cache creation statistics
+
+`usage.cache_creation`
+
+Statistics on the input tokens that the session has cumulatively written to the prompt cache. When the cumulative value is `0`, the server does not return this parameter; when it is not `0`, the value is returned through `ephemeral_5m_input_tokens`.
+
+**ephemeral_1h_input_tokens** `integer`  |  Number of input tokens for the 1\-hour cache
+
+`usage.cache_creation.ephemeral_1h_input_tokens`
+
+The number of input tokens written to the cache with a 1\-hour TTL. The server currently does not return this parameter.
+
+**ephemeral_5m_input_tokens** `integer`  |  Number of input tokens for the 5\-minute cache
+
+`usage.cache_creation.ephemeral_5m_input_tokens`
+
+The total number of input tokens that the session has cumulatively written to the prompt cache. This is included in `input_tokens`. When the cumulative value is not `0`, it is returned through this parameter. When the cumulative value is `0`, this parameter is not returned.
 
 **vault_ids** `string[] / null`  |  Vault ID list
 

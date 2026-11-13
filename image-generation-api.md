@@ -2,9 +2,27 @@
 
 `POST https://ark.ap-southeast.bytepluses.com/api/v3/images/generations`
 
-This document describes the image generation API for Seedream 5.0 pro, Seedream 5.0 flash, Seedream 5.0 lite, Seedream 4.5, and Seedream 4.0, including input and output parameters, value ranges, and notes. Use this reference to understand the fields when calling the API.
+This document describes the API for invoking image generation models, including input and output parameters, value ranges, and notes, for reference when using the API.
 
 **Image generation capabilities by model**
+
+* **Seedream 5.5new**
+
+   * Layer decomposition: Supports decomposing a single image into one base image and multiple output layers, with up to 99 layers. You can control the maximum total number of output images.
+
+   * Rich\-text OCR: During layer decomposition, supports recognizing and returning text content and style information for regular text, including font, color, bold, italic, underline, strikethrough, shadow, and translucency.
+
+   * Native RGBA images: Supports directly generating RGBA images with alpha channels from text or reference images.
+
+   * Single image generation: Configuring `sequential_image_generation` is not supported.
+
+      * Generate a single image from **multiple reference images (2\-10)** + text prompt.
+
+      * Generate a single image from a single reference image + text prompt.
+
+      * Generate a single image from text prompt.
+
+   * Sequential image generation, web search, and streaming output are not currently supported.
 
 * **Seedream 5.0 pronew**, **Seedream 5.0 flashnew**
 
@@ -12,7 +30,7 @@ This document describes the image generation API for Seedream 5.0 pro, Seedream 
 
    * Interactive editing: Supports specifying edit locations in multiple ways, such as coordinates, selection boxes, and arrows, for precise image editing.
 
-   * Single image generation: **sequential_image_generation** is not supported.
+   * Single image generation: `sequential_image_generation` is not supported.
 
       * Generate a single image from **multiple reference images (2\-10)** + text prompt.
 
@@ -24,7 +42,7 @@ This document describes the image generation API for Seedream 5.0 pro, Seedream 
 
 * **Seedream 5.0 lite**, **Seedream 4.5 / 4.0**
 
-   * Generate multiple images in sequence \- i.e., a batch of related images generated based on your input; set **sequential_image_generation** to `auto`
+   * Generate multiple images in sequence \- i.e., a batch of related images generated based on your input; set `sequential_image_generation` to `auto`
 
       * Generate a batch of related images based on your input of **multiple reference images (2\-14) +** text prompt (the total number of input and output images ≤ 15).
 
@@ -32,7 +50,7 @@ This document describes the image generation API for Seedream 5.0 pro, Seedream 
 
       * Generate a batch of related images (up to 15) from a text prompt.
 
-   * Generate a single image (set **sequential_image_generation** to `disabled`).
+   * Generate a single image (set `sequential_image_generation` to `disabled`).
 
       * Generate a single image from **multiple reference images (2\-14)** + text prompt.
 
@@ -52,6 +70,12 @@ This API supports the following authentication method(s). For details, see [Base
 
 ### Body parameters
 
+**model** `string` `Required`  |  Model ID
+
+The ID of the model to call. Activate the model on the [Model activation](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&OpenTokenDrawer=false) page, and then find its [Model ID](model-list.md#9df4d9fd).
+
+You can also call the model by using an Endpoint ID to access advanced capabilities such as rate limits, payment options, runtime status, monitoring, and security. For details, see [Get an Endpoint ID](online-inference-standard.md).
+
 **prompt** `string`  |  Prompt
 
 The text prompt used to generate an image or specify the intended layer decomposition.
@@ -60,7 +84,7 @@ The text prompt used to generate an image or specify the intended layer decompos
 
 * > **Prompt language support**: All models support Chinese and English prompts.
 
-   * > `Seedream 5.0 pro` and `Seedream 5.0 flash` also support Russian, Arabic, Filipino, Thai, Turkish, Korean, Malay, Spanish, Portuguese, Indonesian, French, German, Vietnamese, and Japanese.
+   * > `Seedream 5.5`, `Seedream 5.0 pro`, and `Seedream 5.0 flash` also support Russian, Arabic, Filipino, Thai, Turkish, Korean, Malay, Spanish, Portuguese, Indonesian, French, German, Vietnamese, and Japanese.
 
 * > **Prompt length recommendation**: Use no more than 300 Chinese characters or 600 English words. Excessively long prompts may scatter information, causing the model to overlook details and focus only on major elements, which can result in missing details in the generated image.
 
@@ -84,7 +108,7 @@ Provide the image as a Base64 string or an accessible URL.
 
 **Image generation scenario ** **`Optional`**
 
-Seedream 5.0 pro and Seedream 5.0 flash support up to 10 reference images. Seedream 5.0 lite, 4.5, and 4.0 support up to 14 reference images.
+Seedream 5.5, Seedream 5.0 pro, and Seedream 5.0 flash support up to 10 reference images. Seedream 5.0 lite, 4.5, and 4.0 support up to 14 reference images.
 
 **Single\-image input requirements**:
 
@@ -100,7 +124,7 @@ Seedream 5.0 pro and Seedream 5.0 flash support up to 10 reference images. Seedr
 
 **Layer decomposition scenario ** **`Required`**
 
-When layer decomposition mode is enabled (`layer_decomposition` is `true`), `image` is required. Only one image is supported. Passing multiple images causes an error.
+When layer decomposition mode is enabled for Seedream 5.5, Seedream 5.0 pro, or Seedream 5.0 flash (`layer_decomposition` is `true`), `image` is required. Only one image is supported. Passing multiple images causes an error.
 
 **Single\-image input requirements**:
 
@@ -116,7 +140,7 @@ When layer decomposition mode is enabled (`layer_decomposition` is `true`), `ima
 
 Controls whether to enable layer decomposition.
 
-Layer decomposition automatically decomposes subjects, backgrounds, text, and other content in a single image into one base image and up to 16 independently editable layers. Each layer is a PNG image with an alpha channel.
+Layer decomposition automatically decomposes subjects, backgrounds, text, and other content in a single image into one base image and multiple independently editable layers. Each layer is a PNG image with an alpha channel.
 
 * `true`: Layer decomposition mode. The model decomposes the input image into one base image and multiple layers.
 
@@ -134,13 +158,159 @@ Layer decomposition automatically decomposes subjects, backgrounds, text, and ot
 
 **Supported models**:
 
-* `Seedream 5.0 pro`
+* **Seedream 5.5**: Up to one base image and 99 layers; supports setting the maximum output image count (including the base image) and recognizing rich\-text OCR for regular text.
 
-* `Seedream 5.0 flash`
+* **Seedream 5.0 pro**: Up to one base image and 16 layers.
+
+* **Seedream 5.0 flash**: Up to one base image and 16 layers.
+
+**layer_decomposition_optionsnew** `object`  |  Layer decomposition configuration
+
+Configuration for the layer decomposition feature. Takes effect only when `layer_decomposition` is `true`.
+
+**Supported models**:
+
+* `Seedream 5.5`
+
+**max_imagesnew** `integer` `Default 30`  |  Maximum output image count
+
+`layer_decomposition_options.max_images`
+
+Sets the maximum total number of images generated by this request, including the base image and layers.
+
+**Range**: `[2, 100]`
+
+> **Note**
+
+* > Each request pre\-deducts IPM based on `max_images`. If fewer images are actually generated, the excess quota is returned.
+
+* > When the prompt does not specify how to decompose the image or is unclear, the model plans the decomposition based on `max_images` and the complexity of the input image. A larger `max_images` value generally produces a more fine\-grained decomposition.
+
+**text_recognitionnew** `boolean` `Default false`  |  Rich\-text OCR return switch
+
+`layer_decomposition_options.text_recognition`
+
+Controls whether to additionally return rich\-text OCR results for regular text layers. It supports recognizing text content and text styles, including bold, italic, underline, strikethrough, shadow, and translucency.
+
+* `true`: Returns rich\-text OCR results through `data[].text_recognition`.
+
+* `false`: Does not return rich\-text OCR results.
+
+> **Note**
+
+* > For the supported font range, see [Seedream 5.5 OCR supported fonts](ocr-supported-fonts.md).
+
+* > OCR results are not returned for non\-text layers or for irregular text layers such as artistic text and handwriting.
 
 **size** `string`  |  Image dimensions
 
 Specifies the dimensions of the generated image. The configuration methods, supported resolutions, default values, total pixel ranges, and aspect ratio ranges vary by model and scenario. Expand the corresponding section below for details.
+
+**Seedream 5.5 (image generation)**
+
+Choose one of the following methods; do not combine them:
+
+* Method 1 (recommended): Specify a resolution tier and describe the image aspect ratio, shape, or intended use in the prompt. The model determines the final image size.
+
+   * Default: `2K`
+
+   * Values: `1K`, `1.5K`, `2K`
+
+* Method 2: Specify width and height in pixels (`widthxheight`).
+
+   * Total pixels: [`1280x720` (921,600), `2048x2048x1.1025` (4,624,220)]
+
+   * Aspect ratio: [1/16, 16]
+
+> **tip**
+
+> For method 2, both the total\-pixel and aspect\-ratio ranges must be met. Total pixels are the product of a single image's width and height, not limits on either dimension separately.
+
+* > **Valid example**: `2880x1440`. It has 4,147,200 pixels, within [921,600, 4,624,220], and an aspect ratio of 2, within [1/16, 16].
+
+* > **Invalid example**: `512x512`. It has 262,144 pixels, below the minimum of 921,600.
+
+For method 1, common reference values mapped by the model are:
+
+|Resolution |Aspect ratio |Dimensions |
+|---|---|---|
+|1K |1:1 |1024x1024 |
+||4:3 |1152x864 |
+||3:4 |864x1152 |
+||16:9 |1424x800 |
+||9:16 |800x1424 |
+||3:2 |1248x832 |
+||2:3 |832x1248 |
+||21:9 |1568x672 |
+|1.5K |1:1 |1536x1536 |
+||4:3 |1792x1344 |
+||3:4 |1344x1792 |
+||16:9 |2048x1152 |
+||9:16 |1152x2048 |
+||3:2 |1872x1248 |
+||2:3 |1248x1872 |
+||21:9 |2352x1008 |
+|2K |1:1 |2048x2048 |
+||4:3 |2368x1776 |
+||3:4 |1776x2368 |
+||16:9 |2816x1584 |
+||9:16 |1584x2816 |
+||3:2 |2496x1664 |
+||2:3 |1664x2496 |
+||21:9 |3136x1344 |
+
+**Seedream 5.5 (layer decomposition)**
+
+Only the resolution tier can be specified. The resolution rules for output images are as follows:
+
+* **Base image**: The resolution of the output base image is the same as the resolution specified by `size`; the aspect ratio of the base image is the same as that of the original image.
+
+* **Each layer**: The resolution of the output layer is close to the resolution specified by `size`; each layer preserves its aspect ratio in the original image.
+
+Default and available values of `size`:
+
+* Default: `auto`
+
+* Values: `1K`, `1.5K`, `2K`, `auto` (adjusts output based on the input image's dimensions and aspect ratio)
+
+> **auto adaptation rules**
+
+> In auto mode, the model uses the original size of the base image and each layer:
+
+* > For sizes between [`1280x720` (921,600), `2048x2048x1.1025` (4,624,220)], it outputs the original size and preserves the original aspect ratio.
+
+* > For sizes below 1K, it outputs at 1K and preserves the original aspect ratio.
+
+* > For sizes above 2K, it outputs at 2K and preserves the original aspect ratio.
+
+Common width and height pixel values mapped by the model (not limited to the standard values below):
+
+|Resolution |Aspect ratio |Dimensions |
+|---|---|---|
+|1K |1:1 |1024x1024 |
+||4:3 |1152x864 |
+||3:4 |864x1152 |
+||16:9 |1424x800 |
+||9:16 |800x1424 |
+||3:2 |1248x832 |
+||2:3 |832x1248 |
+||21:9 |1568x672 |
+|1.5K |1:1 |1536x1536 |
+||4:3 |1792x1344 |
+||3:4 |1344x1792 |
+||16:9 |2048x1152 |
+||9:16 |1152x2048 |
+||3:2 |1872x1248 |
+||2:3 |1248x1872 |
+||21:9 |2352x1008 |
+|2K |1:1 |2048x2048 |
+||4:3 |2368x1776 |
+||3:4 |1776x2368 |
+||16:9 |2816x1584 |
+||9:16 |1584x2816 |
+||3:2 |2496x1664 |
+||2:3 |1664x2496 |
+||21:9 |3136x1344 |
 
 **Seedream 5.0 pro / Seedream 5.0 flash (image generation scenario)**
 
@@ -152,25 +322,21 @@ Two methods are available, but they cannot be used at the same time.
 
    * Available values: `1K`, `1.5K`, `2K`
 
-> **Pricing note**
-
-> `1.5K` has the same price as `1K`. For details, see [Model pricing](model-pricing.md#c02be6ee). `1.5K` also provides better image generation quality.
-
 * Method 2: Specify the width and height of the generated image in pixels (`widthxheight`):
 
    * Total pixels range: [`1280x720`(921,600), `2048x2048x1.1025`(4,624,220)]
 
    * Aspect ratio range: [1/16, 16]
 
-   > **Note**
+> **tip**
 
-   > When using method 2, both the total pixel range and the aspect ratio range must be satisfied. The total pixel limit applies to the **product of the single image’s width and height**, rather than to either dimension individually.
+> When using method 2, both the total pixel range and the aspect ratio range must be satisfied. The total pixel limit applies to the **product of the single image’s width and height**, rather than to either dimension individually.
 
-   * > **Valid example**: `2048x1024`
+* > **Valid example**: `2048x1024`
 
    > Total pixel count: 2048x1024=2,097,152, which is within the acceptable range of [921,600, 4,624,220]. Aspect ratio: 2048/1024=2, which is within the acceptable range of [1/16, 16].
 
-   * > **Invalid example**: `512x512`
+* > **Invalid example**: `512x512`
 
    > Total pixel count: 512x512=262,144, which does not meet the minimum requirement of 921,600.
 
@@ -215,15 +381,11 @@ Default value and supported values of `size`:
 
 * Default: `auto`
 
-* Supported values: `1K`, `1.5K`, `2K`, and `auto`. `auto` generates output based on the input image dimensions and aspect ratio.
-
-   > **Pricing note**
-
-   > `1.5K` has the same price as `1K`. For details, see [Model pricing](model-pricing.md#c02be6ee).
+* Supported values: `1K`, `1.5K`, `2K`, and `auto`. auto generates output based on the input image dimensions and aspect ratio.
 
 > **auto adaptation rules**
 
-> In `auto` mode, the model outputs the base image and each layer based on their original dimensions in the input image:
+> In auto mode, the model outputs the base image and each layer based on their original dimensions in the input image:
 
 * > If the original dimensions of the base image and each layer are between [`1280x720` (921,600) and `2048x2048x1.1025` (4,624,220)], each is output at its original dimensions and keeps its own aspect ratio in the input image.
 
@@ -276,15 +438,15 @@ Specify the output image dimensions. Two methods are available, but they cannot 
 
    * Aspect ratio range: [1/16, 16]
 
-   > **Note**
+> **tip**
 
-   > When using method 2, both the total pixel range and the aspect ratio range must be satisfied simultaneously. The total pixel limit applies to the **product of the single image’s width and height**, rather than to either dimension individually.
+> When using method 2, both the total pixel range and the aspect ratio range must be satisfied simultaneously. The total pixel limit applies to the **product of the single image’s width and height**, rather than to either dimension individually.
 
-   * > **Valid example**: `3750x1250`
+* > **Valid example**: `3750x1250`
 
    > Total pixel count: 3750x1250=4,687,500, which is within the acceptable range of [3686400, 16777216]. Aspect ratio: 3750/1250=3, which is within the acceptable range of [1/16, 16].
 
-   * > **Invalid example**: `1500x1500`
+* > **Invalid example**: `1500x1500`
 
    > Total pixel count: 1500x1500 = 2,250,000, which does not meet the minimum requirement of 3,686,400. Aspect ratio: 1500/1500 = 1, which meets the range of [1/16, 16]. But it's invalid as it only meets one of the two requirements.
 
@@ -305,16 +467,16 @@ When using method 1 and describing a specific aspect ratio in the prompt, refer 
 ||3:4 |2592x3456 |
 ||16:9 |4096x2304 |
 ||9:16 |2304x4096 |
-||2:3 |2496x3744 |
 ||3:2 |3744x2496 |
+||2:3 |2496x3744 |
 ||21:9 |4704x2016 |
 |4K |1:1 |4096x4096 |
-||3:4 |3520x4704 |
 ||4:3 |4704x3520 |
+||3:4 |3520x4704 |
 ||16:9 |5504x3040 |
 ||9:16 |3040x5504 |
-||2:3 |3328x4992 |
 ||3:2 |4992x3328 |
+||2:3 |3328x4992 |
 ||21:9 |6240x2656 |
 
 **Seedream 4.5**
@@ -329,19 +491,19 @@ Specify the output image dimensions. Two methods are available, but they cannot 
 
    * Default value: `2048x2048`
 
-   * Total pixels range: [`2560x1440=3,686,400`, `4096x4096=16,777,216`]
+   * Total pixels range: [`2560x1440`, `4096x4096`]
 
    * Aspect ratio range: [1/16, 16]
 
-   > **Note**
+> **tip**
 
-   > When using Method 2, both the total pixel range and the aspect ratio range must be satisfied simultaneously. The total pixel limit applies to the **product of the single image’s width and height**, rather than to either dimension individually.
+> When using Method 2, both the total pixel range and the aspect ratio range must be satisfied simultaneously. The total pixel limit applies to the **product of the single image’s width and height**, rather than to either dimension individually.
 
-   * > **Valid example**: `3750x1250`
+* > **Valid example**: `3750x1250`
 
    > Total pixel count: 3750x1250=4,687,500, which is within the acceptable range of [3,686,400, 16,777,216]. Aspect ratio: 3750/1250=3, which is within the acceptable range of [1/16, 16].
 
-   * > **Invalid example**: `1500x1500`
+* > **Invalid example**: `1500x1500`
 
    > Total pixel count: 1500x1500 = 2,250,000, which does not meet the minimum requirement of 3,686,400. Aspect ratio: 1500/1500 = 1, which meets the range of [1/16, 16]. But it's invalid as it only meets one of the two requirements.
 
@@ -358,12 +520,12 @@ When using method 1 and describing a specific aspect ratio in the prompt, refer 
 ||2:3 |1664x2496 |
 ||21:9 |3136x1344 |
 |4K |1:1 |4096x4096 |
-||3:4 |3520x4704 |
 ||4:3 |4704x3520 |
+||3:4 |3520x4704 |
 ||16:9 |5504x3040 |
 ||9:16 |3040x5504 |
-||2:3 |3328x4992 |
 ||3:2 |4992x3328 |
+||2:3 |3328x4992 |
 ||21:9 |6240x2656 |
 
 **Seedream 4.0**
@@ -378,19 +540,19 @@ Specify the output image dimensions. Two methods are available, but they cannot 
 
    * Default value: `2048x2048`
 
-   * Total pixels range: [`1280x720=921,600`, `4096x4096=16,777,216`]
+   * Total pixels range: [`1280x720`, `4096x4096`]
 
    * Aspect ratio range: [1/16, 16]
 
-   > **Note**
+> **tip**
 
-   > When using method 2, both the total pixel range and the aspect ratio range must be satisfied simultaneously. The total pixel limit applies to the **product of the single image’s width and height**, rather than to either dimension individually.
+> When using method 2, both the total pixel range and the aspect ratio range must be satisfied simultaneously. The total pixel limit applies to the **product of the single image’s width and height**, rather than to either dimension individually.
 
-   * > **Valid example**: `1600x600`
+* > **Valid example**: `1600x600`
 
    > Total pixel count: 1600x600 = 960,000, which is within the acceptable range of [921,600, 16,777,216]. Aspect ratio: 1600/600 = 8/3, which is within the acceptable range of [1/16, 16].
 
-   * > **Invalid example**: `800x800`
+* > **Invalid example**: `800x800`
 
    > Total pixel count: 800x800 = 640,000, which does not meet the minimum requirement of 921,600. Aspect ratio: 800/800 = 1, which meets the range of [1/16, 16]. But it's invalid as it only meets one of the two requirements.
 
@@ -415,12 +577,12 @@ When using method 1 and describing a specific aspect ratio in the prompt, the mo
 ||2:3 |1664x2496 |
 ||21:9 |3136x1344 |
 |4K |1:1 |4096x4096 |
-||3:4 |3520x4704 |
 ||4:3 |4704x3520 |
+||3:4 |3520x4704 |
 ||16:9 |5504x3040 |
 ||9:16 |3040x5504 |
-||2:3 |3328x4992 |
 ||3:2 |4992x3328 |
+||2:3 |3328x4992 |
 ||21:9 |6240x2656 |
 
 **optimize_prompt_options** `object`  |  Prompt optimization settings
@@ -431,57 +593,75 @@ Configuration for prompt optimization.
 
 `optimize_prompt_options.mode`
 
-Specifies the prompt optimization mode.
+Sets the mode used for prompt optimization.
 
-* `standard`: Standard mode, which provides higher\-quality output but takes longer.
+* `standard`: Standard mode. Produces higher\-quality content but takes longer.
 
-* `fast`: Fast mode, which reduces generation latency but may provide slightly lower\-quality output than standard mode. Seedream 5.0 flash, Seedream 5.0 lite, and Seedream 4.5 do not currently support this mode.
+* `fast`: Fast mode. Produces content more quickly, with slightly lower quality than standard mode.
 
-> **Tip**
+**Supported models**:
 
-> If your application is latency\-sensitive, use Seedream 5.0 pro in `fast` mode or use Seedream 5.0 flash for faster image generation.
+* **Seedream 5.5**: Default `standard`; Options `standard`
 
-**output_format** `string` `Default jpeg`  |  Image format
+* **Seedream 5.0 pro**: Default `standard`; Options `standard`, `fast`
 
-Specifies the file format of the generated image. Valid values:
+* **Seedream 5.0 flash**: Default `standard`; Options `standard`
 
-* `png`
+* **Seedream 5.0 lite**: Default `standard`; Options `standard`
 
-* `jpeg`.
+* **Seedream 4.5**: Default `standard`; Options `standard`
+
+* **Seedream 4.0**: Default `standard`; Options `standard`, `fast`
+
+**output_format** `string`  |  Image format
+
+Specifies the file format of generated images. Valid values: `png` and `jpeg`.
 
 > **Note**
 
-* > In layer decomposition scenarios, `output_format` controls only the output format of the base image. Layers are always output in `png` format.
+* > In layer decomposition, `output_format` controls only the base image's output format. Layers are always returned in `png` format.
+
+* > The request fails when `output_format` is `jpeg` and `background` is `transparent`.
 
 **Supported models**:
 
-* `Seedream 5.0 pro`
+* **Seedream 5.5**: Default `png`; Options `png`, `jpeg`
 
-* `Seedream 5.0 flash`
+* **Seedream 5.0 pro**: Default `jpeg`; Options `png`, `jpeg`
 
-* `Seedream 5.0 lite`
+* **Seedream 5.0 flash**: Default `jpeg`; Options `png`, `jpeg`
 
-**backgroundnew** `string` `Default opaque`  |  Image alpha channel
+* **Seedream 5.0 lite**: Default `jpeg`; Options `png`, `jpeg`
 
-Controls whether to generate an image with an alpha channel. Valid values:
+**backgroundnew** `string`  |  Transparency mode
 
-* `transparent`: Transparent background mode. The output image has a transparent background.
+Controls whether the generated image includes an alpha (transparency) channel. Valid values:
 
-* `opaque`: Opaque background mode. The output image has a standard, opaque background.
+* auto: The model determines the value based on the prompt and `output_format`. If this format is `jpeg`, the generated image has no alpha channel.
 
-> **Requirements for transparent background mode**
+* `transparent`: Returns an image with an alpha channel (an RGBA image).
 
-* > This parameter is supported only for image\-to\-image generation with exactly one input image that has an alpha channel.
+* `opaque`: Returns an image without an alpha channel (an RGB image).
 
-* > The output image format defaults to `png`. If `output_format` is set to `jpeg`, the request returns an error.
+> **Usage notes**
 
-* > If the input image uses a format that does not support an alpha channel, such as `jpeg`, the request returns an error.
+* > This parameter is not supported for layer decomposition. Passing it causes an error.
+
+* > When using `transparent` mode, requirements vary by model:
+
+> |Model |Seedream 5.5 |Seedream 5.0 pro / 5.0 flash |
+> |---|---|---|
+> |Text\-to\-RGBA |Supported |Not supported |
+> |Image\-to\-RGBA |Supported<br><br>Up to 10 reference images |Supported<br><br>Only one reference image is supported |
+> |Input image requirements |Alpha channel not required |Alpha channel required |
 
 **Supported models**:
 
-* `Seedream 5.0 pro`
+* **Seedream 5.5**: Default `auto`; Options `auto`, `transparent`, `opaque`
 
-* `Seedream 5.0 flash`
+* **Seedream 5.0 pro**: Default `opaque`; Options `transparent`, `opaque`
+
+* **Seedream 5.0 flash**: Default `opaque`; Options `transparent`, `opaque`
 
 **response_format** `string` `Default url`  |  Response format
 
@@ -499,7 +679,7 @@ Controls sequential image generation, which generates a set of related images ba
 
 * `disabled`: Disables sequential image generation. The model generates only one image.
 
-For an example, see [Sequential image generation](image-generation-tutorial.md#b4da5e23).
+For an example, see [Sequential image generation](image-generation-tutorial.md#ec79cfda).
 
 **Supported models**:
 
@@ -527,11 +707,13 @@ Configuration for sequential image generation. This parameter takes effect only 
 
 Specifies the maximum number of images that can be generated for this request.
 
-> **Tip**
-
-> The actual number of generated images also depends on the number of input reference images. **Number of input reference images + number of generated images ≤ 15.**
-
 **Range**: `[1, 15]`
+
+> **tip**
+
+* > Each request pre\-deducts IPM based on `max_images`. If fewer images are actually generated, the excess quota is returned.
+
+* > The actual number of generated images is controlled by `max_images` and also depends on the number of input reference images. **Number of input reference images + number of generated images ≤ 15.**
 
 **stream** `boolean` `Default false`  |  Streaming output
 
@@ -559,11 +741,19 @@ Controls whether to add a watermark to the generated image.
 
 * `true`: Adds an "AI\-generated" watermark to the lower\-right corner of the image.
 
-**model** `string` `Required`  |  Model ID
+**safety_identifiernew** `string`  |  End\-user identifier
 
-The ID of the model to call. Activate the model on the [Model activation](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&OpenTokenDrawer=false) page, and then find its [Model ID](model-list.md#9df4d9fd).
+A unique identifier for the end user, used to help the platform detect users in your application that may violate the ModelArk Use Policy. This identifier must be an English string that is stable and unique for each user and no longer than 64 characters.
 
-You can also call the model by using an Endpoint ID to access advanced capabilities such as rate limits, payment options, runtime status, monitoring, and security. For details, see [Get an Endpoint ID](online-inference-standard.md).
+We recommend passing a string generated by hashing the username, user ID, or email address to avoid exposing user privacy.
+
+**Supported models**:
+
+* `Seedream 5.5`
+
+* `Seedream 5.0 pro`
+
+* `Seedream 5.0 flash`
 
 ## Response parameters
 
@@ -575,15 +765,17 @@ The Unix timestamp in seconds of the creation time of the request.
 
 **model** `string`  |  Model ID
 
-The model ID used for image generation (`model name-version`).
+The model ID used for image generation (model name\-version).
 
 **data** `object[]`  |  Image data
 
-Information about the output images. The returned fields vary by task. `url`, `b64_json`, `size`, and `output_format` are common response fields.
+Information about output images. Returned fields vary by scenario.
 
-* In sequential image generation, if an image fails to generate, the response additionally includes error information for that image in `error`.
+Image return format (`url` or `b64_json`), image size (`size`), output format (`output_format`), and background type (`background`) are common response fields.
 
-* In layer decomposition, the response additionally includes the stacking order (`z_index`), name (`name`), description (`description`), and bounding box coordinates (`bounding_box`) of each layer.
+* **Sequential image generation**: If an image fails to generate, returns error information for that image (`error`).
+
+* **Layer decomposition**: Returns the stacking order (`z_index`), name (`name`), description (`description`), and bounding box coordinates (`bounding_box`) of each layer. Seedream 5.5 can additionally return the rich\-text OCR results (`text_recognition`) for regular text layers.
 
 **Common fields**
 
@@ -591,7 +783,7 @@ Information about the output images. The returned fields vary by task. `url`, `b
 
 `data.url`
 
-The URL of the image, returned when **response_format** is specified as `url`. This link will expire **within 24 hours** of generation. Be sure to save the image before expiration.
+The URL of the image, returned when **response_format** is specified as `response_format` is `url`. This link will expire **within 24 hours** of generation. Be sure to save the image before expiration.
 
 We recommend configuring [BytePlus TOS data subscription](https://docs.byteplus.com/en/docs/tos/Data_subscription) to automatically transfer model outputs to your own TOS bucket for long\-term backup or further processing.
 
@@ -599,7 +791,7 @@ We recommend configuring [BytePlus TOS data subscription](https://docs.byteplus.
 
 `data.b64_json`
 
-The Base64 information of the image; returned when **response_format** is specified as `b64_json`.
+The Base64 information of the image; returned when **response_format** is specified as `response_format` is `b64_json`.
 
 **size** `string`  |  Image dimensions
 
@@ -615,13 +807,29 @@ The output image format (`png` or `jpeg`).
 
 > **Note**
 
-* > In layer decomposition scenarios, `output_format` controls only the output format of the base image. Layers are always output in `png` format.
+> In layer decomposition, `output_format` controls only the base image's output format. Layers are always returned in `png` format.
 
 **Supported models**:
+
+* `Seedream 5.5`
 
 * `Seedream 5.0 pro`
 
 * `Seedream 5.0 flash`
+
+**backgroundnew** `string`  |  Actual transparency type
+
+`data.background`
+
+The actual transparency type of the generated image, which can differ from the requested `background` value.
+
+* `transparent`: The image contains transparent or translucent pixels.
+
+* `opaque`: The entire image is opaque.
+
+**Supported models**:
+
+* `Seedream 5.5`
 
 **Special fields (layer decomposition)**
 
@@ -632,6 +840,8 @@ The output image format (`png` or `jpeg`).
 The stacking order index of the layer. The base image is fixed to `0`. Layers start from `1` and increment in order. A larger value indicates a higher layer.
 
 **Supported models**:
+
+* `Seedream 5.5`
 
 * `Seedream 5.0 pro`
 
@@ -645,6 +855,8 @@ The name or label of the current decomposed layer. The model generates this fiel
 
 **Supported models**:
 
+* `Seedream 5.5`
+
 * `Seedream 5.0 pro`
 
 * `Seedream 5.0 flash`
@@ -656,6 +868,8 @@ The name or label of the current decomposed layer. The model generates this fiel
 The detailed description of the current decomposed layer. This model\-generated semantic description provides richer layer characteristics than `name`, such as color, state, and material.
 
 **Supported models**:
+
+* `Seedream 5.5`
 
 * `Seedream 5.0 pro`
 
@@ -676,6 +890,8 @@ The bounding box of the output layer in the coordinate system of the output base
    * > To restore a layer to any custom canvas, use `normalized` coordinates.
 
 **Supported models**:
+
+* `Seedream 5.5`
 
 * `Seedream 5.0 pro`
 
@@ -737,6 +953,184 @@ The normalized coordinates of the layer bounding box in the coordinate system of
 
 > Scale the output layer to `w × h`, and then place it at `(x, y)` on the target canvas. Normalized coordinates are integers, so rounding errors may occur after conversion.
 
+**text_recognitionnew** `object`  |  Rich\-text OCR result
+
+`data.text_recognition`
+
+The rich\-text OCR result for the current regular text layer, including the complete text, line\-by\-line positions, and visual styles for each text run.
+
+> **Return conditions**
+
+> This field is returned only when all of the following conditions are met:
+
+* > `layer_decomposition` is `true`.
+
+* > `layer_decomposition_options.text_recognition` is `true`.
+
+* > The model identifies the text in the current layer as **regular text**.
+
+> This field is not returned for non\-text layers or for irregular text layers such as artistic text and handwriting.
+
+**Supported models**:
+
+* `Seedream 5.5`
+
+**text** `string`  |  Complete text
+
+`data.text_recognition.text`
+
+The complete plain text of the current text layer, ordered from top to bottom and left to right, with lines separated by `\n`.
+
+**lines** `object[]`  |  Text lines
+
+`data.text_recognition.lines`
+
+An array of text lines in order.
+
+> **Note**
+
+* > If the current text layer contains multiple lines, `lines[]` contains multiple elements, one for each line.
+
+* > Each element includes the line's position in the base image (`bounding_box`) and a list of style runs (`runs[]`).
+
+**bounding_box** `object`  |  Text\-line bounding box
+
+`data.text_recognition.lines.bounding_box`
+
+Bounding box information for the current text line in the output base\-image coordinate system, including absolute and normalized coordinates. The coordinate format and conversion rules are the same as the corresponding fields in `data.bounding_box`.
+
+**absolute** `array`  |  Absolute coordinates
+
+`data.text_recognition.lines.bounding_box.absolute`
+
+The absolute pixel coordinates of the text\-line bounding box in the output base\-image coordinate system. The top\-left coordinate of the output base image is `(0, 0)`. The format is an array of four integers: `[left, top, right, bottom]`.
+
+* `left`: The horizontal distance from the text line's left edge to the output base image's left edge.
+
+* `top`: The vertical distance from the text line's top edge to the output base image's top edge.
+
+* `right`: The horizontal distance from the text line's right edge to the output base image's left edge.
+
+* `bottom`: The vertical distance from the text line's bottom edge to the output base image's top edge.
+
+**normalized** `array`  |  Normalized coordinates
+
+`data.text_recognition.lines.bounding_box.normalized`
+
+The normalized coordinates of the text\-line bounding box in the output base\-image coordinate system. They are converted from absolute coordinates to the discrete integer range `[0, 1000]` using the output base image's width and height. The format is an array of four integers: `[left, top, right, bottom]`.
+
+* `left` and `right`: The relative positions of the text line's left and right edges along the base image's width. `0` is the left edge, and `1000` is the right edge.
+
+* `top` and `bottom`: The relative positions of the text line's top and bottom edges along the base image's height. `0` is the top edge, and `1000` is the bottom edge.
+
+**runs** `object[]`  |  Style runs
+
+`data.text_recognition.lines.runs`
+
+An array of style runs for the current text line.
+
+> **Note**
+
+* > When the entire line has the same style, `runs[]` contains only one element.
+
+* > When styles such as font, color, or bold vary within a line, `runs[]` contains multiple elements.
+
+**text** `string`  |  Run text
+
+`data.text_recognition.lines.runs.text`
+
+The text segment corresponding to the current element, excluding line breaks.
+
+**style** `object`  |  Visual style
+
+`data.text_recognition.lines.runs.style`
+
+The approximate visual style of the current text segment, including the similar font, text color, bold, italic, underline, strikethrough, shadow, and translucency.
+
+> **Note**
+
+> Style information is identified automatically by the model and may differ from the exact attributes in the original design file.
+
+**similar_font_family** `string`  |  Similar font
+
+`data.text_recognition.lines.runs.style.similar_font_family`
+
+The name of the most similar font matched by the model based on the text's appearance.
+
+> **Note**
+
+* > An exact match to the original font is not guaranteed.
+
+* > Returns `unknown` when the font cannot be recognized or confidence is insufficient.
+
+* > For the supported font range, see [Seedream 5.5 OCR supported fonts](ocr-supported-fonts.md).
+
+**foreground_color** `string`  |  Text color
+
+`data.text_recognition.lines.runs.style.foreground_color`
+
+The color of the current text segment, in uppercase hexadecimal `#RRGGBB` format without an alpha (transparency) channel.
+
+**bold** `boolean`  |  Bold
+
+`data.text_recognition.lines.runs.style.bold`
+
+Whether the model identifies the current text segment as using bold styling.
+
+* `true`: The model identifies bold styling.
+
+* `false`: The model does not identify bold styling.
+
+**italic** `boolean`  |  Italic
+
+`data.text_recognition.lines.runs.style.italic`
+
+Whether the model identifies the current text segment as using italic styling. Returns `true` only when the glyph itself slants to the right; rotation of the entire text layer or slant caused by perspective is not considered italic.
+
+* `true`: The model identifies italic styling.
+
+* `false`: The model does not identify italic styling.
+
+**underline** `boolean`  |  Underline
+
+`data.text_recognition.lines.runs.style.underline`
+
+Whether the model identifies the current text segment as having a text underline. Separate divider lines, table lines, and decorative horizontal lines are not considered text underlines.
+
+* `true`: The model identifies underline styling.
+
+* `false`: The model does not identify underline styling.
+
+**strikethrough** `boolean`  |  Strikethrough
+
+`data.text_recognition.lines.runs.style.strikethrough`
+
+Whether the model identifies the current text segment as having a strikethrough.
+
+* `true`: The model identifies strikethrough styling.
+
+* `false`: The model does not identify strikethrough styling.
+
+**shadow** `boolean`  |  Shadow
+
+`data.text_recognition.lines.runs.style.shadow`
+
+Whether the model identifies the current text segment as having a distinct drop shadow, shadow, or glow offset. Ordinary antialiasing transitions along text edges are not considered shadows.
+
+* `true`: The model identifies shadow styling.
+
+* `false`: The model does not identify shadow styling.
+
+**translucent** `boolean`  |  Translucent
+
+`data.text_recognition.lines.runs.style.translucent`
+
+Whether the text ink itself is visibly translucent, allowing the background texture or color beneath it to show through. Solid light\-colored text, such as light gray or light blue, is not considered translucent.
+
+* `true`: The model identifies translucent styling.
+
+* `false`: The model does not identify translucent styling.
+
 **Special fields (sequential image generation)**
 
 **error** `object`  |  Single\-image error
@@ -751,7 +1145,7 @@ Error information returned when an individual image fails to generate. Other suc
 
 * > If content moderation rejects the image, the model continues with the next image generation task. Other image generation tasks in the same request are not affected.
 
-* > If an internal service error (`500`) occurs, the model does not continue with the next image generation task.
+* > If an internal service error (500) occurs, the model does not continue with the next image generation task.
 
 **Supported models**:
 
@@ -789,6 +1183,18 @@ The error code. For details, see [Error codes](error-codes.md).
 
 The error message used for troubleshooting.
 
+**safety_identifiernew** `string`  |  End\-user identifier
+
+The unique identifier for the end user. If `safety_identifier` is set in the request, the API returns it unchanged.
+
+**Supported models**:
+
+* `Seedream 5.5`
+
+* `Seedream 5.0 pro`
+
+* `Seedream 5.0 flash`
+
 **usage** `object`  |  Usage information
 
 Usage information for this request, including the number of generated images and consumed tokens.
@@ -807,6 +1213,8 @@ The number of images input to the model.
 
 **Supported models**:
 
+* `Seedream 5.5`
+
 * `Seedream 5.0 pro`
 
 * `Seedream 5.0 flash`
@@ -815,7 +1223,7 @@ The number of images input to the model.
 
 `usage.output_tokens`
 
-The number of tokens consumed for images generated by the model. The value is calculated by rounding `sum(image width × image height) / 256` to an integer.
+The number of tokens consumed to generate images. It is calculated as `sum(image height * image width) / 256`, rounded down.
 
 **total_tokens** `integer`  |  Total tokens
 

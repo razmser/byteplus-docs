@@ -670,6 +670,12 @@ When `type` is `coordinator`, the subagent list is returned. When `type` is `mul
 
 The source of the sub\-agent.`agent` references an existing agent. `self` reuses the agent configuration that owns the current member list, but does not inherit its member list. Self can be used for `multiagent_20261001.predefined_agents` and `coordinator.agents`. When using self, do not provide `id` or `version`.
 
+**display_name** `string`  |  Member agent display name
+
+`multiagent.agents.display_name`
+
+The display name of the member agent. This parameter is not returned if the referenced agent does not exist.
+
 **id** `string`  |  Agent ID
 
 `multiagent.agents.id`
@@ -718,6 +724,12 @@ List of predefined agents and self.
 
 The source of the sub\-agent.`agent` references an existing agent. `self` reuses the agent configuration that owns the current member list, but does not inherit its member list. Self can be used for `multiagent_20261001.predefined_agents` and `coordinator.agents`. When using self, do not provide `id` or `version`.
 
+**display_name** `string`  |  Member agent display name
+
+`multiagent.subagents.predefined_agents.display_name`
+
+The display name of the member agent. This parameter is not returned if the referenced agent does not exist.
+
 **id** `string`  |  Agent ID
 
 `multiagent.subagents.predefined_agents.id`
@@ -743,6 +755,12 @@ Source of the skill.
 * `ark`: ModelArk preset skill.
 
 * `custom`: a custom skill created by the current account through the Skills API.
+
+**display_name** `string`  |  Display name of the skill
+
+`skills.display_name`
+
+Display name of the skill version currently used by the agent. Not returned if the corresponding version does not have a display name.
 
 **skill_id** `string`  |  Skill ID
 

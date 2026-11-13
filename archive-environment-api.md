@@ -58,6 +58,12 @@ The currently effective runtime configuration of the environment.
 
 The runtime mode of the environment.`cloud` means the runtime environment is provided by ModelArk, and `self_hosted` means the runtime environment is provided by the caller.
 
+**build_script** `string`  |  Prebuild script
+
+`config.build_script`
+
+A script that runs when building the environment runtime, after dependency packages are installed.
+
 **env** `object`  |  Environment variable
 
 `config.env`
@@ -74,13 +80,39 @@ The currently effective outbound network configuration of the environment. For a
 
 `config.networking.type`
 
-The outbound network mode of the environment.`unrestricted` means outbound targets are not restricted.
+The outbound network policy of the environment. Options: `unrestricted`, `limited`.
+
+> **Tip**
+
+* > `unrestricted` means outbound destinations are not restricted, but the platform's general security blocking policies still apply.
+
+* > `limited` means that, except for the network destinations required by the platform to keep the environment running, only the domain names in `allowed_hosts` and the additional package repository domains added after `allow_package_managers` is enabled can be accessed.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`config.networking.allow_package_managers`
+
+Whether to additionally allow access to the package manager repositories configured by the platform in limited outbound mode.
+
+> **Tip**
+
+> When set to `true`, this indicates that the package repository domains configured by the platform have been added to the `limited` outbound rules for installing `apt`, `cargo`, `gem`, `go`, `npm`, and `pip` dependencies.
+
+**allowed_hosts** `string[]`  |  Host allowlist
+
+`config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox can directly access in limited outbound mode.
+
+> **Tip**
+
+> The returned values are bare domain names or wildcard domain names with the wildcard in the leftmost position, such as `example.com` and `*.example.com`. They do not include URLs, ports, paths, query parameters, IP addresses, or `localhost`.
 
 **packages** `object`  |  Dependency package configuration
 
 `config.packages`
 
-Dependency packages that are preinstalled when the environment starts.
+Dependency packages preinstalled in session sandboxes created from this environment.
 
 **apt** `string[]`  |  apt package
 
@@ -130,7 +162,19 @@ Value is fixed to `packages`.
 
 `config.setup_script`
 
-The initialization script executed when the environment starts.
+A script that runs when each session sandbox starts.
+
+**spec** `string`  |  Resource specification
+
+`config.spec`
+
+The cloud sandbox resource specification currently used by the environment.`1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory.
+
+**template_id** `string`  |  Template ID
+
+`config.template_id`
+
+The cloud environment template currently used by the environment.`base` means the base template, and `browser` means the browser task template.
 
 **tos** `object`  |  Artifact storage configuration
 

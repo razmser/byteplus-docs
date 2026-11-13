@@ -680,7 +680,7 @@ The Unix timestamp (in seconds) when the stored response expires. It echoes the 
 
 Details about why the response could not be completed. Returned only when the *status* is `incomplete`.
 
-**reason** `string`  |  Cause
+**reason** `string`  |  Reason
 
 `response.created.response.incomplete_details.reason`
 
@@ -1836,7 +1836,7 @@ The Unix timestamp (in seconds) when the stored response expires. It echoes the 
 
 Details about why the response could not be completed. Returned only when the *status* is `incomplete`.
 
-**reason** `string`  |  Cause
+**reason** `string`  |  Reason
 
 `response.in_progress.response.incomplete_details.reason`
 
@@ -2992,7 +2992,7 @@ The Unix timestamp (in seconds) when the stored response expires. It echoes the 
 
 Details about why the response could not be completed. Returned only when the *status* is `incomplete`.
 
-**reason** `string`  |  Cause
+**reason** `string`  |  Reason
 
 `response.completed.response.incomplete_details.reason`
 
@@ -4148,7 +4148,7 @@ The Unix timestamp (in seconds) when the stored response expires. It echoes the 
 
 Details about why the response could not be completed. Returned only when the *status* is `incomplete`.
 
-**reason** `string`  |  Cause
+**reason** `string`  |  Reason
 
 `response.incomplete.response.incomplete_details.reason`
 
@@ -5304,7 +5304,7 @@ The Unix timestamp (in seconds) when the stored response expires. It echoes the 
 
 Details about why the response could not be completed. Returned only when the *status* is `incomplete`.
 
-**reason** `string`  |  Cause
+**reason** `string`  |  Reason
 
 `response.failed.response.incomplete_details.reason`
 

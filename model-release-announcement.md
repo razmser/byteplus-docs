@@ -10,6 +10,7 @@ Keep track of newly released models on ModelArk.
 
 |**Provider** |**Model ID** |**Model type** |**Change type** |**Instructions** |
 |---|---|---|---|---|
+|ByteDance |dola\-seedream\-5\-5\-261028 |Image generation model |New release |Dola Seedream 5.5 is ByteDance's latest image creation model. It provides more precise multi\-turn editing and supports native RGBA image generation. Its layer decomposition is more detailed, with up to one base image and 99 layers, and includes rich\-text OCR information. For instructions, see [Dola Seedream 5.5 tutorial](seedream-5-5.md). |
 |DeepSeek |deepseek\-v4\-1\-flash\-economy\-261017 |Deep\-reasoning model |New release |`deepseek-v4-1-flash-economy-261017` uses the same model weights as `deepseek-v4-1-flash-261017`, delivering identical capabilities and quality at a lower cost, with slightly slower generation speeds. For instructions, see [Deep reasoning](deep-thinking.md). |
 |DeepSeek |deepseek\-v4\-1\-flash\-261017 |Deep\-reasoning model |New release |`deepseek-v4-1-flash-261017` delivers stronger benchmark performance, completes tasks faster, produces shorter outputs, and offers significantly stronger agentic coding capabilities than the previous version, `deepseek-v4-1-flash-260910`. For instructions, see [Deep reasoning](deep-thinking.md). |
 

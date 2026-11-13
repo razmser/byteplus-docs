@@ -85,6 +85,9 @@ Response example:
   "status": "idle",
   "usage": {
     "active_seconds": 147.661,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 8192
+    },
     "cache_read_input_tokens": 271227,
     "input_tokens": 381008,
     "output_tokens": 7774,
@@ -115,13 +118,19 @@ Main response parameters:
 
    * `active_seconds` is the cumulative number of seconds the session has actually spent in the running state. Only when the session moves from the `running` back to `idle` or `terminated` does the system add the duration of that run. Time for a session that is still running is not counted yet.
 
-   * `input_tokens` is the total number of input tokens for all model requests.
+   * `input_tokens` is the total number of input tokens across all model requests, including tokens read from and written to the cache.
 
-   * `cache_read_input_tokens` is the portion of `input_tokens` that hit the prompt cache. It is provided as a breakdown statistic; do not add it to `input_tokens` again.
+      * `cache_read_input_tokens` is the portion that hits the prompt cache.
+
+      * `cache_creation.ephemeral_5m_input_tokens` is the portion written to the prompt cache. This parameter is not returned when the cumulative value is `0`.
+
+      * `cache_creation.ephemeral_1h_input_tokens` is currently not returned.
 
    * `output_tokens` is the total number of output tokens.
 
    * `server_tool_use` records the cumulative number of requests initiated by server\-hosted tools. For specific parameters, see [Query session details](get-session-api.md).
+
+   `cache_read_input_tokens` and `cache_creation.ephemeral_5m_input_tokens` are both subsets of `input_tokens`. When calculating uncached input, use `input_tokens - cache_read_input_tokens - cache_creation.ephemeral_5m_input_tokens`.
 
 * **`stats`**: The cumulative runtime and total duration of the session from creation to the current time or termination.
 

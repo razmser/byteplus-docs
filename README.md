@@ -2,7 +2,7 @@
 
 Markdown mirror of [BytePlus ModelArk's documentation](https://docs.byteplus.com/en/docs/ModelArk/).
 
-Contains **345 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
+Contains **347 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
 
 Links to mirrored pages point to local files; external links and images remain online. Code examples and OpenAPI blocks are preserved.
 
@@ -246,6 +246,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Multimodal understanding (Responses API)](multimodal-understanding.md)
 - [Multimodal Vectorization API](multimodal-vectorization-api.md)
 - [Network configuration](network-configuration.md)
+- [Seedream 5.5 OCR supported fonts](ocr-supported-fonts.md)
 - [Online inference (Flex)](online-inference-flex.md)
 - [Online inference (standard)](online-inference-standard.md)
 - [Output item and text response](output-and-text.md)
@@ -296,6 +297,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Seedream 4.0-4.5 prompt guide](seedream-4-0-5-0-prompt-guide.md)
 - [Seedream 5.0 pro / flash interactive editing guide](seedream-5-0-pro-editing-guide.md)
 - [Seedream 5.0 pro / flash tutorial](seedream-5-0-pro.md)
+- [Dola Seedream 5.5 tutorial](seedream-5-5.md)
 - [Self-hosted environment overview](self-hosted-environment-overview.md)
 - [Self-hosted environment security](self-hosted-environment-security.md)
 - [Send session event](send-event-api.md)

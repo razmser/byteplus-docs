@@ -2176,7 +2176,7 @@ Some models support understanding audio information in video files. For details,
 
 ## **Frame sampling strategy**
 
-About token usage: The maximum token usage for a single video is 80k. The maximum token amount for a single request video is also limited by the model's maximum context window and maximum input length (when deep thinking is enabled). If the limit is exceeded, you need to adjust the number or duration of input videos.
+About token usage: The maximum token usage for a single video is 80K. The maximum token amount for a single request video is also limited by the model's maximum context window and maximum input length (when deep thinking is enabled). If the limit is exceeded, you need to adjust the number or duration of input videos.
 
 Basic concepts:
 

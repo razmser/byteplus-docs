@@ -148,13 +148,13 @@ Complete model list: [Model list](model-list.md)
 
 * **Key limits:**  Up to 1080p, 4\-30 seconds, and 0.6K default max RPM for enterprise users
 
-[Dola Seedream 5.0 Pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro)
+[Dola Seedream 5.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-5)
 
-![Dola Seedream 5.0 Pro](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_image_generation.png)
+![Dola Seedream 5.5](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_image_generation.png)
 
-* **Best for:**  Image generation and layer decomposition
+* **Best for:**  Precise multi\-round image editing and layer decomposition
 
-* **Key capabilities:**  Text\-to\-image, single\-reference image\-to\-image, and multi\-reference image\-to\-image
+* **Key capabilities:**  Native RGBA image generation, rich text OCR, and up to 99 output layers
 
 * **Key limit:**  500 max IPM
 

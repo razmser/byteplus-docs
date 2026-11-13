@@ -2956,17 +2956,35 @@ Cumulative runtime duration, model tokens, and server\-side search request stati
 
 The cumulative number of seconds that the session was actually in the running state. The system adds the duration of each run only after the session returns from `running` to `idle` or `terminated`; any time for which the session is still running is not counted yet.
 
+**cache_creation** `object`  |  Cache creation statistics
+
+`session.usage.usage.cache_creation`
+
+Token count for prompt cache creation. The `session.usage` event currently does not return the actual amount of cache created. Both parameters always return `0`; returning `0` does not mean that the session did not create a cache.
+
+**ephemeral_1h_input_tokens** `integer`  |  Number of input tokens for the 1\-hour cache
+
+`session.usage.usage.cache_creation.ephemeral_1h_input_tokens`
+
+The number of input tokens for the prompt cache with a 1\-hour validity period. Currently always returns `0`; it is not used to determine whether the session created a cache.
+
+**ephemeral_5m_input_tokens** `integer`  |  Number of input tokens for the 5\-minute cache
+
+`session.usage.usage.cache_creation.ephemeral_5m_input_tokens`
+
+The number of input tokens for the prompt cache with a 5\-minute validity period. Currently always returns `0`; it is not used to determine whether the session created a cache.
+
 **cache_read_input_tokens** `integer`  |  Cache read tokens
 
 `session.usage.usage.cache_read_input_tokens`
 
-The cumulative number of input tokens read from the prompt cache by the session.
+The cumulative number of input tokens that the session has read from the prompt cache. This is included in `input_tokens`.
 
 **input_tokens** `integer`  |  Total input tokens
 
 `session.usage.usage.input_tokens`
 
-The cumulative number of input tokens consumed by all model requests in the session
+The total number of input tokens consumed by all model requests in the session, including tokens read from and written to the cache.
 
 **output_tokens** `integer`  |  Total output tokens
 
@@ -3340,17 +3358,23 @@ Corresponding model request start event ID.
 
 Model token usage statistics
 
+**cache_creation_input_tokens** `integer`  |  Tokens written to cache
+
+`span.model_request_end.model_usage.cache_creation_input_tokens`
+
+The number of input tokens written to the prompt cache for this request. This is included in `input_tokens`; returns `0` if this request did not write to the cache.
+
 **cache_read_input_tokens** `integer`  |  Cache read tokens
 
 `span.model_request_end.model_usage.cache_read_input_tokens`
 
-The number of input tokens read from the prompt cache for this request; returns `0` if this request did not hit the cache.
+The number of input tokens read from the prompt cache for this request. This is included in `input_tokens`; returns `0` when this request does not hit the cache.
 
 **input_tokens** `integer`  |  Input tokens
 
 `span.model_request_end.model_usage.input_tokens`
 
-The total number of input tokens for this model request
+The total number of input tokens for this model request, including tokens read from and written to the cache.
 
 **output_tokens** `integer`  |  Output tokens
 

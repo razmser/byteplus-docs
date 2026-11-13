@@ -686,11 +686,273 @@ Role that sends the message.
 
 Value is fixed to `tool`.
 
-**content** `string`  |  Message content
+**content** `string / object[]`  |  Message content
 
 `messages.content`
 
-Message returned by the tool. If omitted or set to `null`, the server processes it as an empty string.
+Message returned by the tool. Supports plain text or multimodal content. If omitted or set to `null`, the server processes it as an empty string.
+
+> **Tip**
+
+> The official OpenAI API supports only string input. ModelArk provides compatibility optimizations and supports image input. The behavior is as follows:
+
+* > For models that support image understanding: if an image is passed, it takes effect.
+
+* > For models that do not support image understanding: if an image is passed, it does not take effect, but no error is reported.
+
+Plain text `string`
+
+Plain text content.
+
+Multimodal content `object[]`
+
+Multimodal content such as text, image, video, and audio.
+
+Text information `object`
+
+The text part of a multimodal message.
+
+**text** `string` `Required`  |  Text content
+
+`messages.content.text`
+
+Content of the text modality.
+
+**type** `string` `Required`  |  Type
+
+`messages.content.type`
+
+Content modality type. Fixed to `text`.
+
+Image information `object`
+
+Images.
+
+**image_url** `object` `Required`  |  Image content
+
+`messages.content.image_url`
+
+Content of the image modality. Image input supports the **file_id / url** parameters. You must pass one of them. For usage details, see [Image understanding](image-understanding.md).
+
+**detail** `string`  |  Image parsing fineness
+
+`messages.content.image_url.detail`
+
+Image parsing fineness.
+
+For the image understanding fineness, default values for different models and corresponding specific pixel ranges, see [Precision control of image understanding](image-understanding.md#bf4d9224). Options: `low`, `high`, `xhigh`.
+
+**file_id** `string`  |  File ID
+
+`messages.content.image_url.file_id`
+
+File ID.
+
+* The file ID is the ID returned after you upload a file through the [Files API](upload-files-api.md).
+
+* The file type corresponding to **file_id** must be consistent with **type**, and the file status must be **active**.
+
+* The project that the **API key** belongs to must be the same as the project used to upload **file_id**.
+
+**image_pixel_limit** `object` `Default null`  |  Image pixel limit
+
+`messages.content.image_url.image_pixel_limit`
+
+Pixel range of the image input to the model. If it is not within this range, the image will be scaled proportionally to fit this range.
+
+* Priority: It has higher priority than **detail**. That is, when both **detail** and **image_pixel_limit** are configured, **image_pixel_limit** takes effect.
+
+* Default rule: If **image_pixel_limit** is not set, the **min_pixels** / **max_pixels** value corresponding to the value configured in **detail** will be used.
+
+> **Note**
+
+> The image pixel value must fall in the range of [196, 36000000] px; otherwise, an error will be reported.
+
+**max_pixels** `integer`  |  Maximum pixels
+
+`messages.content.image_url.image_pixel_limit.max_pixels`
+
+Maximum pixel limit for uploaded images. If the image pixel count exceeds this value, it will be scaled down proportionally to below the value of `max_pixels`. If not set, the value will be the `max_pixels` value corresponding to the configured `detail` value.
+
+**Max**: `9031680`
+
+**min_pixels** `integer`  |  Minimum pixels
+
+`messages.content.image_url.image_pixel_limit.min_pixels`
+
+Minimum pixel limit for uploaded images. If the image pixel count is lower than this value, it will be scaled up proportionally to above the value of the `min_pixels`. If not set, the value will be the `min_pixels` value corresponding to the configured `detail` value.
+
+**Min**: `1764`
+
+**url** `string`  |  Resource URL
+
+`messages.content.image_url.url`
+
+The image URL to send to the model. Supported formats are as follows:
+
+* Image link
+
+* Base64 string of the image
+
+**type** `string` `Required`  |  Type
+
+`messages.content.type`
+
+Content type. Fixed to `image_url`.
+
+Video information `object`
+
+Videos.
+
+**type** `string` `Required`  |  Type
+
+`messages.content.type`
+
+Content type. Fixed to `video_url`.
+
+**video_url** `object` `Required`  |  Video content
+
+`messages.content.video_url`
+
+Content of the video message. Video input supports the **file_id / url** parameters. You must pass one of them. For usage details, see [Video understanding](video-understanding.md).
+
+**file_id** `string`  |  File ID
+
+`messages.content.video_url.file_id`
+
+File ID.
+
+* The file ID is the ID returned after you upload a file through the [Files API](upload-files-api.md).
+
+* The file type corresponding to **file_id** must be consistent with **type**, and the file status must be **active**.
+
+* The project that the **API key** belongs to must be the same as the project used to upload **file_id**.
+
+**fps** `number` `Default 1.0`  |  Video frame rate
+
+`messages.content.video_url.fps`
+
+Frame sampling frequency. For details, see [Video understanding](video-understanding.md).
+
+* The higher the value, the more sensitive it is to frame changes in the video.
+
+* The lower the value, the less sensitive it is to frame changes in the video, but it consumes fewer tokens and runs faster.
+
+**Range**: `[0.2, 5]`
+
+**url** `string`  |  Resource URL
+
+`messages.content.video_url.url`
+
+Video URL to send to the model. Supported formats are as follows:
+
+* Video link
+
+* Base64 string of the video
+
+Audio information `object`
+
+Audios.
+
+**input_audio** `object` `Required`  |  Audio content
+
+`messages.content.input_audio`
+
+Content of the audio modality. Audio input supports three parameters: **file_id / url / data**. You must pass one of them. For specific usage, see [Audio understanding](audio-understanding.md).
+
+> **Note**
+
+* > File size cannot exceed 25 MB.
+
+* > The total audio duration per request cannot exceed 120 minutes. Only pure audio duration is counted, while embedded audio in video is not included.
+
+* > For details, see [Audio understanding](audio-understanding.md).
+
+**data** `string`  |  Audio data
+
+`messages.content.input_audio.data`
+
+Base64 string of the audio content.
+
+**file_id** `string`  |  File ID
+
+`messages.content.input_audio.file_id`
+
+File ID.
+
+* The file ID is the ID returned after you upload a file through the [Files API](upload-files-api.md).
+
+* The file type corresponding to **file_id** must be consistent with **type**, and the file status must be **active**.
+
+* The project that the **API key** belongs to must be the same as the project used to upload **file_id**.
+
+**format** `string`  |  Audio format
+
+`messages.content.input_audio.format`
+
+Audio format. This parameter is required when **data** is used. The MIME types of supported audio formats are as follows: Pure audio formats: \*.mp3: `audio/mpeg` \*.wav: `audio/wav` \*.aac: `audio/aac` \*.m4a: `audio/mp4` Embedded audio formats in video: \*.mp3: `audio/mpeg` \*.wav: `audio/wav` \*.aac: `audio/aac` \*.m4a: `audio/mp4` \*.pcm: `audio/L16` \*.ac3: `audio/ac3` \*.alac: `audio/mp4`
+
+**url** `string`  |  Resource URL
+
+`messages.content.input_audio.url`
+
+URL of the audio content.
+
+**type** `string` `Required`  |  Type
+
+`messages.content.type`
+
+Content type. Fixed to `input_audio`.
+
+File information `object`
+
+Files.
+
+**file** `object` `Required`  |  File content
+
+`messages.content.file`
+
+Content of the file modality. Currently, only PDF files are supported. File input supports the **file_id / file_data / file_url** parameters. You must pass one of them. For multimodal understanding examples, see [Document understanding](document-understanding.md).
+
+> **Tip**
+
+> For details about document understanding, see [Document understanding](document-understanding.md).
+
+**file_data** `string`  |  File data
+
+`messages.content.file.file_data`
+
+Base64 string of the file content. The file size of a single file cannot exceed 50 MB.
+
+**file_id** `string`  |  File ID
+
+`messages.content.file.file_id`
+
+File ID.
+
+* The file ID is the ID returned after you upload a file through the [Files API](upload-files-api.md).
+
+* The file type corresponding to **file_id** must be consistent with **type**, and the file status must be **active**.
+
+* The project that the **API key** belongs to must be the same as the project used to upload **file_id**.
+
+**file_url** `string`  |  Resource URL
+
+`messages.content.file.file_url`
+
+Accessible URL of the file. The file size cannot exceed 50 MB.
+
+**filename** `string`  |  Filename
+
+`messages.content.file.filename`
+
+Filename. This parameter is required when **file_data** is used.
+
+**type** `string` `Required`  |  Type
+
+`messages.content.type`
+
+Modality of message. Fixed to `file`.
 
 **name** `string`  |  Participant name
 
@@ -762,7 +1024,7 @@ Cannot be set while `max_tokens` parameter is set.
 
 > **Note**
 
-> For the `deepseek-v4-1-flash-261017`, `deepseek-v4-1-flash-260910` and `deepseek-v4-1-flash-economy-261017` models, the default value of this parameter is 128k. For models that support this parameter and usage instructions, see [Deep reasoning](deep-thinking.md).
+> For the `deepseek-v4-1-flash-261017`, `deepseek-v4-1-flash-260910` and `deepseek-v4-1-flash-economy-261017` models, the default value of this parameter is 131072 (128K). For models that support this parameter and usage instructions, see [Deep reasoning](deep-thinking.md).
 
 **Range**: `[1, 65536]`
 
@@ -772,7 +1034,7 @@ Maximum length of the model's answer (unit: token). The value range varies by mo
 
 > **Tip**
 
-* > `deepseek-v4-1-flash-261017`, `deepseek-v4-1-flash-260910` and `deepseek-v4-1-flash-economy-261017`: `max_tokens` controls the length of the model's answer and chain\-of\-thought content. No error is reported if the length is exceeded. The default value is 128k.
+* > `deepseek-v4-1-flash-261017`, `deepseek-v4-1-flash-260910` and `deepseek-v4-1-flash-economy-261017`: `max_tokens` controls the length of the model's answer and chain\-of\-thought content. No error is reported if the length is exceeded. The default value is 131072 (128K).
 
 * > Models other than the preceding model: `max_tokens` controls the length of the model's answer and does not include chain\-of\-thought content. Model answer = model output \- model chain\-of\-thought (if any).
 

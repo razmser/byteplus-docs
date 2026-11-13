@@ -190,20 +190,6 @@ Model configuration currently used by the session.
 
 Model ID or inference endpoint ID currently used by the session.
 
-**protocol** `string`  |  Invocation protocol
-
-`agent.model.protocol`
-
-Protocol used for session model calls:
-
-* `ark_responses`: ModelArk Responses protocol.
-
-* `openai_chat_completions`: OpenAI Chat Completions compatible protocol.
-
-* `openai_responses`: OpenAI Responses compatible protocol.
-
-* `anthropic_messages`: Anthropic Messages compatible protocol.
-
 **reasoning_effort** `string`  |  Reasoning effort level
 
 `agent.model.reasoning_effort`
@@ -336,11 +322,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `agent.multiagent.agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -640,11 +644,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.subagents.predefined_agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.subagents.predefined_agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `agent.multiagent.subagents.predefined_agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.subagents.predefined_agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -994,6 +1016,24 @@ The environment ID actually used by the session.
 
 The unique identifier of the session, in the format `sesn-xxxxx`.
 
+**stats** `object`  |  Duration statistics
+
+The session's cumulative running time and total lifecycle duration.
+
+**active_seconds** `number`  |  Cumulative running time
+
+`stats.active_seconds`
+
+The cumulative number of seconds that the session was running. This is the same as `usage.active_seconds`.
+
+Only completed running intervals are counted; the current unfinished `running` interval is not included for now.
+
+**duration_seconds** `number`  |  Total session duration
+
+`stats.duration_seconds`
+
+The total duration from session creation to the current query time, in seconds. After the session is terminated, the returned value is the duration from creation to termination.
+
 **status** `string`  |  Session status
 
 The running status of the session. Options: `idle`, `running`, `terminated`, `rescheduling`, `initializing`, `failed`, `upgrading`.
@@ -1013,6 +1053,10 @@ The time when the session was first archived, as a UTC timestamp in RFC 3339 for
 > **Tip**
 
 > For historical sessions that were terminated before the archive feature was launched, the server cannot restore the original termination time, so it may not return this parameter.
+
+**deployment_id** `string`  |  Deployment ID
+
+The ID of the deployment that created this session. Returned when the session is created through a deployment. This parameter is not returned when the session is created directly through the Sessions API.
 
 **environment** `object`  |  Environment information
 
@@ -1059,6 +1103,12 @@ Runtime configuration for the environment, including the runtime type, network p
 `environment.config.type`
 
 Session runtime environment type: `cloud` indicates a ModelArk\-managed environment, and `self_hosted` indicates a user self\-hosted environment.
+
+**build_script** `string`  |  Build script
+
+`environment.config.build_script`
+
+The build script executed after dependency packages are installed; an empty value means no build script is configured.
 
 **env** `object`  |  Environment variable
 
@@ -1144,6 +1194,18 @@ Dependency package configuration type, fixed as `packages`.
 
 Initialization script executed when the session runtime environment starts; leave it empty or unset to execute no script.
 
+**spec** `string` `Default 1x`  |  Runtime specification
+
+`environment.config.spec`
+
+The runtime specification used by the session, which controls the sandbox CPU and memory configuration. Options: `1x`, `2x`, `4x`, `8x`.
+
+**template_id** `string`  |  Template ID
+
+`environment.config.template_id`
+
+The logical template ID currently used by the session environment.`base` indicates a regular execution template, and `browser` indicates a browser task template.
+
 **tos** `object`  |  Artifact storage configuration
 
 `environment.config.tos`
@@ -1179,12 +1241,6 @@ User\-defined metadata.
 `environment.overridden_fields`
 
 The list of `config` subparameter names actually overridden by the current session relative to the base environment. Returned only when *type* is `environment_with_overrides` and overridden parameters exist.
-
-**scope** `string`  |  Scope
-
-`environment.scope`
-
-Environment scope: `organization` indicates that it is shared within the organization, and `account` indicates that it is visible within the account.
 
 **resources** `object[]`  |  Resource list
 
@@ -1335,14 +1391,6 @@ The object prefix of the mounted directory in TOS.
 `resources.tos_region`
 
 The ID of the region where the TOS mount source is located.
-
-**scene** `string`  |  Session scene
-
-Session scene marker.
-
-* `default`: regular session.
-
-* `dreams`: a session used for Dream memory organization tasks.
 
 **tags** `object[]`  |  Tag list
 

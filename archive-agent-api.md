@@ -162,17 +162,33 @@ The model's deep reasoning mode.`auto` indicates that the model decides whether 
 
 Collaboration configuration between the agent and sub\-agents.
 
+**type** `string`  |  Collaboration mode
+
+`multiagent.type`
+
+Multi\-agent collaboration mode:
+
+* **`multiagent_20261001`**: Uses `subagents` to configure predefined agents, self (`type` is `self`), and inline agents.
+
+* **`coordinator`**: Use `agents` to configure predefined agents or self (`type` is `self`).
+
 **agents** `object[]`  |  Sub\-agent list
 
 `multiagent.agents`
 
-List of sub\-agents participating in collaboration.
+When `type` is `coordinator`, returns the list of callable predefined agents or self. For other collaboration modes, this parameter is not returned or an empty array is returned.
 
 **type** `string`  |  Sub\-agent source
 
 `multiagent.agents.type`
 
 The source of the sub\-agent.`agent` references an existing agent; `self` reuses the current agent configuration as a sub\-agent for collaboration.
+
+**display_name** `string`  |  Member agent display name
+
+`multiagent.agents.display_name`
+
+The display name of the member agent. This parameter is not returned if the referenced agent does not exist.
 
 **id** `string`  |  Agent ID
 
@@ -186,19 +202,59 @@ The ID of the referenced agent.
 
 The version number of the referenced agent.
 
-**type** `string`  |  Collaboration mode
+**subagents** `object`  |  Subagent configuration
 
-`multiagent.type`
+`multiagent.subagents`
 
-Multi\-agent collaboration mode, fixed as `coordinator`. The current agent is responsible for assigning tasks and summarizing the results from sub\-agents.
+When `type` is `multiagent_20261001`, returns the subagent configuration, including rules for creating inline agents and callable predefined members.
 
-**scene** `string`  |  Agent scene
+**type** `string`  |  Subagent toggle
 
-Scene marker for the agent.
+`multiagent.subagents.type`
 
-* `default`: a normal agent.
+Whether the current agent can create subagents. Options: `enabled`, `disabled`.
 
-* `dreams`: an agent used for Dream memory organization tasks.
+**inline_agents** `object`  |  Inline agent configuration
+
+`multiagent.subagents.inline_agents`
+
+Rules for the current agent to create inline agents, including whether inline agents can be created by name and system prompt.
+
+**type** `string`  |  Inline agent toggle
+
+`multiagent.subagents.inline_agents.type`
+
+Whether the current agent can create inline agents by name and system prompt as needed for the task. Options: `enabled`, `disabled`.
+
+**predefined_agents** `object[]`  |  Predefined members
+
+`multiagent.subagents.predefined_agents`
+
+List of predefined members callable by the current agent. The self member (`type` is `self`) indicates the current agent itself.
+
+**type** `string`  |  Sub\-agent source
+
+`multiagent.subagents.predefined_agents.type`
+
+The source of the sub\-agent.`agent` references an existing agent; `self` reuses the current agent configuration as a sub\-agent for collaboration.
+
+**display_name** `string`  |  Member agent display name
+
+`multiagent.subagents.predefined_agents.display_name`
+
+The display name of the member agent. This parameter is not returned if the referenced agent does not exist.
+
+**id** `string`  |  Agent ID
+
+`multiagent.subagents.predefined_agents.id`
+
+The ID of the referenced agent.
+
+**version** `integer`  |  Agent version
+
+`multiagent.subagents.predefined_agents.version`
+
+The version number of the referenced agent.
 
 **skills** `object[]`  |  Skill list
 
@@ -213,6 +269,12 @@ Source of the skill.
 * `ark`: ModelArk preset skill.
 
 * `custom`: a custom skill created by the current account through the Skills API.
+
+**display_name** `string`  |  Display name of the skill
+
+`skills.display_name`
+
+Display name of the skill version currently used by the agent. Not returned if the corresponding version does not have a display name.
 
 **skill_id** `string`  |  Skill ID
 

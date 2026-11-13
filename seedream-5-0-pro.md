@@ -2,38 +2,29 @@
 
 Dola Seedream 5.0 pro (hereafter referred to as Seedream 5.0 pro) and Dola Seedream 5.0 flash (hereafter referred to as Seedream 5.0 flash) support text\-to\-image generation and image\-to\-image generation with one or multiple reference images. Both models also support interactive editing through coordinates and free\-form markings, and can decompose one image into a base image and multiple layers. This tutorial introduces the capabilities of both models and helps you quickly get started with the [Image generation API](image-generation-api.md).
 
-<span id="pro-featured"></span>
 # Featured capabilities
 
 Seedream 5.0 pro and Seedream 5.0 flash support the following featured capabilities:
 
-
-<span aceTableMode="list" aceTableWidth="1.5,4,2.5"></span>
 |Featured capability |Description |Preview |
 |---|---|---|
-|[Interactive editing](seedream-5-0-pro.md#interactive-edit) |Specify edit positions by using coordinates, bounding boxes, arrows, and other markers for precise operations such as replacing local elements, positioning objects, and generating content in selected regions. |<video src="https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream_5.0_editing_demo.mp4" controls></video><br> |
-|[Layer decomposition](seedream-5-0-pro.md#layer-decomposition) |Automatically decompose subjects, backgrounds, text, decorative elements, and other content in one image into one base image and up to 16 independent layers with alpha channels for further editing, such as moving, scaling, replacing, or recoloring elements. |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_output2.gif) </span> |
-|Native multilingual generation |Natively generate text in 14 additional languages: Russian, Arabic, Filipino, Thai, Turkish, Korean, Malay, Spanish, Portuguese, Indonesian, French, German, Vietnamese, and Japanese. |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro-part2-tab3-group1-input1.png) </span> |
+|[Interactive editing](seedream-5-0-pro.md#interactive-edit) |Specify edit positions by using coordinates, bounding boxes, arrows, and other markers for precise operations such as replacing local elements, positioning objects, and generating content in selected regions. |[video](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream_5.0_editing_demo.mp4)<br> |
+|[Layer decomposition](seedream-5-0-pro.md#layer-decomposition) |Automatically decompose subjects, backgrounds, text, decorative elements, and other content in one image into one base image and up to 16 independent layers with alpha channels for further editing, such as moving, scaling, replacing, or recoloring elements. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_output2.gif) |
+|Native multilingual generation |Natively generate text in 14 additional languages: Russian, Arabic, Filipino, Thai, Turkish, Korean, Malay, Spanish, Portuguese, Indonesian, French, German, Vietnamese, and Japanese. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro-part2-tab3-group1-input1.png) |
 
-
-<span id="pro-overview"></span>
 # Capability overview
 
 Seedream 5.0 pro and Seedream 5.0 flash both support precise image editing by specifying edit locations with coordinates, bounding boxes, arrows, and other markers; decomposing a single image into one base image and up to 16 independent layers; and native multilingual generation. The models differ as follows:
-
 
 * **Seedream 5.0 pro**: Provides higher image quality and is suitable for scenarios where image quality is the priority.
 
 * **Seedream 5.0 flash**: Generates images faster and costs less, making it suitable for latency\- and cost\-sensitive scenarios.
 
-
-
-<span aceTableMode="list" aceTableWidth="1.5,2,3,3"></span>
 |Model name ||[Seedream 5.0 pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |[Seedream 5.0 flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |
 |---|---|---|---|
 |Model ID ||dola\-seedream\-5\-0\-pro\-260628 |dola\-seedream\-5\-0\-flash\-260915 |
-|[Text-to-image](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#9695d195) ||✓ |✓ |
-|[Single-image or multi-image image-to-image](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#8bc49063) ||✓ |✓ |
+|[Text-to-image](image-generation-tutorial.md#9695d195) ||✓ |✓ |
+|[Single-image or multi-image image-to-image](image-generation-tutorial.md#8bc49063) ||✓ |✓ |
 |[Interactive editing](seedream-5-0-pro.md#interactive-edit) ||✓ |✓ |
 |[Layer decomposition](seedream-5-0-pro.md#layer-decomposition) ||✓ |✓ |
 |Native multilingual generation ||✓ |✓ |
@@ -43,55 +34,39 @@ Seedream 5.0 pro and Seedream 5.0 flash both support precise image editing by sp
 ||Generation count |Supports generating one image or multiple layers (one base image and up to 16 layers) |Supports generating one image or multiple layers (one base image and up to 16 layers) |
 |IPM rate limit (images/minute) ||500 |500 |
 
-
-<span id="pro-basic-usage"></span>
 # Basic usage
 
 The basic usage of Seedream 5.0 pro and Seedream 5.0 flash, including text\-to\-image, image\-to\-image, and multi\-image blending, is the same as other Seedream models. Set the `model` parameter to the corresponding Model ID:
-
 
 * Seedream 5.0 pro: `dola-seedream-5-0-pro-260628`
 
 * Seedream 5.0 flash: `dola-seedream-5-0-flash-260915`
 
-
 For detailed code examples and instructions, see:
 
+* [Text-to-image](image-generation-tutorial.md#9695d195)
 
-* [Text-to-image](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#9695d195)
+* [Image-to-image](image-generation-tutorial.md#8bc49063)
 
-* [Image-to-image](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#8bc49063)
+* [Multi-image blending](image-generation-tutorial.md#4a35e28f)
 
-* [Multi-image blending](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#4a35e28f)
-
-
-<span id="interactive-edit"></span>
 # Interactive editing
 
 Seedream 5.0 pro and Seedream 5.0 flash support specifying edit positions by using **bounding boxes, points, arrows, annotation boxes, coordinates**, and other methods to precisely generate or modify local areas. For detailed instructions, see [Seedream 5.0 pro / flash interactive editing guide](seedream-5-0-pro-editing-guide.md).
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Note</div>
+> **Note**
 
+> The Java examples use `CreateImageGenerationRequestImage`, which requires `com.volcengine:ark-runtime` 0.6.0 or later. If your IDE cannot resolve this type or reports an `image` argument type mismatch, upgrade to the latest stable version available from [Maven Central](https://central.sonatype.com/artifact/com.volcengine/ark-runtime) and reload the project dependencies.
 
-<div data-tips="true" data-tips-type="tip">The Java examples use <code>CreateImageGenerationRequestImage</code>, which requires <code>com.volcengine:ark-runtime</code> 0.6.0 or later. If your IDE cannot resolve this type or reports an <code>image</code> argument type mismatch, upgrade to the latest stable version available from <a href="https://central.sonatype.com/artifact/com.volcengine/ark-runtime">Maven Central</a> and reload the project dependencies.</div>
-
-
-<span id="interactive-edit-freeform"></span>
 ## Example: Freeform marking
 
 Use freehand sketches, doodles, circles, or other markings on the reference image to specify the edit region. The model recognizes the marked area and generates or replaces content within it, while blending the result naturally into the original scene.
 
-
-<span aceTableMode="list" aceTableWidth="1,1,1"></span>
 |Prompt |Input image |Output |
 |---|---|---|
-|Edit the image based on the hand\-drawn sketch. Add a stack of realistic magazines or art books in the marked area at the lower left, and add a ceramic cup of coffee with a saucer in the marked area on the right. Remove all sketch lines. Keep the composition unchanged. Let the newly added objects blend naturally into the original scene. |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_input2.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_output2.png) </span> |
+|Edit the image based on the hand\-drawn sketch. Add a stack of realistic magazines or art books in the marked area at the lower left, and add a ceramic cup of coffee with a saucer in the marked area on the right. Remove all sketch lines. Keep the composition unchanged. Let the newly added objects blend naturally into the original scene. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_input2.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_output2.png) |
 
-
-
-<Tabs>
-<Tab zoneid="wsWKFMuwVl" title="Curl">
-<TabTitle>Curl</TabTitle>
+**Curl**
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
@@ -107,11 +82,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 }'
 ```
 
-
-
-</Tab>
-<Tab zoneid="BxmsNWVVkO" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -140,11 +111,7 @@ imagesResponse = client.images.generate(
 print(imagesResponse.data[0].url)
 ```
 
-
-
-</Tab>
-<Tab zoneid="hD6H4CQLfS" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
 package com.ark.sample;
@@ -188,11 +155,7 @@ public class ImageGenerationsExample {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="xdbAA62MUR" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 package main
@@ -235,11 +198,7 @@ func main() {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="sjHnmXa7e1" title="OpenAI">
-<TabTitle>OpenAI</TabTitle>
+**OpenAI**
 
 ```Python
 import os
@@ -267,88 +226,60 @@ imagesResponse = client.images.generate(
 print(imagesResponse.data[0].url)
 ```
 
-
-
-</Tab>
-</Tabs>
-
-
-<span id="example-coordinate-positioning"></span>
 ## Example: Coordinate positioning
 
 Add `<point>` or `<bbox>` coordinate tags to the prompt to precisely specify a cross\-image edit area and position the subject. For complete steps and parameter descriptions, see [Seedream 5.0 pro / flash interactive editing guide](seedream-5-0-pro-editing-guide.md).
 
-
-<span aceTableMode="list" aceTableWidth="1,1.5,1"></span>
 |Prompt |Input image |Output |
 |---|---|---|
-|`Place the subject from Image 1 <bbox>179 283 796 986</bbox> at the position in Image 2 <bbox>118 331 933 871</bbox>.` |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_input_combined.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_output.jpeg) </span> |
+|`Place the subject from Image 1 <bbox>179 283 796 986</bbox> at the position in Image 2 <bbox>118 331 933 871</bbox>.` |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_input_combined.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_output.jpeg) |
 
-
-<span id="usage-instructions"></span>
 ## Usage instructions
 
 Interactive editing requires the following inputs: **the image to edit** and a **prompt** that contains location information and editing instructions. Depending on the location method, interactive editing supports the following two forms:
 
-
-<span aceTableMode="list" aceTableWidth="1,1"></span>
 |Form 1: Free\-form marker + natural\-language location |Form 2: Precise coordinate location |
 |---|---|
 |Mark the edit area on the image to edit by using hand\-drawn sketches, doodles, circles, or other methods, and then describe the marker position and editing intent in natural language in the prompt.<br><br>```JSON```<br>```{```<br>```    "prompt": "Add a TV inside the blue box"```<br>```}```<br> |Use a tool to frame the coordinates of the content to edit. For information about how to obtain coordinates, see [Seedream 5.0 pro / flash interactive editing guide](seedream-5-0-pro-editing-guide.md). In the prompt, use `<point>` or `<bbox>` coordinate tags to precisely specify the position.<br><br>```JSON```<br>```{```<br>```    "prompt": "Place the subject from Image 1 <bbox>179 283 796 986</bbox> at the position in Image 2 <bbox>118 331 933 871</bbox>"```<br>```}```<br> |
 
-
 After preparing the inputs, pass **the image to edit** and the **prompt** to the API to generate the image editing result.
 
-<span id="layer-decomposition"></span>
 # Layer decomposition
 
 Seedream 5.0 pro and Seedream 5.0 flash can automatically decompose subjects, backgrounds, text, decorative elements, and other content in one input image into one base image and up to 16 independently editable layers. Each layer is a PNG image with an alpha channel. The model also returns the position, stacking order, and content description of each layer, allowing you to move, scale, replace, recolor, and recompose the layers in design tools or frontend canvases.
 
-<span id="workflow"></span>
 ## Workflow
 
 The following diagram shows the layer decomposition workflow:
 
-<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/image-generation/new-202608111128.svg) </span>
+![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/image-generation/new-202608111128.svg)
 
-<span id="decompose-an-image"></span>
 ## Decompose an image
 
 Set `layer_decomposition` to `true` to enable layer decomposition mode. In this mode, `image` is required and supports only one input image. `prompt` is optional and can specify the elements to decompose.
 
-<span id="prompt-tips"></span>
 ### Prompt tips
 
 The following prompt methods are recommended:
 
-
-<span aceTableMode="list" aceTableWidth="1,2"></span>
 |Goal |`prompt` |
 |---|---|
 |Automatically decompose the main elements |With cURL, Java, or Go, omit `prompt`. The model identifies the main subjects, text, background, decorative elements, and other content, and then decomposes them into independent layers. The Python and OpenAI SDKs require `prompt`; use a general instruction to decompose the main visual elements. |
 |Specify elements to decompose |Describe the elements in natural language, for example, "Decompose the person, title text, and decorative icon in the lower\-right corner." You can also mark the elements in the input image with doodles or selections to help the model locate them. |
 |Specify exact regions |Use normalized `<bbox>` coordinate tags in `prompt` to specify the regions to decompose. For details about obtaining coordinates, see [Seedream 5.0 pro / flash interactive editing guide](seedream-5-0-pro-editing-guide.md#key-steps). |
 
-
-<span id="example-automatically-decompose-all-main-elements"></span>
 ### Example: Automatically decompose all main elements
 
 To let the model identify and decompose the main elements automatically, provide the image to decompose and set `layer_decomposition` to `true`. With cURL, Java, or Go, omit `prompt`. The Python and OpenAI SDKs require `prompt`, so their examples use a general decomposition instruction.
 
-
-<span aceTableMode="list" aceTableWidth="2,2,1.3,1.3,1.3"></span>
 |One input image (without `prompt`) |Base image |Layers |||
 |---|---|---|---|---|
-|<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/layer_auto.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_0_base.jpeg) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_1.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_2.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_3.png) </span> |
-|||<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_4.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_5.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_6.png) </span> |
-|||<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_7.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_8.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_9.png) </span> |
-|||<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_10.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_11.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_12.png) </span> |
+|![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/layer_auto.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_0_base.jpeg) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_1.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_2.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_3.png) |
+|||![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_4.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_5.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_6.png) |
+|||![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_7.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_8.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_9.png) |
+|||![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_10.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_11.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_auto_12.png) |
 
-
-
-<Tabs>
-<Tab zoneid="mqJtZzLekp" title="Curl">
-<TabTitle>Curl</TabTitle>
+**Curl**
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
@@ -363,11 +294,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 }'
 ```
 
-
-
-</Tab>
-<Tab zoneid="utEUJvZGnb" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -397,11 +324,7 @@ for item in imagesResponse.data:
     print(item)
 ```
 
-
-
-</Tab>
-<Tab zoneid="MQF0oYKTBk" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
 package com.ark.sample;
@@ -444,11 +367,7 @@ public class ImageGenerationsExample {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="TkcUJ48txE" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 package main
@@ -491,11 +410,7 @@ func main() {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="UCodPAYX1I" title="OpenAI">
-<TabTitle>OpenAI</TabTitle>
+**OpenAI**
 
 ```Python
 import os
@@ -524,33 +439,20 @@ for item in imagesResponse.data:
     print(item)
 ```
 
-
-
-</Tab>
-</Tabs>
-
-
-<span id="example-specify-exact-regions-to-decompose"></span>
 ### Example: Specify exact regions to decompose
 
 To precisely specify regions for decomposition, use normalized `<bbox>` coordinates to locate each element.
 
-
-<span aceTableMode="list" aceTableWidth="2,2,1.5,1.5"></span>
 |One input image and a prompt with normalized coordinates |Base image |Layers ||
 |---|---|---|---|
-|<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_input.png) </span><br><br>&nbsp;<br><br>> Decompose the image into seven layers, including six text groups at:<br><br>> `<bbox>180 64 812 198</bbox>`, `<bbox>757 210 939 280</bbox>`, `<bbox>63 212 320 282</bbox>`, `<bbox>178 714 826 810</bbox>`, `<bbox>814 819 949 894</bbox>`, and `<bbox>326 824 669 930</bbox>`;<br><br>> and one parrot at `<bbox>347 305 642 997</bbox>`. |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_0.jpeg) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_1.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_4.png) </span> |
-|||<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_2.png) </span> ||
-|||<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_3.png) </span> ||
-|||<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_6.png) </span> ||
-|||<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_5.png) </span> ||
-|||<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_7.png) </span> ||
+|![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_input.png)<br><br> <br><br>> Decompose the image into seven layers, including six text groups at:<br><br>> `<bbox>180 64 812 198</bbox>`, `<bbox>757 210 939 280</bbox>`, `<bbox>63 212 320 282</bbox>`, `<bbox>178 714 826 810</bbox>`, `<bbox>814 819 949 894</bbox>`, and `<bbox>326 824 669 930</bbox>`;<br><br>> and one parrot at `<bbox>347 305 642 997</bbox>`. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_0.jpeg) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_1.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_4.png) |
+|||![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_2.png) ||
+|||![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_3.png) ||
+|||![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_6.png) ||
+|||![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_5.png) ||
+|||![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_7.png) ||
 
-
-
-<Tabs>
-<Tab zoneid="TPNJRjZ07R" title="Curl">
-<TabTitle>Curl</TabTitle>
+**Curl**
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
@@ -568,11 +470,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 }'
 ```
 
-
-
-</Tab>
-<Tab zoneid="ytgxWVwugA" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -603,11 +501,7 @@ for item in imagesResponse.data:
     print(item)
 ```
 
-
-
-</Tab>
-<Tab zoneid="kd6rx2mHMZ" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
 package com.ark.sample;
@@ -652,11 +546,7 @@ public class ImageGenerationsExample {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="bneJ2eB5DZ" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 package main
@@ -702,11 +592,7 @@ func main() {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="smHf7M0xVT" title="OpenAI">
-<TabTitle>OpenAI</TabTitle>
+**OpenAI**
 
 ```Python
 import os
@@ -736,19 +622,10 @@ for item in imagesResponse.data:
     print(item)
 ```
 
-
-
-</Tab>
-</Tabs>
-
-
-<span id="about-the-returned-response"></span>
 ### About the returned response
 
 In layer decomposition mode, the `data` array contains the base image and all generated layers. Download each output through its `url`, use `z_index` to distinguish the base image from the layers and determine their stacking order, and use `bounding_box` and `z_index` to restore, edit, or recompose the layers.
 
-
-<span aceTableMode="list" aceTableWidth="2,1.5,2.5"></span>
 |Field |Returned for |Description |
 |---|---|---|
 |`url` |Base image and layers |Download URL of the base image or layer. The URL is retained for 24 hours. |
@@ -757,8 +634,7 @@ In layer decomposition mode, the `data` array contains the base image and all ge
 |`bounding_box.normalized` |Layers |Normalized position of the layer in the output base image coordinate system. Use it to restore the layer to a custom canvas of any size. |
 |`name`, `description` |Layers |Name and semantic description of the layer. |
 
-
-**Response example:** 
+**Response example:**
 
 ```Plain Text
 {
@@ -805,17 +681,13 @@ In layer decomposition mode, the `data` array contains the base image and all ge
 }
 ```
 
-
-<span id="use-decomposed-layers"></span>
 ## Use decomposed layers
 
 After obtaining the base image and layers, you can restore the layers to their original positions or adjust their positions, sizes, and stacking order. You can also edit an individual layer to change an element's color, style, or details.
 
-<span id="restore-and-recompose-layers"></span>
 ### Restore and recompose layers
 
 Process the response as follows:
-
 
 1. Use the object whose `z_index` is `0` as the canvas background.
 
@@ -825,16 +697,13 @@ Process the response as follows:
 
 4. Adjust layer coordinates, dimensions, or stacking order as needed, and render the recomposed image.
 
-
 **Restore a layer to the output base image**
 
 Use `bounding_box.absolute` to restore a layer to its original position in the output base image. This field contains the layer's absolute pixel coordinates in the output base image coordinate system, in the format `[left, top, right, bottom]`:
 
-
 * `left` and `top`: Position of the layer's upper\-left corner relative to the upper\-left corner of the output base image.
 
 * `right` and `bottom`: Position of the layer's lower\-right corner relative to the upper\-left corner of the output base image.
-
 
 Calculate the layer's position and dimensions in the base image as follows. Here, `x` and `y` specify the position of the layer's upper\-left corner in the base image, while `w` and `h` specify the displayed width and height of the layer:
 
@@ -845,18 +714,15 @@ w = right - left
 h = bottom - top
 ```
 
-
 Scale the layer to `w × h`, and then place it at `(x, y)` on the base image. When combining multiple layers, stack them in ascending order of `z_index`.
 
 **Restore a layer to a custom canvas**
 
 Use `bounding_box.normalized` to restore a layer to a frontend or design\-tool canvas of a different size. This field contains the layer's normalized coordinates in the output base image coordinate system and indicates the relative positions of the layer boundaries along the width and height of the output base image, in the format `[left, top, right, bottom]`:
 
-
 * `left` and `right`: Relative positions of the left and right layer boundaries along the width of the base image.
 
 * `top` and `bottom`: Relative positions of the top and bottom layer boundaries along the height of the base image.
-
 
 For a target canvas with width `W` and height `H`, calculate the layer's position and dimensions as follows. Here, `x` and `y` specify the position of the layer's upper\-left corner in the target canvas, while `w` and `h` specify the displayed width and height of the layer:
 
@@ -867,33 +733,23 @@ w = (right - left) / 1000 × W
 h = (bottom - top) / 1000 × H
 ```
 
-
 Scale the layer to `w × h`, and then place it at `(x, y)` on the target canvas. Because normalized coordinates are integers, conversion may introduce rounding errors.
 
 For the complete definition of `bounding_box` and coordinate examples, see [Image generation API](image-generation-api.md).
 
-<span id="edit-a-transparent-layer"></span>
 ### Edit a transparent layer
 
 Layers returned by layer decomposition are PNG images with alpha channels. You can use an output layer as the input image in another Seedream request to edit it independently, for example, to recolor it, change its style, or add details.
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+> **Note**
 
+> To preserve the transparent background in the edited layer, set `background` to `transparent` and `output_format` to `png`. For restrictions, see [Transparent background](seedream-5-0-pro.md#transparent-background).
 
-<div data-tips="true" data-tips-type="warning">To preserve the transparent background in the edited layer, set <code>background</code> to <code>transparent</code> and <code>output_format</code> to <code>png</code>. For restrictions, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-5-0-pro#transparent-background">Transparent background</a>.</div>
-
-
-
-<span aceTableMode="list" aceTableWidth="2,1.5,1.5"></span>
 |Prompt |Input layer |Output |
 |---|---|---|
-|Change the parrot in the image into a peacock. |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_4.png) </span> |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_4_re.png) </span> |
+|Change the parrot in the image into a peacock. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_4.png) |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream50_layer_4_re.png) |
 
-
-
-<Tabs>
-<Tab zoneid="cC4jPGHmdq" title="Curl">
-<TabTitle>Curl</TabTitle>
+**Curl**
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
@@ -909,11 +765,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 }'
 ```
 
-
-
-</Tab>
-<Tab zoneid="vm69jmCPXB" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -942,11 +794,7 @@ imagesResponse = client.images.generate(
 print(imagesResponse.data[0].url)
 ```
 
-
-
-</Tab>
-<Tab zoneid="hNblx5FfWn" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 package main
@@ -989,11 +837,7 @@ func main() {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="ApQhojkCfa" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
 package com.ark.sample;
@@ -1037,22 +881,13 @@ public class ImageGenerationsExample {
 }
 ```
 
-
-
-</Tab>
-</Tabs>
-
-
-<span id="pro-prompt-optimize"></span>
 # Configure faster image generation
 
-To increase image generation speed, set `optimize_prompt_options.mode` to select a faster prompt optimization mode. **For latency\-sensitive applications, use Seedream 5.0 pro in ** **`fast`** ** mode or use Seedream 5.0 flash for faster image generation.** 
-
+To increase image generation speed, set `optimize_prompt_options.mode` to select a faster prompt optimization mode. **For latency\-sensitive applications, use Seedream 5.0 pro in ** **`fast`** ** mode or use Seedream 5.0 flash for faster image generation.**
 
 * `standard` (default): Standard mode. This mode produces higher\-quality content but takes longer.
 
-* `fast`: Fast mode. This mode takes less time to generate content. **Only Seedream 5.0 pro supports this mode.** 
-
+* `fast`: Fast mode. This mode takes less time to generate content. **Only Seedream 5.0 pro supports this mode.**
 
 ```JSON
 {
@@ -1062,12 +897,9 @@ To increase image generation speed, set `optimize_prompt_options.mode` to select
 }
 ```
 
-
-<span id="pro-output-spec"></span>
 # Customize image output specifications
 
 You can configure the following parameters to control image output specifications:
-
 
 * **size**: Specifies the size of the output image.
 
@@ -1079,36 +911,24 @@ You can configure the following parameters to control image output specification
 
 * **watermark**: Specifies whether to add a watermark to the output image.
 
-
-<span id="image-output-size"></span>
 ## Image output size
 
 The supported values and default value of `size` differ between image generation and layer decomposition. Select a value based on your scenario.
 
-<span id="image-generation"></span>
 ### Image generation
 
 The following size specification methods are supported. Do not use the two methods at the same time.
 
-**Method 1: Specify a resolution tier (recommended)** 
+**Method 1: Specify a resolution tier (recommended)**
 
 Use natural language in the prompt to describe the image aspect ratio, image shape, or image purpose. The model then determines the final image size.
-
 
 * Default value: `2K`
 
 * Valid values: `1K`, `1.5K`, `2K`
 
-   <div data-tips="true" data-tips-type="tip" data-tips-is-title="true" data-wrapper-indent="1">Note   </div>
-   
-
-   <div data-tips="true" data-tips-type="tip" data-wrapper-indent="1"><code>1.5K</code> has the same price as <code>1K</code> and provides better image generation quality.   </div>
-   
-
 When you use Method 1 and describe a specific aspect ratio in the prompt, the actual width and height values mapped by the model are shown in the following table. The model supports more aspect ratios than the standard values listed here. The following table uses common aspect ratios only as examples.
 
-
-<span aceTableMode="list" aceTableWidth="1,1,1.5"></span>
 |Resolution |Aspect ratio |Width and height |
 |---|---|---|
 |1K |1:1 |1024x1024 |
@@ -1136,94 +956,61 @@ When you use Method 1 and describe a specific aspect ratio in the prompt, the ac
 ||2:3 |1664x2496 |
 ||21:9 |3136x1344 |
 
-
-**Method 2: Specify width and height in pixels (** **`widthxheight`** **)** 
-
+**Method 2: Specify width and height in pixels (** **`widthxheight`** **)**
 
 * Total pixel range: [`1280x720` (921600), `2048x2048x1.1025` (4624220)]
 
 * Aspect ratio range: [1/16, 16]
 
-   <div data-tips="true" data-tips-type="tip" data-tips-is-title="true" data-wrapper-indent="1">Width and height examples   </div>
-   
+   > **Width and height examples**
 
-   <div data-tips="true" data-tips-type="tip" data-wrapper-indent="1">When you use Method 2, both the total pixel range and the aspect ratio range must be met. Total pixels refer to the product of the width and height of a single image, not a separate limit on width or height.   </div>
-   
+   > When you use Method 2, both the total pixel range and the aspect ratio range must be met. Total pixels refer to the product of the width and height of a single image, not a separate limit on width or height.
 
-   * <div data-tips="true" data-tips-type="tip" data-wrapper-indent="1"><strong>Valid example</strong>: <code>2048x1024</code>   </div>
-   
+   * > **Valid example**: `2048x1024`
 
-   <div data-tips="true" data-tips-type="tip" data-wrapper-indent="1">The total pixel value is 2048x1024=2097152, which falls within [921600, 4624220]. The aspect ratio is 2048/1024=2, which falls within [1/16, 16]. Therefore, this value is valid.   </div>
-   
+   > The total pixel value is 2048x1024=2097152, which falls within [921600, 4624220]. The aspect ratio is 2048/1024=2, which falls within [1/16, 16]. Therefore, this value is valid.
 
-   * <div data-tips="true" data-tips-type="tip" data-wrapper-indent="1"><strong>Invalid example</strong>: <code>512x512</code>   </div>
-   
+   * > **Invalid example**: `512x512`
 
-   <div data-tips="true" data-tips-type="tip" data-wrapper-indent="1">The total pixel value is 512x512=262144, which is below the minimum value of 921600. Therefore, this value is invalid.   </div>
-   
+   > The total pixel value is 512x512=262144, which is below the minimum value of 921600. Therefore, this value is invalid.
 
-
-
-<span aceTableMode="list" aceTableWidth="1,1"></span>
 |Method 1 |Method 2 |
 |---|---|
 |```JSON```<br>```{```<br>```    "prompt": "Generate a set of four cohesive illustrations with a 3:2 aspect ratio, centered on the seasonal transformation of the same corner of a courtyard, using a unified style to present the distinct colors, elements, and atmosphere of each season.",```<br>```    "size": "2K"```<br>```}```<br> |```JSON```<br>```{```<br>```    "prompt": "Generate a series of 4 coherent illustrations focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season.",```<br>```    "size": "2048x2048"```<br>```}```<br> |
 
-
-<span id="layer-decomposition"></span>
 ### Layer decomposition
 
 Only resolution tiers are supported. The output resolution follows these rules:
-
 
 * **Base image**: The output base image uses the resolution specified by `size` and keeps the aspect ratio of the original image.
 
 * **Layers**: Each output layer uses a resolution close to the value specified by `size` and keeps the aspect ratio of its corresponding region in the original image.
 
-
 Default and valid values:
-
 
 * Default: `auto`
 
 * Valid values: `1K`, `1.5K`, `2K`, and `auto`. With `auto`, the model determines the output dimensions based on the input dimensions and aspect ratio.
 
+> **auto adaptation rules**
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Note</div>
+> In `auto` mode, the model determines the dimensions of the output base image and each layer based on the input image dimensions:
 
+* > If the input image is between [`1280x720` (921,600), `2048x2048x1.1025` (4,624,220)] pixels, the base image and layers are output at the original input dimensions. Each output keeps its aspect ratio in the original image.
 
-<div data-tips="true" data-tips-type="tip"><code>1.5K</code> has the same price as <code>1K</code> and provides better image generation quality.</div>
+* > If the input image is smaller than 1K, the base image and layers are output at 1K. Each output keeps its aspect ratio in the original image.
 
-
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">auto adaptation rules</div>
-
-
-<div data-tips="true" data-tips-type="tip">In <code>auto</code> mode, the model determines the dimensions of the output base image and each layer based on the input image dimensions:</div>
-
-
-
-* <div data-tips="true" data-tips-type="tip">If the input image is between [<code>1280x720</code> (921,600), <code>2048x2048x1.1025</code> (4,624,220)] pixels, the base image and layers are output at the original input dimensions. Each output keeps its aspect ratio in the original image.</div>
-
-
-* <div data-tips="true" data-tips-type="tip">If the input image is smaller than 1K, the base image and layers are output at 1K. Each output keeps its aspect ratio in the original image.</div>
-
-
-* <div data-tips="true" data-tips-type="tip">If the input image is larger than 2K, the base image and layers are output at 2K. Each output keeps its aspect ratio in the original image.</div>
-
-
+* > If the input image is larger than 2K, the base image and layers are output at 2K. Each output keeps its aspect ratio in the original image.
 
 For common width and height mappings, see the [resolution mapping table for image generation](seedream-5-0-pro.md#pro-output-spec).
 
-<span id="image-output-method"></span>
 ## Image output method
 
 Set `response_format` to specify how generated image data is returned:
 
-
 * `url`: Returns an image download URL.
 
 * `b64_json`: Returns image data as a Base64\-encoded string in JSON format.
-
 
 ```JSON
 {
@@ -1231,17 +1018,13 @@ Set `response_format` to specify how generated image data is returned:
 }
 ```
 
-
-<span id="image-file-format"></span>
 ## Image file format
 
 Set `output_format` to specify the generated image file format:
 
-
 * `png`
 
 * `jpeg`
-
 
 ```JSON
 {
@@ -1249,23 +1032,17 @@ Set `output_format` to specify the generated image file format:
 }
 ```
 
+> **Note**
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+> In layer decomposition, `output_format` controls only the base image format. Layers are always returned in `png` format.
 
-
-<div data-tips="true" data-tips-type="warning">In layer decomposition, <code>output_format</code> controls only the base image format. Layers are always returned in <code>png</code> format.</div>
-
-
-<span id="transparent-background"></span>
 ## Transparent background
 
 Set `background` to control whether the generated image has an alpha channel:
 
-
 * `transparent`: Generates an image with a transparent background.
 
 * `opaque` (default): Generates an image with a standard, opaque background.
-
 
 ```json
 {
@@ -1273,31 +1050,21 @@ Set `background` to control whether the generated image has an alpha channel:
 }
 ```
 
+> **Usage restrictions**
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Usage restrictions</div>
+* > This parameter is supported only for image\-to\-image generation with exactly one input image that has an alpha channel.
 
+* > In transparent background mode, the output format defaults to `png`. If `output_format` is set to `jpeg`, the request returns an error.
 
+* > If the input image uses a format that does not support an alpha channel, such as `jpeg`, the request returns an error.
 
-* <div data-tips="true" data-tips-type="warning">This parameter is supported only for image\-to\-image generation with exactly one input image that has an alpha channel.</div>
-
-
-* <div data-tips="true" data-tips-type="warning">In transparent background mode, the output format defaults to <code>png</code>. If <code>output_format</code> is set to <code>jpeg</code>, the request returns an error.</div>
-
-
-* <div data-tips="true" data-tips-type="warning">If the input image uses a format that does not support an alpha channel, such as <code>jpeg</code>, the request returns an error.</div>
-
-
-
-<span id="add-a-watermark-to-images"></span>
 ## Add a watermark to images
 
 Use `watermark` to control whether to add a watermark to the generated image.
 
-
 * `false`: Do not add a watermark.
 
 * `true`: Add an "AI\-generated" watermark in the lower\-right corner of the image.
-
 
 ```JSON
 {
@@ -1305,8 +1072,6 @@ Use `watermark` to control whether to add a watermark to the generated image.
 }
 ```
 
-
-<span id="pro-limits"></span>
 # Limits
 
 **SDK version upgrade**
@@ -1317,7 +1082,6 @@ To ensure that the model works properly, upgrade to the latest SDK version. For 
 
 The following image input methods apply to both image generation and layer decomposition:
 
-
 * Image URL: Make sure that the image URL is accessible.
 
    Example: `https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_5_imageToimage.png`
@@ -1326,11 +1090,8 @@ The following image input methods apply to both image generation and layer decom
 
    You can use a third\-party tool such as https://base64.guru/converter/encode/image to encode an image.
 
-
 Input image constraints differ by scenario:
 
-
-<span aceTableMode="list" aceTableWidth="2,3,3"></span>
 |Constraint |Image generation |Layer decomposition |
 |---|---|---|
 |Image format |jpeg, png, webp, bmp, tiff, gif, heic, heif |png, jpeg |
@@ -1340,19 +1101,15 @@ Input image constraints differ by scenario:
 |File size |Up to 30 MB |Up to 30 MB |
 |Number of input images |Up to 10 reference images |Exactly one image |
 
+> **Note**
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Note</div>
-
-
-<div data-tips="true" data-tips-type="tip">The total pixel limit applies to the product of the width and height of a single image, not to either dimension separately.</div>
-
+> The total pixel limit applies to the product of the width and height of a single image, not to either dimension separately.
 
 **Retention period**
 
 Image URLs are retained for only 24 hours. They are automatically cleared after they expire. Save generated images in time.
 
 **Rate limit**
-
 
 * IPM rate limit: The maximum number of images that can be generated per minute for the same model version under an account. If this limit is exceeded, image generation returns an error.
 

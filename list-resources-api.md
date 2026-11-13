@@ -2,7 +2,7 @@
 
 `GET https://ark.ap-southeast.bytepluses.com/api/v3/sessions/{session_id}/resources`
 
-Query the mounted resource list of the specified session. This API returns all results, with a maximum of 1,000 entries and no pagination parameters.
+Query the mounted resource list of the specified session with pagination. Omit `after` in the first request. When the response returns `next_page`, pass that value unchanged to `after` in the next request. When `has_more` is `false`, the last page has been reached.
 
 ## Authentication
 
@@ -19,6 +19,20 @@ This API supports the following authentication method(s). For details, see [Base
 **session_id** `string` `Required`  |  Session ID
 
 Session ID. A string that starts with `sesn-`.
+
+### Query parameters
+
+> Passed as URL query string.
+
+**after** `string`  |  Next page identifier
+
+Used to continue querying the next page. Omit this parameter in the first request. In subsequent requests, pass the `next_page` value from the previous response unchanged. Do not parse, generate, or modify the value.
+
+**limit** `integer` `Default 1000`  |  Items per page
+
+Specify the number of session resources to return on a single page.
+
+**Range**: `[1, 1000]`
 
 ## Response parameters
 
@@ -171,3 +185,11 @@ The object prefix of the mounted directory in TOS.
 `data.tos_region`
 
 The ID of the region where the TOS mount source is located.
+
+**has_more** `boolean`  |  Has next page
+
+Whether there is a next page. If the value is `true`, use `next_page` to continue querying. If the value is `false`, the last page has been reached.
+
+**next_page** `string`  |  Next page identifier
+
+The next page identifier returned by the server. Returned only when `has_more` is `true`; the client passes this value unchanged to `after` in the next request.

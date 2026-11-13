@@ -2,9 +2,9 @@
 
 `POST https://ark.ap-southeast.bytepluses.com/api/v3/sessions`
 
-Create a session and bind it to the specified agent and environment. When creating a session, you can override some agent or environment configurations for this session. After the session is created, you can use the returned session ID to send events, query the status, upgrade the configuration, archive the session, or delete the session. Archived agents and environments cannot be used to create new sessions.
+Create a session and bind it to the specified agent and environment. When creating a session, you can reference existing resources, override part of the configuration for this session, or create a new agent and environment inline. After the session is created, you can use the returned session ID to send events, query the status, upgrade the configuration, archive the session, or delete the session. Archived agents and environments cannot be used to create new sessions.
 
-Prepare the agent and environment before calling this API. To mount files, memory stores, or credentials, you must first create the resources through the corresponding APIs and obtain their IDs. To submit the first batch of tasks while creating a session, pass `initial_events`; the server delivers the events in order after the session is created and starts the agent loop.
+You can reference an existing agent and environment, or create a new agent and environment inline in the request. To mount files, memory stores, or credentials, you still need to create the corresponding resources first and obtain their IDs. To submit the first batch of tasks while creating a session, pass `initial_events`; the server delivers the events in order after the session is created and starts the agent loop.
 
 Choose an API based on your goal:
 
@@ -23,6 +23,8 @@ By default, a single agent can have up to 1000 active sessions at the same time.
 * > Passing an `agent_with_overrides` object lets you temporarily adjust the referenced agent's model, system prompt, tools, MCP services, skills, or multi\-agent collaboration configuration for this session. The override does not create a new agent version.
 
 * > Passing an `environment` override object lets you temporarily adjust the referenced environment's certain runtime configuration for this session. The override does not modify the original environment and does not affect other sessions.
+
+* > If you directly set `name` and `model` in `agent`, and set `name` and `config` in `environment`, the server first creates a new agent and environment, and then uses these resources to create the session. The response returns the new resource IDs in `created_resources`.
 
 * > If you pass a non\-empty `initial_events`, events are delivered immediately after the session is created and the agent loop starts. The create response may be `running`; if you omit `initial_events` or pass an empty array, the session is created as `idle`.
 
@@ -44,6 +46,8 @@ Specify the agent used by the session. You can directly pass in the agent ID. To
 
 To temporarily adjust the agent configuration for this session, pass an `agent_with_overrides` object. The override is written only to the session's agent snapshot and does not modify the base agent.
 
+To create an agent when creating a session, pass an inline creation object that contains `name` and `model`.
+
 Agent ID `string`
 
 Directly pass in an agent ID. The latest version of the agent is used when the session starts.
@@ -62,13 +66,41 @@ Agent ID to use for creating the session.
 
 `agent.type`
 
-Reference type. Fixed to `agent`.
+Reference type, fixed as `agent`.
 
 **version** `integer`  |  Version number
 
 `agent.version`
 
 Agent version number. If omitted, the latest version is used.
+
+Create agent inline `object`
+
+A new agent is created when the session is created. The currently exposed parameters are `name`, `model`, and optional `system`.
+
+**model** `object` `Required`  |  Model configuration
+
+`agent.model`
+
+The model used by the new agent.
+
+**id** `string` `Required`  |  Model ID
+
+`agent.model.id`
+
+The model ID or inference endpoint ID used by the new agent.
+
+**name** `string` `Required`  |  Agent name
+
+`agent.name`
+
+The name of the new agent, used to identify and manage the resource.
+
+**system** `string`  |  System prompt
+
+`agent.system`
+
+The system prompt used by the new agent.
 
 Agent configuration override `object`
 
@@ -484,11 +516,15 @@ When running a session directly with an existing environment, enter the ID of th
 
 **environment** `object`  |  Environment overrides
 
-Use this object to temporarily adjust the runtime configuration of an existing environment for this session.
+Environment configuration used for this session. You can override the configuration of an existing environment for this session, or create an environment when creating the session.
 
 > **Tip**
 
 > Specify the base environment with `id`. The configuration takes effect only for this session and does not modify the original environment. If `environment_id` is also provided, the environment IDs must be the same.
+
+Environment configuration override `object`
+
+Based on the environment specified by `id`, only the environment configuration used for this session is adjusted.
 
 **id** `string` `Required`  |  Environment ID
 
@@ -500,9 +536,9 @@ The environment ID to use as the basis for this configuration override.
 
 `environment.type`
 
-Object type, fixed as `environment_with_overrides`.
+The environment input method. It is fixed as `environment_with_overrides`, which indicates that the runtime configuration for this session is overridden based on an existing environment.
 
-**config** `object`  |  Overridden runtime configuration
+**config** `object`  |  Runtime configuration override
 
 `environment.config`
 
@@ -513,6 +549,12 @@ Runtime configuration overrides for the environment used in this session; if omi
 `environment.config.type`
 
 Runtime environment type: `cloud` indicates a ModelArk\-managed cloud runtime environment, and `self_hosted` indicates a user self\-hosted environment. When overridden, it must remain consistent with the base environment.
+
+**build_script** `string`  |  Build script
+
+`environment.config.build_script`
+
+Build script used for this session, executed after dependency packages are installed; if omitted, the original configuration is used, and an empty string can be passed to clear it.
 
 **env** `object`  |  Environment variable
 
@@ -596,6 +638,22 @@ Initialization script executed when this session starts.
 
 * > If the script exits with a non\-zero status code, operations completed before exit, such as file writes, are not automatically rolled back, and the session may still continue running. After creation, check the dependencies, directories, or marker files prepared by the script. Do not determine whether initialization succeeded based only on the session status.
 
+**spec** `string`  |  Runtime specification
+
+`environment.config.spec`
+
+Runtime spec used for this session; if omitted, the base environment's specification is used. Options: `1x`, `2x`, `4x`, `8x`.
+
+**template_id** `string`  |  Template ID
+
+`environment.config.template_id`
+
+Logical template ID used for this session.`base` is suitable for regular command\-line and code execution tasks, and `browser` is suitable for web access, page parsing, and browser automation tasks. If omitted, the template ID of the base environment is used.
+
+> **Tip**
+
+> The environment template, runtime specification, and build script are build\-time configurations. Overrides take effect only in the environment snapshot for this session and do not modify the base environment.
+
 **tos** `object`  |  Artifact storage overrides
 
 `environment.config.tos`
@@ -615,6 +673,52 @@ User TOS bucket name. The bucket must be in the same region as the current Model
 `environment.config.tos.prefix`
 
 The storage directory prefix for agent artifacts in the user bucket.
+
+Create an environment inline `object`
+
+Creates a new cloud\-hosted environment when creating the session.
+
+**config** `object` `Required`  |  Environment configuration
+
+`environment.config`
+
+The cloud runtime configuration for the new environment.
+
+**networking** `object` `Required`  |  Outbound network policy
+
+`environment.config.networking`
+
+The outbound network policy of the new environment.
+
+**type** `string` `Required`  |  Outbound network policy type
+
+`environment.config.networking.type`
+
+The outbound network policy currently used by the session. Options: `unrestricted`, `limited`.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`environment.config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+**allowed_hosts** `string[]`  |  Allowed hosts
+
+`environment.config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
+
+**type** `string` `Required`  |  Environment type
+
+`environment.config.type`
+
+The runtime form of the new environment. It is fixed as `cloud`, which indicates a cloud environment hosted by ModelArk.
+
+**name** `string` `Required`  |  Environment name
+
+`environment.name`
+
+The name of the new environment, used to identify and manage the resource in the current project.
 
 **resources** `object[]`  |  Initial resources
 
@@ -749,14 +853,6 @@ Session title, used to help users identify and manage the session. Up to 255 cha
 **vault_ids** `string[]`  |  Vault ID list
 
 List of vault IDs bound to the session.
-
-**scene** `string` `Default default`  |  Session scene
-
-Session scene marker.
-
-* `default`: regular session.
-
-* `dreams`: a session used for Dream memory organization tasks.
 
 **initial_events** `object[]`  |  Initial event list
 
@@ -906,20 +1002,6 @@ Model configuration currently used by the session.
 
 Model ID or inference endpoint ID currently used by the session.
 
-**protocol** `string`  |  Invocation protocol
-
-`agent.model.protocol`
-
-Protocol used for session model calls:
-
-* `ark_responses`: ModelArk Responses protocol.
-
-* `openai_chat_completions`: OpenAI Chat Completions compatible protocol.
-
-* `openai_responses`: OpenAI Responses compatible protocol.
-
-* `anthropic_messages`: Anthropic Messages compatible protocol.
-
 **reasoning_effort** `string`  |  Reasoning effort level
 
 `agent.model.reasoning_effort`
@@ -1052,11 +1134,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `agent.multiagent.agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -1170,13 +1270,13 @@ Whether to use it as the default model for this tool.
 
 `agent.multiagent.agents.tools.configs.models.name`
 
-The model name returned by the server based on the model ID or inference endpoint ID.
+The model name corresponding to the model ID or inference endpoint ID.
 
 **version** `string`  |  Model version
 
 `agent.multiagent.agents.tools.configs.models.version`
 
-The model version returned by the server based on the model ID or endpoint ID.
+The model version corresponding to the model ID or inference endpoint ID.
 
 **permission_policy** `object`  |  Permission policy
 
@@ -1386,11 +1486,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.subagents.predefined_agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.subagents.predefined_agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `agent.multiagent.subagents.predefined_agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.subagents.predefined_agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -1504,13 +1622,13 @@ Whether to use it as the default model for this tool.
 
 `agent.multiagent.subagents.predefined_agents.tools.configs.models.name`
 
-The model name returned by the server based on the model ID or inference endpoint ID.
+The model name corresponding to the model ID or inference endpoint ID.
 
 **version** `string`  |  Model version
 
 `agent.multiagent.subagents.predefined_agents.tools.configs.models.version`
 
-The model version returned by the server based on the model ID or endpoint ID.
+The model version corresponding to the model ID or inference endpoint ID.
 
 **permission_policy** `object`  |  Permission policy
 
@@ -1702,13 +1820,13 @@ Whether to use it as the default model for this tool.
 
 `agent.tools.configs.models.name`
 
-The model name returned by the server based on the model ID or inference endpoint ID.
+The model name corresponding to the model ID or inference endpoint ID.
 
 **version** `string`  |  Model version
 
 `agent.tools.configs.models.version`
 
-The model version returned by the server based on the model ID or endpoint ID.
+The model version corresponding to the model ID or inference endpoint ID.
 
 **permission_policy** `object`  |  Permission policy
 
@@ -1800,6 +1918,24 @@ The environment ID actually used by the session.
 
 Unique identifier of the session, in the format of a string that starts with `sesn_`.
 
+**stats** `object`  |  Duration statistics
+
+The session's cumulative running time and total lifecycle duration.
+
+**active_seconds** `number`  |  Cumulative running time
+
+`stats.active_seconds`
+
+The cumulative number of seconds that the session was running. This is the same as `usage.active_seconds`.
+
+Only completed running intervals are counted; the current unfinished `running` interval is not included for now.
+
+**duration_seconds** `number`  |  Total session duration
+
+`stats.duration_seconds`
+
+The total duration from session creation to the current query time, in seconds. After the session is terminated, the returned value is the duration from creation to termination.
+
 **status** `string`  |  Session status
 
 The running status of the session. If `initial_events` is not passed or an empty array is passed, the initial status after successful creation is `idle`, and you can continue to send events.
@@ -1821,6 +1957,44 @@ The time when the session was first archived, as a UTC timestamp in RFC 3339 for
 > **Tip**
 
 > For historical sessions that were terminated before the archive feature was launched, the server cannot restore the original termination time, so it may not return this parameter.
+
+**created_resources** `object`  |  Created resources
+
+Resources created inline when the session is created. Not returned when the request references only existing resources.
+
+**agent** `object`  |  New agent
+
+`created_resources.agent`
+
+The agent created inline when the session is created. Not returned when the request references only an existing agent.
+
+**id** `string`  |  Agent ID
+
+`created_resources.agent.id`
+
+ID of the agent created inline.
+
+**version** `integer`  |  Agent version
+
+`created_resources.agent.version`
+
+Version number of the agent created inline.
+
+**environment** `object`  |  New environment
+
+`created_resources.environment`
+
+The environment created inline when the session is created. Not returned when the request references only an existing environment.
+
+**id** `string`  |  Environment ID
+
+`created_resources.environment.id`
+
+ID of the environment created inline.
+
+**deployment_id** `string`  |  Deployment ID
+
+The ID of the deployment that created this session. Only sessions created by a deployment return this parameter; sessions created in other ways do not return this parameter.
 
 **environment** `object`  |  Environment information
 
@@ -1867,6 +2041,12 @@ Runtime configuration for the environment, including the runtime type, network p
 `environment.config.type`
 
 Runtime environment type: `cloud` indicates a ModelArk\-managed environment, and `self_hosted` indicates a user self\-hosted environment.
+
+**build_script** `string`  |  Build script
+
+`environment.config.build_script`
+
+The build script executed after dependency packages are installed; an empty value means no build script is configured.
 
 **env** `object`  |  Environment variable
 
@@ -1952,6 +2132,18 @@ Dependency package configuration type, fixed as `packages`.
 
 Initialization script executed when the session runtime environment starts; leave it empty or unset to execute no script.
 
+**spec** `string` `Default 1x`  |  Runtime specification
+
+`environment.config.spec`
+
+The runtime specification used by the session, which controls the sandbox CPU and memory configuration. Options: `1x`, `2x`, `4x`, `8x`.
+
+**template_id** `string`  |  Template ID
+
+`environment.config.template_id`
+
+The logical template ID currently used by the session environment.`base` indicates a regular execution template, and `browser` indicates a browser task template.
+
 **tos** `object`  |  Artifact storage configuration
 
 `environment.config.tos`
@@ -1987,12 +2179,6 @@ User\-defined metadata.
 `environment.overridden_fields`
 
 The list of `config` subparameter names actually overridden by the current session relative to the base environment. Returned only when *type* is `environment_with_overrides` and overridden parameters exist.
-
-**scope** `string`  |  Scope
-
-`environment.scope`
-
-Environment scope: `organization` indicates that it is shared within the organization, and `account` indicates that it is visible within the account.
 
 **resources** `object[]`  |  Resource list
 
@@ -2143,14 +2329,6 @@ The object prefix of the mounted directory in TOS.
 `resources.tos_region`
 
 The ID of the region where the TOS mount source is located.
-
-**scene** `string`  |  Session scene
-
-Session scene marker.
-
-* `default`: regular session.
-
-* `dreams`: a session used for Dream memory organization tasks.
 
 **tags** `object[]`  |  Tag list
 

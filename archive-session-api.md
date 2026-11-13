@@ -76,6 +76,32 @@ Base agent type currently used by the session.
 
 * `ark_agent_preview`: a general agent.
 
+**context_management** `object[]`  |  Context management
+
+`agent.context_management`
+
+Context management policy frozen when the session is created. If no custom policy has been saved in the snapshot or the saved policy does not include `compact_threshold`, the response shows the platform's current default compression policy or default threshold. The current default threshold is `192000` tokens.
+
+Default display values in the response are not written back to the session snapshot. An explicitly saved `compact_threshold` takes precedence in the response.
+
+**type** `string`  |  Policy type
+
+`agent.context_management.type`
+
+Policy type, fixed as `compaction`.
+
+**compact_threshold** `integer`  |  Compaction threshold
+
+`agent.context_management.compact_threshold`
+
+The automatic compaction trigger threshold displayed in the query response, measured in tokens. If no value is explicitly saved, the public API response fills in the platform's current default value, which is `192000`; this displayed value is not written back to the agent version or session snapshot.
+
+**instructions** `string`  |  Summary instructions
+
+`agent.context_management.instructions`
+
+User\-configured compaction summary instructions.
+
 **description** `string`  |  Agent description
 
 `agent.description`
@@ -130,20 +156,6 @@ Model configuration currently used by the session.
 
 Model ID or inference endpoint ID currently used by the session.
 
-**protocol** `string`  |  Invocation protocol
-
-`agent.model.protocol`
-
-Protocol used for session model calls:
-
-* `ark_responses`: ModelArk Responses protocol.
-
-* `openai_chat_completions`: OpenAI Chat Completions compatible protocol.
-
-* `openai_responses`: OpenAI Responses compatible protocol.
-
-* `anthropic_messages`: Anthropic Messages compatible protocol.
-
 **reasoning_effort** `string`  |  Reasoning effort level
 
 `agent.model.reasoning_effort`
@@ -174,11 +186,17 @@ Thinking mode currently used by the session.
 
 Multi\-agent configuration currently used by the session.
 
+**type** `string`  |  Collaboration mode
+
+`agent.multiagent.type`
+
+Multi\-agent collaboration mode.`multiagent_20261001` uses `subagents`; `coordinator` uses `agents`.
+
 **agents** `object[]`  |  Member agents
 
 `agent.multiagent.agents`
 
-The member agent list snapshot created when the session was created.
+When `type` is `coordinator`, the list of member agents recorded when the session was created is returned.
 
 **type** `string`  |  Reference type
 
@@ -186,9 +204,35 @@ The member agent list snapshot created when the session was created.
 
 Member reference type:
 
-* `agent`: References another agent.
+* `agent`: References another agent configuration that was recorded when the session was created.
 
-* `self`: References the current agent.
+* `self`: Uses the effective configuration of the current agent when the session was created.
+
+**context_management** `object[]`  |  Context management
+
+`agent.multiagent.agents.context_management`
+
+The member agent context management policy that is recorded when the session is created. If no custom policy has been saved in the member snapshot or the saved policy does not include `compact_threshold`, the response shows the platform's current default compression policy or default threshold. The current default threshold is `192000` tokens.
+
+Default display values in the response are not written back to the session snapshot. An explicitly saved `compact_threshold` takes precedence in the response.
+
+**type** `string`  |  Policy type
+
+`agent.multiagent.agents.context_management.type`
+
+Policy type, fixed as `compaction`.
+
+**compact_threshold** `integer`  |  Compaction threshold
+
+`agent.multiagent.agents.context_management.compact_threshold`
+
+The automatic compaction trigger threshold displayed in the query response, measured in tokens. If no value is explicitly saved, the public API response fills in the platform's current default value, which is `192000`; this displayed value is not written back to the agent version or session snapshot.
+
+**instructions** `string`  |  Summary instructions
+
+`agent.multiagent.agents.context_management.instructions`
+
+User\-configured compaction summary instructions.
 
 **description** `string`  |  Agent description
 
@@ -244,11 +288,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `agent.multiagent.agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -424,11 +486,327 @@ Custom tool name snapshot created when the session is created.
 
 The member agent version number snapshot created when the session was created.
 
-**type** `string`  |  Collaboration mode
+**subagents** `object`  |  Subagent configuration
 
-`agent.multiagent.type`
+`agent.multiagent.subagents`
 
-Multi\-agent collaboration mode, fixed as `coordinator`.
+When `type` is `multiagent_20261001`, the subagent configuration recorded when the session was created is returned.
+
+**type** `string`  |  Subagent toggle
+
+`agent.multiagent.subagents.type`
+
+Whether the current agent is allowed to create subagents. Options: `enabled`, `disabled`.
+
+**inline_agents** `object`  |  Inline agent configuration
+
+`agent.multiagent.subagents.inline_agents`
+
+Runtime inline agent configuration.
+
+**type** `string`  |  Inline agent toggle
+
+`agent.multiagent.subagents.inline_agents.type`
+
+Whether inline agents can be created at runtime with a name and system instructions. Options: `enabled`, `disabled`.
+
+**predefined_agents** `object[]`  |  Predefined members
+
+`agent.multiagent.subagents.predefined_agents`
+
+The list of predefined agents and self references recorded for `multiagent_20261001` when the session was created.
+
+* When a referenced agent uses `multiagent_20261001`, its child members can continue to be recorded within the session depth limit.
+
+* When a referenced agent uses `coordinator`, it is treated as a leaf member.
+
+**type** `string`  |  Reference type
+
+`agent.multiagent.subagents.predefined_agents.type`
+
+Member reference type:
+
+* `agent`: References another agent configuration that was recorded when the session was created.
+
+* `self`: Uses the effective configuration of the current agent when the session was created.
+
+**context_management** `object[]`  |  Context management
+
+`agent.multiagent.subagents.predefined_agents.context_management`
+
+The member agent context management policy that is recorded when the session is created. If no custom policy has been saved in the member snapshot or the saved policy does not include `compact_threshold`, the response shows the platform's current default compression policy or default threshold. The current default threshold is `192000` tokens.
+
+Default display values in the response are not written back to the session snapshot. An explicitly saved `compact_threshold` takes precedence in the response.
+
+**type** `string`  |  Policy type
+
+`agent.multiagent.subagents.predefined_agents.context_management.type`
+
+Policy type, fixed as `compaction`.
+
+**compact_threshold** `integer`  |  Compaction threshold
+
+`agent.multiagent.subagents.predefined_agents.context_management.compact_threshold`
+
+The automatic compaction trigger threshold displayed in the query response, measured in tokens. If no value is explicitly saved, the public API response fills in the platform's current default value, which is `192000`; this displayed value is not written back to the agent version or session snapshot.
+
+**instructions** `string`  |  Summary instructions
+
+`agent.multiagent.subagents.predefined_agents.context_management.instructions`
+
+User\-configured compaction summary instructions.
+
+**description** `string`  |  Agent description
+
+`agent.multiagent.subagents.predefined_agents.description`
+
+The member agent description snapshot created when the session was created.
+
+**display_name** `string`  |  Display name
+
+`agent.multiagent.subagents.predefined_agents.display_name`
+
+The member agent display name snapshot created when the session was created.
+
+**id** `string`  |  Agent ID
+
+`agent.multiagent.subagents.predefined_agents.id`
+
+The ID of the member agent; when `type` is `self`, the ID of the current agent is returned.
+
+**mcp_servers** `object[]`  |  MCP service list
+
+`agent.multiagent.subagents.predefined_agents.mcp_servers`
+
+The member agent MCP service configuration list snapshot created when the session was created.
+
+**name** `string`  |  MCP service name.
+
+`agent.multiagent.subagents.predefined_agents.mcp_servers.name`
+
+MCP service name referenced by `tools[].mcp_server_name`.
+
+**type** `string`  |  MCP access method
+
+`agent.multiagent.subagents.predefined_agents.mcp_servers.type`
+
+MCP service access method. Fixed to `url`.
+
+**url** `string`  |  MCP service URL
+
+`agent.multiagent.subagents.predefined_agents.mcp_servers.url`
+
+MCP service access URL snapshot created when the session is created.
+
+**model** `object`  |  Model configuration
+
+`agent.multiagent.subagents.predefined_agents.model`
+
+The member agent model configuration snapshot created when the session was created.
+
+**id** `string`  |  Model or endpoint ID
+
+`agent.multiagent.subagents.predefined_agents.model.id`
+
+The model ID or inference endpoint ID used by the member agent.
+
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.subagents.predefined_agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.subagents.predefined_agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
+**speed** `string`  |  Inference speed
+
+`agent.multiagent.subagents.predefined_agents.model.speed`
+
+The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.subagents.predefined_agents.model.thinking`
+
+The thinking mode currently used by the member agent.
+
+**name** `string`  |  Agent name
+
+`agent.multiagent.subagents.predefined_agents.name`
+
+The member agent name snapshot created when the session was created.
+
+**skills** `object[]`  |  Skill list
+
+`agent.multiagent.subagents.predefined_agents.skills`
+
+The member agent skill configuration list snapshot created when the session was created.
+
+**type** `string`  |  Skill type
+
+`agent.multiagent.subagents.predefined_agents.skills.type`
+
+Skill source type:
+
+* `ark`: a preset skill from the ModelArk platform.
+
+* `custom`: a custom skill created by the current account.
+
+**display_name** `string`  |  Skill name
+
+`agent.multiagent.subagents.predefined_agents.skills.display_name`
+
+The skill display name recorded when the session was created.
+
+**skill_id** `string`  |  Skill ID
+
+`agent.multiagent.subagents.predefined_agents.skills.skill_id`
+
+The skill ID used by the session.
+
+**use_latest** `boolean`  |  Use the latest version
+
+`agent.multiagent.subagents.predefined_agents.skills.use_latest`
+
+Whether to select the latest version of this skill when creating the session.`true` indicates that the latest version at that time is selected, and `false` indicates that the version specified by `version` is used.
+
+**version** `string`  |  Skill version
+
+`agent.multiagent.subagents.predefined_agents.skills.version`
+
+The skill version number snapshot created when the session was created.
+
+**system** `string`  |  System prompt
+
+`agent.multiagent.subagents.predefined_agents.system`
+
+The member agent system prompt snapshot created when the session was created.
+
+**tools** `object[]`  |  Tool list
+
+`agent.multiagent.subagents.predefined_agents.tools`
+
+The member agent tool configuration list snapshot created when the session was created.
+
+**type** `string`  |  Tool type
+
+`agent.multiagent.subagents.predefined_agents.tools.type`
+
+Tool type:
+
+* `agent_toolset_20260916`: the current version of the ModelArk built\-in toolset.
+
+* `mcp_toolset`: A toolset provided by the specified MCP service.
+
+* `custom`: A custom tool executed by the client.
+
+   Options: `agent_toolset_20260916`, `agent_toolset_20260701`, `mcp_toolset`, `custom`.
+
+**configs** `object[]`  |  Tool configuration
+
+`agent.multiagent.subagents.predefined_agents.tools.configs`
+
+Per\-tool configuration snapshot created when the session is created.
+
+**name** `string`  |  Tool name
+
+`agent.multiagent.subagents.predefined_agents.tools.configs.name`
+
+The tool name recorded in the session snapshot.
+
+**enabled** `boolean`  |  Whether enabled
+
+`agent.multiagent.subagents.predefined_agents.tools.configs.enabled`
+
+Whether the tool is enabled.
+
+**permission_policy** `object`  |  Permission policy
+
+`agent.multiagent.subagents.predefined_agents.tools.configs.permission_policy`
+
+The invocation permission policy used by the tool.
+
+**type** `string`  |  Policy type
+
+`agent.multiagent.subagents.predefined_agents.tools.configs.permission_policy.type`
+
+Policy type. `always_allow` means direct calls are allowed, and `always_ask` means user confirmation is required before each call.
+
+**default_config** `object`  |  Default tool configuration
+
+`agent.multiagent.subagents.predefined_agents.tools.default_config`
+
+The default configuration used by tools that are not separately listed in `configs`.
+
+**enabled** `boolean`  |  Whether enabled
+
+`agent.multiagent.subagents.predefined_agents.tools.default_config.enabled`
+
+Whether tools that are not configured separately are enabled by default.
+
+**permission_policy** `object`  |  Permission policy
+
+`agent.multiagent.subagents.predefined_agents.tools.default_config.permission_policy`
+
+The invocation permission policy used by tools that are not configured separately.
+
+**type** `string`  |  Policy type
+
+`agent.multiagent.subagents.predefined_agents.tools.default_config.permission_policy.type`
+
+Policy type. `always_allow` means direct calls are allowed, and `always_ask` means user confirmation is required before each call.
+
+**description** `string`  |  Custom tool description
+
+`agent.multiagent.subagents.predefined_agents.tools.description`
+
+Custom tool description snapshot created when the session is created, used to record the tool's capabilities and applicable scenarios.
+
+**input_schema** `object`  |  Input parameter definition
+
+`agent.multiagent.subagents.predefined_agents.tools.input_schema`
+
+Returns the custom tool input parameter JSON Schema recorded in the agent snapshot of the returned session.
+
+**properties** `object`  |  Parameter property definition
+
+`agent.multiagent.subagents.predefined_agents.tools.input_schema.properties`
+
+Returns the JSON Schema property mapping recorded in the session's agent snapshot. Each key is a parameter name, and each value is the JSON Schema child object for the corresponding parameter.
+
+**required** `string[]`  |  List of required parameter names
+
+`agent.multiagent.subagents.predefined_agents.tools.input_schema.required`
+
+List of parameter names that must be provided when returning the called custom tool.
+
+**type** `string`  |  Schema type
+
+`agent.multiagent.subagents.predefined_agents.tools.input_schema.type`
+
+The returned top\-level type of the JSON Schema. It is fixed as `object`.
+
+**mcp_server_name** `string`  |  MCP service name.
+
+`agent.multiagent.subagents.predefined_agents.tools.mcp_server_name`
+
+The MCP service name referenced by `mcp_toolset` in the session.
+
+**name** `string`  |  Custom tool name
+
+`agent.multiagent.subagents.predefined_agents.tools.name`
+
+Custom tool name snapshot created when the session is created.
+
+**version** `integer`  |  Version number
+
+`agent.multiagent.subagents.predefined_agents.version`
+
+The member agent version number snapshot created when the session was created.
 
 **skills** `object[]`  |  Skill list
 
@@ -640,6 +1018,10 @@ The time when the session was first archived, as a UTC timestamp in RFC 3339 for
 
 > For historical sessions that were terminated before the archive feature was launched, the server cannot restore the original termination time, so it may not return this parameter.
 
+**deployment_id** `string`  |  Deployment ID
+
+The ID of the deployment that created this session. Only sessions created by a deployment return this parameter; sessions created in other ways do not return this parameter.
+
 **environment** `object`  |  Environment information
 
 The environment configuration actually used by the session. Subsequent changes to the original environment do not automatically change this session.
@@ -686,6 +1068,12 @@ Runtime configuration for the environment, including the runtime type, network p
 
 Session runtime environment type: `cloud` indicates a ModelArk\-managed environment, and `self_hosted` indicates a user self\-hosted environment.
 
+**build_script** `string`  |  Build script
+
+`environment.config.build_script`
+
+The build script executed after dependency packages are installed; an empty value means no build script is configured.
+
 **env** `object`  |  Environment variable
 
 `environment.config.env`
@@ -702,7 +1090,19 @@ Container outbound network policy configuration.
 
 `environment.config.networking.type`
 
-The outbound network policy currently used by the session.`unrestricted` means outbound targets are not restricted.
+The outbound network policy currently used by the session. Options: `unrestricted`, `limited`.
+
+**allow_package_managers** `boolean`  |  Allow package managers
+
+`environment.config.networking.allow_package_managers`
+
+Whether access to package manager repositories is allowed in limited outbound mode.
+
+**allowed_hosts** `string[]`  |  Allowed hosts
+
+`environment.config.networking.allowed_hosts`
+
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
 
 **packages** `object`  |  Dependency package configuration
 
@@ -758,6 +1158,18 @@ Dependency package configuration type, fixed as `packages`.
 
 Initialization script executed when the session runtime environment starts; leave it empty or unset to execute no script.
 
+**spec** `string` `Default 1x`  |  Runtime specification
+
+`environment.config.spec`
+
+The runtime specification used by the session, which controls the sandbox CPU and memory configuration. Options: `1x`, `2x`, `4x`, `8x`.
+
+**template_id** `string`  |  Template ID
+
+`environment.config.template_id`
+
+The logical template ID currently used by the session environment.`base` indicates a regular execution template, and `browser` indicates a browser task template.
+
 **tos** `object`  |  Artifact storage configuration
 
 `environment.config.tos`
@@ -793,12 +1205,6 @@ User\-defined metadata.
 `environment.overridden_fields`
 
 The list of `config` subparameter names actually overridden by the current session relative to the base environment. Returned only when *type* is `environment_with_overrides` and overridden parameters exist.
-
-**scope** `string`  |  Scope
-
-`environment.scope`
-
-Environment scope: `organization` indicates that it is shared within the organization, and `account` indicates that it is visible within the account.
 
 **resources** `object[]`  |  Resource list
 
@@ -950,14 +1356,6 @@ The object prefix of the mounted directory in TOS.
 
 The ID of the region where the TOS mount source is located.
 
-**scene** `string`  |  Session scene
-
-Session scene marker.
-
-* `default`: regular session.
-
-* `dreams`: a session used for Dream memory organization tasks.
-
 **tags** `object[]`  |  Tag list
 
 An array of session tags. Each item contains `key` and an optional `value`.
@@ -982,23 +1380,65 @@ Session title, used for quick identification and retrieval.
 
 Cumulative runtime duration, model tokens, and server\-side search request statistics during session execution. If usage statistics are temporarily unavailable, the server does not return this parameter.
 
+**active_seconds** `number`  |  Cumulative running time
+
+`usage.active_seconds`
+
+The cumulative number of seconds that the session was actually in the running state. The system adds the duration of each run only after the session returns from `running` to `idle` or `terminated`; any time for which the session is still running is not counted yet.
+
 **cache_read_input_tokens** `integer`  |  Cache read tokens
 
 `usage.cache_read_input_tokens`
 
-The cumulative number of input tokens read from the cache by the session.
+The cumulative number of input tokens that the session has read from the prompt cache. This is included in `input_tokens`.
 
 **input_tokens** `integer`  |  Total input tokens
 
 `usage.input_tokens`
 
-The cumulative number of input tokens consumed by the session.
+The total number of input tokens consumed by all model requests in the session, including tokens read from and written to the cache.
 
 **output_tokens** `integer`  |  Total output tokens
 
 `usage.output_tokens`
 
-The cumulative number of output tokens generated by the session.
+The cumulative number of output tokens generated by all model requests in the session.
+
+**server_tool_use** `object`  |  Server tool usage
+
+`usage.server_tool_use`
+
+The cumulative number of requests initiated by server\-hosted search tools in the session.
+
+**web_fetch_requests** `integer`  |  Web fetch requests
+
+`usage.server_tool_use.web_fetch_requests`
+
+Cumulative number of web fetch requests performed by the server.
+
+**web_search_requests** `integer`  |  Web search requests
+
+`usage.server_tool_use.web_search_requests`
+
+Cumulative number of web search requests performed by the server.
+
+**cache_creation** `object`  |  Cache creation statistics
+
+`usage.cache_creation`
+
+Statistics on the input tokens that the session has cumulatively written to the prompt cache. When the cumulative value is `0`, the server does not return this parameter; when it is not `0`, the value is returned through `ephemeral_5m_input_tokens`.
+
+**ephemeral_1h_input_tokens** `integer`  |  Number of input tokens for the 1\-hour cache
+
+`usage.cache_creation.ephemeral_1h_input_tokens`
+
+The number of input tokens written to the cache with a 1\-hour TTL. The server currently does not return this parameter.
+
+**ephemeral_5m_input_tokens** `integer`  |  Number of input tokens for the 5\-minute cache
+
+`usage.cache_creation.ephemeral_5m_input_tokens`
+
+The total number of input tokens that the session has cumulatively written to the prompt cache. This is included in `input_tokens`. When the cumulative value is not `0`, it is returned through this parameter. When the cumulative value is `0`, this parameter is not returned.
 
 **vault_ids** `string[] / null`  |  Vault ID list
 

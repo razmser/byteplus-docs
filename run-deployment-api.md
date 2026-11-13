@@ -58,21 +58,21 @@ The deployment ID that triggered this run.
 
 The unique identifier of the deployment run. It starts with `drun-` and uses the format `drun-<14-digit_timestamp>-<10-random_characters>`.
 
-**trigger_context** `object`  |  Trigger context
+**trigger_context** `object`  |  Trigger information
 
-The trigger source and scheduled time of this run.
+The trigger method and scheduled execution time for this run.
 
-**type** `string`  |  Trigger type
+**type** `string`  |  Trigger method
 
 `trigger_context.type`
 
-Trigger type.`manual` indicates that the run\-now API was called; `schedule` indicates that it was triggered by a schedule.
+How the run is triggered: `manual` indicates that it is triggered manually through the run\-immediately API; `schedule` indicates that it is triggered automatically by a schedule.
 
-**scheduled_at** `string`  |  Scheduled time
+**scheduled_at** `string`  |  Scheduled execution time
 
 `trigger_context.scheduled_at`
 
-The theoretical scheduled time of the scheduled run, in RFC 3339 format, excluding scheduling jitter. This parameter is not returned for manual runs.
+The time when a scheduled run is expected to start according to the schedule, in RFC 3339 format, excluding delays caused by actual scheduling. This parameter is not returned for manually triggered runs.
 
 **type** `string`  |  Object type
 

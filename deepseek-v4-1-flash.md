@@ -2,23 +2,23 @@
 
 `deepseek-v4-1-flash-260910` is a lightweight flagship model in DeepSeek's new architecture series. With 552B total parameters and MoE, it delivers intelligence beyond its class, outperforming mainstream flagship models including DeepSeek\-V4\-Pro on multiple benchmarks, and natively supports multimodal visual understanding.
 
-> **Important upgrade**
+ModelArk currently provides the following versions:
 
-> `deepseek-v4-1-flash-261017` is now available. This version inherits the capabilities of `deepseek-v4-1-flash-260910` on the ModelArk platform, including multimodal understanding, deep reasoning, prefix completion, and context caching.
+* **Recommended version ** **`deepseek-v4-1-flash-261017`**: On ModelArk, this version supports the multimodal understanding, deep reasoning, prefix completion, context cache, and other capabilities of DeepSeek V4.1 Flash. Compared with `deepseek-v4-1-flash-260910`, it further improves complex programming and full project development capabilities, and reduces task runtime and output length.
+
+* **Economy edition ** **`deepseek-v4-1-flash-economy-261017`**: Uses exactly the same model weights as the standard edition, with identical capabilities and results. It is lower priced and generates responses slightly more slowly, making it suitable for scenarios that focus on cost and do not require high generation speed.
+
+Useful links:
 
 * [deepseek-v4-1-flash-260910](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?name=deepseek-v4-1-flash): View model information such as capabilities, context and rate limits, and supported APIs.
 
+* [deepseek-v4-1-flash-economy-261017](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?name=deepseek-v4-1-flash-economy): View information about the economy edition.
+
 * [Pricing](model-pricing.md#aa1874cf): View pricing information for peak hours and off\-peak hours.
 
-> **Tip**
-
-> [DeepSeek V4.1 Flash Economy](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?name=deepseek-v4-1-flash-economy) uses exactly the same model weights as the standard edition, with identical capabilities and performance. The economy edition is lower priced, generates responses slightly more slowly, and is suitable for use cases that prioritize cost and do not have high requirements for generation speed.
-
-> **Important**
-
-> The ModelArk `deepseek-v4-1-flash-260910` model has been upgraded to bring more features, and improve the user experience and compatibility. This topic compares the model and API capabilities of ModelArk and DeepSeek to help you make informed decisions.
-
 # What's different
+
+The ModelArk `deepseek-v4-1-flash-260910` model has been upgraded to bring more features, and improve the user experience and compatibility. The following table compares the capabilities and API parameter differences between ModelArk and the DeepSeek by scenario, helping you quickly understand ModelArk support for each scenario.
 
 ## Capabilities
 
@@ -35,7 +35,7 @@
 |Scenario |DeepSeek |ModelArk |
 |---|---|---|
 |Maximum output length: **max_tokens** |Controls the length of the model response and model chain\-of\-thought content. An error is reported if the length is exceeded. |**Controls the length of the model response and model chain\-of\-thought content.**  No error is reported if the length is exceeded. |
-||In the Chat API, the default is 8K in non\-thinking mode and 64K in thinking mode (128K when **reasoning_effort** is `max`). |The default value for the Chat API is 128K. The corresponding parameter for the Responses API is **max_output_tokens**, with a default of 128K. For details, see [Maximum output length](deepseek-v4-1-flash.md#max-tokens-parameter).<br><br>> **Tip**<br><br><br><br>* > `deepseek-v4-1-flash-261017` and `deepseek-v4-1-flash-260910`: **max_tokens** controls the length of the model response and the model chain\-of\-thought content. The default value is 128k. If the chain\-of\-thought content exceeds **max_tokens**, the reasoning is truncated.<br><br><br>* > Other models: **max_tokens** controls the length of the model response, excluding chain\-of\-thought content. The default value is 4k.<br> |
+||In the Chat API, the default is 8K in non\-thinking mode and 64K in thinking mode (128K when **reasoning_effort** is `max`). |The default value for the Chat API is 131072 (128K). The corresponding parameter for the Responses API is **max_output_tokens**, with a default of 131072 (128K). For details, see [Maximum output length](deepseek-v4-1-flash.md#max-tokens-parameter).<br><br>> **Tip**<br><br><br><br>* > `deepseek-v4-1-flash-261017` and `deepseek-v4-1-flash-260910`: **max_tokens** controls the length of the model response and the model chain\-of\-thought content. The default value is 131072 (128K). If the chain\-of\-thought content exceeds **max_tokens**, the reasoning is truncated.<br><br><br>* > Other models: **max_tokens** controls the length of the model response, excluding chain\-of\-thought content. The default value is 4096 (4K).<br> |
 |Adjust reasoning length: **reasoning_effort**/**reasoning.effort**/**output_config.effort** |Chat API / Responses API / Messages API are all supported, with a default value of `high`. |Chat API / Responses API / Messages API are all supported, with a default value of `high`. |
 ||* OpenAI format / Anthropic format: Valid values are `low`/`high`/`max`.<br><br>* Responses API format: Valid values are `none`/`low`/`high`/`max`. |* Chat API format / Responses API format: Valid values are `none`/`low`/`high`/`max`.<br><br>* Messages API format: Valid values are `low`/`high`/`max`.<br><br>> For details, see [Adjust chain-of-thought length](deepseek-v4-1-flash.md#reasoning-effort). |
 |Nucleus sampling threshold: **top_p** |* Thinking mode: The parameter takes effect. If the passed value is `< 0.95`, the system automatically raises it to `0.95`; if the passed value is `≥ 0.95`, the actual passed value is used. If this parameter is not passed, the default value is 1.<br><br>* Non\-thinking mode: The parameter value is fixed at `1.0`, and the passed value is ignored. |* Thinking mode: The parameter takes effect. If the passed value is `< 0.95`, the system automatically raises it to `0.95`; if the passed value is `≥ 0.95`, the actual passed value is used. If this parameter is not passed, the default value is 0.95 when using a tool, and 1 in other cases.<br><br>* Non\-thinking mode: The parameter value is fixed at `1.0`, and the passed value is ignored. |
@@ -54,9 +54,9 @@
 
 The prefix completion behavior supported by `deepseek-v4-1-flash-260910` is as follows:
 
-|API |Chat API |Responses API |
-|---|---|---|
-|Prefix completion trigger |* The **role** of the last message in the **messages** list is `assistant`.<br><br>* Set the **prefix** parameter of the last message to `true` |* Set the **role** of the last message in the **input** list to assistant.<br><br>* Set **partial** to `true` to enable prefill\-based response (not setting **partial** does not cause an error; it simply does not enable prefill\-based response). |
+|API |Chat API |Responses API |Messages API |
+|---|---|---|---|
+|Prefix completion trigger |* The **role** of the last message in the **messages** list is `assistant`.<br><br>* Set the **prefix** parameter of the last message to `true` |* Set the **role** of the last message in the **input** list to assistant.<br><br>* Set **partial** to `true` to enable prefill\-based response (not setting **partial** does not cause an error; it simply does not enable prefill\-based response). |* The **role** of the last message in the **messages** list is `assistant`.<br><br>* The **prefix** parameter is not required; we recommend disabling deep reasoning (set **thinking.type** to `disabled`), otherwise the prefill might be ignored. |
 
 ## Image understanding
 
@@ -134,9 +134,11 @@ The DeepSeek V4.1 Flash model supports **passing back the original thinking cont
 |---|---|---|
 |Parameter |**max_tokens**/**max_completion_tokens** |**max_output_tokens** |
 |Rules |**Controls the length of the model response and model chain\-of\-thought content.**  No error is reported if the length is exceeded.<br><br>> **Note**<br><br><br>> If the chain\-of\-thought content exceeds **max_tokens**, the reasoning will be truncated.<br> |Controls the length of the model response and model chain\-of\-thought content. No error is reported if the length is exceeded. |
-|Default value |128K |128K |
+|Default value |131072 (128K) |131072 (128K) |
 
 # Code samples
+
+The examples use the current recommended version `deepseek-v4-1-flash-261017`. To reproduce the behavior of the earlier version, replace **model** with `deepseek-v4-1-flash-260910`.
 
 Chat API code samples:
 
@@ -147,7 +149,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/chat/completions \
    -H "Content-Type: application/json" \
    -H "Authorization: Bearer $ARK_API_KEY" \
    -d '{
-    "model": "deepseek-v4-1-flash-260910",
+    "model": "deepseek-v4-1-flash-261017",
     "messages": [
         {
             "role": "user",
@@ -176,7 +178,7 @@ client = Ark(
 
 completion = client.chat.completions.create(
     # Replace with Model ID
-    model = "deepseek-v4-1-flash-260910",
+    model = "deepseek-v4-1-flash-261017",
     messages=[
         {
             "role": "user",
@@ -221,7 +223,7 @@ func main() {
     // Construct chat, specify model and message
     req := &chat.ChatCompletionRequest{
         // Replace with Model ID
-       Model: "deepseek-v4-1-flash-260910",
+       Model: "deepseek-v4-1-flash-261017",
        Messages: []chat.ChatCompletionRequestMessage{
 chat.ChatCompletionRequestMessage{OneOf: chat.NewChatCompletionRequestUserMessageChatCompletionRequestMessageSum(chat.ChatCompletionRequestUserMessage{Role: chat.ChatCompletionRequestUserMessageRoleUser, Content: chat.NewChatCompletionContentPartArrayChatCompletionMessageContent(contentParts)})},
        },
@@ -292,7 +294,7 @@ public class MultiImageSample {
          .build());
 
     ChatCompletionRequest req = ChatCompletionRequest.builder()
-         .model("deepseek-v4-1-flash-260910") //Replace with Model ID  .
+         .model("deepseek-v4-1-flash-261017") //Replace with Model ID  .
          .messages(messagesForReqList)
          .build();
 

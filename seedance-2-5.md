@@ -2770,6 +2770,306 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/c
   -H "Authorization: Bearer $ARK_API_KEY"
 ```
 
+**Python**
+
+Create a Draft video generation task and poll for its status and result. When the task status changes to `succeeded`, confirm that the Draft video in `content.video_url` meets expectations, then use the task ID to generate a final video.
+
+```Python
+import os
+import time
+# Install SDK: python -m pip install --upgrade arkruntime
+from arkruntime import Ark
+
+client = Ark(
+    # The base URL for model invocation
+    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+    api_key=os.environ.get("ARK_API_KEY"),
+)
+
+if __name__ == "__main__":
+    print("----- create request -----")
+    create_result = client.content_generation.tasks.create(
+        model="dreamina-seedance-2-5-260628",  # Replace with Model ID
+        content=[
+            {
+                "type": "text",
+                "text": "A girl holds a fox. She opens her eyes and looks gently at the camera as the camera slowly pulls back."
+            },
+            {
+                # The URL of the first frame image
+                "type": "image_url",
+                "image_url": {
+                    "url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/video-generation/i2v_foxrgirl.png"
+                }
+            }
+        ],
+        duration=5,
+        ratio="adaptive",
+        resolution="480p",
+        service_tier="default",
+        draft=True,
+        watermark=True,
+        extra_body={
+            "output_format": "mov",
+        },
+    )
+    print(create_result)
+
+    # Polling query section
+    print("----- polling task status -----")
+    task_id = create_result.id
+    deadline = time.monotonic() + 30 * 60
+    for attempt in range(180):
+        if time.monotonic() >= deadline:
+            raise TimeoutError(f"Polling timed out for task {task_id}")
+        get_result = client.content_generation.tasks.get(task_id=task_id)
+        status = get_result.status
+        if status == "succeeded":
+            print("----- task succeeded -----")
+            print(get_result)
+            break
+        elif status in {"failed", "cancelled", "expired"}:
+            raise RuntimeError(f"Task {task_id} {status}: {get_result.error}")
+        else:
+            print(f"Current status: {status}, Retrying after 10 seconds...")
+            time.sleep(min(10, max(0, deadline - time.monotonic())))
+    else:
+        raise TimeoutError(f"Polling limit reached for task {task_id}")
+```
+
+**Java**
+
+Create a Draft video generation task and poll for its status and result. When the task status changes to `succeeded`, confirm that the Draft video in `content.video_url` meets expectations, then use the task ID to generate a final video.
+
+```Java
+package com.ark.sample;
+
+import com.volcengine.ark.runtime.models.content_generation.*;
+import com.volcengine.ark.runtime.service.ArkService;
+import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+public class ContentGenerationTaskExample {
+    // Use the SDK's Retrofit client for fields not yet modeled by the SDK.
+    interface ContentGenerationApi {
+        @POST("contents/generations/tasks")
+        Call<CreateContentGenerationTaskResponse> create(@Body Map<String, Object> request);
+    }
+
+    // Client initialization.
+    static String apiKey = System.getenv("ARK_API_KEY");
+    static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
+    static Dispatcher dispatcher = new Dispatcher();
+    static ArkService service = ArkService.builder()
+            .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+            .dispatcher(dispatcher)
+            .connectionPool(connectionPool)
+            .apiKey(apiKey)
+            .build();
+    static Retrofit retrofit = ArkService.defaultRetrofit(
+            ArkService.defaultApiKeyClient(apiKey, Duration.ofSeconds(180)),
+            ArkService.defaultObjectMapper(),
+            "https://ark.ap-southeast.bytepluses.com/api/v3/",
+            Runnable::run);
+    static ContentGenerationApi contentGenerationApi = retrofit.create(ContentGenerationApi.class);
+
+    public static void main(String[] args) throws IOException {
+        try {
+            pollTaskStatus(createTask());
+        } finally {
+            service.shutdownExecutor();
+        }
+    }
+
+    private static String createTask() throws IOException {
+        String modelId = "dreamina-seedance-2-5-260628"; // Replace with Model ID
+        System.out.println("----- create request -----");
+        List<ContentItem> contents = new ArrayList<>();
+
+        // Text prompt.
+        contents.add(ContentItem.builder()
+                .type(ContentType.TEXT)
+                .text("A girl holds a fox. She opens her eyes and looks gently at the camera as the camera slowly pulls back.")
+
+                .build());
+        // The URL of the first frame image
+        contents.add(ContentItem.builder()
+                .type(ContentType.IMAGE_URL)
+                .imageUrl(ImageURL.builder()
+                        .url("https://arkdocs-en.tos-ap-southeast-1.volces.com/images/video-generation/i2v_foxrgirl.png")
+
+                        .build())
+                .build());
+
+        // Create a video generation task
+        Map<String, Object> createRequest = new LinkedHashMap<>();
+        createRequest.put("model", modelId);
+        createRequest.put("content", contents);
+        createRequest.put("duration", 5);
+        createRequest.put("ratio", "adaptive");
+        createRequest.put("resolution", "480p");
+        createRequest.put("output_format", "mov");
+        createRequest.put("service_tier", "default");
+        createRequest.put("draft", true);
+        createRequest.put("watermark", true);
+
+        retrofit2.Response<CreateContentGenerationTaskResponse> response =
+                contentGenerationApi.create(createRequest).execute();
+        if (!response.isSuccessful() || response.body() == null) {
+            String errorBody = response.errorBody() == null ? "" : response.errorBody().string();
+            throw new IOException("Create task failed with HTTP " + response.code() + ": " + errorBody);
+        }
+        CreateContentGenerationTaskResponse createResult = response.body();
+        System.out.println(createResult);
+        return createResult.getId();
+    }
+
+    private static void pollTaskStatus(String taskId) {
+        System.out.println("----- polling task status -----");
+        long deadlineNanos = System.nanoTime() + TimeUnit.MINUTES.toNanos(30);
+        for (int attempt = 0; attempt < 180 && System.nanoTime() < deadlineNanos; attempt++) {
+            try {
+                ContentGenerationTask getResponse = service.getContentGenerationTask(taskId);
+                String status = getResponse.getStatus().toString();
+                if ("succeeded".equalsIgnoreCase(status)) {
+                    System.out.println("----- task succeeded -----");
+                    System.out.println(getResponse);
+                    return;
+                } else if ("failed".equalsIgnoreCase(status)
+                        || "cancelled".equalsIgnoreCase(status)
+                        || "expired".equalsIgnoreCase(status)) {
+                    throw new IllegalStateException(
+                            "Task " + taskId + " " + status + ": " + getResponse.getError());
+                } else {
+                    System.out.printf("Current status: %s, Retrying in 10 seconds...%n", status);
+                    TimeUnit.SECONDS.sleep(10);
+                }
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                throw new IllegalStateException("Polling interrupted", ie);
+            }
+        }
+        throw new IllegalStateException("Polling timed out or reached its limit for task " + taskId);
+    }
+}
+```
+
+**Go**
+
+Create a Draft video generation task and poll for its status and result. When the task status changes to `succeeded`, confirm that the Draft video in `content.video_url` meets expectations, then use the task ID to generate a final video.
+
+```Go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    "time"
+
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    model "github.com/volcengine/ark-runtime-go/arkruntime/model/contentgeneration"
+)
+
+func main() {
+    // Initialize Ark client.
+    client := arkruntime.NewClientWithApiKey(
+        os.Getenv("ARK_API_KEY"),
+        // The base URL for model invocation
+        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
+    )
+    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
+    defer cancel()
+
+    modelID := "dreamina-seedance-2-5-260628"
+    prompt := "A girl holds a fox. She opens her eyes and looks gently at the camera as the camera slowly pulls back."
+    firstFrameImageURL := "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/video-generation/i2v_foxrgirl.png"
+
+    fmt.Println("----- create request -----")
+    createReq := &model.CreateContentGenerationTaskRequest{
+        Model:       modelID,
+        Duration:    model.NewOptInt64(5),
+        Ratio:       model.NewOptString("adaptive"),
+        Resolution:  model.NewOptString("480p"),
+        ServiceTier: model.NewOptString("default"),
+        Draft:       model.NewOptBool(true),
+        Content: []model.ContentItem{
+            {
+                Type: model.ContentTypeText,
+                Text: model.NewOptString(prompt),
+            },
+            {
+                Type: model.ContentTypeImageURL,
+                ImageURL: model.NewOptImageURL(model.ImageURL{
+                    URL: firstFrameImageURL,
+                }),
+            },
+        },
+        Watermark: model.NewOptBool(true),
+    }
+    createResp, err := client.CreateContentGenerationTask(
+        ctx,
+        createReq,
+        arkruntime.WithExtraBody(map[string]interface{}{
+            "output_format": "mov",
+        }),
+    )
+    if err != nil {
+        panic(fmt.Errorf("create content generation task: %w", err))
+    }
+    taskID := createResp.ID
+    fmt.Printf("Task Created with ID: %s\n", taskID)
+    pollTaskStatus(ctx, client, taskID)
+}
+
+func pollTaskStatus(ctx context.Context, client *arkruntime.Client, taskID string) {
+    fmt.Println("----- polling task status -----")
+    for attempt := 0; attempt < 180; attempt++ {
+        getResp, err := client.GetContentGenerationTask(ctx, taskID)
+        if err != nil {
+            panic(fmt.Errorf("get content generation task: %w", err))
+        }
+
+        status := getResp.Status
+        if status == "succeeded" {
+            fmt.Println("----- task succeeded -----")
+            fmt.Printf("Task ID: %s\n", getResp.ID)
+            fmt.Printf("Model: %s\n", getResp.Model)
+            fmt.Printf("Video URL: %s\n", getResp.Content.Or(model.TaskContent{}).VideoURL.Or(""))
+            fmt.Printf("Completion Tokens: %d\n", getResp.Usage.Or(model.TaskUsage{}).CompletionTokens)
+            fmt.Printf("Created At: %d, Updated At: %d\n", getResp.CreatedAt.Or(0), getResp.UpdatedAt.Or(0))
+            return
+        } else if status == "failed" || status == "cancelled" || status == "expired" {
+            if getResp.Error.IsSet() {
+                panic(fmt.Errorf("task %s %s: %s: %s", taskID, status, getResp.Error.Value.Code, getResp.Error.Value.Message))
+            }
+            panic(fmt.Errorf("task %s %s", taskID, status))
+        } else {
+            fmt.Printf("Current status: %s, Retrying in 10 seconds...\n", status)
+            select {
+            case <-ctx.Done():
+                panic(fmt.Errorf("poll task %s: %w", taskID, ctx.Err()))
+            case <-time.After(10 * time.Second):
+            }
+        }
+    }
+    panic(fmt.Errorf("polling limit reached for task %s", taskID))
+}
+```
+
 ### Step 2: Generate the final video
 
 After confirming that the Draft video meets expectations, use the Draft video task ID returned in Step 1 to call `POST /contents/generations/tasks` again and generate the final video.
@@ -2830,6 +3130,276 @@ When generating a final video from a Draft video, some parameters must retain fi
 curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/cgt-2026****-final \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY"
+```
+
+**Python**
+
+Replace `<DRAFT_TASK_ID>` with the Draft video task ID whose status is `succeeded` in Step 1. Create a final video generation task and poll for the result. When the task status changes to `succeeded`, download the final video from `content.video_url`.
+
+```Python
+import os
+import time
+# Install SDK: python -m pip install --upgrade arkruntime
+from arkruntime import Ark
+
+client = Ark(
+    # The base URL for model invocation
+    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+    api_key=os.environ.get("ARK_API_KEY"),
+)
+
+if __name__ == "__main__":
+    print("----- create request -----")
+    create_result = client.content_generation.tasks.create(
+        model="dreamina-seedance-2-5-260628",  # Replace with Model ID
+        content=[
+            {
+                "type": "draft_task",
+                "draft_task": {
+                    # Replace with the succeeded Draft task ID from Step 1.
+                    "id": "<DRAFT_TASK_ID>"
+                }
+            }
+        ],
+        watermark=True,
+        resolution="1080p",
+        extra_body={
+            "output_format": "mov",
+        },
+    )
+    print(create_result)
+
+    # Polling query section
+    print("----- polling task status -----")
+    task_id = create_result.id
+    deadline = time.monotonic() + 30 * 60
+    for attempt in range(180):
+        if time.monotonic() >= deadline:
+            raise TimeoutError(f"Polling timed out for task {task_id}")
+        get_result = client.content_generation.tasks.get(task_id=task_id)
+        status = get_result.status
+        if status == "succeeded":
+            print("----- task succeeded -----")
+            print(get_result)
+            break
+        elif status in {"failed", "cancelled", "expired"}:
+            raise RuntimeError(f"Task {task_id} {status}: {get_result.error}")
+        else:
+            print(f"Current status: {status}, Retrying after 10 seconds...")
+            time.sleep(min(10, max(0, deadline - time.monotonic())))
+    else:
+        raise TimeoutError(f"Polling limit reached for task {task_id}")
+```
+
+**Java**
+
+Replace `<DRAFT_TASK_ID>` with the Draft video task ID whose status is `succeeded` in Step 1. Create a final video generation task and poll for the result. When the task status changes to `succeeded`, download the final video from `content.video_url`.
+
+```Java
+package com.ark.sample;
+
+import com.volcengine.ark.runtime.models.content_generation.*;
+import com.volcengine.ark.runtime.service.ArkService;
+import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+public class ContentGenerationTaskExample {
+    // Use the SDK's Retrofit client for fields not yet modeled by the SDK.
+    interface ContentGenerationApi {
+        @POST("contents/generations/tasks")
+        Call<CreateContentGenerationTaskResponse> create(@Body Map<String, Object> request);
+    }
+
+    // Client initialization.
+    static String apiKey = System.getenv("ARK_API_KEY");
+    static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
+    static Dispatcher dispatcher = new Dispatcher();
+    static ArkService service = ArkService.builder()
+            .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+            .dispatcher(dispatcher)
+            .connectionPool(connectionPool)
+            .apiKey(apiKey)
+            .build();
+    static Retrofit retrofit = ArkService.defaultRetrofit(
+            ArkService.defaultApiKeyClient(apiKey, Duration.ofSeconds(180)),
+            ArkService.defaultObjectMapper(),
+            "https://ark.ap-southeast.bytepluses.com/api/v3/",
+            Runnable::run);
+    static ContentGenerationApi contentGenerationApi = retrofit.create(ContentGenerationApi.class);
+
+    public static void main(String[] args) throws IOException {
+        try {
+            pollTaskStatus(createTask());
+        } finally {
+            service.shutdownExecutor();
+        }
+    }
+
+    private static String createTask() throws IOException {
+        String modelId = "dreamina-seedance-2-5-260628"; // Replace with Model ID
+        System.out.println("----- create request -----");
+        List<ContentItem> contents = new ArrayList<>();
+
+        // Replace with the succeeded Draft task ID from Step 1.
+        contents.add(ContentItem.builder()
+                .type(ContentType.DRAFT_TASK)
+                .draftTask(DraftTask.builder()
+                        .id("<DRAFT_TASK_ID>")
+                        .build())
+                .build());
+
+        // Create a video generation task
+        Map<String, Object> createRequest = new LinkedHashMap<>();
+        createRequest.put("model", modelId);
+        createRequest.put("content", contents);
+        createRequest.put("resolution", "1080p");
+        createRequest.put("output_format", "mov");
+        createRequest.put("watermark", true);
+
+        retrofit2.Response<CreateContentGenerationTaskResponse> response =
+                contentGenerationApi.create(createRequest).execute();
+        if (!response.isSuccessful() || response.body() == null) {
+            String errorBody = response.errorBody() == null ? "" : response.errorBody().string();
+            throw new IOException("Create task failed with HTTP " + response.code() + ": " + errorBody);
+        }
+        CreateContentGenerationTaskResponse createResult = response.body();
+        System.out.println(createResult);
+        return createResult.getId();
+    }
+
+    private static void pollTaskStatus(String taskId) {
+        System.out.println("----- polling task status -----");
+        long deadlineNanos = System.nanoTime() + TimeUnit.MINUTES.toNanos(30);
+        for (int attempt = 0; attempt < 180 && System.nanoTime() < deadlineNanos; attempt++) {
+            try {
+                ContentGenerationTask getResponse = service.getContentGenerationTask(taskId);
+                String status = getResponse.getStatus().toString();
+                if ("succeeded".equalsIgnoreCase(status)) {
+                    System.out.println("----- task succeeded -----");
+                    System.out.println(getResponse);
+                    return;
+                } else if ("failed".equalsIgnoreCase(status)
+                        || "cancelled".equalsIgnoreCase(status)
+                        || "expired".equalsIgnoreCase(status)) {
+                    throw new IllegalStateException(
+                            "Task " + taskId + " " + status + ": " + getResponse.getError());
+                } else {
+                    System.out.printf("Current status: %s, Retrying in 10 seconds...%n", status);
+                    TimeUnit.SECONDS.sleep(10);
+                }
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                throw new IllegalStateException("Polling interrupted", ie);
+            }
+        }
+        throw new IllegalStateException("Polling timed out or reached its limit for task " + taskId);
+    }
+}
+```
+
+**Go**
+
+Replace `<DRAFT_TASK_ID>` with the Draft video task ID whose status is `succeeded` in Step 1. Create a final video generation task and poll for the result. When the task status changes to `succeeded`, download the final video from `content.video_url`.
+
+```Go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    "time"
+
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    model "github.com/volcengine/ark-runtime-go/arkruntime/model/contentgeneration"
+)
+
+func main() {
+    // Initialize Ark client.
+    client := arkruntime.NewClientWithApiKey(
+        os.Getenv("ARK_API_KEY"),
+        // The base URL for model invocation
+        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
+    )
+    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
+    defer cancel()
+    modelID := "dreamina-seedance-2-5-260628"
+
+    fmt.Println("----- create request -----")
+    createReq := &model.CreateContentGenerationTaskRequest{
+        Model:      modelID,
+        Watermark:  model.NewOptBool(true),
+        Resolution: model.NewOptString("1080p"),
+        Content: []model.ContentItem{
+            {
+                Type: model.ContentTypeDraftTask,
+                // Replace with the succeeded Draft task ID from Step 1.
+                DraftTask: model.NewOptDraftTask(model.DraftTask{ID: "<DRAFT_TASK_ID>"}),
+            },
+        },
+    }
+
+    createResp, err := client.CreateContentGenerationTask(
+        ctx,
+        createReq,
+        arkruntime.WithExtraBody(map[string]interface{}{
+            "output_format": "mov",
+        }),
+    )
+    if err != nil {
+        panic(fmt.Errorf("create content generation task: %w", err))
+    }
+    taskID := createResp.ID
+    fmt.Printf("Task Created with ID: %s\n", taskID)
+    pollTaskStatus(ctx, client, taskID)
+}
+
+func pollTaskStatus(ctx context.Context, client *arkruntime.Client, taskID string) {
+    fmt.Println("----- polling task status -----")
+    for attempt := 0; attempt < 180; attempt++ {
+        getResp, err := client.GetContentGenerationTask(ctx, taskID)
+        if err != nil {
+            panic(fmt.Errorf("get content generation task: %w", err))
+        }
+
+        status := getResp.Status
+        if status == "succeeded" {
+            fmt.Println("----- task succeeded -----")
+            fmt.Printf("Task ID: %s\n", getResp.ID)
+            fmt.Printf("Model: %s\n", getResp.Model)
+            fmt.Printf("Video URL: %s\n", getResp.Content.Or(model.TaskContent{}).VideoURL.Or(""))
+            fmt.Printf("Completion Tokens: %d\n", getResp.Usage.Or(model.TaskUsage{}).CompletionTokens)
+            fmt.Printf("Created At: %d, Updated At: %d\n", getResp.CreatedAt.Or(0), getResp.UpdatedAt.Or(0))
+            return
+        } else if status == "failed" || status == "cancelled" || status == "expired" {
+            if getResp.Error.IsSet() {
+                panic(fmt.Errorf("task %s %s: %s: %s", taskID, status, getResp.Error.Value.Code, getResp.Error.Value.Message))
+            }
+            panic(fmt.Errorf("task %s %s", taskID, status))
+        } else {
+            fmt.Printf("Current status: %s, Retrying in 10 seconds...\n", status)
+            select {
+            case <-ctx.Done():
+                panic(fmt.Errorf("poll task %s: %w", taskID, ctx.Err()))
+            case <-time.After(10 * time.Second):
+            }
+        }
+    }
+    panic(fmt.Errorf("polling limit reached for task %s", taskID))
+}
 ```
 
 ## Customize video output specifications

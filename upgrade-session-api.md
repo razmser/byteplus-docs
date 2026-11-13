@@ -102,18 +102,6 @@ The access address of the MCP service. Duplicate addresses cannot be configured 
 
 Supports switching the model or inference endpoint, and adjusting runtime parameters and custom model service configuration. If a subparameter is omitted, the current value is retained.
 
-**base_url** `string`  |  Model service address
-
-`agent.model.base_url`
-
-OpenAI\- or Anthropic\-compatible API address for non\-ModelArk model services. Omit this when using a ModelArk model service.
-
-**headers** `object`  |  Custom request header
-
-`agent.model.headers`
-
-Additional HTTP request headers passed as string key\-value pairs when invoking a non\-ModelArk model service.
-
 **id** `string`  |  Model or endpoint ID
 
 `agent.model.id`
@@ -131,32 +119,6 @@ The target model or inference endpoint must belong to the current project and su
 A 403 `ModelNotOpen` error code is returned if the target model has not been activated.
 
 When `id` changes, the server revalidates the model parameters. Unspecified parameters continue to use their values before the upgrade.
-
-**input_modalities** `string[]`  |  Input modalities
-
-`agent.model.input_modalities`
-
-List of input modalities supported by non\-ModelArk model services, such as `text`, `image`, or `video`.
-
-**protocol** `string`  |  Invocation protocol
-
-`agent.model.protocol`
-
-Model invocation protocol.
-
-* `ark_responses`: ModelArk Responses protocol.
-
-* `openai_chat_completions`: OpenAI Chat Completions compatible protocol.
-
-* `openai_responses`: OpenAI Responses compatible protocol.
-
-* `anthropic_messages`: Anthropic Messages compatible protocol.
-
-**provider** `string`  |  Model service provider
-
-`agent.model.provider`
-
-Model service provider. When switching to a non\-ModelArk model service, you must also provide the `protocol` and `base_url` that match the service.
 
 **reasoning_effort** `string`  |  Reasoning effort
 
@@ -181,30 +143,6 @@ Model inference speed tier. If omitted, the current value is retained. Options: 
 `agent.model.thinking`
 
 Thinking mode configuration used by the model after the upgrade.
-
-**token_limits** `object`  |  Token limit
-
-`agent.model.token_limits`
-
-Token length limits for non\-ModelArk model services. This must not be passed when using a ModelArk model service.
-
-**context_window** `integer`  |  Context window
-
-`agent.model.token_limits.context_window`
-
-The maximum number of tokens that the model context window can hold.
-
-**max_input_token_length** `integer`  |  Maximum input length
-
-`agent.model.token_limits.max_input_token_length`
-
-The maximum number of input tokens allowed for a single model call.
-
-**max_output_token_length** `integer`  |  Maximum output length
-
-`agent.model.token_limits.max_output_token_length`
-
-The maximum number of output tokens allowed for a single model call.
 
 **multiagent** `object`  |  Multi\-agent configuration used after the upgrade:
 
@@ -596,6 +534,12 @@ Fixed as `packages`.
 
 If omitted, the current value is retained; if an empty string is passed, it is cleared.
 
+**type** `string`  |  Runtime environment type
+
+`environment.config.type`
+
+Runtime environment type. If omitted, the current session's environment type is used. If you need to specify it explicitly, you can only specify the current environment type: use `cloud` for a cloud environment and `self_hosted` for a self\-hosted environment. Upgrades do not support switching environment types. If you specify a value that does not match the current environment, 403 `OperationDenied.EnvironmentTypeMismatch` is returned.
+
 **vault_ids** `string[]`  |  Vault ID list
 
 The list of vault IDs bound to the current session, used to reload the credential configurations in these vaults without changing the bindings between the session and the vaults.
@@ -734,20 +678,6 @@ Model configuration actually used by the current session.
 
 Model ID or inference endpoint ID currently used by the session.
 
-**protocol** `string`  |  Invocation protocol
-
-`agent.model.protocol`
-
-Protocol used for session model calls:
-
-* `ark_responses`: ModelArk Responses protocol.
-
-* `openai_chat_completions`: OpenAI Chat Completions compatible protocol.
-
-* `openai_responses`: OpenAI Responses compatible protocol.
-
-* `anthropic_messages`: Anthropic Messages compatible protocol.
-
 **reasoning_effort** `string`  |  Reasoning effort level
 
 `agent.model.reasoning_effort`
@@ -880,11 +810,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `agent.multiagent.agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -1184,11 +1132,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`agent.multiagent.subagents.predefined_agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`agent.multiagent.subagents.predefined_agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `agent.multiagent.subagents.predefined_agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`agent.multiagent.subagents.predefined_agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -1538,6 +1504,24 @@ The environment ID actually used by the upgraded session.
 
 The session ID, in the format `sesn-...`, which is the same as `session_id` in the request.
 
+**stats** `object`  |  Duration statistics
+
+The session's cumulative running time and total lifecycle duration.
+
+**active_seconds** `number`  |  Cumulative running time
+
+`stats.active_seconds`
+
+The cumulative number of seconds that the session was running. This is the same as `usage.active_seconds`.
+
+Only completed running intervals are counted; the current unfinished `running` interval is not included for now.
+
+**duration_seconds** `number`  |  Total session duration
+
+`stats.duration_seconds`
+
+The total duration from session creation to the current query time, in seconds. After the session is terminated, the returned value is the duration from creation to termination.
+
 **status** `string`  |  Session status
 
 The running status of the session. After the request is accepted, `upgrading` is returned. Wait until the status returns to `idle` before continuing to send events. Options: `idle` / `running` / `terminated` / `rescheduling` / `initializing` / `failed` / `upgrading`.
@@ -1557,6 +1541,10 @@ The time when the session was first archived, as a UTC timestamp in RFC 3339 for
 > **Tip**
 
 > For historical sessions that were terminated before the archive feature was launched, the server cannot restore the original termination time, so it may not return this parameter.
+
+**deployment_id** `string`  |  Deployment ID
+
+The ID of the deployment that created this session. Returned when the session is created through a deployment. This parameter is not returned when the session is created directly through the Sessions API.
 
 **environment** `object`  |  Environment configuration
 
@@ -1724,12 +1712,6 @@ User\-defined metadata.
 
 The list of `config` subparameter names actually overridden by the current session relative to the base environment. Returned only when *type* is `environment_with_overrides` and overridden parameters exist.
 
-**scope** `string`  |  Environment scope
-
-`environment.scope`
-
-Environment configuration visibility scope: `organization` indicates that it is shared within the organization, and `account` indicates that it is visible within the account.
-
 **resources** `object[]`  |  Resource list
 
 The list of resources currently mounted to the upgraded session's runtime environment.
@@ -1879,14 +1861,6 @@ The object prefix of the mounted directory in TOS.
 `resources.tos_region`
 
 The ID of the region where the TOS mount source is located.
-
-**scene** `string`  |  Session scene
-
-Session scene marker.
-
-* `default`: regular session.
-
-* `dreams`: a session used for Dream memory organization tasks.
 
 **tags** `object[]`  |  Tag list
 

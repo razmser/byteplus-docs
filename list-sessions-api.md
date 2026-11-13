@@ -68,12 +68,6 @@ Sort order.`asc` indicates ascending order by creation time, and `desc` indicate
 
 Next page identifier. Omit this parameter for the first request; for subsequent requests, pass the `next_page` value from the previous response as is, and keep `order` and the filter conditions unchanged.
 
-**scene** `string`  |  Session scene
-
-Filter by session scene tag. If omitted or an empty value is passed, no filtering is applied.
-
-Common values are `default` and `dreams`. Passing other values does not cause an error, but returns an empty list.
-
 **status** `string[]`  |  Session status
 
 Filter by the session status. You can pass this parameter multiple times; the server returns sessions that match any of the statuses. Options: `idle`, `running`, `terminated`, `rescheduling`, `initializing`, `failed`, `upgrading`.
@@ -230,20 +224,6 @@ The model configuration used by the agent includes the model or inference endpoi
 
 The model ID or inference endpoint ID called by the agent. For example, model ID `dola-seed-2-1-turbo-260628`, or inference endpoint ID `ep-20260907123456-abcd1`.
 
-**protocol** `string`  |  Invocation protocol
-
-`data.agent.model.protocol`
-
-Protocol used for session model calls:
-
-* `ark_responses`: ModelArk Responses protocol.
-
-* `openai_chat_completions`: OpenAI Chat Completions compatible protocol.
-
-* `openai_responses`: OpenAI Responses compatible protocol.
-
-* `anthropic_messages`: Anthropic Messages compatible protocol.
-
 **reasoning_effort** `string`  |  Reasoning effort level
 
 `data.agent.model.reasoning_effort`
@@ -376,11 +356,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`data.agent.multiagent.agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`data.agent.multiagent.agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `data.agent.multiagent.agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`data.agent.multiagent.agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -680,11 +678,29 @@ The member agent model configuration snapshot created when the session was creat
 
 The model ID or inference endpoint ID used by the member agent.
 
+**reasoning_effort** `string`  |  Reasoning effort level
+
+`data.agent.multiagent.subagents.predefined_agents.model.reasoning_effort`
+
+The reasoning effort level currently used by the member agent.
+
+**service_tier** `string`  |  Inference service tier
+
+`data.agent.multiagent.subagents.predefined_agents.model.service_tier`
+
+The inference service tier currently used by the member agent.
+
 **speed** `string`  |  Inference speed
 
 `data.agent.multiagent.subagents.predefined_agents.model.speed`
 
 The model inference speed tier used by the member agent.
+
+**thinking** `string`  |  Thinking mode
+
+`data.agent.multiagent.subagents.predefined_agents.model.thinking`
+
+The thinking mode currently used by the member agent.
 
 **name** `string`  |  Agent name
 
@@ -1040,6 +1056,26 @@ The environment ID actually used by the session.
 
 The unique identifier of the session, in the format `sesn-xxxxx`.
 
+**stats** `object`  |  Duration statistics
+
+`data.stats`
+
+The session's cumulative running time and total lifecycle duration.
+
+**active_seconds** `number`  |  Cumulative running time
+
+`data.stats.active_seconds`
+
+The cumulative number of seconds that the session was running. This is the same as `usage.active_seconds`.
+
+Only completed running intervals are counted; the current unfinished `running` interval is not included for now.
+
+**duration_seconds** `number`  |  Total session duration
+
+`data.stats.duration_seconds`
+
+The total duration from session creation to the current query time, in seconds. After the session is terminated, the returned value is the duration from creation to termination.
+
 **status** `string`  |  Session status
 
 `data.status`
@@ -1072,7 +1108,7 @@ The time when the session was first archived, as a UTC timestamp in RFC 3339 for
 
 `data.deployment_id`
 
-The ID of the deployment that created this session. This parameter is returned only for sessions created by a deployment. It is not returned for regular sessions.
+The ID of the deployment that created this session. Only sessions created by a deployment return this parameter; sessions created in other ways do not return this parameter.
 
 **environment** `object`  |  Environment information
 
@@ -1121,6 +1157,12 @@ Runtime configuration for the environment, including the runtime type, network p
 `data.environment.config.type`
 
 Runtime environment type: `cloud` indicates a ModelArk\-managed environment, and `self_hosted` indicates a user self\-hosted environment.
+
+**build_script** `string`  |  Build script
+
+`data.environment.config.build_script`
+
+The build script executed after dependency packages are installed; an empty value means no build script is configured.
 
 **env** `object`  |  Environment variable
 
@@ -1206,6 +1248,18 @@ Dependency package configuration type, fixed as `packages`.
 
 Initialization script executed when the session runtime environment starts; leave it empty or unset to execute no script.
 
+**spec** `string` `Default 1x`  |  Runtime specification
+
+`data.environment.config.spec`
+
+The runtime specification used by the session, which controls the sandbox CPU and memory configuration. Options: `1x`, `2x`, `4x`, `8x`.
+
+**template_id** `string`  |  Template ID
+
+`data.environment.config.template_id`
+
+The logical template ID currently used by the session environment.`base` indicates a regular execution template, and `browser` indicates a browser task template.
+
 **tos** `object`  |  Artifact storage configuration
 
 `data.environment.config.tos`
@@ -1241,12 +1295,6 @@ User\-defined metadata.
 `data.environment.overridden_fields`
 
 The list of `config` subparameter names actually overridden by the current session relative to the base environment. Returned only when *type* is `environment_with_overrides` and overridden parameters exist.
-
-**scope** `string`  |  Scope
-
-`data.environment.scope`
-
-Environment scope: `organization` indicates that it is shared within the organization, and `account` indicates that it is visible within the account.
 
 **resources** `object[]`  |  Resource list
 
@@ -1399,16 +1447,6 @@ The object prefix of the mounted directory in TOS.
 `data.resources.tos_region`
 
 The ID of the region where the TOS mount source is located.
-
-**scene** `string`  |  Session scene
-
-`data.scene`
-
-Session scene marker.
-
-* `default`: regular session.
-
-* `dreams`: a session used for Dream memory organization tasks.
 
 **tags** `object[]`  |  Tag list
 

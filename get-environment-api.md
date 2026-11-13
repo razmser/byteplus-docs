@@ -172,7 +172,7 @@ The startup script configured for the environment. It runs when each session san
 
 The cloud sandbox resource specification currently in effect for the environment.`1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory.
 
-**template_id** `string`  |  Environment template
+**template_id** `string`  |  Template ID
 
 `config.template_id`
 

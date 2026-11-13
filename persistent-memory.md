@@ -56,7 +56,7 @@ curl -sS --fail-with-body "https://ark.ap-southeast.bytepluses.com/api/v3/memory
   }'
 ```
 
-The content limit for a single memory is 100 KiB (102400 bytes), approximately 25k tokens. A single store can save up to 2,000 memories. We recommend splitting memory into multiple small, focused files and avoiding long documents.
+The content limit for a single memory is 100 KiB (102400 bytes), approximately 25K tokens. A single store can save up to 2,000 memories. We recommend splitting memory into multiple small, focused files and avoiding long documents.
 
 ## Mount a memory store to a session
 

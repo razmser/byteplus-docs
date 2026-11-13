@@ -432,7 +432,7 @@ In addition, the platform supports controlling token usage by controlling the le
 
 Supported models: large language models released on 250528 and later. Unless otherwise specified, this parameter is supported by default. For the list of large language models on the ModelArk platform, see [Text and code generation](model-list.md#32e9e053).
 
-> The doubao\-seed\-translation\-250915 model does not support this parameter.
+> The doubao\-seed\-translation\-250915 model (not available for BytePlus users) does not support this parameter.
 
 **Curl**
 
@@ -597,7 +597,7 @@ public class ChatCompletionsExample {
 
 > **Note**
 
-> `deepseek-v4-1-flash-260910`: `max_tokens` controls the length of the model's answer and chain\-of\-thought content. No error is reported if the length is exceeded. The default value is 128k.
+> `deepseek-v4-1-flash-260910`: `max_tokens` controls the length of the model's answer and chain\-of\-thought content. No error is reported if the length is exceeded. The default value is 131072 (128K).
 
 **Curl**
 
@@ -1286,13 +1286,13 @@ The length limits for each object are described below.
 |Response |Maximum response length |Maximum response length, configured by the **max_tokens** parameter.<br><br>In addition, as the input length increases, the response quota is also affected by the remaining quota of **maximum input length (question\-answering quota)** .<br><br>Response quota<br><br>=`min(maximum response length, maximum input length - actual input length)`<br><br>=`min(maximum response length, context window - chain-of-thought window - actual input length)` |API parameter, configurable |
 ||Maximum input length ||Model specification, not configurable |
 
-Content truncation logic example: model A has the following properties: context window 96k, chain\-of\-thought window 32k, maximum input length (question\-answering quota) 64k, and configured maximum response length 16k.
+Content truncation logic example: model A has the following properties: context window 96K, chain\-of\-thought window 32K, maximum input length (question\-answering quota) 64K, and configured maximum response length 16K.
 
-* When the user input question is 56k, the model outputs a 16k chain\-of\-thought, and the model output response reaches 8k, `question + response = 56k+8k = 64k`, triggering the **maximum input length (question\-answering quota)**  limit, and the model stops reasoning.
+* When the user input question is 56K, the model outputs a 16K chain\-of\-thought, and the model output response reaches 8K, `question + response = 56K+8K = 64K`, triggering the **maximum input length (question\-answering quota)**  limit, and the model stops reasoning.
 
-* When the user input question is 22k, the model outputs a 16k chain\-of\-thought, and the model output response reaches 16k, the **maximum response length** limit is triggered, and the model stops reasoning.
+* When the user input question is 22K, the model outputs a 16K chain\-of\-thought, and the model output response reaches 16K, the **maximum response length** limit is triggered, and the model stops reasoning.
 
-* When the user input question is 22k and the model outputs a 32k chain\-of\-thought, the **maximum chain\-of\-thought length** limit is triggered, and the model stops reasoning.
+* When the user input question is 22K and the model outputs a 32K chain\-of\-thought, the **maximum chain\-of\-thought length** limit is triggered, and the model stops reasoning.
 
 ## Configure only **max_completion_tokens**
 
@@ -1303,10 +1303,10 @@ Content truncation logic example: model A has the following properties: context 
 | |Chain\-of\-thought window |The maximum chain\-of\-thought length that the model can output. |Model specification, not configurable |
 |Response |Maximum output length |Shares the quota with the chain\-of\-thought; that is, the output length cannot exceed `maximum output length` \- `length of the chain-of-thought content already output`. |API parameter, configurable |
 
-Content truncation logic example: model A has the following properties: context window 96k, maximum input length 64k, and maximum chain\-of\-thought length 32k. After setting the maximum output length (**max_completion_tokens**) to 32k, the default limit (`4096`) of the maximum response length (**max_tokens**) becomes invalid:
+Content truncation logic example: model A has the following properties: context window 96K, maximum input length 64K, and maximum chain\-of\-thought length 32K. After setting the maximum output length (**max_completion_tokens**) to 32K, the default limit (`4096`) of the maximum response length (**max_tokens**) becomes invalid:
 
-* When the length of the user input content is 72k, the **maximum input length** limit is triggered, and an error is reported directly.
+* When the length of the user input content is 72K, the **maximum input length** limit is triggered, and an error is reported directly.
 
-* When the content output by the model exceeds 32k, the **maximum chain\-of\-thought length** limit is triggered, and the model stops reasoning.
+* When the content output by the model exceeds 32K, the **maximum chain\-of\-thought length** limit is triggered, and the model stops reasoning.
 
-* When the length of the user's input question is 26k, the length of the model output chain\-of\-thought is 16k, and the length of the model output response reaches 16k, `chain-of-thought length + response length=16k+16k=32k`, triggering the **maximum output length** limit, and the model stops reasoning.
+* When the length of the user's input question is 26K, the length of the model output chain\-of\-thought is 16K, and the length of the model output response reaches 16K, `chain-of-thought length + response length=16K+16K=32K`, triggering the **maximum output length** limit, and the model stops reasoning.

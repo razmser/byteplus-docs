@@ -155,7 +155,7 @@ Supported APIs:
 
 * [Chat API](chat-api.md): A widely used API with low migration costs for existing businesses.
 
-# Usage examples
+# Example
 
 ## Multi\-turn conversation
 
@@ -194,7 +194,7 @@ To control costs or response time, you can limit the model's response length. Wh
 
 > **Note**
 
-> `deepseek-v4-1-flash-260910`: `max_tokens` controls the length of the model's answer and chain\-of\-thought content. No error is reported if the length is exceeded. The default value is 128k.
+> `deepseek-v4-1-flash-260910`: `max_tokens` controls the length of the model's answer and chain\-of\-thought content. No error is reported if the length is exceeded. The default value is 131072 (128K).
 
 ```JSON
 ...

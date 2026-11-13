@@ -114,6 +114,22 @@ The time when the work item started execution, in RFC 3339 format; this paramete
 
 Fixed as `queued` when a work item is hit, indicating that the work item is waiting for acknowledgment to complete.
 
+**stop_reason** `string`  |  Stop reason
+
+The reason for the most recent stop of the work item. This parameter is returned only after the work item enters the `stopped` state. If no reason was saved for a historical stop record, it is handled as `others`.
+
+* `lease_expired`: The heartbeat lease expired.
+
+* `worker_abnormal`: The worker encountered an exception.
+
+* `user_cancelled`: The task was canceled by the user.
+
+* `admin_stopped`: The task was stopped by an administrator.
+
+* `completed`: The worker completed execution normally.
+
+* `others`: Other stop reasons.
+
 **stop_requested_at** `string`  |  Stop request time
 
 The time when the server first processed the request to stop the work item, in RFC 3339 format. This parameter is not returned if the stop work item API was not called, or if the work item stopped due to a heartbeat lease timeout.

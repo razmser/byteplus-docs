@@ -188,15 +188,15 @@ The CPU and memory specification used by the cloud environment.`1x`, `2x`, `4x`,
 
 > If omitted or set to `null`, the original resource specification is retained; if `1x`, `2x`, `4x`, or `8x` is passed in, the original value is replaced. This parameter applies only to cloud\-hosted environments.
 
-**template_id** `string`  |  Environment template
+**template_id** `string`  |  Template ID
 
 `config.template_id`
 
-The base template used by the cloud environment.`base` is suitable for general tasks, and `browser` is suitable for web access and browser automation tasks.
+The logical template ID used by the cloud environment.`base` is suitable for general command\-line and code execution tasks, and `browser` is suitable for web access, page parsing, and browser automation tasks.
 
 > **Tip**
 
-> If omitted or set to `null`, the original environment template is retained; if `base` or `browser` is passed in, the original value is replaced. This parameter applies only to cloud\-hosted environments.
+> If omitted or set to `null`, the original template ID is retained; if `base` or `browser` is passed in, the original value is replaced. This parameter applies only to cloud\-hosted environments.
 
 **tos** `object`  |  Artifact storage configuration
 
@@ -428,7 +428,7 @@ The startup script configured for the environment. It runs when each session san
 
 The cloud sandbox resource specification currently in effect for the environment.`1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory.
 
-**template_id** `string`  |  Environment template
+**template_id** `string`  |  Template ID
 
 `config.template_id`
 

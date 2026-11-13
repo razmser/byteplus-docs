@@ -296,9 +296,10 @@ To get more estimated prices, please use the [Price Calculator - SD 1.0 Pro](htt
 
 ### Pricing
 
-|Model ID |Input image |Output image |
+|Model ID |Input image |Output image<br><br>> P is the total pixel count of a single output image. |
 |---|---|---|
-|`dola-seedream-5-0-pro-260628` |* First image: Free<br><br>* From the second image: $0.003<br><br>> Pricing varies by image generation scenario. |* Single\-image generation:<br><br>   * Up to 2.61 million pixels (1.5K or lower): $0.045<br><br>   * More than 2.61 million pixels (higher than 1.5K): $0.09<br><br>* Layer decomposition:<br><br>   * Up to 2.61 million pixels (1.5K or lower): $0.0225<br><br>   * More than 2.61 million pixels (higher than 1.5K): $0.045 |
+|`dola-seedream-5-5-261028` |$0.008 |* 921,600 ≤ P ≤ 1536² × 1.05² (2,601,123.84): $0.020<br><br>* 1536² × 1.05² (2,601,123.84) < P ≤ 2048² × 1.05² (4,624,220.16): $0.035 |
+|`dola-seedream-5-0-pro-260628` |* First image: Free<br><br>* From the second image: $0.003<br><br>> Pricing varies by image generation scenario. |* Single\-image generation:<br><br>   * P ≤ 2.61 million (1.5K or lower): $0.045<br><br>   * P \> 2.61 million (higher than 1.5K): $0.09<br><br>* Layer decomposition:<br><br>   * P ≤ 2.61 million (1.5K or lower): $0.0225<br><br>   * P \> 2.61 million (higher than 1.5K): $0.045 |
 |`dola-seedream-5-0-flash-260915` |Free |$0.018 |
 |`seedream-5-0-lite-260128` |Free |$0.035 |
 |`seedream-4-5-251128` |Free |$0.04 |
@@ -311,7 +312,7 @@ To get more estimated prices, please use the [Price Calculator - SD 1.0 Pro](htt
 
 * Images that are not successfully output due to reasons such as content moderation are not billed.
 
-* In Seedream 5.0 pro layer decomposition, each layer in a single request may fall into a different resolution tier and is billed based on the actual generated output.
+* In Seedream 5.5 and Seedream 5.0 pro layer decomposition, each layer in a single request may fall into a different resolution tier and is billed based on the actual generated output.
 
 * For Seedream 5.0 lite, Seedream 4.5, and Seedream 4.0, sequential image generation is billed based on the actual number of generated images.
 
@@ -385,6 +386,18 @@ Billing is calculated as the sum of three items: Tokens actually consumed during
 ### Billing rules
 
 Billing formula: `Managed Agents fee = Model invocation fee + agent runtime fee + tool calling fee`
+
+## Copyrighted IP
+
+Videos generated with copyrighted IPs are billed based on output duration. Unit prices vary by IP. For specific pricing information, see [ModelArk Model Playground](https://ai.byteplus.com/ark/region:ap-southeast-1/experience/gen_video?model=dreamina-seedance-2-5-260628).
+
+For a video generation task that uses copyrighted IPs, calculate the copyright fee for each input IP based on its unit price and the video duration in seconds, and then add the fees together:
+
+`Copyright fee for one video = Sum of (unit price for each input IP × video duration in seconds)`
+
+* [Video generation model pricing](model-pricing.md#video-generation-models)
+
+* [Copyrighted IP video generation tutorial](generate-copyright-video.md)
 
 ## Coding Plan
 

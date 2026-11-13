@@ -1264,7 +1264,7 @@ Controls the maximum length of the model output for this response (in tokens), i
 
 > **Tip**
 
-* > For the `deepseek-v4-1-flash-261017`, `deepseek-v4-1-flash-260910` and `deepseek-v4-1-flash-economy-261017` models, the default value of this parameter is 128k.
+* > For the `deepseek-v4-1-flash-261017`, `deepseek-v4-1-flash-260910` and `deepseek-v4-1-flash-economy-261017` models, the default value of this parameter is 131072 (128K).
 
 * > The total model output length is also limited by the model's context length. The actual available upper limit is subject to the model list.
 
@@ -2288,7 +2288,7 @@ The Unix timestamp (in seconds) when the stored response expires. It echoes the 
 
 Details about why the response could not be completed.
 
-**reason** `string`  |  Cause
+**reason** `string`  |  Reason
 
 `incomplete_details.reason`
 

@@ -90,7 +90,7 @@ The number of frames to be extracted from the video per second. The higher the v
 
 > **Note**
 
-> Value range: `[0.2, 5]`. The token usage range for a single video is `[10k, 80k]`.
+> Value range: `[0.2, 5]`. The token usage range for a single video is `[10K, 80K]`.
 
 **Range**: `[0.2, 5]`
 
@@ -282,7 +282,7 @@ The number of frames to be extracted from the video per second. The higher the v
 
 > **Note**
 
-> Value range: `[0.2, 5]`. The token usage range for a single video is `[10k, 80k]`.
+> Value range: `[0.2, 5]`. The token usage range for a single video is `[10K, 80K]`.
 
 **Range**: `[0.2, 5]`
 

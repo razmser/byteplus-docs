@@ -2566,9 +2566,9 @@ The number of images passed in a single request is limited by the model's contex
 
 > Examples:
 
-> * When the total pixel value of images is large, the model context window used is 32k tokens, and each image is converted to 1312 tokens: The number of images that can be passed in a single request is `32000 ÷1312 =24`.
+> * When the total pixel value of images is large, the model context window used is 32K tokens, and each image is converted to 1312 tokens: The number of images that can be passed in a single request is `32000 ÷1312 =24`.
 
-> * When the total pixel value of images is small, the model context window used is 32k tokens, and each image is converted to 256 tokens: The number of images that can be passed in a single request is `32000 ÷256 =125`.
+> * When the total pixel value of images is small, the model context window used is 32K tokens, and each image is converted to 256 tokens: The number of images that can be passed in a single request is `32000 ÷256 =125`.
 
 > **Tip**
 

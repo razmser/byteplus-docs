@@ -24,13 +24,13 @@ ModelArk provides models for text and code, video, image, 3D, and embedding work
 
 * **Key limits:**  Up to 1080p, 4\-30 seconds, and 0.6K default max RPM for enterprise users
 
-[Dola Seedream 5.0 Pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro)
+[Dola Seedream 5.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-5)
 
-![Dola Seedream 5.0 Pro](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_image_generation.png)
+![Dola Seedream 5.5](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_image_generation.png)
 
-* **Best for:**  Image generation and layer decomposition
+* **Best for:**  Precise multi\-round image editing and layer decomposition
 
-* **Key capabilities:**  Text\-to\-image, single\-reference image\-to\-image, and multi\-reference image\-to\-image
+* **Key capabilities:**  Native RGBA image generation, rich text OCR, and up to 99 output layers
 
 * **Key limit:**  500 max IPM
 
@@ -182,10 +182,10 @@ API documentation: [Create task](create-video-generation-task-api.md) | [List ta
 |Model ID |Default ||Flex |
 |---|---|---|---|
 | |Max RPM |Max concurrency | |
-|[dreamina-seedance-2-5-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |Not supported |
-|[dreamina-seedance-2-0-mini-260615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |Not supported |
-|[dreamina-seedance-2-0-fast-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |Not supported |
-|[dreamina-seedance-2-0-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |Non\-4K enterprise: 600<br><br>Non\-4K individual: 180<br><br>4K, all users: 15 |Non\-4K enterprise: 10<br><br>Non\-4K individual: 3<br><br>4K, all users: 1 |Not supported |
+|[dreamina-seedance-2-5-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |No |
+|[dreamina-seedance-2-0-mini-260615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |No |
+|[dreamina-seedance-2-0-fast-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |No |
+|[dreamina-seedance-2-0-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |Non\-4K enterprise: 600<br><br>Non\-4K individual: 180<br><br>4K, all users: 15 |Non\-4K enterprise: 10<br><br>Non\-4K individual: 3<br><br>4K, all users: 1 |No |
 |[seedance-1-0-pro-fast-251015](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedance-1-0-pro-fast) |600 |10 |TPD 500B |
 |[seedance-1-0-pro-250528](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedance-1-0-pro) |600 |10 |TPD 500B |
 
@@ -197,18 +197,20 @@ API documentation: [Generate images](image-generation-api.md)
 
 ### Capabilities
 
-|Model ID |Layer decomposition |Single\-image generation |Batch\-image generation |
-|---|---|---|---|
-|[dola-seedream-5-0-flash-260915](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |Yes |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image |Not supported |
-|[dola-seedream-5-0-pro-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |Yes |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image |Not supported |
-|[seedream-5-0-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-5-0)<br><br>Also supports `seedream-5-0-lite-260128` |No |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image |* From text<br><br>* From one reference image<br><br>* From multiple reference images |
-|[seedream-4-5-251128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-5) |No |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image |* From text<br><br>* From one reference image<br><br>* From multiple reference images |
-|[seedream-4-0-250828](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-0) |No |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image |* From text<br><br>* From one reference image<br><br>* From multiple reference images |
+|Model ID |Interactive editing |Layer decomposition |Single\-image generation |Batch\-image generation |
+|---|---|---|---|---|
+|[dola-seedream-5-5-261028](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-5) |Yes |1 base image + up to 99 layers (rich\-text OCR supported) |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image<br><br>* Native RGBA images are supported for all three task types. |No |
+|[dola-seedream-5-0-flash-260915](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |Yes |1 base image + up to 16 layers |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image<br><br>* Native RGBA images are supported only for single\-reference image\-to\-image. |No |
+|[dola-seedream-5-0-pro-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |Yes |1 base image + up to 16 layers |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image<br><br>* Native RGBA images are supported only for single\-reference image\-to\-image. |No |
+|[seedream-5-0-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-5-0)<br><br>Also supports `seedream-5-0-lite-260128` |No |No |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image<br><br>* Web search supported. |* Text\-to\-multiple images<br><br>* Single\-reference image\-to\-multiple images<br><br>* Multi\-reference image\-to\-multiple images |
+|[seedream-4-5-251128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-5) |No |No |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image |* Text\-to\-multiple images<br><br>* Single\-reference image\-to\-multiple images<br><br>* Multi\-reference image\-to\-multiple images |
+|[seedream-4-0-250828](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-0) |No |No |* Text\-to\-image<br><br>* Single\-reference image\-to\-image<br><br>* Multi\-reference image\-to\-image |* Text\-to\-multiple images<br><br>* Single\-reference image\-to\-multiple images<br><br>* Multi\-reference image\-to\-multiple images |
 
 ### Limits
 
 |Model ID |Max IPM |
 |---|---|
+|[dola-seedream-5-5-261028](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-5) |500 |
 |[dola-seedream-5-0-flash-260915](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |500 |
 |[dola-seedream-5-0-pro-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |500 |
 |[seedream-5-0-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-5-0)<br><br>Also supports `seedream-5-0-lite-260128` |500 |
@@ -229,7 +231,7 @@ API documentation: [Generate images](image-generation-api.md)
 |Provider |Model ID |Output limits ||Rate limits ||Free quota |
 |---|---|---|---|---|---|---|
 | | |Polygon count |Resolution |Max RPM |Max concurrency | |
-|Deemos |[hyper3d-gen2-260112](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=hyper3d-gen2) |Triangular mesh: 0.5K\-1000K<br><br>Quad mesh: 1K\-200K |Not supported |0.06K |3 |150K |
+|Deemos |[hyper3d-gen2-260112](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=hyper3d-gen2) |Triangular mesh: 0.5K\-1000K<br><br>Quad mesh: 1K\-200K |No |0.06K |3 |150K |
 |Hitem3D |[hitem3d-2-0-251223](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=hitem3d-2-0) |100K\-2000K |1536<br><br>1536pro |0.6K |30 |500K |
 
 ## Embedding

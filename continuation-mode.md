@@ -51,11 +51,30 @@ API support:
 Set the **role** of the last message in the message list to `assistant`. The model will follow the existing format and content of the `assistant` message to continue generating.
 
 ```Python
+import os
+
+# Install SDK: python -m pip install --upgrade arkruntime
+from arkruntime import Ark
+
+client = Ark(
+    # The base URL for model invocation
+    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+    api_key=os.getenv("ARK_API_KEY"),
+)
+
 messages = [
     {"role": "user", "content": "You are a calculator, please calculate: 1 + 1"},
-# The last message is a model message with the role of assistant
-    {"role": "assistant", "content": "="}
+    # Place prefix in the same assistant message as role and non-empty content.
+    {"role": "assistant", "content": "=", "prefix": True},
 ]
+
+completion = client.chat.completions.create(
+    # This model is listed in the document as requiring prefix=true.
+    model="deepseek-v4-1-flash-261017",
+    messages=messages,
+)
+print(messages[-1]["content"] + completion.choices[0].message.content)
 ```
 
 ### Method 2
@@ -97,6 +116,7 @@ The model may output content based on its own understanding, making the result i
 
    ```Python
    import json
+   
    # Install json-repair: pip install json-repair
    import json_repair
    import os
@@ -105,26 +125,25 @@ The model may output content based on its own understanding, making the result i
    
    PREFILL_PREFIX = "{"
    client = Ark(
-   # The base URL for model invocation
+       # The base URL for model invocation
        base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-   # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+       # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
        api_key=os.getenv('ARK_API_KEY'),
    )
    completion = client.chat.completions.create(
-   # Replace with Model ID
-       model = "dola-seed-2-1-turbo-260628",
+       # Replace with Model ID
+       model="dola-seed-2-1-turbo-260628",
        messages=[
            {"role": "user", "content": "Use JSON to describe the name and function of the Dola model"},
            {"role": "assistant", "content": PREFILL_PREFIX},
        ]
    )
-   # Concatenate PREFILL_PREFIX and the model output
+   # Reconstruct the complete candidate JSON before parsing it.
    json_string = PREFILL_PREFIX + completion.choices[0].message.content
-   # Parse the JSON object
-   obj = {}
    try:
        obj = json.loads(json_string)
-   except json.JSONDecodeError as e:
+   except json.JSONDecodeError:
+       # Use bounded repair for low-risk data; validate business fields afterwards.
        obj = json_repair.loads(json_string)
    
    print(obj)
@@ -144,17 +163,19 @@ import os
 from arkruntime import Ark
 
 messages = [
-    {"role": "user", "content": '''Please translate the following text into English: <TEXT_TO_BE_TRANSLATED> '''}, # Replace <TEXT_TO_BE_TRANSLATED> with your content
-    {"role": "assistant", "content": ""}
+    {
+        "role": "user",
+        "content": "Please translate the following text into English: <TEXT_TO_BE_TRANSLATED>",
+    },
 ]
 
 # Replace with Model ID
-ark_model="dola-seed-2-1-turbo-260628"
+ark_model = "dola-seed-2-1-turbo-260628"
 
 client = Ark(
-# The base URL for model invocation
+    # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-# Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -163,26 +184,42 @@ completion = client.chat.completions.create(
     messages=messages
 )
 
-loop_count = 0 # Initialize the loop counter
-max_loops = 20  # Set the maximum loop count to 20
+combined_text = completion.choices[0].message.content or ""
+loop_count = 0
+max_loops = 20
+max_total_tokens = 100_000
+max_total_characters = 200_000
+# Round usage includes re-sent history, so this token budget is conservative.
+total_tokens = completion.usage.total_tokens if completion.usage else 0
 
-# Trigger repeated generation of assistant replies when the output length limit is reached
-while completion.choices[0].finish_reason == "length":
-    messages[-1]["content"] += completion.choices[0].message.content
+# Continue only when the current response is truncated by the output length limit.
+while (
+    completion.choices[0].finish_reason == "length"
+    and loop_count < max_loops
+    and total_tokens < max_total_tokens
+    and len(combined_text) < max_total_characters
+):
+    # Reuse the non-empty accumulated text as the assistant prefill for the next round.
+    continuation_messages = [
+        messages[0],
+        {"role": "assistant", "content": combined_text},
+    ]
     completion = client.chat.completions.create(
         model=ark_model,
-        messages=messages
+        messages=continuation_messages,
     )
-#     Increment the counter
+    combined_text += completion.choices[0].message.content or ""
+    if completion.usage:
+        total_tokens += completion.usage.total_tokens
     loop_count += 1
-#     Check whether the maximum loop count is exceeded
-    if loop_count >= max_loops:
-        print(f"Warning: Reached maximum loop count {max_loops}, stopping content generation.")
-        break
 
-# Return the last reply
-messages[-1]["content"] += completion.choices[0].message.content
-print(messages[-1]["content"])
+if completion.choices[0].finish_reason == "length":
+    print(
+        "Warning: a loop, token, or character budget was reached; "
+        "returning partial content."
+    )
+
+print(combined_text)
 ```
 
 ## Scenario: improve role\-playing consistency
@@ -224,13 +261,39 @@ Wukong said, "Master, this mountain looks very dangerous. I will go explore the 
 You can also switch roles by changing the last message in `messages`.
 
 ```Python
-...
-messages[-1] = {"role": "assistant", "content": "Tang Seng said:"}
+import os
+
+# Install SDK: python -m pip install --upgrade arkruntime
+from arkruntime import Ark
+
+client = Ark(
+    # The base URL for model invocation
+    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+    api_key=os.getenv("ARK_API_KEY"),
+)
+
+# Replace with Model ID
+ark_model = "dola-seed-2-1-turbo-260628"
+
+messages = [
+    {
+        "role": "system",
+        "content": "Continue the scene using only the speaking character's dialogue.",
+    },
+    {
+        "role": "user",
+        "content": "Wukong asks whether the group should continue across the mountain.",
+    },
+]
+
+# Change the assistant prefill to switch the speaking character for this round.
+messages.append({"role": "assistant", "content": "Tang Seng said:"})
 completion = client.chat.completions.create(
     model=ark_model,
-    messages=messages
+    messages=messages,
 )
-print(messages[-1]['content']+completion.choices[0].message.content)
+print(messages[-1]["content"] + completion.choices[0].message.content)
 ```
 
 Model output example:

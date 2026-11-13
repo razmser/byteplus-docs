@@ -1,45 +1,47 @@
 # Image generation tutorial
 
-The Seedream models natively support text, single\-image, and multi\-image inputs, enabling diverse workflows such as multi\-image fusion based on subject consistency, image editing, and batch image generation. This provides creators with greater flexibility and control over the image\-creation process.
-
-This document uses seedream\-5\-0\-lite as an example to illustrate how to use [Image generation API](image-generation-api.md) for image creation. To use the seedream\-5\-0\-pro, seedream\-5\-0\-flash, seedream\-4\-5, and seedream\-4\-0 models, replace the model field in the code samples below.
+The Dola Seedream model series supports text, single\-image, and multi\-image inputs for text\-to\-image generation, multi\-image blending, and image editing. This document explains how to use [Image generation API](image-generation-api.md) for image creation: use Seedream 5.5 for text\-to\-image, single\-image editing, and multi\-image blending; Seedream 5.0 lite for batch image generation and streaming output; and Seedream 5.0 pro for fast prompt optimization. To switch models, choose one from the model capability table below and configure the request according to its parameter constraints.
 
 > **New model available**
 
-> **Dola Seedream 5.0 flash** (Model ID: `dola-seedream-5-0-flash-260915`) is now available. It supports precise image editing by specifying edit locations with coordinates, bounding boxes, arrows, and other markers; decomposing a single image into one base image and up to 16 independent layers; and native multilingual generation.
+> Dola Seedream 5.5 (Model ID: `dola-seedream-5-5-261028`) improves consistency across multi\-turn edits and supports natively generated RGBA images from text\-to\-image and image\-to\-image. Layer decomposition can output one base image and up to 99 layers, and can provide rich\-text OCR results for regular text layers.
 
-> **Seedream 5.0 flash generates images faster and costs less**, making it suitable for latency\- and cost\-sensitive applications.
-
-> For details, see [Seedream 5.0 pro / flash tutorial](seedream-5-0-pro.md).
+> For its specialized capabilities and examples, see [Dola Seedream 5.5 tutorial](seedream-5-5.md).
 
 # Showcases
 
+For more examples, see [Showcases](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-5-0).
+
 |Use cases |Input |Output |
 |---|---|---|
-|Layer decomposition<br><br> <br><br>\> Seedream 5.0 pro and Seedream 5.0 flash can decompose elements into independently editable layers for fine\-grained editing such as dragging, scaling, and recomposition. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_input.png)<br><br>Precisely decompose the image into layers. The text coordinates to separate are `<bbox>180 64 812 198</bbox>`, `<bbox>757 210 939 280</bbox>`, `<bbox>63 212 320 282</bbox>`, `<bbox>178 714 826 810</bbox>`, `<bbox>814 819 949 894</bbox>`, and `<bbox>326 824 669 930</bbox>`. The parrot coordinates are `<bbox>347 305 642 997</bbox>`. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_output2.gif) |
-|Interactive editing<br><br> <br><br>\> Seedream 5.0 pro and Seedream 5.0 flash let you specify the edit region with markers. The model recognizes the marked area and generates content that blends naturally into the original scene. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_input2.png)<br><br>Edit the image based on the hand\-drawn sketch. Add a stack of realistic magazines or art books in the marked area at the lower left, and add a ceramic cup of coffee with a saucer in the marked area on the right. Remove all sketch lines. Keep the composition unchanged. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_output2.png) |
+|Layer decomposition<br><br> <br><br>\> Dola Seedream 5.5 and Seedream 5.0 pro / flash can decompose elements into independently editable layers for fine\-grained editing such as dragging, scaling, and recomposition. The following image shows layer decomposition with Seedream 5.0 pro. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_input.png)<br><br>Precisely decompose the image into layers. The text coordinates to separate are `<bbox>180 64 812 198</bbox>`, `<bbox>757 210 939 280</bbox>`, `<bbox>63 212 320 282</bbox>`, `<bbox>178 714 826 810</bbox>`, `<bbox>814 819 949 894</bbox>`, and `<bbox>326 824 669 930</bbox>`. The parrot coordinates are `<bbox>347 305 642 997</bbox>`. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_output2.gif) |
+|Interactive editing<br><br> <br><br>\> Dola Seedream 5.5 and Seedream 5.0 pro / flash let you specify the edit region with markers. The model recognizes the marked area and generates content that blends naturally into the original scene. The following image shows editing with Seedream 5.0 pro. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_input2.png)<br><br>Edit the image based on the hand\-drawn sketch. Add a stack of realistic magazines or art books in the marked area at the lower left, and add a ceramic cup of coffee with a saucer in the marked area on the right. Remove all sketch lines. Keep the composition unchanged. |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_output2.png) |
 |Multi\-reference image\-to\-image generation<br><br> <br><br>\> Input multiple images as reference, blend styles and elements to generate new images |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/2198d4bef000400bbfea18025850ed82~tplv-goo7wpa0wc-image.image)<br><br>Replace the clothing in image 1 with the outfit from image 2. |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/94fa391195e248fbb709691892ea7eb9~tplv-goo7wpa0wc-image.image) |
-|Image sequence generation<br><br>\> Based on text and images entered by the user, generate a set of content\-related images |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a215e8241dd94f50901948790da121e1~tplv-goo7wpa0wc-image.image)<br><br>Referring to Figure 1, generate four images with characters wearing sunglasses, riding motorcycles, wearing hats, and holding lollipops |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream-sequence-output.jpeg) |
+|Image sequence generation<br><br>\> Seedream 5.0 lite / 4.5 / 4.0 can generate a set of content\-related images from user\-provided text and images. |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a215e8241dd94f50901948790da121e1~tplv-goo7wpa0wc-image.image)<br><br>Referring to Figure 1, generate four images with characters wearing sunglasses, riding motorcycles, wearing hats, and holding lollipops |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream-sequence-output.jpeg) |
 
 # Model capabilities
 
 The following table compares the capabilities and parameters of each Seedream model version to help you choose the model that best fits your business needs.
 
-|Model Name | |[seedream-5-0-pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |[seedream-5-0-flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |[seedream-5-0-lite](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-5-0) |[seedream-4-5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-5) |[seedream-4-0](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-0) |
-|---|---|---|---|---|---|---|
-|Model ID | |dola\-seedream\-5\-0\-pro\-260628 |dola\-seedream\-5\-0\-flash\-260915 |seedream\-5\-0\-260128 (also supports: seedream\-5\-0\-lite\-260128) |seedream\-4\-5\-251128 |seedream\-4\-0\-250828 |
-|[Text-to-image](image-generation-tutorial.md#9695d195) | |✓ |✓ |✓ |✓ |✓ |
-|[Text-to-multiple images](image-generation-tutorial.md#ec79cfda) | |✗ |✗ |✓ |✓ |✓ |
-|[Single/multiple images to image](image-generation-tutorial.md#8bc49063) | |✓ |✓ |✓ |✓ |✓ |
-|[Single/multiple images to multiple images](image-generation-tutorial.md#fc9f85e4) | |✗ |✗ |✓ |✓ |✓ |
-|[Interactive editing](image-generation-tutorial.md#2cf5cace) | |✓ |✓ |✗ |✗ |✗ |
-|[Layer decomposition](seedream-5-0-pro.md#layer-decomposition) | |✓ |✓ |✗ |✗ |✗ |
-|[Streaming output](image-generation-tutorial.md#e5bef0d7) | |✗ |✗ |✓ |✓ |✓ |
-|Model parameters |Resolution |1K, 1.5K, 2K |1K, 1.5K, 2K |2K, 3K, 4K |2K, 4K |1K, 2K, 4K |
-||Output format |png, jpeg |png, jpeg |png, jpeg |jpeg |jpeg |
-||Prompt optimization mode |standard mode, fast mode |standard mode |standard mode |standard mode |standard mode, fast mode |
-||Number of generated images |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Number of input reference images + number of generated images ≤ 15. | | |
-|Max Images per Minute | |500 |500 |500 |500 |500 |
+|Model Name | |[Seedream 5.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-5) |[Seedream 5.0 pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |[Seedream 5.0 flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |[Seedream 5.0 lite](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-5-0) |[Seedream 4.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-5) |[Seedream 4.0](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-0) |
+|---|---|---|---|---|---|---|---|
+|Model ID | |dola\-seedream\-5\-5\-261028 |dola\-seedream\-5\-0\-pro\-260628 |dola\-seedream\-5\-0\-flash\-260915 |seedream\-5\-0\-260128 (also supports: seedream\-5\-0\-lite\-260128) |seedream\-4\-5\-251128 |seedream\-4\-0\-250828 |
+|[Text-to-image](image-generation-tutorial.md#9695d195) | |✓ |✓ |✓ |✓ |✓ |✓ |
+|[Text-to-multiple images](image-generation-tutorial.md#ec79cfda) | |✗ |✗ |✗ |✓ |✓ |✓ |
+|[Single/multiple images to image](image-generation-tutorial.md#8bc49063) | |✓, up to 10 reference images |✓, up to 10 reference images |✓, up to 10 reference images |✓, up to 14 reference images |✓, up to 14 reference images |✓, up to 14 reference images |
+|[Single/multiple images to multiple images](image-generation-tutorial.md#fc9f85e4) | |✗ |✗ |✗ |✓ |✓ |✓ |
+|[Interactive editing](image-generation-tutorial.md#interactive_edit) | |✓ |✓ |✓ |✗ |✗ |✗ |
+|[Layer decomposition](seedream-5-0-pro.md#layer-decomposition) | |✓ |✓ |✓ |✗ |✗ |✗ |
+|[Native RGBA images](seedream-5-5.md#native-rgba) | |✓, text\-to\-image and image\-to\-image |✓, single transparent PNG image\-to\-image only |✓, single transparent PNG image\-to\-image only |✗ |✗ |✗ |
+|[Rich-text OCR](seedream-5-5.md#rich-text-ocr) | |✓ |✗ |✗ |✗ |✗ |✗ |
+|[Streaming output](image-generation-tutorial.md#e5bef0d7) | |✗ |✗ |✗ |✓ |✓ |✓ |
+|Model parameters |Resolution<br><br>> Image generation<br><br><br> |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `2K`, `3K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1920x1920`, `4096x4096`] |* Method 1: Resolution preset: `2K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1920x1920`, `4096x4096`] |* Method 1: Resolution preset: `1K`, `2K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `4096x4096`] |
+||Resolution<br><br>> Layer decomposition<br><br><br> |1K, 1.5K, 2K, auto |1K, 1.5K, 2K, auto |1K, 1.5K, 2K, auto |✗ |✗ |✗ |
+||Output format |png, jpeg |png, jpeg |png, jpeg |png, jpeg |jpeg |jpeg |
+||Prompt optimization mode |standard mode |standard mode, fast mode |standard mode |standard mode |standard mode |standard mode, fast mode |
+||Number of generated images |Single image; layer decomposition supports up to one base image and 99 layers |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Number of input reference images + number of generated images ≤ 15. | | |
+||Maximum output image count<br><br>> Layer decomposition<br><br><br> |2\-100 images, including the base image |✗ |✗ |✗ |✗ |✗ |
+|Max Images per Minute | |[Image generation](model-list.md#9df4d9fd) |500 |500 |500 |500 |500 |
 
 # Prerequisites
 
@@ -70,15 +72,13 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-      "model": "seedream-5-0-lite-260128",
+    "model": "dola-seedream-5-5-261028",
     "prompt": "Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.",
     "size": "2K",
     "output_format":"png",
     "watermark": true
 }'
 ```
-
-* You may replace the Model ID as needed. See [Model list](model-list.md) for available models.
 
 **Python**
 
@@ -96,7 +96,7 @@ client = Ark(
 
 imagesResponse = client.images.generate(
     # Replace with Model ID
-      model="seedream-5-0-lite-260128",
+    model="dola-seedream-5-5-261028",
     prompt="Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.",
     size="2K",
     output_format="png",
@@ -137,13 +137,12 @@ public class ImageGenerationsExample {
                 .build();
 
         CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
-                 .model("seedream-5-0-lite-260128") // Replace with Model ID
+                .model("dola-seedream-5-5-261028") // Replace with Model ID
                 .prompt("Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.")
+
                 .size("2K")
-                .sequentialImageGeneration(SequentialImageGenerationMode.DISABLED)
                 .outputFormat(OutputFormat.PNG)
                 .responseFormat(ResponseFormat.URL)
-                .stream(false)
                 .watermark(true)
                 .build();
         ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
@@ -180,8 +179,9 @@ func main() {
 
 
     generateReq := &model.CreateImageGenerationRequest{
-       Model:          "seedream-5-0-lite-260128", // Replace with Model ID
+       Model:          "dola-seedream-5-5-261028", // Replace with Model ID
        Prompt:         model.NewOptString("Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting."),
+
        Size:           model.NewOptString("2K"),
        OutputFormat: model.NewOptOutputFormat(outputFormat),
        ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
@@ -213,13 +213,13 @@ client = OpenAI(
 
 imagesResponse = client.images.generate(
     # Replace with Model ID
-      model="seedream-5-0-lite-260128",
+    model="dola-seedream-5-5-261028",
     prompt="Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.",
     size="2K",
     output_format="png",
     response_format="url",
     extra_body={
-        "watermark": False,
+        "watermark": True,
     },
 )
 
@@ -241,16 +241,14 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "seedream-5-0-lite-260128",
-    "prompt": "Keep the model'\''s pose and the flowing shape of the liquid dress unchanged. Change the clothing material from silver metal to completely transparent clear water (or glass). Through the liquid water, the model'\''s skin details are visible. Lighting changes from reflection to refraction.",
+    "model": "dola-seedream-5-5-261028",
+    "prompt": "Keep the model’s pose and the flowing shape of the liquid dress unchanged. Change the clothing material from silver metal to completely transparent clear water (or glass). Through the liquid water, the model’s skin details are visible. Lighting changes from reflection to refraction.",
     "image": "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_5_imageToimage.png",
     "size": "2K",
     "output_format":"png",
     "watermark": true
 }'
 ```
-
-* You may replace the Model ID as needed. See [Model list](model-list.md) for available models.
 
 **Python**
 
@@ -268,7 +266,7 @@ client = Ark(
 
 imagesResponse = client.images.generate(
     # Replace with Model ID
-    model="seedream-5-0-lite-260128",
+    model="dola-seedream-5-5-261028",
     prompt="Keep the model's pose and the flowing shape of the liquid dress unchanged. Change the clothing material from silver metal to completely transparent clear water (or glass). Through the liquid water, the model's skin details are visible. Lighting changes from reflection to refraction.",
     image="https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_5_imageToimage.png",
     size="2K",
@@ -310,14 +308,14 @@ public class ImageGenerationsExample {
 
         // CreateImageGenerationRequestImage requires ark-runtime 0.6.0 or later.
         CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
-                .model("seedream-5-0-lite-260128") // Replace with Model ID
+                .model("dola-seedream-5-5-261028") // Replace with Model ID
                 .prompt("Keep the model's pose and the flowing shape of the liquid dress unchanged. Change the clothing material from silver metal to completely transparent clear water (or glass). Through the liquid water, the model's skin details are visible. Lighting changes from reflection to refraction.")
+
                 .image(CreateImageGenerationRequestImage.ofString("https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_5_imageToimage.png"))
+
                 .size("2K")
-                .sequentialImageGeneration(SequentialImageGenerationMode.DISABLED)
                 .outputFormat(OutputFormat.PNG)
                 .responseFormat(ResponseFormat.URL)
-                .stream(false)
                 .watermark(true)
                 .build();
 
@@ -353,9 +351,11 @@ func main() {
     outputFormat := model.OutputFormatPNG
 
     generateReq := &model.CreateImageGenerationRequest{
-       Model:          "seedream-5-0-lite-260128",
+       Model:          "dola-seedream-5-5-261028",
        Prompt:         model.NewOptString("Keep the model's pose and the flowing shape of the liquid dress unchanged. Change the clothing material from silver metal to completely transparent clear water (or glass). Through the liquid water, the model's skin details are visible. Lighting changes from reflection to refraction."),
+
        Image: model.NewOptCreateImageGenerationRequestImage(model.NewStringArrayCreateImageGenerationRequestImage([]string{"https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_5_imageToimage.png"})),
+
        Size:           model.NewOptString("2K"),
        OutputFormat: model.NewOptOutputFormat(outputFormat),
        ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
@@ -386,7 +386,7 @@ client = OpenAI(
 )
 
 imagesResponse = client.images.generate(
-    model="seedream-5-0-lite-260128",
+    model="dola-seedream-5-5-261028",
     prompt="Keep the model's pose and the flowing shape of the liquid dress unchanged. Change the clothing material from silver metal to completely transparent clear water (or glass). Through the liquid water, the model's skin details are visible. Lighting changes from reflection to refraction.",
     size="2K",
     output_format="png",
@@ -415,7 +415,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "seedream-5-0-lite-260128",
+    "model": "dola-seedream-5-5-261028",
     "prompt": "Replace the clothing in image 1 with the outfit from image 2.",
     "image": ["https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_imagesToimage_1.png", "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_5_imagesToimage_2.png"],
     "size": "2K",
@@ -423,8 +423,6 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
     "watermark": true
 }'
 ```
-
-* You may replace the Model ID as needed. See [Model list](model-list.md) for available models.
 
 **Python**
 
@@ -441,7 +439,7 @@ client = Ark(
 )
 imagesResponse = client.images.generate(
     # Replace with Model ID
-    model="seedream-5-0-lite-260128",
+    model="dola-seedream-5-5-261028",
     prompt="Replace the clothing in image 1 with the outfit from image 2.",
     image=["https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_imagesToimage_1.png", "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_5_imagesToimage_2.png"],
     size="2K",
@@ -483,8 +481,9 @@ public class ImageGenerationsExample {
 
         // CreateImageGenerationRequestImage requires ark-runtime 0.6.0 or later.
         CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
-                .model("seedream-5-0-lite-260128") // Replace with Model ID
+                .model("dola-seedream-5-5-261028") // Replace with Model ID
                 .prompt("Replace the clothing in image 1 with the outfit from image 2.")
+
                 .image(CreateImageGenerationRequestImage.ofList(Arrays.asList(
                     "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_imagesToimage_1.png",
                     "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_5_imagesToimage_2.png"
@@ -492,7 +491,6 @@ public class ImageGenerationsExample {
                 .size("2K")
                 .outputFormat(OutputFormat.PNG)
                 .responseFormat(ResponseFormat.URL)
-                .stream(false)
                 .watermark(true)
                 .build();
         ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
@@ -527,11 +525,14 @@ func main() {
     outputFormat := model.OutputFormatPNG
 
     generateReq := &model.CreateImageGenerationRequest{
-       Model:          "seedream-5-0-lite-260128",
+       Model:          "dola-seedream-5-5-261028",
        Prompt:         model.NewOptString("Replace the clothing in image 1 with the outfit from image 2."),
+
        Image:         model.NewOptCreateImageGenerationRequestImage(model.NewStringArrayCreateImageGenerationRequestImage([]string{
            "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_imagesToimage_1.png",
            "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream4_5_imagesToimage_2.png",
+
+
        })),
        Size:           model.NewOptString("2K"),
        OutputFormat: model.NewOptOutputFormat(outputFormat),
@@ -563,7 +564,7 @@ client = OpenAI(
 )
 
 imagesResponse = client.images.generate(
-    model="seedream-5-0-lite-260128",
+    model="dola-seedream-5-5-261028",
     prompt="Replace the clothing in image 1 with the outfit from image 2.",
     size="2K",
     output_format="png",
@@ -579,7 +580,7 @@ print(imagesResponse.data[0].url)
 
 ## Batch image output
 
-> Seedream 5.0 pro and Seedream 5.0 flash do not support this capability.
+> Seedream 5.5, Seedream 5.0 pro and Seedream 5.0 flash do not support this capability.
 
 Generate a set of thematically related images—such as comic storyboards or brand visuals—using one or more images combined with text descriptions.
 
@@ -611,8 +612,6 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
     "watermark": true
 }'
 ```
-
-* You may replace the Model ID as needed. See [Model list](model-list.md) for available models.
 
 **Python**
 
@@ -832,8 +831,6 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
     "watermark": true
 }'
 ```
-
-* You may replace the Model ID as needed. See [Model list](model-list.md) for available models.
 
 **Python**
 
@@ -1057,8 +1054,6 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 }'
 ```
 
-* You may replace the Model ID as needed. See [Model list](model-list.md) for available models.
-
 **Python**
 
 ```Python
@@ -1274,9 +1269,9 @@ for image in imagesResponse.data:
 
 ## Streaming output
 
-> Dola Seedream 5.0 pro and Dola Seedream 5.0 flash do not support this capability.
+> Seedream 5.5, Seedream 5.0 pro, and Seedream 5.0 flash do not support this capability.
 
-seedream\-5\-0\-lite, seedream\-4\-5 and seedream\-4\-0 models support streaming image generation. Results are returned as soon as an image is created, enabling faster browsing and improving end\-user experience.
+The models support streaming image generation. Results are returned as soon as an image is generated, enabling faster browsing and improving the waiting experience.
 
 Enable streaming output mode by setting the **stream** parameter to `true`.
 
@@ -1302,8 +1297,6 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
     "watermark": true
 }'
 ```
-
-* You may replace the Model ID as needed. See [Model list](model-list.md) for available models.
 
 **Python**
 
@@ -1550,7 +1543,9 @@ Set **optimize_prompt_options.mode** to choose between `standard` and `fast` bas
 
 * To balance generation speed and image quality, Seedream 5.0 pro and Seedream 4.0 support setting **optimize_prompt_options.mode** to `fast`. This significantly increases generation speed but may reduce image quality.
 
-* Seedream 5.0 flash, Seedream 5.0 lite, and Seedream 4.5 support only `standard`.
+* Dola Seedream 5.5, Seedream 5.0 flash, Seedream 5.0 lite, and Seedream 4.5 support only `standard`.
+
+The following example uses `fast` mode with Seedream 5.0 pro to generate a single image without batch\-image generation or streaming parameters. When switching to Seedream 4.0, you can use the same single\-image request; output images use JPEG format.
 
 **Curl**
 
@@ -1559,24 +1554,16 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "seedream-4-0-250828",
-    "prompt": "Generate a series of 4 coherent illustrations focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season.",
+    "model": "dola-seedream-5-0-pro-260628",
+    "prompt": "Generate one illustration of a courtyard in spring, with blooming flowers, green trees, soft lighting, and fresh colors.",
     "size": "2K",
-    "sequential_image_generation": "auto",
-    "sequential_image_generation_options": {
-        "max_images": 4
-    },
     "optimize_prompt_options": {
         "mode": "fast"
     },
-    "stream": false,
-    "output_format":"png",
     "response_format": "url",
     "watermark": true
 }'
 ```
-
-* You may replace the Model ID as needed. See [Model list](model-list.md) for available models.
 
 **Python**
 
@@ -1584,7 +1571,6 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 import os
 # Install SDK:  python -m pip install --upgrade arkruntime
 from arkruntime import Ark
-from arkruntime.types.images import SequentialImageGenerationOptionsParam
 from arkruntime.types.images import OptimizePromptOptionsParam
 
 client = Ark(
@@ -1596,13 +1582,10 @@ client = Ark(
 
 imagesResponse = client.images.generate(
     # Replace with Model ID
-    model="seedream-4-0-250828",
-    prompt="Generate a series of 4 coherent illustrations focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season.",
+    model="dola-seedream-5-0-pro-260628",
+    prompt="Generate one illustration of a courtyard in spring, with blooming flowers, green trees, soft lighting, and fresh colors.",
     size="2K",
-    sequential_image_generation="auto",
-    sequential_image_generation_options=SequentialImageGenerationOptionsParam(max_images=4),
     optimize_prompt_options=OptimizePromptOptionsParam(mode="fast"),
-    output_format="png",
     response_format="url",
     watermark=True
 )
@@ -1634,30 +1617,25 @@ public class ImageGenerationsExample {
         ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
         Dispatcher dispatcher = new Dispatcher();
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                // The base URL for model invocation
                 .dispatcher(dispatcher)
                 .connectionPool(connectionPool)
                 .apiKey(apiKey)
                 .build();
 
-        SequentialImageGenerationOptions sequentialImageGenerationOptions = new SequentialImageGenerationOptions();
-        sequentialImageGenerationOptions.setMaxImages(4);
         OptimizePromptOptions optimizePromptOptions = new OptimizePromptOptions();
         optimizePromptOptions.setMode(OptimizePromptMode.FAST);
 
         CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
-                 .model("seedream-4-0-250828")  //Replace with Model ID
-                  .prompt("Generate a series of 4 coherent illustrations focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season.")
+                 .model("dola-seedream-5-0-pro-260628")  //Replace with Model ID
+                 .prompt("Generate one illustration of a courtyard in spring, with blooming flowers, green trees, soft lighting, and fresh colors.")
+
                  .size("2K")
-                 .sequentialImageGeneration(SequentialImageGenerationMode.AUTO)
-                 .sequentialImageGenerationOptions(sequentialImageGenerationOptions)
                  .optimizePromptOptions(optimizePromptOptions)
-                 .outputFormat(OutputFormat.PNG)
                  .responseFormat(ResponseFormat.URL)
-                 .stream(false)
                  .watermark(true)
                  .build();
-
         ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
         // Iterate through all image data
         if (imagesResponse != null && imagesResponse.getData() != null) {
@@ -1699,27 +1677,18 @@ func main() {
         arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
     )
     ctx := context.Background()
-    outputFormat := model.OutputFormatPNG
-    var (
-    sequentialImageGeneration model.SequentialImageGenerationMode = "auto"
-    maxImages = 4
-    mode model.OptimizePromptMode = model.OptimizePromptModeFast
-    )
+    mode := model.OptimizePromptModeFast
 
     generateReq := &model.CreateImageGenerationRequest{
-       Model:          "seedream-4-0-250828",
-       Prompt: model.NewOptString("Generate a series of 4 coherent illustrations focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season."),
-       Size:           model.NewOptString("2K"),
-       OutputFormat: model.NewOptOutputFormat(outputFormat),
-       ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
-       Watermark:      model.NewOptBool(true),
-       SequentialImageGeneration: model.NewOptSequentialImageGenerationMode(sequentialImageGeneration),
-       SequentialImageGenerationOptions: model.NewOptSequentialImageGenerationOptions(model.SequentialImageGenerationOptions{
-          MaxImages: model.NewOptInt32(int32(maxImages)),
-       }),
-       OptimizePromptOptions: model.NewOptOptimizePromptOptions(model.OptimizePromptOptions{
-       Mode: model.NewOptOptimizePromptMode(mode),
-       }),
+        Model:  "dola-seedream-5-0-pro-260628",
+        Prompt: model.NewOptString("Generate one illustration of a courtyard in spring, with blooming flowers, green trees, soft lighting, and fresh colors."),
+
+        Size:                      model.NewOptString("2K"),
+        ResponseFormat:            model.NewOptResponseFormat(model.ResponseFormatURL),
+        Watermark:                 model.NewOptBool(true),
+        OptimizePromptOptions: model.NewOptOptimizePromptOptions(model.OptimizePromptOptions{
+            Mode: model.NewOptOptimizePromptMode(mode),
+        }),
     }
 
     resp, err := client.GenerateImages(ctx, generateReq)
@@ -1761,17 +1730,12 @@ client = OpenAI(
 )
 
 imagesResponse = client.images.generate(
-    model="seedream-4-0-250828",
-    prompt="Generate a series of 4 coherent illustrations focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season.",
+    model="dola-seedream-5-0-pro-260628",
+    prompt="Generate one illustration of a courtyard in spring, with blooming flowers, green trees, soft lighting, and fresh colors.",
     size="2K",
-    output_format="png",
     response_format="url",
     extra_body={
         "watermark": True,
-        "sequential_image_generation": "auto",
-        "sequential_image_generation_options": {
-            "max_images": 4
-        },
         "optimize_prompt_options": {"mode": "fast"}
     },
 )
@@ -1782,128 +1746,211 @@ for image in imagesResponse.data:
     print(f"URL: {image.url}, Size: {image.size}")
 ```
 
-* You may replace the Model ID as needed. See [Model list](model-list.md) for available models.
+## Customize image output
 
-# Customize image output
+The following parameters control image output specifications. Available values and defaults vary by model and scenario. For complete field definitions, see [Image generation API](image-generation-api.md).
 
-You can configure the following parameters to control image output specifications:
+|Parameter |Purpose |Configuration |
+|---|---|---|
+|`size` |Controls the dimensions of the output image. |Image generation and layer decomposition use different configuration methods. See [Image output dimensions](image-generation-tutorial.md#034e4a46). |
+|`response_format` |Controls how generated images are returned. |Supported by all models. See [Image output methods](image-generation-tutorial.md#b4306703). |
+|`output_format` |Controls the output image file format. |Supported by only some models. For layer decomposition, it controls only the base\-image format. See [Image output format](image-generation-tutorial.md#cbef7bec). |
+|`background` |Controls whether the generated image has a transparent background. |Supported for image generation only by Dola Seedream 5.5 and Seedream 5.0 pro / flash. See [Image background type](image-generation-tutorial.md#image-background). |
+|`watermark` |Controls whether generated images include a watermark. |Supported by all models. See [Add a watermark to the image](image-generation-tutorial.md#6be7edc7). |
 
-* **size**: The dimensions of the output image.
+### Image output dimensions
 
-* **response_format**: The format of the generated image.
-
-* **output_format**: The format of the output image.
-
-* **watermark**: Whether to add a watermark to the output image.
-
-## Image output dimensions
+The `size` parameter specifies output image dimensions. Different models and scenarios support resolution presets or explicit width and height in pixels.
 
 **Image generation scenarios**
 
-Specify the dimensions of the generated image. You can specify a resolution level, such as `2K`, or specify the width and height in pixels, such as `2048x2048`. The two methods cannot be used at the same time. Available resolutions, default values, total pixel ranges, and aspect ratio ranges vary by model.
+Choose either a resolution preset or explicit pixel dimensions for each request.
 
-**Method 1: Specify a resolution level (recommended)**
+**Method 1: Specify a resolution preset (recommended)**
 
-Describe the image aspect ratio, shape, or purpose in the prompt using natural language. The model determines the final image size. Available values:
+Describe the image aspect ratio, shape, or purpose in natural language in the `prompt`. The model determines the final image size. The following presets are supported:
 
-* seedream\-5\-0\-pro: `1K`, `1.5K`, `2K`
+|Model |Available resolution presets |
+|---|---|
+|Dola Seedream 5.5, Seedream 5.0 pro / flash |`1K`, `1.5K`, `2K` |
+|Seedream 5.0 lite |`2K`, `3K`, `4K` |
+|Seedream 4.5 |`2K`, `4K` |
+|Seedream 4.0 |`1K`, `2K`, `4K` |
 
-* seedream\-5\-0\-lite: `2K`, `3K`, `4K`
+When selecting a resolution preset, the following are pixel mappings for common aspect ratios.
 
-* seedream\-4\-5: `2K`, `4K`
+**Dola Seedream 5.5 and Seedream 5.0 pro / flash: resolution\-to\-pixel mappings**
 
-* seedream\-4\-0: `1K`, `2K`, `4K`
+|Aspect ratio |1K |1.5K |2K |
+|---|---|---|---|
+|1:1 |1024x1024 |1536x1536 |2048x2048 |
+|4:3 |1152x864 |1792x1344 |2368x1776 |
+|3:4 |864x1152 |1344x1792 |1776x2368 |
+|16:9 |1424x800 |2048x1152 |2816x1584 |
+|9:16 |800x1424 |1152x2048 |1584x2816 |
+|3:2 |1248x832 |1872x1248 |2496x1664 |
+|2:3 |832x1248 |1248x1872 |1664x2496 |
+|21:9 |1568x672 |2352x1008 |3136x1344 |
 
-   > **Note**
+**Seedream 5.0 lite: resolution\-to\-pixel mappings**
 
-   > For seedream\-5\-0\-pro, `1.5K` has the same price as `1K` and provides better image generation quality.
+|Aspect ratio |2K |3K |4K |
+|---|---|---|---|
+|1:1 |2048x2048 |3072x3072 |4096x4096 |
+|4:3 |2304x1728 |3456x2592 |4704x3520 |
+|3:4 |1728x2304 |2592x3456 |3520x4704 |
+|16:9 |2848x1600 |4096x2304 |5504x3040 |
+|9:16 |1600x2848 |2304x4096 |3040x5504 |
+|3:2 |2496x1664 |3744x2496 |4992x3328 |
+|2:3 |1664x2496 |2496x3744 |3328x4992 |
+|21:9 |3136x1344 |4704x2016 |6240x2656 |
 
-When using method 1 and describing a specific aspect ratio in the prompt, the model maps the width and height to the following reference pixel values:
+**Seedream 4.5: resolution\-to\-pixel mappings**
 
-> The supported aspect ratios are not limited to the standard values listed below. The following only shows common aspect ratios as examples.
+|Aspect ratio |2K |4K |
+|---|---|---|
+|1:1 |2048x2048 |4096x4096 |
+|4:3 |2304x1728 |4704x3520 |
+|3:4 |1728x2304 |3520x4704 |
+|16:9 |2848x1600 |5504x3040 |
+|9:16 |1600x2848 |3040x5504 |
+|3:2 |2496x1664 |4992x3328 |
+|2:3 |1664x2496 |3328x4992 |
+|21:9 |3136x1344 |6240x2656 |
 
-| |1K |1.5K |2K |3K |4K |
-|---|---|---|---|---|---|
-|seedream\-5\-0\-pro |`1:1`: 1024x1024<br><br>`4:3`: 1152x864<br><br>`3:4`: 864x1152<br><br>`16:9`: 1424x800<br><br>`9:16`: 800x1424<br><br>`3:2`: 1248x832<br><br>`2:3`: 832x1248<br><br>`21:9`: 1568x672 |`1:1`: 1536x1536<br><br>`4:3`: 1792x1344<br><br>`3:4`: 1344x1792<br><br>`16:9`: 2048x1152<br><br>`9:16`: 1152x2048<br><br>`3:2`: 1872x1248<br><br>`2:3`: 1248x1872<br><br>`21:9`: 2352x1008 |`1:1`: 2048x2048<br><br>`4:3`: 2368x1776<br><br>`3:4`: 1776x2368<br><br>`16:9`: 2816x1584<br><br>`9:16`: 1584x2816<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |Not supported |Not supported |
-|seedream\-5\-0\-lite |Not supported |Not supported |`1:1`: 2048x2048<br><br>`4:3`: 2304x1728<br><br>`3:4`: 1728x2304<br><br>`16:9`: 2848x1600<br><br>`9:16`: 1600x2848<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |`1:1`: 3072x3072<br><br>`4:3`: 3456x2592<br><br>`3:4`: 2592x3456<br><br>`16:9`: 4096x2304<br><br>`9:16`: 2304x4096<br><br>`3:2`: 3744x2496<br><br>`2:3`: 2496x3744<br><br>`21:9`: 4704x2016 |`1:1`: 4096x4096<br><br>`4:3`: 4704x3520<br><br>`3:4`: 3520x4704<br><br>`16:9`: 5504x3040<br><br>`9:16`: 3040x5504<br><br>`3:2`: 4992x3328<br><br>`2:3`: 3328x4992<br><br>`21:9`: 6240x2656 |
-|seedream\-4\-5 |Not supported |Not supported |`1:1`: 2048x2048<br><br>`4:3`: 2304x1728<br><br>`3:4`: 1728x2304<br><br>`16:9`: 2848x1600<br><br>`9:16`: 1600x2848<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |Not supported |`1:1`: 4096x4096<br><br>`4:3`: 4704x3520<br><br>`3:4`: 3520x4704<br><br>`16:9`: 5504x3040<br><br>`9:16`: 3040x5504<br><br>`3:2`: 4992x3328<br><br>`2:3`: 3328x4992<br><br>`21:9`: 6240x2656 |
-|seedream\-4\-0 |`1:1`: 1024x1024<br><br>`4:3`: 1152x864<br><br>`3:4`: 864x1152<br><br>`16:9`: 1312x736<br><br>`9:16`: 736x1312<br><br>`3:2`: 1248x832<br><br>`2:3`: 832x1248<br><br>`21:9`: 1568x672 |Not supported |`1:1`: 2048x2048<br><br>`4:3`: 2304x1728<br><br>`3:4`: 1728x2304<br><br>`16:9`: 2848x1600<br><br>`9:16`: 1600x2848<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |Not supported |`1:1`: 4096x4096<br><br>`4:3`: 4704x3520<br><br>`3:4`: 3520x4704<br><br>`16:9`: 5504x3040<br><br>`9:16`: 3040x5504<br><br>`3:2`: 4992x3328<br><br>`2:3`: 3328x4992<br><br>`21:9`: 6240x2656 |
+**Seedream 4.0: resolution\-to\-pixel mappings**
+
+|Aspect ratio |1K |2K |4K |
+|---|---|---|---|
+|1:1 |1024x1024 |2048x2048 |4096x4096 |
+|4:3 |1152x864 |2304x1728 |4704x3520 |
+|3:4 |864x1152 |1728x2304 |3520x4704 |
+|16:9 |1280x720 |2848x1600 |5504x3040 |
+|9:16 |720x1280 |1600x2848 |3040x5504 |
+|3:2 |1248x832 |2496x1664 |4992x3328 |
+|2:3 |832x1248 |1664x2496 |3328x4992 |
+|21:9 |1512x648 |3136x1344 |6240x2656 |
 
 **Method 2: Specify the width and height in pixels (** **`widthxheight`** **)**
 
-Parameter constraints by model:
+When setting explicit pixel dimensions, both the total pixel range and the aspect ratio range must be satisfied. Total pixels are the product of width and height, not a limit on either dimension.
 
-| |seedream\-5\-0\-pro |seedream\-5\-0\-lite |seedream\-4\-5 |seedream\-4\-0 |
-|---|---|---|---|---|
-|Default value |`1024x1024` |`2048x2048` |`2048x2048` |`2048x2048` |
-|Total pixel range |[`1280x720`(921,600), `2048x2048x1.1025`(4,624,220)] |[`2560x1440`(3,686,400), `4096x4096`(16,777,216)] |[`2560x1440`(3,686,400), `4096x4096`(16,777,216)] |[`1280x720`(921,600), `4096x4096`(16,777,216)] |
-|Aspect ratio range |[1/16, 16] |[1/16, 16] |[1/16, 16] |[1/16, 16] |
+|Model |Total pixel range |Aspect ratio range |
+|---|---|---|
+|Dola Seedream 5.5, Seedream 5.0 pro / flash |[921,600, 4,624,220] |[1/16, 16] |
+|Seedream 5.0 lite / 4.5 |[3,686,400, 16,777,216] |[1/16, 16] |
+|Seedream 4.0 |[921,600, 16,777,216] |[1/16, 16] |
 
-|Method 1 |Method 2 |
-|---|---|
-|```JSON```<br>```{```<br>```    "prompt": "Generate a series of 4 posters focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season.", // In the prompt, use natural language to describe the aspect ratio, shape, or purpose of the image```<br>```    "size": "2K"  // Specify the resolution of the generated image via the size parameter```<br>```}```<br> |```JSON```<br>```{```<br>```    "prompt": "Generate a series of 4 coherent illustrations focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season.",```<br>```    "size": "2048x2048"  // Specify the width and height of the generated image in pixels```<br>```}```<br> |
+The following examples show the two size configuration methods:
+
+**Specify a resolution preset**
+
+```JSON
+{
+  "prompt": "Generate an illustration of a spring courtyard with a 3:2 aspect ratio, blooming flowers, and green trees",
+  "size": "2K"
+}
+```
+
+**Specify pixel dimensions**
+
+```JSON
+{
+  "prompt": "Generate an illustration of a spring courtyard with blooming flowers and green trees",
+  "size": "2048x2048"
+}
+```
 
 **Layer decomposition scenarios**
 
-Layer decomposition supports only resolution levels. The output image resolution follows these rules:
+This scenario supports only a resolution preset or `auto`; explicit pixel dimensions are not supported.
+
+|Model |Available `size` values |
+|---|---|
+|Dola Seedream 5.5, Seedream 5.0 pro / flash |`1K`, `1.5K`, `2K`, `auto` |
+|Seedream 5.0 lite / 4.5 / 4.0 |Layer decomposition is not supported. |
+
+The output image resolution follows these rules:
 
 * **Base image**: The output base image resolution is the same as the resolution specified by `size`. The output base image keeps the same aspect ratio as the original image to decompose.
 
 * **Each layer**: The output layer resolution is close to the resolution specified by `size`. Each output layer keeps the same aspect ratio as its region in the original image.
 
-Default value and available values of `size`:
+**Layer decomposition: auto adaptation rules**
 
-* Default value: `auto`
+In `auto` mode, the model outputs the base image and each layer based on their original sizes in the input image, while preserving their respective aspect ratios in the original image:
 
-* Available values: `1K`, `1.5K`, `2K`, and `auto`. In `auto` mode, the output is adapted based on the input image size and aspect ratio.
+* If the original size of the base image and each layer in the input image is between [`1280x720` (921,600), `2048x2048x1.1025` (4,624,220)], the base image and each layer are output at their original sizes.
 
-> **Pricing note**
+* If the original size of the base image and each layer in the input image is smaller than 1K, the base image and each layer are output at 1K.
 
-> `1.5K` has the same price as `1K`. For details, see [Model pricing](model-pricing.md#c02be6ee).
+* If the original size of the base image and each layer in the input image is larger than 2K, the base image and each layer are output at 2K.
 
-> **auto adaptation rules**
+### Image output methods
 
-> In `auto` mode, the model outputs the base image and each layer based on their original sizes in the input image, while preserving their respective aspect ratios in the original image:
+The `response_format` parameter specifies how generated images are returned.
 
-* > If the original size of the base image and each layer in the input image is between [`1280x720` (921,600), `2048x2048x1.1025` (4,624,220)], the base image and each layer are output at their original sizes.
+* `url`: Returns an image download link that is valid for 24 hours after generation.
 
-* > If the original size of the base image and each layer in the input image is smaller than 1K, the base image and each layer are output at 1K.
+* `b64_json`: Returns Base64\-encoded image data in the `b64_json` response field.
 
-* > If the original size of the base image and each layer in the input image is larger than 2K, the base image and each layer are output at 2K.
+|Model |Available `response_format` values |Default |
+|---|---|---|
+|All Seedream models |`url`, `b64_json` |`url` |
 
-## Image output methods
+### Image output format
 
-The generated image can be returned in the following two ways:
+The `output_format` parameter specifies the generated image file format.
 
-* `url`: Return a download link of the image.
+* `png`: PNG format, which preserves the alpha channel.
 
-* `b64_json`: Return the image data in JSON as a Base64\-encoded string.
+* `jpeg`: JPEG format, which does not preserve the alpha channel.
 
-```JSON
-{
-    "response_format": "url"
-}
-```
-
-## Image output format
-
-The image format generated by seedream\-4\-5/4\-0 defaults to `jpeg` and does not support custom settings.
-
-seedream\-5\-0\-pro and seedream\-5\-0\-lite allow specifying the format of generated image files by setting the **output_format** parameter.
-
-* `png`
-
-* `jpeg`
-
-```JSON
-{
-    "output_format": "png"
-}
-```
+|Model |Available `output_format` values |Default |
+|---|---|---|
+|Dola Seedream 5.5 |`png`, `jpeg` |`png` |
+|Seedream 5.0 pro / flash / lite |`png`, `jpeg` |`jpeg` |
+|Seedream 4.5 / 4.0 |Not configurable; fixed as `jpeg` |`jpeg` |
 
 > **Note**
 
 > In layer decomposition scenarios, `output_format` controls only the output format of the base image. Layers are always output in PNG format.
+
+### Image background type
+
+The `background` parameter controls whether a generated image has an alpha channel. It applies only to image generation scenarios.
+
+* `auto`: The model determines the background type from the prompt and `output_format`.
+
+* `transparent`: Generates an RGBA image with an alpha channel.
+
+* `opaque`: Generates an RGB image without an alpha channel.
+
+|Model |Available `background` values |Default |
+|---|---|---|
+|Dola Seedream 5.5 |`auto`, `transparent`, `opaque` |`auto` |
+|Seedream 5.0 pro / flash |`transparent`, `opaque` |`opaque` |
+|Seedream 5.0 lite / 4.5 / 4.0 |Not configurable |— |
+
+> **Tip**
+
+* > When `background` is `transparent`, `output_format` must be `png`; `jpeg` returns an error.
+
+* > Dola Seedream 5.5 supports text\-to\-image RGBA generation and RGBA generation from up to 10 ordinary reference images. Seedream 5.0 pro / flash support only one transparent PNG reference image.
+
+* > Layer decomposition automatically generates transparent PNG layers. Do not pass `background` in this scenario; doing so returns an error.
+
+### Add a watermark to the image
+
+Control whether to add a watermark to the generated image by setting the **watermark** parameter.
+
+* `false`: No watermark.
+
+* `true`: Add an "AI generated" watermark on the bottom\-right corner of the image.
+
+|Model |Available `watermark` values |Default |
+|---|---|---|
+|All Seedream models |`false`, `true` |`true` |
 
 # Usage limitations
 
@@ -1932,7 +1979,7 @@ Input image constraints vary by scenario, as shown in the following table:
 |Width and height (px) |Greater than 14 |— |
 |Aspect ratio (width/height) |[1/16, 16] |[1/16, 16] |
 |Size |Up to 30 MB |Up to 30 MB |
-|Number of input images |Seedream 5.0 pro and Seedream 5.0 flash support up to 10 images. Seedream 5.0 lite, Seedream 4.5, and Seedream 4.0 support up to 14 images. |Only one image is supported. |
+|Number of input images |Dola Seedream 5.5, Seedream 5.0 pro, and Seedream 5.0 flash support up to 10 images. Seedream 5.0 lite, Seedream 4.5, and Seedream 4.0 support up to 14 images. |Only one image is supported. |
 
 > **Note**
 
@@ -1948,6 +1995,6 @@ We recommend configuring [BytePlus TOS data subscription](https://docs.byteplus.
 
 * IPM rate limit: The maximum number of images that can be generated per minute by a specific version of a model under an account. If the limit is exceeded, an error will occur.
 
-   * In layer decomposition scenarios, each request pre\-deducts 17 IPM, reserving quota for up to one base image and 16 layers. After all images are generated, the excess deducted quota is returned based on the actual number of generated images.
+   * In layer decomposition scenarios, Dola Seedream 5.5 pre\-deducts IPM based on `layer_decomposition_options.max_images` (default: 30); Seedream 5.0 pro / flash pre\-deduct 17 IPM for each request. After all images are generated, excess quota is returned based on the actual number of generated images.
 
 * The limit values vary by model. For more details, see [Image generation](model-list.md#9df4d9fd).

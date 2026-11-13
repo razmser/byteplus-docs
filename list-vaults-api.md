@@ -6,35 +6,23 @@ Lists the vaults in the current project, sorted by creation time in descending o
 
 Determine whether there are more results based on whether the response contains `next_page`:
 
-
 * If `next_page` is included, pass this value unchanged to `page` in the next request.
 
 * If `next_page` is not included, there are no more results; stop the paginated query.
 
-
-<span id="authentication"></span>
 ## Authentication
 
-This API supports the following authentication methods. For details, see [Base URL and authentication](base-url-and-authentication.md).
+This API supports the following authentication method(s). For details, see [Base URL and authentication](base-url-and-authentication.md).
 
-
-* API Key authentication. Go to the [API Key management](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey) page. Obtain a long\-lived API key.
-
-
+* API Key authentication. Go to the [API Key Management](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey) page. Obtain a long\-lived API key.
 
 ---
 
-
-
-<span id="request-parameters"></span>
 ## Request parameters
 
-<span id="query-parameters"></span>
 ### Query parameters
 
 > Passed as URL query string.
-
-
 
 **limit** `integer` `Default 20`  |  Items per page
 
@@ -42,7 +30,15 @@ The number of vaults returned per page.
 
 **Range**: `[1, 100]`
 
+**metadata** `string`  |  Metadata filter conditions
 
+Filter by vault metadata by passing a JSON object string. Multiple key\-value pairs are combined with AND; only vaults that match all key\-value pairs are returned.
+
+* Example: `metadata={"env":"prod","team":"agent-infra"}`.
+
+* Values must be strings; a 400 error is returned if invalid JSON or a non\-string value is passed.
+
+* If omitted or an empty value is passed, no filtering is applied.
 
 **page** `string`  |  Next page identifier
 
@@ -50,25 +46,17 @@ Used to tell the server to continue returning data from where the previous page 
 
 Do not pass `page` in the first request to `GET /api/v3/vaults?limit=20`. The subsequent pagination rules are as follows:
 
-
 * When the response returns `"next_page": "<NEXT_PAGE>"`, pass this value into the next request: `GET /api/v3/vaults?limit=20&page=<NEXT_PAGE>`.
 
 * When the response does not contain `next_page`, there are no more results.
 
-
 Do not generate or modify this value yourself.
 
-
-&nbsp;
-
-<span id="response-parameters"></span>
 ## Response parameters
-
 
 **data** `object[]`  |  Vault list
 
 The list of vaults found.
-
 
 **created_at** `string`  |  Creation time
 
@@ -76,23 +64,17 @@ The list of vaults found.
 
 The creation time of the vault in RFC 3339 format.
 
-
-
 **display_name** `string`  |  Vault display name
 
 `data.display_name`
 
 The display name of the vault, used to identify the vault.
 
-
-
 **id** `string`  |  Vault ID
 
 `data.id`
 
 Vault ID, starting with `vlt-`.
-
-
 
 **type** `string`  |  Object type
 
@@ -102,24 +84,17 @@ Indicates that the current object is a vault.
 
 Value is fixed to `vault`.
 
-
-
 **updated_at** `string`  |  Update time
 
 `data.updated_at`
 
 The latest update time of the vault in RFC 3339 format.
 
-
-
 **metadata** `object`  |  Custom metadata
 
 `data.metadata`
 
 String key\-value pairs set for the vault, which can be used to categorize or associate business information. Returns `null` if not set.
-
-
-
 
 **next_page** `string`  |  Next page identifier
 

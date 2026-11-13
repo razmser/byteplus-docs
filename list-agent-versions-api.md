@@ -312,6 +312,12 @@ Source of the skill.
 
 * `custom`: a custom skill created by the current account through the Skills API.
 
+**display_name** `string`  |  Display name of the skill
+
+`data.skills.display_name`
+
+Display name of the skill version currently used by the agent. Not returned if the corresponding version does not have a display name.
+
 **skill_id** `string`  |  Skill ID
 
 `data.skills.skill_id`
