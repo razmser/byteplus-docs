@@ -1,6 +1,6 @@
 # Dreamina Seedance 2.5 prompt guide
 
-This topic introduces prompting techniques and tips for Dreamina Seedance 2.5 (hereafter referred to as Seedance 2.5), helping you generate high\-quality videos that match your requirements more efficiently.
+This topic introduces prompting techniques and tips for Dreamina Seedance 2.5 and Dreamina Seedance 2.5 flash (hereafter referred to as Seedance 2.5 series), helping you generate high\-quality videos that match your requirements more efficiently.
 
 > **warning**
 
@@ -23,7 +23,13 @@ We strongly recommend using the Seedance 2.5 Skill to optimize your prompts.
 
 # Overall introduction
 
-Seedance 2.5 can generate a single video up to **30 seconds** long and accept up to **50 image, audio, and video reference assets** in one request. It provides stronger instruction following, professional video editing and extension controls, and native generation in **more than 10 languages**. These upgrades advance video generation toward production\-ready workflows built around **long\-form storytelling, rich references, precise editing, and multilingual creation**.
+Seedance 2.5 series models can generate a single video up to **30 seconds** long. They provide stronger instruction following, professional video editing and extension controls, and native generation in **more than 10 languages**.
+
+The maximum number of reference assets per request varies by model:
+
+* **Seedance 2.5:**  30 images, 10 videos, and 10 audio clips.
+
+* **Seedance 2.5 flash:**  10 images, 5 videos, and 5 audio clips.
 
 Creative quality also improves significantly. More realistic visuals, lighting, performance, and camera movement make results feel closer to live\-action footage. Seedance 2.5 gives professional creators and enterprise teams a faster, more controllable, and more scalable video production workflow.
 
@@ -82,11 +88,18 @@ In general, reference\-based tasks do not lock the output video’s aspect ratio
 
 # Reference asset input recommendations
 
-Seedance 2.5 supports up to **50 reference assets** per request, including images, audio, and videos. These assets may refer to the same subject or to different subjects, such as characters, animals, props, locations, and more. To make full use of the model's capabilities, we recommend the following when preparing reference assets:
+Seedance 2.5 series supports combined inputs of reference images, videos, and audio. These assets may refer to the same subject or to different subjects, such as characters, animals, props, locations, and more. The input limits for each model are as follows:
+
+|Asset type |Seedance 2.5 |Seedance 2.5 flash |
+|---|---|---|
+|Images |30 |10 |
+|Videos |10 |5 |
+|Audio clips |10 |5 |
+
+To make full use of the model's capabilities, we recommend the following when preparing reference assets:
 
 |**Use case** |**Input recommendations** |
 |---|---|
-|Total reference asset input limits |* **Images:**  Up to 30 images, with resolution up to 4K.<br><br>* **Videos:**  Up to 10 videos, with a combined total duration of no more than 30 seconds.<br><br>* **Audio:**  Up to 10 audio clips, with a combined total duration of no more than 30 seconds. |
 |For subject audio/video references, how many subjects are recommended? |**1\-5 subjects** generally produce better results. You may try **6\-10 subjects**, but stability may decrease and multiple attempts may be needed. |
 |For subject audio/video references, what input duration is recommended? |**5\-10 seconds** generally works better. Longer inputs may reduce stability, and multiple attempts may be needed. |
 |For subject image references, how many subjects are recommended? |**1\-8 subjects** generally produce better results. You may try **9\-12 subjects**, but stability may decrease and multiple attempts may be needed. |

@@ -2,7 +2,7 @@
 
 Markdown mirror of [BytePlus ModelArk's documentation](https://docs.byteplus.com/en/docs/ModelArk/).
 
-Contains **348 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
+Contains **347 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
 
 Links to mirrored pages point to local files; external links and images remain online. Code examples and OpenAPI blocks are preserved.
 
@@ -294,7 +294,6 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Dreamina Seedance 2.5 tutorial](seedance-2-5.md)
 - [Activate, use, and cancel Dreamina Seedance 2.5 and 2.0 series models](seedance-model-activation-usage-and-refund.md)
 - [Create portrait videos with Dreamina Seedance models](seedance-portrait-asset-guide.md)
-- [Seedream 3.0 prompt guide](seedream-3-0-prompt-guide.md)
 - [Seedream 4.0-4.5 prompt guide](seedream-4-0-5-0-prompt-guide.md)
 - [Seedream 5.0 pro / flash interactive editing guide](seedream-5-0-pro-editing-guide.md)
 - [Seedream 5.0 pro / flash tutorial](seedream-5-0-pro.md)

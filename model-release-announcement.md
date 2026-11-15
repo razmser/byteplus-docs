@@ -6,6 +6,12 @@ Keep track of newly released models on ModelArk.
 
 > For previously released models, see [Previous releases](model-release-announcement-2025.md).
 
+# 202611
+
+|**Provider** |**Model ID** |**Model type** |**Change type** |**Instructions** |
+|---|---|---|---|---|
+|ByteDance |dreamina\-seedance\-2\-5\-flash\-261115 |Video generation model |New release |Dreamina Seedance 2.5 flash supports text\-to\-video, first\-frame\-to\-video, first\-and\-last\-frame\-to\-video, omni reference\-to\-video, video editing, and video extension. It does not support Draft mode. Supported resolutions are 480p and 720p. For instructions, see [Dreamina Seedance 2.5 series tutorial](seedance-2-5.md). |
+
 # 202610
 
 |**Provider** |**Model ID** |**Model type** |**Change type** |**Instructions** |
@@ -40,7 +46,7 @@ Keep track of newly released models on ModelArk.
 
 |**Provider** |**Model ID** |**Model type** |**Change type** |**Instructions** |
 |---|---|---|---|---|
-|ByteDance |dreamina\-seedance\-2\-5\-260628 |Video generation model |New release |Dreamina Seedance 2.5 is a next\-generation video creation model with major improvements in long\-form storytelling, omni reference support, and editing. It can generate up to 30 seconds of video in one request, extend videos over multiple rounds, accept up to 50 omni reference assets per request, and perform precise timestamp\-based editing. For instructions, see [Dreamina Seedance 2.5 tutorial](seedance-2-5.md). |
+|ByteDance |dreamina\-seedance\-2\-5\-260628 |Video generation model |New release |Dreamina Seedance 2.5 is a next\-generation video creation model with major improvements in long\-form storytelling, omni reference support, and editing. It can generate up to 30 seconds of video in one request, extend videos over multiple rounds, accept up to 50 omni reference assets per request, and perform precise timestamp\-based editing. For instructions, see [Dreamina Seedance 2.5 series tutorial](seedance-2-5.md). |
 |ByteDance |dola\-seedream\-5\-0\-pro\-260628 |Image generation model |New release |Dola Seedream 5.0 pro is designed for high\-precision image generation and provides precise control over positions and elements. It supports text\-to\-image generation, image\-to\-image generation with one or multiple reference images, precise coordinate positioning and free\-form marking through interactive editing, and native text generation in 14 additional languages. For instructions, see [Seedream 5.0 pro / flash tutorial](seedream-5-0-pro.md). |
 
 # 202605

@@ -1,16 +1,12 @@
 # Dreamina Seedance 2.5 tutorial
 
-Dreamina Seedance 2.5 (hereinafter referred to as Seedance 2.5) is a next\-generation video creation model with major improvements in long\-form storytelling, omni reference support, and editing. It can generate up to 30 seconds of video in one request, extend videos over multiple rounds, accept up to 50 omni reference assets per request, and perform precise timestamp\-based editing. Improved visual quality produces results with a more realistic, cinematic look.
+Dreamina Seedance 2.5 series (hereinafter referred to as Seedance 2.5 series) includes Seedance 2.5 and Seedance 2.5 flash. These next\-generation video creation models deliver major improvements in long\-form storytelling, omni reference support, and editing. They can generate up to 30 seconds of video in one request, extend videos over multiple rounds, accept substantially more omni reference assets per request, and perform precise timestamp\-based editing. Improved visual quality produces results with a more realistic, cinematic look.
 
-> **Model availability**
-
-> Dreamina Seedance 2.5 flash is now available. For details, see the [Model details](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?name=dreamina-seedance-2-5-flash) page. Starting at 14:00 (UTC+8) on November 15, 2026, the model will be available for online experience and API calls.
-
-This tutorial introduces the key capabilities and usage of Seedance 2.5 to help you call the [Create video generation task API](create-video-generation-task-api.md).
+This tutorial introduces the key capabilities and usage of Seedance 2.5 series models to help you call the [Create video generation task API](create-video-generation-task-api.md).
 
 > **tip**
 
-> Before enabling Dreamina Seedance 2.5, make sure you meet one of the following conditions:
+> Before enabling a Dreamina Seedance 2.5 series model, make sure you meet one of the following conditions:
 
 * > **Recommended:** BytePlus account balance \> USD 30 ([Top up](https://console.byteplus.com/finance/overview)).
 
@@ -24,13 +20,13 @@ This tutorial introduces the key capabilities and usage of Seedance 2.5 to help 
 
 > **danger**
 
-> Seedance 2.5 has special constraints for **video editing, first\-frame/first\-last\-frame video generation, and video extension tasks**. Violating these constraints triggers an [error](seedance-2-5.md#2.5_error_handling).
+> Seedance 2.5 series models have special constraints for **video editing, first\-frame/first\-last\-frame video generation, and video extension tasks**. Violating these constraints triggers an [error](seedance-2-5.md#2.5_error_handling).
 
 > **Before calling the model, read the following carefully and make sure the task type, prompt intent, and parameter configuration are consistent.**
 
 ### Task types and constraints
 
-Seedance 2.5 determines the task type based on the input assets and prompt intent. Task types include text\-to\-video, first\-frame/first\-last\-frame video generation, and **omni reference\-to\-video tasks**. Omni reference\-to\-video tasks are further divided into three subtasks based on prompt intent: reference\-to\-video, video editing, and video extension.
+Seedance 2.5 series models determine the task type based on the input assets and prompt intent. Task types include text\-to\-video, first\-frame/first\-last\-frame video generation, and **omni reference\-to\-video tasks**. Omni reference\-to\-video tasks are further divided into three subtasks based on prompt intent: reference\-to\-video, video editing, and video extension.
 
 |Task type ||Trigger condition |Special constraints |
 |---|---|---|---|
@@ -102,7 +98,7 @@ For a clear video extension task, use the following **configuration method**:
 
 ### Error handling
 
-Seedance 2.5 validates parameters when a task is submitted and again after the task starts.
+Seedance 2.5 series models validate parameters when a task is submitted and again after the task starts.
 
 #### Synchronous validation (when submitting a task)
 
@@ -132,7 +128,7 @@ Seedance 2.5 validates parameters when a task is submitted and again after the t
 
 * > If you need to start developing but are struggling with setting up the environment, installing dependencies, and other issues, we recommend reading this section.
 
-This tutorial is designed for **users new to APIs**. It helps you set up a Python development environment, create a virtual environment, install the ModelArk SDK, and run Seedance 2.5 sample code. Replace the input assets to start generating videos.
+This tutorial is designed for **users new to APIs**. It helps you set up a Python development environment, create a virtual environment, install the ModelArk SDK, and run Seedance 2.5 series sample code. Replace the input assets to start generating videos.
 
 **1. Preparation**
 
@@ -142,7 +138,7 @@ Before you begin, make sure you have completed the following preparations:
 
 2. **Get an API key**: Go to the [API Key management page](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey), click **Create API Key**, and copy and save your API key. Be sure to keep your API key safe and do not disclose it to others.
 
-3. [Activate the model](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&advancedActiveKey=model&projectName=default&tab=ComputerVision): Make sure you have [purchased a resource pack](https://console.byteplus.com/common-buy/ModelArk%7C%7Cd7d6aanpgiftptb9ajcg). Otherwise, you cannot activate Seedance 2.5.
+3. [Activate the model](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&advancedActiveKey=model&projectName=default&tab=ComputerVision): Make sure you have [purchased a resource pack](https://console.byteplus.com/common-buy/ModelArk%7C%7Cd7d6aanpgiftptb9ajcg). Otherwise, you cannot activate a Seedance 2.5 series model.
 
 4. **Download and extract the files**: Click [here](https://arkdocs-en.tos-ap-southeast-1.volces.com/files/video-generation/modelark_seedance2.5_quickstart_package_arkruntime-20260909.zip) to download the attachment. Extract it to your local directory, such as the Desktop or Downloads folder.
 
@@ -224,9 +220,9 @@ You can replace `reference_image_url`, `reference_video_url`, and `reference_aud
 
 [More reference assets](seedance-2-5.md#2.5_50_reference)
 
-* The maximum number of reference images increases from 9 to 30.
+* The maximum number of reference images increases from 9 to 30 for Seedance 2.5 and 10 for Seedance 2.5 flash.
 
-* The maximum number of reference audio or video assets increases from 3 to 10.
+* The maximum number of reference audio or video assets increases from 3 to 10 for Seedance 2.5 and 5 for Seedance 2.5 flash.
 
 * The maximum total duration of reference audio or video assets increases from 15 seconds to 30 seconds.
 
@@ -252,33 +248,33 @@ You can replace `reference_image_url`, `reference_video_url`, and `reference_aud
 
 ## Capabilities overview
 
-|Model name | |[Seedance 2.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |[Seedance 2.0](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |[Seedance 2.0 fast](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |[Seedance 2.0 mini](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |
-|---|---|---|---|---|---|
-|Model ID | |`dreamina-seedance-2-5-260628` |`dreamina-seedance-2-0-260128` |`dreamina-seedance-2-0-fast-260128` |`dreamina-seedance-2-0-mini-260615` |
-|[Text-to-video](video-generation-tutorial.md#4e74bcee) | |✓ |✓ |✓ |✓ |
-|[First-frame-to-video](video-generation-tutorial.md#979b2d28) | |✓ |✓ |✓ |✓ |
-|[First-last-frame-to-video](video-generation-tutorial.md#0d55ca07) | |✓ |✓ |✓ |✓ |
-|[Omni reference](seedance-2-5.md#2.5_50_reference) |Image reference |✓ |✓ |✓ |✓ |
-||Video reference |✓ |✓ |✓ |✓ |
-||Audio reference |✓ |✗ (requires image/video) |✗ (requires image/video) |✗ (requires image/video) |
-||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |✓ |✓ |✓ |✓ |
-|[Edit video](seedance-2-5.md#2.5_edit) | |✓ |✓ |✓ |✓ |
-|[Extend video](seedance-2-5.md#2.5_extend) | |✓ |✓ |✓ |✓ |
-|[Generate video with audio](seedance-2-5.md#2.5_multi_language) | |✓ |✓ |✓ |✓ |
-|Maximum number of reference assets | |50 (30 images + 10 videos + 10 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |
-|[Draft mode](seedance-2-5.md#2.5_draft_mode) | |✓ |✗ |✗ |✗ |
-|[Return last frame](video-generation-tutorial.md#141cf7fa) | |✓ |✓ |✓ |✓ |
-|[Output video specifications](seedance-2-5.md#2.5_video_output_specs) |[Output resolution](seedance-2-5.md#2.5_resolution) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |
-||[Output aspect ratio](seedance-2-5.md#2.5_ratio) |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |
-||[Output duration](seedance-2-5.md#2.5_duration) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |
-||[Output video format](seedance-2-5.md#2.5_output_format) |mp4, mov |mp4 |mp4 |mp4 |
-|[Offline inference](video-generation-tutorial.md#a0badaae) | |✗ |✗ |✗ |✗ |
+|Model name | |[Seedance 2.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |[Seedance 2.5 flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5-flash) |[Seedance 2.0](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |[Seedance 2.0 fast](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |[Seedance 2.0 mini](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |
+|---|---|---|---|---|---|---|
+|Model ID | |`dreamina-seedance-2-5-260628` |`dreamina-seedance-2-5-flash-261115` |`dreamina-seedance-2-0-260128` |`dreamina-seedance-2-0-fast-260128` |`dreamina-seedance-2-0-mini-260615` |
+|[Text-to-video](video-generation-tutorial.md#4e74bcee) | |✓ |✓ |✓ |✓ |✓ |
+|[First-frame-to-video](video-generation-tutorial.md#979b2d28) | |✓ |✓ |✓ |✓ |✓ |
+|[First-last-frame-to-video](video-generation-tutorial.md#0d55ca07) | |✓ |✓ |✓ |✓ |✓ |
+|[Omni reference](seedance-2-5.md#2.5_50_reference) |Image reference |✓ |✓ |✓ |✓ |✓ |
+||Video reference |✓ |✓ |✓ |✓ |✓ |
+||Audio reference |✓ |✓ |✗ (requires image/video) |✗ (requires image/video) |✗ (requires image/video) |
+||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |✓ |✓ |✓ |✓ |✓ |
+|[Edit video](seedance-2-5.md#2.5_edit) | |✓ |✓ |✓ |✓ |✓ |
+|[Extend video](seedance-2-5.md#2.5_extend) | |✓ |✓ |✓ |✓ |✓ |
+|[Generate video with audio](seedance-2-5.md#2.5_multi_language) | |✓ |✓ |✓ |✓ |✓ |
+|Maximum number of reference assets | |50 (30 images + 10 videos + 10 audios) |20 (10 images + 5 videos + 5 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |
+|[Draft mode](seedance-2-5.md#2.5_draft_mode) | |✓ |✗ |✗ |✗ |✗ |
+|[Return last frame](video-generation-tutorial.md#141cf7fa) | |✓ |✓ |✓ |✓ |✓ |
+|[Output video specifications](seedance-2-5.md#2.5_video_output_specs) |[Output resolution](seedance-2-5.md#2.5_resolution) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |
+||[Output aspect ratio](seedance-2-5.md#2.5_ratio) |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |
+||[Output duration](seedance-2-5.md#2.5_duration) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |
+||[Output video format](seedance-2-5.md#2.5_output_format) |mp4, mov |mp4, mov |mp4 |mp4 |mp4 |
+|[Offline inference](video-generation-tutorial.md#a0badaae) | |✗ |✗ |✗ |✗ |✗ |
 
 ## Key capabilities
 
 ### Generate a coherent 30\-second video
 
-The upper limit for Seedance 2.5 video generation duration has been extended from 15 seconds in the Seedance 2.0 series to 30 seconds, supporting one\-time generation of coherent videos up to 30 seconds long and presenting a complete story without multi\-segment stitching.
+The upper limit for Seedance 2.5 series video generation duration has been extended from 15 seconds in the Seedance 2.0 series to 30 seconds, supporting one\-time generation of coherent videos up to 30 seconds long and presenting a complete story without multi\-segment stitching.
 
 |Input: text + 8 images |Output |
 |---|---|
@@ -678,9 +674,16 @@ func pollTaskStatus(ctx context.Context, client *arkruntime.Client, taskID strin
 }
 ```
 
-### Up to 50 omni reference assets
+### More omni reference assets
 
-Seedance 2.5 increases the upper limit for assets in a single input to 50 (30 images + 10 video clips + 10 audio clips). You can freely combine multimodal assets such as images, videos, and audio to achieve richer creative expression. In addition, Seedance 2.5 newly supports generating videos with pure audio references, without requiring image or video assets.
+Seedance 2.5 series models substantially increase the maximum number of assets accepted in a single input, as shown in the following table. You can freely combine multimodal assets such as images, videos, and audio to achieve richer creative expression. They also support generating videos with pure audio references, without requiring image or video assets.
+
+|Asset type |Input limit | | |
+|^^ |Seedance 2.5 |Seedance 2.5 flash |Seedance 2.0 series |
+|---|---|---|---|
+|Images |30 |10 |9 |
+|Videos |10 |5 |3 |
+|Audio clips |10 |5 |3 |
 
 |Input: Text + 1 Image + 6 Video Clips |||Output |
 |---|---|---|---|
@@ -1231,11 +1234,11 @@ func pollTaskStatus(ctx context.Context, client *arkruntime.Client, taskID strin
 
 ### Control duration and aspect ratio more intelligently
 
-Seedance 2.5 can intelligently control the output aspect ratio and duration when `ratio` is set to `adaptive` and `duration` is set to `-1`. For **video editing, video extension, and first\-frame/first\-last\-frame video generation**, these parameters have special behavior, as shown in the following examples.
+Seedance 2.5 series models can intelligently control the output aspect ratio and duration when `ratio` is set to `adaptive` and `duration` is set to `-1`. For **video editing, video extension, and first\-frame/first\-last\-frame video generation**, these parameters have special behavior, as shown in the following examples.
 
 #### Example: Edit a video
 
-In video editing tasks, Seedance 2.5 selects the video to edit based on the prompt intent, then automatically keeps the output aspect ratio and duration consistent with the selected video (`ratio` defaults to and only supports `adaptive`, and `duration` defaults to and only supports `-1`; neither value can be set separately).
+In video editing tasks, Seedance 2.5 series models select the video to edit based on the prompt intent, then automatically keep the output aspect ratio and duration consistent with the selected video (`ratio` defaults to and only supports `adaptive`, and `duration` defaults to and only supports `-1`; neither value can be set separately).
 
 > **Note**
 
@@ -1598,7 +1601,7 @@ func pollTaskStatus(ctx context.Context, client *arkruntime.Client, taskID strin
 
 #### Example: Extend a video
 
-In video extension tasks, Seedance 2.5 selects the video to extend based on the prompt intent, then automatically keeps the output aspect ratio consistent with the selected video (`ratio` defaults to and only supports `adaptive`). You can specify the output duration or let the model determine it automatically (`duration` supports `[4, 30]` or `-1`).
+In video extension tasks, Seedance 2.5 series models select the video to extend based on the prompt intent, then automatically keep the output aspect ratio consistent with the selected video (`ratio` defaults to and only supports `adaptive`). You can specify the output duration or let the model determine it automatically (`duration` supports `[4, 30]` or `-1`).
 
 |Input: text + video (video 1 aspect ratio 7:5, video 2 and video 3 aspect ratio 16:9) ||Output (aspect ratio 7:5) |
 |---|---|---|
@@ -2021,7 +2024,7 @@ func pollTaskStatus(ctx context.Context, client *arkruntime.Client, taskID strin
 
 #### Example: Generate a video from the first or first and last frames
 
-In first\-frame/first\-last\-frame video generation tasks, Seedance 2.5 automatically keeps the output aspect ratio consistent with the first\-frame image specified by `first_frame` (`ratio` defaults to and only supports `adaptive`). You can specify the output duration or let the model determine it automatically (`duration` supports `[4, 30]` or `-1`).
+In first\-frame/first\-last\-frame video generation tasks, Seedance 2.5 series models automatically keep the output aspect ratio consistent with the first\-frame image specified by `first_frame` (`ratio` defaults to and only supports `adaptive`). You can specify the output duration or let the model determine it automatically (`duration` supports `[4, 30]` or `-1`).
 
 |Input: text + first frame (aspect ratio 1:1) + last frame ||Output (aspect ratio 1:1) |
 |---|---|---|
@@ -2372,7 +2375,7 @@ func pollTaskStatus(ctx context.Context, client *arkruntime.Client, taskID strin
 
 ### Generate multilingual videos natively
 
-Seedance 2.5 natively supports prompt input and videos with audio generation in multiple languages, including Chinese, English, Spanish, Indonesian, Malay, Thai, Arabic, Portuguese, Vietnamese, Japanese, and Korean.
+Seedance 2.5 series natively supports prompt input and videos with audio generation in multiple languages, including Chinese, English, Spanish, Indonesian, Malay, Thai, Arabic, Portuguese, Vietnamese, Japanese, and Korean.
 
 |Input: text + image |Output |
 |---|---|
@@ -2694,13 +2697,15 @@ func pollTaskStatus(ctx context.Context, client *arkruntime.Client, taskID strin
 
 ## More capabilities
 
-Seedance 2.5 also supports the following basic capabilities. For detailed usage and code examples, see the corresponding links:
+Seedance 2.5 series also supports the following basic capabilities. For detailed usage and code examples, see the corresponding links:
 
 * [Text-to-video](video-generation-tutorial.md#4e74bcee): Generate a video from a text prompt.
 
-* [Draft mode](seedance-2-5.md#2.5_draft_mode): Generate a 480p Draft video to validate the result before generating a high\-quality final video.
+* [Draft mode](seedance-2-5.md#2.5_draft_mode) (supported only by Seedance 2.5): Generate a 480p Draft video to validate the result before generating a high\-quality final video.
 
-## Draft mode
+## Draft mode support
+
+> Draft mode is supported only by Seedance 2.5. Seedance 2.5 flash does not support Draft mode.
 
 **Draft mode is a two\-step video generation method that lets you quickly validate the result before generating a high\-quality final video.**  After you enable this feature, you can quickly generate a low\-resolution preview video to validate key elements such as the scene structure, shot scheduling, subject motion, and prompt intent. After confirming that the result meets expectations, use the Draft video task ID to generate a high\-quality final video.
 
@@ -3420,15 +3425,13 @@ Control the specifications of the output video through API parameters, including
 
 Specify the resolution of the output video through the **resolution** parameter.
 
-* Default value: `720p`
+The default value is `720p`.
 
-* Optional values:
+Available values vary by model:
 
-   * `480p` (8\-bit color depth)
+* **Seedance 2.5:**  `480p` (8\-bit color depth), `720p` (8\-bit color depth), and `1080p` (10\-bit color depth).
 
-   * `720p` (8\-bit color depth)
-
-   * `1080p` (10\-bit color depth)
+* **Seedance 2.5 flash:**  `480p` (8\-bit color depth) and `720p` (8\-bit color depth).
 
 > **Note**
 
@@ -3437,12 +3440,6 @@ Specify the resolution of the output video through the **resolution** parameter.
 * > Compared with standard 8\-bit color depth, 10\-bit color depth preserves richer color gradations and smoother tonal transitions, making it suitable for professional video production and HDR content.
 
 * > H.265/HEVC encoding may not be compatible with some playback environments. If playback fails, upgrade your system, use another device, or try a [player](seedance-2-0.md#4k_player) such as VLC, mpv, or QuickTime Player.
-
-```Json
-{
-    "resolution": "720p"
-}
-```
 
 ### Aspect ratio
 
@@ -3462,13 +3459,7 @@ Specify the aspect ratio of the output video through the **ratio** parameter.
 
 > **Note**
 
-> For Seedance 2.5, in video editing, video extension, and first\-frame / first\-last\-frame video generation tasks, only `ratio` can be configured as `adaptive`; a specific aspect ratio cannot be specified.
-
-```Json
-{
-    "ratio": "16:9"
-}
-```
+> For Seedance 2.5 series models, in video editing, video extension, and first\-frame / first\-last\-frame video generation tasks, only `ratio` can be configured as `adaptive`; a specific aspect ratio cannot be specified.
 
 Width and height pixel values corresponding to different aspect ratios:
 
@@ -3513,13 +3504,7 @@ Specify the duration of the generated video (unit: seconds) through the **durati
 
 > **Note**
 
-> For Seedance 2.5 video editing tasks, `duration` only supports `-1`; you cannot specify a duration. The input video to be edited must be `[4, 30]` seconds long. Otherwise, an error is returned.
-
-```Json
-{
-   "duration": 10
-}
-```
+> For Seedance 2.5 series video editing tasks, `duration` only supports `-1`; you cannot specify a duration. The input video to be edited must be `[4, 30]` seconds long. Otherwise, an error is returned.
 
 ### Output format
 
@@ -3540,12 +3525,6 @@ Control the format of the output video through the **output_format** parameter.
 > |mpv |✓ |✓ |
 > |ffplay |✓ |✓ |
 
-```Json
-{
-    "output_format": "mov"
-}
-```
-
 ### Add a watermark to the video
 
 Through the **watermark** parameter, control whether to add a watermark to the generated video.
@@ -3554,15 +3533,9 @@ Through the **watermark** parameter, control whether to add a watermark to the g
 
 * false (default): Do not add a watermark.
 
-```Json
-{
-    "watermark": true
-}
-```
-
 ## Create portrait videos with ease
 
-Seedance 2.5 supports the same convenient creation features as the Seedance 2.0 series. For the detailed tutorial, see [Create portrait videos with Dreamina Seedance models](seedance-portrait-asset-guide.md):
+Seedance 2.5 series supports the same convenient creation features as the Seedance 2.0 series. For the detailed tutorial, see [Create portrait videos with Dreamina Seedance models](seedance-portrait-asset-guide.md):
 
 |Solution |Introduction |
 |---|---|
@@ -3599,11 +3572,11 @@ For general prompt\-writing methods and templates, see the [Dreamina Seedance 2.
 
 ## Usage limits
 
-### Multimodal input
+### Omni\-reference input
 
 > **warning**
 
-> Seedance 2.5 does not support directly uploading reference images or videos containing real human faces.
+> Seedance 2.5 series does not support directly uploading reference images or videos containing real human faces.
 
 > To make it easier for creators to use portraits, the platform has launched a series of solutions. For details, see [Create portrait videos with Dreamina Seedance models](seedance-portrait-asset-guide.md).
 
@@ -3621,13 +3594,17 @@ For general prompt\-writing methods and templates, see the [Dreamina Seedance 2.
 
 * Size: A single image must be smaller than 30 MB. The request body size must not exceed 64 MB. Do not use Base64 strings for large files.
 
-* Number of images:
+* Quantity limit:
 
    * Image\-to\-video \- first frame: 1 image
 
    * Image\-to\-video \- first and last frames: 2 images
 
-   * Omni reference\-to\-video: 1–30 images
+   * Omni reference\-to\-video:
+
+      * **Seedance 2.5:**  30 images
+
+      * **Seedance 2.5 flash:**  10 images
 
 **Video requirements**
 
@@ -3635,7 +3612,7 @@ For general prompt\-writing methods and templates, see the [Dreamina Seedance 2.
 
 * Video formats: mp4, mov. For supported encoding formats, see the table below.
 
-* Resolution: 480p, 720p, 1080p, 4k
+* Resolution: 480p, 720p, 1080p, 4K
 
 * Duration:
 
@@ -3643,7 +3620,7 @@ For general prompt\-writing methods and templates, see the [Dreamina Seedance 2.
 
    * [Video editing tasks](seedance-2-5.md#2.5_task_type_intro): Each video must be [4, 30] s long.
 
-   * You can provide up to 10 reference videos with a total duration of no more than 30 s.
+   * The total duration of all videos must not exceed 30 s.
 
 * Single video dimensions:
 
@@ -3657,6 +3634,12 @@ For general prompt\-writing methods and templates, see the [Dreamina Seedance 2.
 
 * Frame rate (FPS): [24, 60]
 
+* Quantity limit:
+
+   * **Seedance 2.5:**  10 videos
+
+   * **Seedance 2.5 flash:**  5 videos
+
 |**Container Format** |**Common File Extension** |**MIME** |**Supported Encoding** |
 |---|---|---|---|
 |MP4 |.mp4 |video/mp4 |Video: H.264/AVC, H.265/HEVC<br><br>Audio: AAC, MP3 |
@@ -3668,7 +3651,13 @@ For general prompt\-writing methods and templates, see the [Dreamina Seedance 2.
 
 * Audio formats: wav, mp3
 
-* Duration: The duration of a single audio clip is [2, 30] s. Up to 10 reference audio clips can be input, and the total duration of all audio clips must not exceed 30 s.
+* Duration: The duration of a single audio clip is [2, 30] s, and the total duration of all audio clips must not exceed 30 s.
+
+* Quantity limit:
+
+   * **Seedance 2.5:**  10 audio clips
+
+   * **Seedance 2.5 flash:**  5 audio clips
 
 * Size: A single audio clip must not exceed 15 MB, and the request body size must not exceed 64 MB. Do not use Base64 strings for large files.
 

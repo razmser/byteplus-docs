@@ -1,10 +1,8 @@
 # Dreamina Seedance Advanced Creation Rights purchase guide
 
-The Dreamina Seedance Advanced Creation Rights package is a value\-added subscription service for enterprise users of Dreamina Seedance 2.0 and Dreamina Seedance 2.5. It supports yearly and monthly subscriptions, providing larger capacity for private asset libraries, higher API call QPM, and enterprise\-level content creation support.
+The Dreamina Seedance Advanced Creation Rights package is a value\-added subscription service for enterprise users of Dreamina Seedance 2.0 series and Dreamina Seedance 2.5 series models. It supports yearly and monthly subscriptions, providing larger capacity for private asset libraries, higher API call QPM, and enterprise\-level content creation support.
 
-<span id="a8a558e6"></span>
 # Prerequisites
-
 
 * Register a BytePlus account and complete the enterprise verification.
 
@@ -12,26 +10,21 @@ The Dreamina Seedance Advanced Creation Rights package is a value\-added subscri
 
 * Agree and comply with the following legal terms:
 
-   * [Byteplus Terms of Use for Asset Library](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2275639)
+   * [Byteplus Terms of Use for Asset Library](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/2275639)
 
-   * [Byteplus Commitment Letter for Uploading Virtual Avatar Assets](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2275638)
+   * [Byteplus Commitment Letter for Uploading Virtual Avatar Assets](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/2275638)
 
-   * [BytePlus Real Person Verification H5/API - Usage Rules](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/BytePlus_Real_Person_Verification_H5_and_API_Usage_Rules)
+   * [BytePlus Real Person Verification H5/API - Usage Rules](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/BytePlus_Real_Person_Verification_H5_and_API_Usage_Rules)
 
-   * [BytePlus Platform Customer Code of Conduct and Default Handling Rules](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2353368)
+   * [BytePlus Platform Customer Code of Conduct and Default Handling Rules](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/2353368)
 
+> **Tip**
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> After completing the real\-name authentication, select a plan on the [console](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&advancedActiveKey=mediaAsset&projectName=default).
 
-
-<div data-tips="true" data-tips-type="tip">After completing the real\-name authentication, select a plan on the <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&advancedActiveKey=mediaAsset&projectName=default">console</a>.</div>
-
-
-<span id="f5abd100"></span>
 # Benefits overview
 
 Dreamina Seedance Advanced Creation Rights package supports yearly and monthly subscriptions. **After purchasing the package, you can enjoy the following benefits**:
-
 
 * Manage private assets via the Assets API integration
 
@@ -39,68 +32,51 @@ Dreamina Seedance Advanced Creation Rights package supports yearly and monthly s
 
 * Access enterprise\-grade content creation support
 
-> For more information about the private asset library, please refer to the [Private Virtual Portrait Asset Library Guide](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2333565) and [Private Real-Person Portrait Library Guide](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2333589).
-
+> For more information about the private asset library, please refer to the [Private Virtual Portrait Asset Library Guide](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/private-virtual-avatar-library-guide-preview) and [Private Real-Person Portrait Library Guide](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/guide-preview).
 
 For detailed benefits and terms, please refer to the following.
 
-
 |Type |Price |Real\-Person Verification & Upload (Console) |Real\-Person Verification & Upload (Assets API) |Virtual Portrait Asset Upload (Console & API) |Private Asset Library Quota |Asset Upload Rate Limit (CreateAsset) |Creative Support |
 |---|---|---|---|---|---|---|---|
-|**Basic Creation Rights** (Free tier) |Free |✅ (Console only) |❌ |❌ |Assets: 50 / Asset Groups: 50 |Max QPM: 3 |&nbsp;<br><br>/ |
-|**Advanced Creation Rights (Entry)**  |Free |✅ |✅ |✅ |Assets: 50 / Asset Groups: 50 |Max QPM: 3 |&nbsp;<br><br>/ |
+|**Basic Creation Rights** (Free tier) |Free |✅ (Console only) |❌ |❌ |Assets: 50 / Asset Groups: 50 |Max QPM: 3 | <br><br>/ |
+|**Advanced Creation Rights (Entry)**  |Free |✅ |✅ |✅ |Assets: 50 / Asset Groups: 50 |Max QPM: 3 | <br><br>/ |
 |**Advanced Creation Rights** |$14,000/year<br><br>$1,400/month |✅ |✅ |✅ |Assets: 1M / Asset Groups: 1M |Max QPM: 120 |Clear pathway to substantiate usage rights |
 |**Advanced Creation Rights (Premium)**  |$42,000/year<br><br>$4,200/month |✅ |✅ |✅ |Assets: 5M / Asset Groups: 5M |Max QPM: 300 |Clear pathway to substantiate usage rights |
 
-
-<span id="e6c4ee88"></span>
 # How to Subscribe
-
 
 1. Go to **Model activation** \> [Advanced Creation Rights](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&advancedActiveKey=mediaAsset)
 
 2. Select your desired package, and complete payment
 
-
-<span id="559e69c7"></span>
 # Usage monitoring
 
 After subscribing, you can view your usage on the **Model activation** \> [Advanced Creation Rights](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&advancedActiveKey=mediaAsset).
 
-<span id="c0873d71"></span>
 # Rules
 
 **Effective Period**:
-
 
 * Yearly subscription: Takes effect immediately after purchase and expires at 23:59:59 on the same day of the following year.
 
 > Example: If you subscribe to the yearly package on 2026\-04\-18, the package will expire on 2027\-04\-18 at 23:59:59.
 
-
 * Monthly subscription: Takes effect immediately after purchase and expires at 23:59:59 on the same day of the following month.
 
 > Example: If you subscribe to the monthly package on 2026\-04\-18, the package will expire on 2026\-05\-18 at 23:59:59.
-
 
 **Subscription Changes**:
 
 Only one subscription can be active per BytePlus account at a time.
 
-
 * Upgrade: Flexible upgrades are supported. The price difference is calculated based on the remaining validity period. Upgrades are divided into the following two categories:
-
-
 
 |Upgrade Option | |Validity Period of<br><br>the New Package |Price Difference Compensation |
 |---|---|---|---|
 |**Monthly \> Yearly** |* Advanced Creation Rights monthly \> Advanced Creation Rights yearly<br><br>* Advanced Creation Rights (Premium) monthly \> Advanced Creation Rights (Premium) yearly<br><br>* Advanced Creation Rights monthly \> Advanced Creation Rights (Premium) yearly<br><br>* Advanced Creation Rights (Premium) monthly \> Advanced Creation Rights yearly |The upgraded package takes effect immediately upon subscription and expires at 23:59:59 on the same day of the following year<br><br>For example, if you subscribe to the Advanced Creation Rights monthly package on 2026\-04\-18 and upgrade to the Premium edition yearly package on 2026\-05\-01, the yearly package validity period is 2026\-05\-01 to 2027\-05\-01 |Price difference = `new package yearly price − original package monthly price ÷ total effective days of the original monthly package × remaining duration of the package` (that is, payment of the full price for the new yearly package, with deduction for the value corresponding to the remaining days of the original monthly package) |
 |**Advanced Creation Rights \> Advanced Creation Rights (Premium)**  |* Advanced Creation Rights monthly package \> Premium edition monthly package<br><br>* Advanced Creation Rights yearly package \> Premium edition yearly package |The upgraded package takes effect immediately upon subscription and expires when the original package ends |Price difference = `(new package price - original package price) / total effective days of the original package * remaining duration of the package` |
 
-
-
 * Downgrade: Downgrading from the Premium package to the Advanced Creation Rights package within the same cycle, or from a yearly subscription to a monthly subscription, is not supported.
-
 
 **Unsubscription**:
 
@@ -108,20 +84,15 @@ Once the subscription service is purchased, it is considered confirmed and refun
 
 **Renewal**:
 
-
 * Yearly subscription: You can subscribe to up to 1 year of rights at a time. Renewal is available starting 30 days before the Rights Package expires.
 
 * Monthly subscription: You can subscribe to up to 3 months of entitlement at a time. The remaining duration of the current package plus the total duration of the newly purchased package must not exceed 4 months.
 
+> **Tip**
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
-
-
-<div data-tips="true" data-tips-type="tip">Important: Please renew your rights in time before expiration to avoid unexpected disruption. If you need assistance, please contact your sales representative or technical support.</div>
-
+> Important: Please renew your rights in time before expiration to avoid unexpected disruption. If you need assistance, please contact your sales representative or technical support.
 
 **Expiration**:
-
 
 * **Grace Period (0–15 days after expiration)** :
 
@@ -143,10 +114,8 @@ Once the subscription service is purchased, it is considered confirmed and refun
 
    * Renewal is no longer available. A new purchase is required to resume service.
 
-
-<span id="28f7b70c"></span>
 # FAQs
 
-**Q: Will uploaded assets be deleted after the entitlement expires?** 
+**Q: Will uploaded assets be deleted after the entitlement expires?**
 
 A: After 15 days overdue, assets and asset groups created within the paid subscription period will be deleted. Deleted assets and asset groups cannot be restored. Be sure to back up your data in advance.

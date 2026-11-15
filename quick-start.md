@@ -814,7 +814,7 @@ func main() {
 
 * [Video generation tutorial](video-generation-tutorial.md): Learn how to use the model's video generation capabilities, including text\-to\-video, first\-and\-last\-frame\-to\-video, and first\-frame\-to\-video.
 
-* [Dreamina Seedance 2.5 prompt guide](seedance-2-5-prompt-guide.md): Learn how to write prompts when using video generation models.
+* [Dreamina Seedance 2.5 series prompt guide](seedance-2-5-prompt-guide.md): Learn how to write prompts when using video generation models.
 
 ## Tool use
 

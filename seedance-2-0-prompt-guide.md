@@ -589,7 +589,7 @@ When using reference audio to specify a voice, the audio voice in the final gene
 
 **Solution**
 
-1. Add detailed descriptions of voice characteristics in the prompt. You can refer to the [Seedance-1.5-pro Prompt Guide](seedance-1-5-pro.md).
+1. Add detailed descriptions of voice characteristics in the prompt.
 
 2. Keep the style of the video lines close to the tone and expression style of the reference audio, which helps improve voice restoration and stability.
 

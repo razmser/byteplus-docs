@@ -151,7 +151,7 @@ API documentation: [Chat API](chat-api.md) | [Responses API](create-model-respon
 
 ## Video generation
 
-Tutorials: [Video generation tutorial](video-generation-tutorial.md) | [Dreamina Seedance 2.5 tutorial](seedance-2-5.md) | [Dreamina Seedance 2.5 prompt guide](seedance-2-5-prompt-guide.md)
+Tutorials: [Video generation tutorial](video-generation-tutorial.md) | [Dreamina Seedance 2.5 series tutorial](seedance-2-5.md) | [Dreamina Seedance 2.5 series prompt guide](seedance-2-5-prompt-guide.md)
 
 API documentation: [Create task](create-video-generation-task-api.md) | [List tasks](list-video-generation-tasks-api.md) | [Get task](get-video-generation-task-api.md) | [Cancel or delete task](cancel-or-delete-video-generation-tasks-api.md)
 
@@ -159,6 +159,7 @@ API documentation: [Create task](create-video-generation-task-api.md) | [List ta
 
 |Model ID |Text\-to\-video |First\-frame\-to\-video |First\-last\-frame\-to\-video |Reference\-to\-video |Video editing |Video extension |
 |---|---|---|---|---|---|---|
+|[dreamina-seedance-2-5-flash-261115](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5-flash) |Yes |Yes |Yes |Yes |Yes |Yes |
 |[dreamina-seedance-2-5-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |Yes |Yes |Yes |Yes |Yes |Yes |
 |[dreamina-seedance-2-0-mini-260615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |Yes |Yes |Yes |Yes |Yes |Yes |
 |[dreamina-seedance-2-0-fast-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |Yes |Yes |Yes |Yes |Yes |Yes |
@@ -170,6 +171,7 @@ API documentation: [Create task](create-video-generation-task-api.md) | [List ta
 
 |Model ID |Format |Resolution |Frame rate |Duration |
 |---|---|---|---|---|
+|[dreamina-seedance-2-5-flash-261115](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5-flash) |`.mp4`<br><br>`.mov` |480p (8\-bit)<br><br>720p (8\-bit) |24 fps |4\-30 seconds |
 |[dreamina-seedance-2-5-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |`.mp4`<br><br>`.mov` |480p (8\-bit)<br><br>720p (8\-bit)<br><br>1080p (10\-bit) |24 fps |4\-30 seconds |
 |[dreamina-seedance-2-0-mini-260615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |`.mp4` |480p (8\-bit)<br><br>720p (8\-bit) |24 fps |4\-15 seconds |
 |[dreamina-seedance-2-0-fast-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |`.mp4` |480p (8\-bit)<br><br>720p (8\-bit) |24 fps |4\-15 seconds |
@@ -182,6 +184,7 @@ API documentation: [Create task](create-video-generation-task-api.md) | [List ta
 |Model ID |Default ||Flex |
 |---|---|---|---|
 | |Max RPM |Max concurrency | |
+|[dreamina-seedance-2-5-flash-261115](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5-flash) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |No |
 |[dreamina-seedance-2-5-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |No |
 |[dreamina-seedance-2-0-mini-260615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |No |
 |[dreamina-seedance-2-0-fast-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |Enterprise: 600<br><br>Individual: 180 |Enterprise: 10<br><br>Individual: 3 |No |
