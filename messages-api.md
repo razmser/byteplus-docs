@@ -18,6 +18,8 @@ This API supports the following authentication method(s). For details, see [Base
 
 **messages** `object[]` `Required`  |  Message list.
 
+When the last message is `assistant`, whether the message's `content` is used as a prefill for continuation depends on the model: some models continue generating after the prefilled content and return only the newly generated segment, excluding the prefilled content; other models ignore the prefill and return the full answer. The caller should check whether the returned content was regenerated from the beginning of the prefill before deciding whether to concatenate it.
+
 **role** `string` `Required`  |  Role
 
 `messages.role`
@@ -371,6 +373,10 @@ Value is fixed to `text`.
 **Range**: `[0, 2]`
 
 **thinking** `object`  |  Deep reasoning configuration.
+
+> **Note**
+
+> Whether assistant prefill takes effect depends on the model. Some models ignore the last `assistant` prefill and return a complete response; the `thinking` setting does not change this behavior.
 
 **type** `string` `Required`  |  Thinking mode.
 

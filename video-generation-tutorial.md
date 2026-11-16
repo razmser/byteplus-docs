@@ -393,7 +393,7 @@ This table lists the capabilities supported by all Seedance models to help you c
 |[Generate videos with audio](video-generation-tutorial.md#979b2d28) | |✓ |✓ |✓ |✓ |✓ |✗ |✗ |
 |[Draft mode](video-generation-tutorial.md#5acd28c8) | |✓ |✗ |✗ |✗ |✗ |✗ |✗ |
 |[Return the last frame of the generated video](video-generation-tutorial.md#141cf7fa) | |✓ |✓ |✓ |✓ |✓ |✓ |✓ |
-|[Output video specifications](video-generation-tutorial.md#9fe4cce0) |Resolution |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |480p<br><br>720p<br><br>1080p |480p<br><br>720p<br><br>1080p |
+|[Output video specifications](video-generation-tutorial.md#9fe4cce0) |Resolution |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |480p<br><br>720p<br><br>1080p |480p<br><br>720p<br><br>1080p |
 | |Aspect ratio |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |
 | |Frame rate |24 fps |24 fps |24 fps |24 fps |24 fps |24 fps |24 fps |
 | |Duration |4\-30 seconds |4\-30 seconds |4\-15 seconds |4\-15 seconds |4\-15 seconds |2\-12 seconds |2\-12 seconds |
@@ -1484,12 +1484,12 @@ The pixel dimensions of output videos for each model are listed below:
 ||3:4 |1248×1664 |1248×1664 |1248×1664 |
 ||9:16 |1080×1920 |1080×1920 |1088×1920 |
 ||21:9 |2206×946 |2206×946 |2176×928 |
-|4k<br><br>> Only Dreamina Seedance 2.0 supports 4K |16:9 |*  |3840×2160 |*  |
-||4:3 |\- |3326×2494 |\- |
-||1:1 |\- |2880×2880 |\- |
-||3:4 |\- |2494×3326 |\- |
-||9:16 |\- |2160×3840 |\- |
-||21:9 |\- |4398×1886 |\- |
+|4k<br><br>> Dreamina Seedance 2.5 flash, Dreamina Seedance 2.0 Fast, and Dreamina Seedance 2.0 Mini do not support 4K |16:9 |3840×2160 |3840×2160 |*  |
+||4:3 |3326×2494 |3326×2494 |\- |
+||1:1 |2880×2880 |2880×2880 |\- |
+||3:4 |2494×3326 |2494×3326 |\- |
+||9:16 |2160×3840 |2160×3840 |\- |
+||21:9 |4398×1886 |4398×1886 |\- |
 
 ### Video duration
 

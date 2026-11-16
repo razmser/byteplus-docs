@@ -140,7 +140,7 @@ A request to `seed-2-0-lite-260428` with 200K input tokens and 14K output tokens
 |---|---|---|---|---|
 | |480p and 720p |1080p |4K | |
 |dreamina\-seedance\-2\-5\-flash\-261115 |$7.0 |Not supported |Not supported |Not supported |
-|dreamina\-seedance\-2\-5\-260628 |$10.70 |$11.7 |Not supported |Not supported |
+|dreamina\-seedance\-2\-5\-260628 |$10.70 |$11.7 |$4.7 |Not supported |
 |dreamina\-seedance\-2\-0\-260128 |$7.0 |$7.7 |$4.0 |Not supported |
 |dreamina\-seedance\-2\-0\-fast\-260128 |$5.6 |Not supported |Not supported |Not supported |
 |dreamina\-seedance\-2\-0\-mini\-260615 |$3.5 |Not supported |Not supported |Not supported |
@@ -153,7 +153,7 @@ A request to `seed-2-0-lite-260428` with 200K input tokens and 14K output tokens
 |---|---|---|---|---|
 | |480p and 720p |1080p |4K | |
 |dreamina\-seedance\-2\-5\-flash\-261115 |$4.3 |Not supported |Not supported |Not supported |
-|dreamina\-seedance\-2\-5\-260628 |$6.40 |$7.0 |Not supported |Not supported |
+|dreamina\-seedance\-2\-5\-260628 |$6.40 |$7.0 |$2.9 |Not supported |
 |dreamina\-seedance\-2\-0\-260128 |$4.3 |$4.7 |$2.4 |Not supported |
 |dreamina\-seedance\-2\-0\-fast\-260128 |$3.3 |Not supported |Not supported |Not supported |
 |dreamina\-seedance\-2\-0\-mini\-260615 |$2.1 |Not supported |Not supported |Not supported |
@@ -190,22 +190,22 @@ The following estimated prices illustrate typical input and output specification
 
 **Input without video**
 
-|Resolution |480p |720p |1080p |
-|---|---|---|---|
-|Aspect ratio |16:9 |16:9 |16:9 |
-|Output video duration (seconds) |5 |5 |5 |
-|Dreamina Seedance 2.5 |* $0.514 per video<br><br>* $0.103 per second |* $1.156 per video<br><br>* $0.231 per second |* $2.843 per video<br><br>* $0.569 per second |
-|Dreamina Seedance 2.5 Flash |* $0.34 per video<br><br>* $0.07 per second |* $0.76 per video<br><br>* $0.15 per second |Not supported |
+|Resolution |480p |720p |1080p |4K |
+|---|---|---|---|---|
+|Aspect ratio |16:9 |16:9 |16:9 |16:9 |
+|Output video duration (seconds) |5 |5 |5 |5 |
+|Dreamina Seedance 2.5 |* $0.514 per video<br><br>* $0.103 per second |* $1.156 per video<br><br>* $0.231 per second |* $2.843 per video<br><br>* $0.569 per second |* $4.568 per video<br><br>* $0.914 per second |
+|Dreamina Seedance 2.5 Flash |* $0.34 per video<br><br>* $0.07 per second |* $0.76 per video<br><br>* $0.15 per second |Not supported |Not supported |
 
 **Input with video**
 
-|Resolution |480p |720p |1080p |
-|---|---|---|---|
-|Aspect ratio |16:9 |16:9 |16:9 |
-|Input duration (seconds) |2\-30 |2\-30 |2\-30 |
-|Output duration (seconds) |5 |5 |5 |
-|Dreamina Seedance 2.5 |$0.553\-$2.152<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$1.244\-$4.838<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$3.062\-$11.907<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |
-|Dreamina Seedance 2.5 Flash |$0.37\-$1.45<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$0.84\-$3.25<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |Not supported |
+|Resolution |480p |720p |1080p |4K |
+|---|---|---|---|---|
+|Aspect ratio |16:9 |16:9 |16:9 |16:9 |
+|Input duration (seconds) |2\-30 |2\-30 |2\-30 |2\-30 |
+|Output duration (seconds) |5 |5 |5 |5 |
+|Dreamina Seedance 2.5 |$0.553\-$2.152<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$1.244\-$4.838<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$3.062\-$11.907<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$5.074\-$19.732<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |
+|Dreamina Seedance 2.5 Flash |$0.37\-$1.45<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |$0.84\-$3.25<br><br><br>* Lowest price: 2\-4 seconds input<br><br>* Highest price: 30 seconds input |Not supported |Not supported |
 
 #### Dreamina Seedance 2.0 series
 

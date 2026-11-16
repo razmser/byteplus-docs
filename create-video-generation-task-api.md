@@ -505,15 +505,15 @@ Video resolution.
 
 > **Tip**
 
-* > Dreamina Seedance 2.5 1080p output and Dreamina Seedance 2.0 4K output both use 10\-bit color depth and H.265/HEVC encoding.
+* > Dreamina Seedance 2.5 1080p and 4K output, and Dreamina Seedance 2.0 4K output, use 10\-bit color depth and H.265/HEVC encoding.
 
    * > Compared with standard 8\-bit color depth, 10\-bit color depth preserves richer color gradations and smoother tonal transitions, making it suitable for professional video production and HDR content.
 
-   * > H.265/HEVC encoding may not be compatible with some playback environments. If playback fails, upgrade your system, use another device, or try a player such as VLC, mpv, or QuickTime Player. For details, see [Playback compatibility for videos with 10\-bit color depth and H.265/HEVC encoding](seedance-2-0.md#4k_player).
+   * > H.265/HEVC encoding may not be compatible with some playback environments. If playback fails, upgrade your system, use another device, or try a player such as VLC, MPV, or QuickTime Player. For details, see [Playback compatibility for videos with 10\-bit color depth and H.265/HEVC encoding](seedance-2-0.md#4k_player).
 
 **Supported models and values:**
 
-* **Dreamina Seedance 2.5:**  Default `720p`; supports `480p`, `720p`, and `1080p`.
+* **Dreamina Seedance 2.5:**  Default `720p`; supports `480p`, `720p`, `1080p`, and `4k`.
 
 * **Dreamina Seedance 2.5 flash:**  Default `720p`; supports `480p` and `720p`.
 
@@ -566,12 +566,12 @@ For image to video tasks, when the selected video aspect ratio is inconsistent w
 ||`3:4` |1248×1664 |1248×1664 |1248×1664 |
 ||`9:16` |1080×1920 |1080×1920 |1088×1920 |
 ||`21:9` |2206×946 |2206×946 |2176×928 |
-|4k |`16:9` |— |3840×2160 |— |
-||`4:3` |— |3326×2494 |— |
-||`1:1` |— |2880×2880 |— |
-||`3:4` |— |2494×3326 |— |
-||`9:16` |— |2160×3840 |— |
-||`21:9` |— |4398×1886 |— |
+|4k<br><br>(Dreamina Seedance 2.5 flash, Dreamina Seedance 2.0 fast, and Dreamina Seedance 2.0 mini are not supported) |`16:9` |3840×2160 |3840×2160 |— |
+||`4:3` |3326×2494 |3326×2494 |— |
+||`1:1` |2880×2880 |2880×2880 |— |
+||`3:4` |2494×3326 |2494×3326 |— |
+||`9:16` |2160×3840 |2160×3840 |— |
+||`21:9` |4398×1886 |4398×1886 |— |
 
 > **Note**
 
@@ -693,7 +693,7 @@ Output video format.
 > |---|---|---|
 > |IINA |✓ |✕ |
 > |VLC |✓ |✓ |
-> |mpv |✓ |✓ |
+> |MPV |✓ |✓ |
 > |ffplay |✓ |✓ |
 
 **Supported models**

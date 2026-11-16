@@ -264,7 +264,7 @@ You can replace `reference_image_url`, `reference_video_url`, and `reference_aud
 |Maximum number of reference assets | |50 (30 images + 10 videos + 10 audios) |20 (10 images + 5 videos + 5 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |
 |[Draft mode](seedance-2-5.md#2.5_draft_mode) | |✓ |✗ |✗ |✗ |✗ |
 |[Return last frame](video-generation-tutorial.md#141cf7fa) | |✓ |✓ |✓ |✓ |✓ |
-|[Output video specifications](seedance-2-5.md#2.5_video_output_specs) |[Output resolution](seedance-2-5.md#2.5_resolution) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |
+|[Output video specifications](seedance-2-5.md#2.5_video_output_specs) |[Output resolution](seedance-2-5.md#2.5_resolution) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |
 ||[Output aspect ratio](seedance-2-5.md#2.5_ratio) |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |
 ||[Output duration](seedance-2-5.md#2.5_duration) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |
 ||[Output video format](seedance-2-5.md#2.5_output_format) |mp4, mov |mp4, mov |mp4 |mp4 |mp4 |
@@ -3081,7 +3081,7 @@ After confirming that the Draft video meets expectations, use the Draft video ta
 
 > **Note**
 
-* > When generating a final video from a Draft video, Dreamina Seedance 2.5 currently supports only 1080p output. Setting another resolution causes an error.
+* > When generating a final video from a Draft video, Dreamina Seedance 2.5 supports 1080p or 4K output. Setting another resolution causes an error.
 
 * > A Draft video task ID has a validity period, measured from its `created_at` timestamp. The ID automatically becomes invalid when this period expires. Draft video task IDs created at or after 10:00 on October 28, 2026 (UTC+8) are valid for 14 days. IDs created before this time remain valid for seven days. After a Draft video task ID expires, it cannot be used to generate a final video.
 
@@ -3099,9 +3099,9 @@ When generating a final video from a Draft video, some parameters must retain fi
 
 |Type |Parameter |Rule |
 |---|---|---|
-|Fixed\-value parameters |* Model ID (`model`)<br><br>* Draft mode (`draft`)<br><br>* Resolution (`resolution`) |* `model` must match the model used to create the Draft task.<br><br>* Omit `draft` or set it to `false`.<br><br>* `resolution` is required and only supports `1080p`. |
+|Fixed\-value parameters |* Model ID (`model`)<br><br>* Draft mode (`draft`) |* `model` must match the model used to create the Draft task.<br><br>* Omit `draft` or set it to `false`. |
 |Automatically reused parameters |* Prompt (`content.text`)<br><br>* Reference image, video, and audio (`content.image_url`, `content.video_url`, `content.audio_url`)<br><br>* Duration (`duration`)<br><br>* Aspect ratio (`ratio`)<br><br>* Seed (`seed`)<br><br>* Generate audio (`generate_audio`)<br><br>* Task type (`omni_reference_task_type`) |* The model automatically reuses the values used to create the Draft task.<br><br>* **Do not provide these parameters again. An error occurs even if their values match those used in the Draft task.**  |
-|Parameters that can be specified again |* Return last frame (`return_last_frame`)<br><br>* Output format (`output_format`)<br><br>* Watermark (`watermark`)<br><br>* Service tier (`service_tier`)<br><br>* Task expiration threshold (`execution_expires_after`)<br><br>* Execution priority (`priority`)<br><br>* Callback URL (`callback_url`)<br><br>* User identifier (`safety_identifier`) |* If omitted, the model default is used instead of the Draft video's actual value.<br><br>* Values must comply with the restrictions for Dreamina Seedance 2.5. For details, see [Create a video generation task API](create-video-generation-task-api.md). |
+|Parameters that can be specified again |* Resolution (`resolution`)<br><br>* Return last frame (`return_last_frame`)<br><br>* Output format (`output_format`)<br><br>* Watermark (`watermark`)<br><br>* Service tier (`service_tier`)<br><br>* Task expiration threshold (`execution_expires_after`)<br><br>* Execution priority (`priority`)<br><br>* Callback URL (`callback_url`)<br><br>* User identifier (`safety_identifier`) |* `resolution` is required and supports `1080p` or `4k`.<br><br>* If the other parameters are omitted, the model defaults are used instead of the Draft video's actual values.<br><br>* Values must comply with the restrictions for Dreamina Seedance 2.5. For details, see [Create a video generation task API](create-video-generation-task-api.md). |
 
 **cURL**
 
@@ -3121,7 +3121,7 @@ When generating a final video from a Draft video, some parameters must retain fi
            }
          }
        ],
-       "resolution": "1080p",
+       "resolution": "4k",
        "output_format": "mov",
        "watermark": true
      }'
@@ -3168,7 +3168,7 @@ if __name__ == "__main__":
             }
         ],
         watermark=True,
-        resolution="1080p",
+        resolution="4k",
         extra_body={
             "output_format": "mov",
         },
@@ -3270,7 +3270,7 @@ public class ContentGenerationTaskExample {
         Map<String, Object> createRequest = new LinkedHashMap<>();
         createRequest.put("model", modelId);
         createRequest.put("content", contents);
-        createRequest.put("resolution", "1080p");
+        createRequest.put("resolution", "4k");
         createRequest.put("output_format", "mov");
         createRequest.put("watermark", true);
 
@@ -3347,7 +3347,7 @@ func main() {
     createReq := &model.CreateContentGenerationTaskRequest{
         Model:      modelID,
         Watermark:  model.NewOptBool(true),
-        Resolution: model.NewOptString("1080p"),
+        Resolution: model.NewOptString("4k"),
         Content: []model.ContentItem{
             {
                 Type: model.ContentTypeDraftTask,
@@ -3429,15 +3429,15 @@ The default value is `720p`.
 
 Available values vary by model:
 
-* **Seedance 2.5:**  `480p` (8\-bit color depth), `720p` (8\-bit color depth), and `1080p` (10\-bit color depth).
+* **Seedance 2.5:**  `480p` (8\-bit color depth), `720p` (8\-bit color depth), `1080p` (10\-bit color depth), and `4k` (10\-bit color depth).
 
 * **Seedance 2.5 flash:**  `480p` (8\-bit color depth) and `720p` (8\-bit color depth).
 
 > **Note**
 
-> **Dreamina Seedance 2.5 1080p output uses 10\-bit color depth and H.265/HEVC encoding.**
+> **Dreamina Seedance 2.5 1080p and 4k output use 10\-bit color depth and H.265/HEVC encoding.**
 
-* > Compared with standard 8\-bit color depth, 10\-bit color depth preserves richer color gradations and smoother tonal transitions, making it suitable for professional video production and HDR content.
+* > Compared with 8\-bit color depth, 10\-bit color depth preserves richer color gradations and smoother tonal transitions.
 
 * > H.265/HEVC encoding may not be compatible with some playback environments. If playback fails, upgrade your system, use another device, or try a [player](seedance-2-0.md#4k_player) such as VLC, mpv, or QuickTime Player.
 
@@ -3483,6 +3483,12 @@ Width and height pixel values corresponding to different aspect ratios:
 ||3:4 |1248×1664 |
 ||9:16 |1080×1920 |
 ||21:9 |2206×946 |
+|4K |16:9 |3840×2160 |
+||4:3 |3326×2494 |
+||1:1 |2880×2880 |
+||3:4 |2494×3326 |
+||9:16 |2160×3840 |
+||21:9 |4398×1886 |
 
 ### Video duration
 
@@ -3681,10 +3687,12 @@ Under the same primary account, requests to the same model, regardless of model 
 
 * **Maximum concurrent tasks**: The maximum number of tasks that can be processed at the same time. When this limit is reached, newly created tasks enter a queue for processing.
 
-|Rate Limit Dimension |Enterprise User |Individual User |
-|---|---|---|
-|Maximum RPM |600 |180 |
-|Maximum Concurrency |10 |3 |
+|Resolution |Rate limit dimension |Enterprise user |Individual user |
+|---|---|---|---|
+|Non\-4K |Maximum RPM |600 |180 |
+||Maximum concurrency |10 |3 |
+|4K (Seedance 2.5 only) |Maximum RPM |15 |15 |
+||Maximum concurrency |1 |1 |
 
 #### Non\-inference API request rate limits
 

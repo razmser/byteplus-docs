@@ -172,7 +172,7 @@ API documentation: [Create task](create-video-generation-task-api.md) | [List ta
 |Model ID |Format |Resolution |Frame rate |Duration |
 |---|---|---|---|---|
 |[dreamina-seedance-2-5-flash-261115](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5-flash) |`.mp4`<br><br>`.mov` |480p (8\-bit)<br><br>720p (8\-bit) |24 fps |4\-30 seconds |
-|[dreamina-seedance-2-5-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |`.mp4`<br><br>`.mov` |480p (8\-bit)<br><br>720p (8\-bit)<br><br>1080p (10\-bit) |24 fps |4\-30 seconds |
+|[dreamina-seedance-2-5-260628](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |`.mp4`<br><br>`.mov` |480p (8\-bit)<br><br>720p (8\-bit)<br><br>1080p (10\-bit)<br><br>4K (10\-bit) |24 fps |4\-30 seconds |
 |[dreamina-seedance-2-0-mini-260615](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |`.mp4` |480p (8\-bit)<br><br>720p (8\-bit) |24 fps |4\-15 seconds |
 |[dreamina-seedance-2-0-fast-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |`.mp4` |480p (8\-bit)<br><br>720p (8\-bit) |24 fps |4\-15 seconds |
 |[dreamina-seedance-2-0-260128](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |`.mp4` |480p (8\-bit)<br><br>720p (8\-bit)<br><br>1080p (8\-bit)<br><br>4K (10\-bit) |24 fps |4\-15 seconds |

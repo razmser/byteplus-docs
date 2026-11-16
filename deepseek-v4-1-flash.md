@@ -56,7 +56,7 @@ The prefix completion behavior supported by `deepseek-v4-1-flash-260910` is as f
 
 |API |Chat API |Responses API |Messages API |
 |---|---|---|---|
-|Prefix completion trigger |* The **role** of the last message in the **messages** list is `assistant`.<br><br>* Set the **prefix** parameter of the last message to `true` |* Set the **role** of the last message in the **input** list to assistant.<br><br>* Set **partial** to `true` to enable prefill\-based response (not setting **partial** does not cause an error; it simply does not enable prefill\-based response). |* The **role** of the last message in the **messages** list is `assistant`.<br><br>* The **prefix** parameter is not required; we recommend disabling deep reasoning (set **thinking.type** to `disabled`), otherwise the prefill might be ignored. |
+|Prefix completion trigger |* The **role** of the last message in the **messages** list is `assistant`.<br><br>* Set the **prefix** parameter of the last message to `true` |* Set the **role** of the last message in the **input** list to assistant.<br><br>* Set **partial** to `true` to enable prefill\-based response (not setting **partial** does not cause an error; it simply does not enable prefill\-based response). |* Prefill\-based response is not supported.<br><br>* The last assistant message does not take effect as a prefill; use the Chat API or Responses API instead when you need prefill\-based response. |
 
 ## Image understanding
 
