@@ -238,6 +238,7 @@
     "network-configuration.md": "https://docs.byteplus.com/docs/en/modelark/network-configuration.md",
     "ocr-supported-fonts.md": "https://docs.byteplus.com/docs/en/modelark/ocr-supported-fonts.md",
     "online-inference-flex.md": "https://docs.byteplus.com/docs/en/modelark/online-inference-flex.md",
+    "online-inference-low-latency.md": "https://docs.byteplus.com/docs/en/modelark/online-inference-low-latency.md",
     "online-inference-standard.md": "https://docs.byteplus.com/docs/en/modelark/online-inference-standard.md",
     "output-and-text.md": "https://docs.byteplus.com/docs/en/modelark/output-and-text.md",
     "overview.md": "https://docs.byteplus.com/docs/en/modelark/overview.md",

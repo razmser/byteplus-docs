@@ -2,7 +2,7 @@
 
 Markdown mirror of [BytePlus ModelArk's documentation](https://docs.byteplus.com/en/docs/ModelArk/).
 
-Contains **347 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
+Contains **348 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
 
 Links to mirrored pages point to local files; external links and images remain online. Code examples and OpenAPI blocks are preserved.
 
@@ -248,6 +248,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Network configuration](network-configuration.md)
 - [Seedream 5.5 OCR supported fonts](ocr-supported-fonts.md)
 - [Online inference (Flex)](online-inference-flex.md)
+- [Online inference (low latency)](online-inference-low-latency.md)
 - [Online inference (standard)](online-inference-standard.md)
 - [Output item and text response](output-and-text.md)
 - [Overview](overview.md)

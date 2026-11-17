@@ -54,6 +54,13 @@ Features and unit prices vary with model services. This topic introduces the bil
 |Z.ai |`glm-5-3-flash-260828` |Not applicable |$0.15 |$0.03 |$0.0083 |$0.5 |
 ||`glm-5-2-260617` |Not applicable |$1.4 |$0.26 |$0.0083 |$4.4 |
 
+**Fast**
+
+|Model ID |Prompt length (K tokens) |Input |Cached input |Output |
+|---|---|---|---|---|
+|`seed-2-0-lite-260428` |[0, 128] |$0.50 |$0.10 |$4.00 |
+||(128, 256] |$1.00 |$0.20 |$8.00 |
+
 **Flex**
 
 |Provider |Model ID |Prompt length (K tokens) |Input |Cached input |Output |
@@ -86,7 +93,7 @@ Features and unit prices vary with model services. This topic introduces the bil
 
 #### Audio input
 
-Only the following models support audio input for Standard and Flex inference. Output token prices are listed in the tables above.
+Audio input prices are listed by inference tier below. Output token prices are listed in the tables above.
 
 **Standard**
 
@@ -96,6 +103,13 @@ Only the following models support audio input for Standard and Flex inference. O
 ||(128, 256] |$7.50 |$1.50 |
 |`seed-2-0-mini-260428` |[0, 128] |$1.50 |$0.30 |
 ||(128, 256] |$3.00 |$0.60 |
+
+**Fast**
+
+|Model ID |Prompt length (K tokens) |Input |Cached input |
+|---|---|---|---|
+|`seed-2-0-lite-260428` |[0, 128] |$7.50 |$1.50 |
+||(128, 256] |$15.00 |$3.00 |
 
 **Flex**
 

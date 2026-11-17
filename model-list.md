@@ -22,7 +22,7 @@ ModelArk provides models for text and code, video, image, 3D, and embedding work
 
 * **Key capabilities:**  Reference\-to\-video, video editing, video extension, image\-to\-video, and text\-to\-video
 
-* **Key limits:**  Up to 1080p, 4\-30 seconds, and 0.6K default max RPM for enterprise users
+* **Key limits:**  Up to 4K, 4\-30 seconds, and 0.6K default max RPM for enterprise users
 
 [Dola Seedream 5.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-5)
 

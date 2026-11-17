@@ -1152,7 +1152,15 @@ Answer format type. Options: `text`, `json_schema`, `json_object`.
 
 Controls the online inference mode used.
 
+* `fast`: This request preferentially uses the [online inference (fast)](online-inference-low-latency.md) mode.
+
+   * If the inference endpoint (specified by the `model` parameter) has low latency throttling quota, this request will preferentially use the low latency throttling quota to obtain a higher service tier (latency, availability, etc.).
+
+   * If the inference endpoint has no low latency throttling quota, or the throttling quota is full, it will be downgraded to the **online inference (regular)**  mode to maintain the regular service tier.
+
 * `default`: This request only uses the [Online inference (standard)](online-inference-standard.md) mode, maintaining the standard service tier.
+
+   * Even if the inference endpoint being called has low latency throttling quota, it only uses the online inference (standard) mode.
 
 * `flex`: This request uses the [online inference (flex)](online-inference-flex.md) mode.
 
@@ -1602,6 +1610,8 @@ The inference mode actually used for this request.
 
 * `default`: This request uses the [Online inference (standard)](online-inference-standard.md) mode.
 
+* `fast`: This request uses the [online inference (fast)](online-inference-low-latency.md) mode.
+
 * `flex`: This request uses the [online inference (flex)](online-inference-flex.md) mode.
 
 **usage** `object`  |  Token usage
@@ -1905,6 +1915,8 @@ The model name originally specified in the request before fallback was triggered
 The inference mode actually used for this request.
 
 * `default`: This request uses the [Online inference (standard)](online-inference-standard.md) mode.
+
+* `fast`: This request uses the [online inference (fast)](online-inference-low-latency.md) mode.
 
 * `flex`: This request uses the [online inference (flex)](online-inference-flex.md) mode.
 

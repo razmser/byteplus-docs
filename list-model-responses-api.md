@@ -592,7 +592,7 @@ Unix timestamp (in seconds) when the stored response expires.
 
 Details about why the response could not be completed.
 
-**reason** `string`  |  Cause
+**reason** `string`  |  Reason
 
 `incomplete_details.reason`
 
@@ -649,6 +649,8 @@ Limits the deep reasoning effort. Reducing the deep reasoning workload can make 
 **service_tier** `string`  |  Inference mode
 
 The inference mode actually used for this request.
+
+* `fast`: This request uses the [online inference (fast)](online-inference-low-latency.md) mode.
 
 * `default`: This request uses the [Online inference (standard)](online-inference-standard.md) mode.
 

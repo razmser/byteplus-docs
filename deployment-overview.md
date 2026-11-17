@@ -8,18 +8,20 @@ ModelArk supports multiple model inference methods for different business scenar
 
 # Inference method comparison
 
-|Inference method |Online inference (standard) |Online inference (Flex) |Model Unit |Batch inference |
-|---|---|---|---|---|
-|Overview |Runs in a public resource pool and is billed by model usage. Performance is affected by platform resource availability. |Uses low\-priority resources and token\-based billing to provide best\-effort inference at a lower price. |Uses dedicated computing resources to provide resource\-guaranteed online inference for fine\-tuned models. |Does not require real\-time responses and costs half as much as Online inference (standard). |
-|Key specifications |* General\-purpose inference method<br><br>* Postpaid token\-based billing<br><br>* Low integration cost<br><br>* Can be combined with other online inference methods |* Independent TPM quota<br><br>* Postpaid token\-based billing<br><br>* Higher TPM quota available during off\-peak hours upon request<br><br>* Can be combined with other online inference methods |* Dedicated computing resources for more stable and reliable performance<br><br>* High flexibility for complex scenarios and special latency or concurrency requirements |* High quota for offline processing of large data volumes<br><br>* Lower cost |
-|Supported models |* Platform foundation models<br><br>* Models fine\-tuned with LoRA |Selected platform foundation models |* Platform foundation models<br><br>* Fully fine\-tuned models and models fine\-tuned with LoRA<br><br>* Uploaded custom models |* Platform foundation models<br><br>* Fully fine\-tuned models and models fine\-tuned with LoRA |
-|Use cases |* Cost\-sensitive workloads without strict latency or concurrency requirements<br><br>* Workloads with unpredictable traffic that can tolerate occasional errors caused by limited resource availability |* Batch or background tasks that are latency\-insensitive, retryable, and can wait<br><br>* Non\-critical online paths |* Large\-scale inference workloads that use fully fine\-tuned models<br><br>* Production workloads with high SLA requirements that need maximum flexibility and cost efficiency |Large data workloads such as model evaluation and batch regression, where individual request execution does not need to be tracked |
-|Billing method |Token usage<br><br>No charges when not invoked |Token usage<br><br>No charges when not invoked |Number of Model Units purchased<br><br><br>* Monthly prepaid billing<br><br>* Postpaid billing based on purchase duration |Token usage<br><br>No charges when not invoked |
-|Price |Low |Lower; input and output token unit prices are approximately half those of Online inference (standard) |High |Lower; input and output token unit prices are approximately half those of Online inference (standard) |
+|Inference method |Online inference (standard) |Online inference (low latency) |Online inference (Flex) |Model Unit |Batch inference |
+|---|---|---|---|---|---|
+|Overview |Runs in a public resource pool and is billed by model usage. Performance is affected by platform resource availability. |Runs on platform\-reserved resources and provides better time per output token (TPOT) performance for latency\-sensitive scenarios. |Uses low\-priority resources and token\-based billing to provide best\-effort inference at a lower price. |Uses dedicated computing resources to provide resource\-guaranteed online inference for fine\-tuned models. |Does not require real\-time responses and costs half as much as Online inference (standard). |
+|Key specifications |* General\-purpose inference method<br><br>* Postpaid token\-based billing<br><br>* Low integration cost<br><br>* Can be combined with other online inference methods |* Lower output latency<br><br>* Postpaid token\-based billing<br><br>* Low integration cost<br><br>* Can be combined with Online inference (standard)<br><br>* Automatic fallback to absorb traffic spikes |* Independent TPM quota<br><br>* Postpaid token\-based billing<br><br>* Higher TPM quota available during off\-peak hours upon request<br><br>* Can be combined with other online inference methods |* Dedicated computing resources for more stable and reliable performance<br><br>* High flexibility for complex scenarios and special latency or concurrency requirements |* High quota for offline processing of large data volumes<br><br>* Lower cost |
+|Supported models |* Platform foundation models<br><br>* Models fine\-tuned with LoRA |Platform foundation models |Platform foundation models |* Platform foundation models<br><br>* Fully fine\-tuned models and models fine\-tuned with LoRA<br><br>* Uploaded custom models |* Platform foundation models<br><br>* Fully fine\-tuned models and models fine\-tuned with LoRA |
+|Use cases |* Cost\-sensitive workloads without strict latency or concurrency requirements<br><br>* Workloads with unpredictable traffic that can tolerate occasional errors caused by limited resource availability |* Workloads that are highly sensitive to interaction latency<br><br>* Workloads with fluctuating request traffic that require usage\-based billing |* Batch or background tasks that are latency\-insensitive, retryable, and can wait<br><br>* Non\-critical online paths |* Large\-scale inference workloads that use fully fine\-tuned models<br><br>* Production workloads with high SLA requirements that need maximum flexibility and cost efficiency |Large data workloads such as model evaluation and batch regression, where individual request execution does not need to be tracked |
+|Billing method |Token usage<br><br>No charges when not invoked |Token usage<br><br>No charges when not invoked |Token usage<br><br>No charges when not invoked |Number of Model Units purchased<br><br><br>* Monthly prepaid billing<br><br>* Postpaid billing based on purchase duration |Token usage<br><br>No charges when not invoked |
+|Price |Low |Medium |Lower; input and output token unit prices are approximately half those of Online inference (standard) |High |Lower; input and output token unit prices are approximately half those of Online inference (standard) |
 
 # Recommendations
 
 * For general\-purpose workloads, use [Online inference (standard)](online-inference-standard.md). You are not charged when you do not invoke the service.
+
+* For workloads sensitive to interaction latency, use [Online inference (low latency)](online-inference-low-latency.md).
 
 * For latency\-insensitive batch or background tasks that can wait or retry after failure, use [Online inference (Flex)](online-inference-flex.md) to reduce costs.
 
@@ -38,6 +40,7 @@ An inference endpoint is the entry point for invoking a model. Inference endpoin
 |Category |Feature |Preset inference endpoint |Custom inference endpoint |
 |---|---|---|---|
 |Inference method |Online inference (standard) |Supported |Supported |
+||Online inference (low latency) |Supported |Supported |
 ||Online inference (Flex) |Supported |Supported |
 ||Model Unit |Not\-supported |Supported |
 ||Batch inference |Not\-supported |Not\-supported |

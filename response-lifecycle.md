@@ -788,6 +788,8 @@ Echoes the stable end\-user identifier passed in the request, used for safety po
 
 The inference mode actually used for this request.
 
+* `fast`: This request uses the [online inference (fast)](online-inference-low-latency.md) mode.
+
 * `default`: This request uses the [Online inference (standard)](online-inference-standard.md) mode.
 
 * `flex`: This request uses the [online inference (flex)](online-inference-flex.md) mode.
@@ -1943,6 +1945,8 @@ Echoes the stable end\-user identifier passed in the request, used for safety po
 `response.in_progress.response.service_tier`
 
 The inference mode actually used for this request.
+
+* `fast`: This request uses the [online inference (fast)](online-inference-low-latency.md) mode.
 
 * `default`: This request uses the [Online inference (standard)](online-inference-standard.md) mode.
 
@@ -3100,6 +3104,8 @@ Echoes the stable end\-user identifier passed in the request, used for safety po
 
 The inference mode actually used for this request.
 
+* `fast`: This request uses the [online inference (fast)](online-inference-low-latency.md) mode.
+
 * `default`: This request uses the [Online inference (standard)](online-inference-standard.md) mode.
 
 * `flex`: This request uses the [online inference (flex)](online-inference-flex.md) mode.
@@ -4256,6 +4262,8 @@ Echoes the stable end\-user identifier passed in the request, used for safety po
 
 The inference mode actually used for this request.
 
+* `fast`: This request uses the [online inference (fast)](online-inference-low-latency.md) mode.
+
 * `default`: This request uses the [Online inference (standard)](online-inference-standard.md) mode.
 
 * `flex`: This request uses the [online inference (flex)](online-inference-flex.md) mode.
@@ -5411,6 +5419,8 @@ Echoes the stable end\-user identifier passed in the request, used for safety po
 `response.failed.response.service_tier`
 
 The inference mode actually used for this request.
+
+* `fast`: This request uses the [online inference (fast)](online-inference-low-latency.md) mode.
 
 * `default`: This request uses the [Online inference (standard)](online-inference-standard.md) mode.
 
