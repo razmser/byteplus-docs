@@ -1238,7 +1238,9 @@ public class Sample {
 
 ModelArk supports parsing and semantic understanding of audio tracks embedded in videos. You can directly use the complete video as input instead of manually extracting the audio, and the model will automatically extract the audio track to complete related tasks, such as speech recognition, content understanding, and emotion and tone analysis. For formats and input parameter specifications, see [Video understanding](video-understanding.md).
 
-When uploading a video with sound tracks through the Files API, you must pass the ID of a model that supports audio understanding in `preprocess_configs.video.model` of the upload request. This parameter specifies the video preprocessing policy; when subsequently calling the Responses API or Chat API, you still need to pass the actual model or endpoint used for inference in `model` of the request. The two `model` parameters are independent of each other and can be configured separately for the upload preprocessing and inference stages.
+When uploading a video with sound tracks through the Files API, you must pass the ID of a model that supports audio understanding in `preprocess_configs.video.model` of the upload request. This parameter specifies the video preprocessing policy; when subsequently calling the Responses API or Chat API, you still need to pass the actual model or endpoint used for inference in `model` of the request.
+
+> You can configure different model IDs for upload preprocessing and inference, but both must support audio understanding. For specific support scope, see [Supported models](audio-understanding.md#5592bede).
 
 The following example uses the Files API to upload a video, and then references the File ID through the Responses API.
 
@@ -2024,7 +2026,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
 }'
 ```
 
-Replace the model ID as needed. To query the model ID, see [Model list](model-list.md).
+Replace the Model ID as needed. To query the Model ID, see [Model list](model-list.md).
 
 **Python**
 

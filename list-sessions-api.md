@@ -42,6 +42,10 @@ Creation time is less than or equal to this value (ISO 8601), inclusive of the b
 
 Filter by deployment ID. Only sessions created by the specified deployment are returned. Regular sessions do not match this condition.
 
+**ids** `string`  |  Session ID list
+
+Filter by session ID. Separate multiple IDs with commas. A maximum of 100 IDs is supported. This filter is intersected with other filters.
+
 **include_archived** `boolean` `Default false`  |  Include archived sessions
 
 Whether to include archived sessions in the results.
@@ -1192,7 +1196,7 @@ Whether access to package manager repositories is allowed in limited outbound mo
 
 `data.environment.config.networking.allowed_hosts`
 
-The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode. Up to 64 domains are allowed.
 
 **packages** `object`  |  Dependency package configuration
 

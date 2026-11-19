@@ -32,7 +32,7 @@ After installation, invoke the Skill using natural language. For example:
 Find the latest ModelArk documentation about structured output with the Responses API, and list the sources.
 ```
 
-For details about documentation retrieval, see [Choose a retrieval method](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/read-docs-with-ai-agents).
+For details about documentation retrieval, see [Choose a retrieval method](read-docs-with-ai-agents.md).
 
 ### sd25\-pe
 

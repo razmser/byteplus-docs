@@ -24,6 +24,8 @@ See [Structured output (beta)](model-list.md#86588b72).
 
 * [Responses API](create-model-responses-api.md): new API for calling models. See [Structured output (beta)](responses-api-structured-output.md) for usage examples.
 
+* [Messages API](messages-api.md): describes structured output API parameters. For usage examples, see [Create message](messages-api.md).
+
 # Quick start
 
 ## json_schema mode
@@ -424,7 +426,7 @@ Response preview
 
 ## json_object mode
 
-You need to include the string JSON in the input message, and configure the `"response_format":{"type": "json_object"}` parameter.
+Whe using Chat API, you need to include the string json in the input message, and configure the `"response_format":{"type": "json_object"}` parameter.
 
 > For examples of implementing JSON Object structured output that conforms to the schema parameter definition using the Responses API, see [json_object mode](responses-api-structured-output.md#607e37db).
 
@@ -763,7 +765,7 @@ The model output structure may still contain errors due to output length limits,
 
 * [allOf](https://www.learnjsonschema.com/2020-12/applicator/allof/)
 
-   * The all semantics are not strictly guaranteed
+   * The all semantics are not strictly guaranteed.
 
 ## Keywords related to type
 
@@ -968,7 +970,7 @@ After
 
 ## Use tools for evaluation and optimization
 
-To avoid inconsistencies between JSON Schema and programming language type definitions, it is recommended to use native language tools, for example, [Pydantic](https://docs.pydantic.dev/latest/) for Python, and [Zod](https://zod.dev/) for TypeScript.
+To avoid inconsistencies between JSON schema and programming language type definitions, it is recommended to use native language tools, for example, [Pydantic](https://docs.pydantic.dev/latest/) for Python, and [Zod](https://zod.dev/) for TypeScript.
 
 # Appendix 3. Prompt engineering tips
 

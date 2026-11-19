@@ -436,7 +436,7 @@ Output item type identifier, used to distinguish OutputItem variants.
 
 Value is fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `response.output_item.added.item.arguments`
 
@@ -986,7 +986,7 @@ Output item type identifier, used to distinguish OutputItem variants.
 
 Value is fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `response.output_item.done.item.arguments`
 

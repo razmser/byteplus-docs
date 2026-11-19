@@ -6,33 +6,24 @@ In addition, batch inference enables more flexible task scheduling, allowing you
 
 This topic explains how to implement batch inference tasks using APIs. If you prefer to perform tasks in the console, see [Batch inference (via console)](batch-inference-via-console.md).
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> **Tip**
 
+> This topic doesn't cover batch video generation. For more information on batch video generation, see the **Offline inference** section in [Video generation tutorial](video-generation-tutorial.md#a0badaae).
 
-<div data-tips="true" data-tips-type="tip">This topic doesn't cover batch video generation. For more information on batch video generation, see the <strong>Offline inference</strong> section in <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/video-generation-tutorial#a0badaae">Video generation tutorial</a>.</div>
-
-
-<span id="1cbb9a13"></span>
 # Supported models
 
 See available models in the [Console](https://ai.byteplus.com/ark/region:ap-southeast-1/batchInference/create).
 
 > Please submit [a ticket](https://console.byteplus.com/workorder/create) to check the availability of models that are not listed in the console.
 
+> **warning**
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">warning</div>
+> For models with thinking summary enabled by default (see [Pass encrypted thinking content back](deep-thinking.md#8cfd447b)), batch inference **does not return thinking content**: the response does not include `choices.message.reasoning_content` (the thinking content summary) and contains only the answer content (`choices.message.content`). If you need thinking content in batch inference, please submit [a ticket](https://console.byteplus.com/workorder/create).
 
-
-<div data-tips="true" data-tips-type="warning">For models with thinking summary enabled by default (see {{ link:/model\-invocation/advanced\-usage/deep\-thinking.md#3cf44d66 }}), batch inference <strong>does not return thinking content</strong>: the response does not include <code>choices.message.reasoning_content</code> (the thinking content summary) and contains only the answer content (<code>choices.message.content</code>). If you need thinking content in batch inference, please submit <a href="https://console.byteplus.com/workorder/create">a ticket</a>.</div>
-
-
-<span id="5662bf05"></span>
 # Select a request method
 
 ModelArk provides you with two ways to invoke the batch inference service. You can select the appropriate method according to your business needs.
 
-
-<span aceTableMode="list" aceTableWidth="1,3,3"></span>
 |Method |Batch Jobs (create batch inference tasks) |Batch Chat (calling batch inference endpoints) |
 |---|---|---|
 |Way of working |Use a `JSONL` file to store a large number of requests to be processed and upload it to TOS (object storage). Create a batch task with [CreateBatchInferenceJob](create-batch-inference-job-api.md). After all requests are completed, the results are written back to TOS.<br><br>Supports console operations. You can also access [batch inference](https://ai.byteplus.com/ark/region:ap-southeast-1/endpoint?config=%7B%7D). |Send processing tasks to the model through the API. After a period of time (depending on load and resource availability), the ModelArk platform directly returns the processing results. |
@@ -40,27 +31,17 @@ ModelArk provides you with two ways to invoke the batch inference service. You c
 |Core process |1. Upload data or upload it in shards to object storage.<br><br>2. Create a batch inference task.<br><br>3. Query batch inference task status.<br><br>4. Read inference results from object storage |1. Create batch inference endpoints.<br><br>2. Run batch inference by using the Batch Chat API.<br><br>3. Configure the timeout (greater than 30 minutes) and concurrency based on business requirements. |
 |Advantages<br><br>Disadvantages |* Supports larger\-scale data processing or stricter internet\-bandwidth constraints.<br><br>* Hosted resource scheduling for all requests supports flexible task scheduling and helps achieve optimal throughput.<br><br>   Requires additional engineering work, such as data upload, sharding, and directory management. |* With a low retrofit cost, your project can switch to batch inference with only small adjustments based on the online inference interface.<br><br>* Flexible task scheduling helps maintain processing efficiency even during peak periods.<br><br>* You may receive more `ServerOverloaded` errors during peak periods.<br><br>* Daily throughput depends on platform resource limits and user concurrency control, so it is slightly less predictable than Batch Jobs. |
 
+> **tip**
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">tip</div>
+* > **The Batch Chat API is marked for deprecation.** It is recommended that you use the [Chat API](chat-api.md) and set `service_tier=flex` in the request, that is, use [Online inference (Flex)](online-inference-flex.md) for batch data processing. The API parameters are consistent, so the migration cost is low.
 
+* > Batch inference endpoints are suitable for processing dynamic data through the Batch Chat API. For dynamically generated data, background tasks, or other latency\-insensitive workloads that must retain synchronous invocation, you can migrate to [Online inference (Flex)](online-inference-flex.md). After migration, use a preset or custom online inference endpoint and set `service_tier=flex` in the request.
 
+* > Online inference (Flex) supports the [Chat API](chat-api.md), [Responses API](create-model-responses-api.md), and [Messages API](messages-api.md). Select the API based on the protocol currently used by your application and the capabilities you need.
 
-* <div data-tips="true" data-tips-type="tip"><strong>The Batch Chat API is marked for deprecation.</strong> It is recommended that you use the <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/chat-api">Chat API</a> and set <code>service_tier=flex</code> in the request, that is, use <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/online-inference-flex">Online inference (Flex)</a> for batch data processing. The API parameters are consistent, so the migration cost is low.</div>
+* > **Note: Models released after Dola\-Seed\-2.1 no longer support the Batch Chat API.**
 
-
-* <div data-tips="true" data-tips-type="tip">Batch inference endpoints are suitable for processing dynamic data through the Batch Chat API. For dynamically generated data, background tasks, or other latency\-insensitive workloads that must retain synchronous invocation, you can migrate to <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/online-inference-flex">Online inference (Flex)</a>. After migration, use a preset or custom online inference endpoint and set <code>service_tier=flex</code> in the request.</div>
-
-
-* <div data-tips="true" data-tips-type="tip">Online inference (Flex) supports the <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/chat-api">Chat API</a>, <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/create-model-responses-api">Responses API</a>, and <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/messages-api">Messages API</a>. Select the API based on the protocol currently used by your application and the capabilities you need.</div>
-
-
-* <div data-tips="true" data-tips-type="tip"><strong>Note: Models released after Dola\-Seed\-2.1 no longer support the Batch Chat API.</strong></div>
-
-
-
-<span id="6586959b"></span>
 # Quota description
-
 
 * Batch inference quota TPD calculation logic:
 
@@ -78,21 +59,15 @@ ModelArk provides you with two ways to invoke the batch inference service. You c
 
 * Account quota: by default, each model has a quota of 10B tokens/day. You can apply for a quota increase through [a ticket](https://console.byteplus.com/workorder/create).
 
-
-<span id="075b8a07"></span>
 # Batch chat tutorial
 
 > **Note: The Batch Chat API is marked for deprecation.**  For new workloads, it is recommended that you use the Chat API and set `service_tier=flex` in the request (that is, [Online inference (Flex)](online-inference-flex.md)) for batch data processing. Existing workloads should plan the migration as soon as possible.
 
-
 If you want to migrate your business from online inference to batch inference at a very low cost, you can use Batch Chat for batch inference.
 
-> For the detailed description of the interface fields, see [Batch inference (Chat)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/batch-chat-api).
+> For the detailed description of the interface fields, see [Batch inference (Chat)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api).
 
-
-<span id="49f91cdc"></span>
 ## Prerequisites
-
 
 * You have [obtained the API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey?apikey=%7B%7D).
 
@@ -104,8 +79,6 @@ If you want to migrate your business from online inference to batch inference at
 
 * You have installed or upgraded to the latest SDK for ModelArk. See [Install the Python SDK](install-and-upgrade-sdk.md) for details.
 
-
-<span id="20fdc5ac"></span>
 ## Quick start
 
 You can use the minimal sample code to quickly initiate a batch inference request.
@@ -133,16 +106,12 @@ completion = client.batch.chat.completions.create(
 print(completion.choices[0].message.content)
 ```
 
-
-<span id="41b49ce6"></span>
 ## Instructions
 
 After creating the batch inference endpoint, you can call the batch inference service through the SDKs for Python, Go, Java, and other languages. If you want to take full advantage of the high throughput of batch inference, pay attention to core configurations such as **timeouts** and **concurrency policies**. Here are some suggestions.
 
 > View the full range of languages [sample code](batch-inference.md#01826852).
 
-
-<span id="3b8e1a6f"></span>
 ### Increase task request completion rate
 
 To improve the task completion rate and avoid timeouts when many requests are queued under high server load, we recommend manually configuring a long timeout period (from 1 hour to 72 hours). **Recommended configuration: 24 hours to 72 hours.**  **You do not need to manually configure a retry policy.**  ModelArk will intelligently schedule tasks to improve completion rates.
@@ -151,92 +120,64 @@ To improve the task completion rate and avoid timeouts when many requests are qu
 
 > The ModelArk client automatically retries requests within the configured timeout window, or waits and retries as instructed by the ModelArk service. On the service side, a request may be temporarily queued and retried according to current load conditions.
 
-
 ```Python
 ...
 client = AsyncArk(
     api_key=os.environ.get("ARK_API_KEY"),
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Use the asynchronous interface and configure a long timeout period. The recommended range is 24 to 72 hours.
-    timeout=3600 * 24,
+    # Use the asynchronous interface and configure a higher timeout value, recommended 24 to 72 hours
+    timeout=3600*24,
 )
 ...
 ```
 
-
-<span id="a0b61aa1"></span>
 ### Configure concurrency policy to fully utilize quota
 
 ModelArk provides a quota of at least 10B tokens/day for each master account, and you can submit a large number of tasks to the ModelArk platform by configuring concurrency and the number of replicas. The ModelArk platform will intelligently schedule and execute tasks for you based on business load, and even provide you with processing power beyond the base quota when the load is low.
 
 > The concurrent\-request parameter `workerNum` represents the maximum number of concurrent requests sent to the ModelArk service. It determines the maximum number of requests your business can send at one time.
 
-
 After creating the client and before sending requests to the ModelArk service, you need to start the relevant client\-side threads.
 
 > For the Java client, no additional threads need to be started manually because it already includes a thread pool. The exact method varies by programming language. For details, refer to the [sample code](batch-inference.md#01826852).
 
-
 When configuring `workerNum`, consider factors such as expected peak traffic, average latency, and the upper limit of machine concurrency. The following example shows how to estimate the number of concurrent requests and replicas.
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> **Tip**
 
+> The expected maximum peak QPS of the service is 5000, and the average latency of a single request is 5 seconds, deployed on 2C4G machines or containers.
 
-<div data-tips="true" data-tips-type="tip">The expected maximum peak QPS of the service is 5000, and the average latency of a single request is 5 seconds, deployed on 2C4G machines or containers.</div>
+> **Key metrics**
 
+* > Business concurrency: `5000 * 5 = 25000`
 
-<div data-tips="true" data-tips-type="tip"><strong>Key metrics</strong></div>
+* > Server limit: Without accounting for business\-layer overhead, the maximum server load is between 1000 and 1500 QPS. In this example, we assume 1000 QPS.
 
+> **Number of replicas and concurrency configuration**
 
+> If you need to handle peak traffic, you can deploy more replicas (recommended) or upgrade server specifications (not recommended):
 
-* <div data-tips="true" data-tips-type="tip">Business concurrency: <code>5000 * 5 = 25000</code></div>
+* > Number of replicas (estimated number of servers): `Business QPS / server limit = 5000 / 1000 = 5`.
 
+* > Number of concurrent requests `workerNum` (set on each replica): `server limit * average request latency = 1000 * 5 = 5000`.
 
-* <div data-tips="true" data-tips-type="tip">Server limit: Without accounting for business\-layer overhead, the maximum server load is between 1000 and 1500 QPS. In this example, we assume 1000 QPS.</div>
-
-
-
-<div data-tips="true" data-tips-type="tip"><strong>Number of replicas and concurrency configuration</strong></div>
-
-
-<div data-tips="true" data-tips-type="tip">If you need to handle peak traffic, you can deploy more replicas (recommended) or upgrade server specifications (not recommended):</div>
-
-
-
-* <div data-tips="true" data-tips-type="tip">Number of replicas (estimated number of servers): <code>Business QPS / server limit = 5000 / 1000 = 5</code>.</div>
-
-
-* <div data-tips="true" data-tips-type="tip">Number of concurrent requests <code>workerNum</code> (set on each replica): <code>server limit * average request latency = 1000 * 5 = 5000</code>.</div>
-
-
-
-<span id="1bb954de"></span>
 ### Other instructions and suggestions
 
 > For example, the `StartBatchWorker` method in the Go SDK client creates `workerNum` goroutines. This helps avoid the overhead caused by repeatedly creating a large number of goroutines.
 
-
-<span id="01826852"></span>
 ## Sample code
 
-
-<Tabs>
-<Tab zoneid="kwM2h7GYVf" title="Python asynchronous implementation (recommended)">
-<TabTitle>Python asynchronous implementation (recommended)</TabTitle>
+**Python asynchronous implementation (recommended)**
 
 Compared to the multithreaded approach, the asynchronous coroutine approach is better:
-
 
 * **Higher concurrency**: When a task is in an I/O waiting state (such as a network request), `asyncio` can immediately switch to other tasks to continue execution, avoiding thread\-switching overhead and improving overall concurrency performance.
 
 * **More lightweight**: Coroutines are lightweight execution units that consume fewer system resources than threads, so you can create a large number of coroutines to handle tasks.
 
+> **tip**
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">tip</div>
-
-
-<div data-tips="true" data-tips-type="tip">Batch inference is a standard high\-IO/low\-computing scenario. For scenarios where your system is not using synchronous API adaptation, it is recommended to use the asynchronous version. For most scenarios, asynchronous coroutines can achieve better results.</div>
-
+> Batch inference is a standard high\-IO/low\-computing scenario. For scenarios where your system is not using synchronous API adaptation, it is recommended to use the asynchronous version. For most scenarios, asynchronous coroutines can achieve better results.
 
 ```Python
 # Import libraries related to asynchronous programming for handling asynchronous tasks. Coroutines are a core concept in asynchronous programming.
@@ -351,14 +292,9 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-
-
-</Tab>
-<Tab zoneid="wQzoFg5qnY" title="Python multithreaded implementation">
-<TabTitle>Python multithreaded implementation</TabTitle>
+**Python multithreaded implementation**
 
 The batch inference endpoint invocation method is similar to the online inference endpoint. Pay attention to the following additional configurations.
-
 
 1. Set the `timeout`.
 
@@ -471,17 +407,12 @@ The batch inference endpoint invocation method is similar to the online inferenc
        # Run the main function
        main()
    ```
-   
 
-
-</Tab>
-<Tab zoneid="CkVSo3olNr" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 The batch inference endpoint invocation method is similar to the online inference endpoint.
 
 You need to upgrade the latest SDK and pay attention to the changes in the sample code below.
-
 
 1. Set the `timeout`.
 
@@ -570,24 +501,18 @@ You need to upgrade the latest SDK and pay attention to the changes in the sampl
        }
    }
    ```
-   
 
-
-</Tab>
-<Tab zoneid="iYSahc2mph" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 The batch inference endpoint invocation method is similar to the online inference endpoint.
 
 You need to upgrade the latest SDK and pay attention to the changes in the sample code below.
-
 
 1. Set the `timeout`.
 
 2. Set the maximum number of threads and the number of tasks per thread.
 
 > The Java SDK includes a thread pool, so you do not need to start batch worker threads manually.
-
 
 3. Use the `ChatCompletionRequest` class to start batch inference.
 
@@ -672,37 +597,25 @@ You need to upgrade the latest SDK and pay attention to the changes in the sampl
        }
    }
    ```
-   
 
-
-</Tab>
-</Tabs>
-
-
-<span id="d6f60e44"></span>
 # Batch job development tutorial
 
 To create batch inference tasks through the console, see [Create batch inference tasks](batch-inference-via-console.md).
 
-<span id="c2779ba5"></span>
 ## Prerequisites
-
 
 * You have [enabled the specified model service](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&OpenTokenDrawer=false).
 
 * You have [enabled TOS](https://console.byteplus.com/tos/) (object storage) and have [created a bucket](https://console.byteplus.com/tos/bucket?projectName=default).
 
-* Install the [TOS SDK](https://docs.byteplus.com/en/docs/tos/Install-the-python-sdk) and the [BytePlus SDK](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1319854).
+* Install the [TOS SDK](https://docs.byteplus.com/en/docs/tos/Install-the-python-sdk) and the [BytePlus SDK](install-and-upgrade-sdk.md).
 
 * You have [obtained an Access Key](https://console.byteplus.com/iam/keymanage).
 
-
-<span id="bf2ab0f6"></span>
 ## Quick start
 
 You can create, query, and download results for batch inference tasks using the Quick Start sample code.
 
-<span id="aaf211b6"></span>
 ### Prepare batch inference task files
 
 Refer to [Input/output format](batch-inference-via-console.md) and prepare a data file in `jsonl` format, where each line contains the details of one API request.
@@ -711,20 +624,15 @@ In each line of the input file, the `body` field uses the same parameters as the
 
 > We provide a script to verify whether the file is valid and help avoid download failures caused by formatting errors. See [Input](batch-inference-via-console.md) for details.
 
-
 ```jsonl
 {"custom_id": "request-1", "body": {"messages": [{"role": "user", "content": "Why is the sky so blue?"}],"max_tokens": 1000,"top_p":1}}
 {"custom_id": "request-2", "body": {"messages": [{"role": "system", "content": "You are an unhelpful assistant."},{"role": "user", "content": "Why is the sky so blue?"}],"max_tokens": 1000}}
 ```
 
-
 Please note:
-
 
 * Each input file can contain only requests for a single model.
 
-
-<span id="e077fc63"></span>
 ### Upload task files to TOS
 
 You need to upload the task file to the TOS bucket, and the subsequent ModelArk platform will read the request information in the file for batch inference. Here is a simple script to upload a file.
@@ -732,7 +640,6 @@ You need to upload the task file to the TOS bucket, and the subsequent ModelArk 
 If your task file is large, you can refer to the [tutorial](https://docs.byteplus.com/en/docs/tos/Shard-upload-python-sdk) to upload it in shards.
 
 > Before running the script, fill in your task information, such as bucket configuration, and store your Access Key credentials in the environment variables `BYTEPLUS_ACCESS_KEY` and `BYTEPLUS_SECRET_KEY` (refer to [Configure API Key to environment variables](quick-start.md#da0e9d90) for instructions).
-
 
 ```Python
 import os
@@ -755,14 +662,11 @@ client = tos.TosClientV2(ak, sk, endpoint, region)
 client.put_object_from_file(bucket_name, object_key, file_name)
 ```
 
-
-<span id="56139293"></span>
 ### Create a batch inference task
 
 You can call the [CreateBatchInferenceJob](create-batch-inference-job-api.md) interface to configure and create batch inference tasks, including the input file path, output path, and model to use.
 
 > Before running the script, fill in your task information in the `Config` class and store your Access Key credentials in the environment variables `BYTEPLUS_ACCESS_KEY` and `BYTEPLUS_SECRET_KEY` (see [Configure API Key to environment variables](quick-start.md#da0e9d90) for instructions).
-
 
 ```Python
 import byteplussdkcore
@@ -781,7 +685,7 @@ class Config:
     OUTPUT_OBJECT_KEY = "output/"
     # The local path of the task file.
     LOCAL_FILE_NAME = "/usr/local/data.jsonl"
-    # The model version and name. You can query it here: https://docs.byteplus.com/en/docs/ModelArk/1330310
+    # The model version and name. You can query it here: https://ai.byteplus.com/ark/region:ap-southeast-1/docs/model-list
     MODEL_VERSION = "250115"
     MODEL_NAME = "Skylark-***"
     # Name your batch inference task.
@@ -835,15 +739,12 @@ batch_job_id = create_batch_job(ark_instance)
 print(f"Batch inference task created, task ID: {batch_job_id}")
 ```
 
-
 Returns the ID of the created batch inference task.
 
 ```text
 Batch inference task created, task ID: bi-20250305220634-****
 ```
 
-
-<span id="f3bc73c8"></span>
 ### Query batch inference task status
 
 You can check the task status at any time, including filtering by task ID, model, and running status. See [ListBatchInferenceJobs](list-batch-inference-jobs-api.md) for the available filters.
@@ -881,7 +782,6 @@ batch_job_status = list_batch_inference_jobs(ark_instance, Config.BATCH_JOB_ID)
 print(f"Batch inference task information:\n{batch_job_status}")
 ```
 
-
 Run the script to get back information about the tasks that match the filter criteria.
 
 ```text
@@ -912,9 +812,7 @@ Batch inference task information:
  'total_count': 1}
 ```
 
-
 The batch inference task states are as follows:
-
 
 |Status |Description |
 |---|---|
@@ -925,12 +823,9 @@ The batch inference task states are as follows:
 |Terminated |The task has been stopped. |
 |Failed |Task execution failed, possibly due to timeout or other reasons. |
 
-
-<span id="8a64682f"></span>
 ### Download batch inference task results
 
 After the batch inference task is completed, you can download the result files through the interface. The task produces two files:
-
 
 * Results.jsonl: A collection of results from successful execution of a batch inference task. The order of the results may not match the task file, so use `custom_id` to identify the corresponding request.
 
@@ -976,8 +871,6 @@ After the batch inference task is completed, you can download the result files t
        else:
            raise
    ```
-   
-
 
 You can find the batch inference task result files under the configured `local_output_dir` path.
 
@@ -986,15 +879,11 @@ You can find the batch inference task result files under the configured `local_o
 {"id":"02174118707871600000000000000000000ffffac152003cadb62","custom_id":"request-2","error":null,"response":{"request_id":"02174118707871600000000000000000000ffffac152003cadb62","status_code":200,"body":{"id":"02174118707871600000000000000000000ffffac152003cadb62","object":"chat.completion","created":1741187249,"model":"Skylark-***","choices":[{"index":0,"message":{"role":"assistant","content":"I don't want to explain this problem to you properly. What does it matter to me whether the sky is blue or not? You figure it out yourself."},"finish_reason":"stop"}],"usage":{"prompt_tokens":25,"completion_tokens":24,"total_tokens":49,"prompt_tokens_details":{"cached_tokens":0},"completion_tokens_details":{"reasoning_tokens":0}},"HttpHeader":{"X-Client-Request-Id":["202503052304380000BACD2ADACB18921B"],"Vary":["Accept-Encoding"],"Server":["hertz"],"Date":["Wed, 05 Mar 2025 15:07:29 GMT"],"Content-Type":["application/json; charset=utf-8"],"X-Request-Id":["02174118707871600000000000000000000ffffac152003cadb62"]}}}}
 ```
 
-
-<span id="75240726"></span>
 ## Instructions
 
-<span id="93b00236"></span>
 ### Increase the limit
 
 If you have a lot of business processing tasks, you can apply for a quota increase as needed.
-
 
 * Account quota: by default, each model has a quota of 10B tokens/day. You can apply for a quota increase through [a ticket](https://console.byteplus.com/workorder/create).
 
@@ -1002,10 +891,7 @@ If you have a lot of business processing tasks, you can apply for a quota increa
 
 * Single task file size: the default is 5GiB . If necessary, you can apply for an increase through [a ticket](https://console.byteplus.com/workorder/create).
 
-
-<span id="b92e248b"></span>
 ## Related documents
-
 
 * [CreateBatchInferenceJob](create-batch-inference-job-api.md): View the interface used to create batch inference tasks and the meaning of each field.
 

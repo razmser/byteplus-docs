@@ -4,30 +4,22 @@ Visual Grounding (hereinafter referred to as Grounding) refers to finding the co
 
 The biggest difference from object detection is that it needs to understand natural language when locating objects because the input is natural language. This is also why it is more flexible to use and more natural to interact with.
 
-
-<span aceTableMode="list" aceTableWidth="3,3,10"></span>
 |**Input** |**Output preview** |‌ |
 |---|---|---|
-|<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f9a8b28c25ac4d86979de8f52e73def6~tplv-goo7wpa0wc-image.image) </span><br><br>> Prompt: Draw a bounding box around the head of the wolf cartoon character in the middle and output the coordinates of the bounding box. |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/114267ea04e7424a8dc2e168c55b2ae8~tplv-goo7wpa0wc-image.image) </span><br><br>> Model response: `<bbox>175 98 791 476</bbox>` |‌ |
+|![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f9a8b28c25ac4d86979de8f52e73def6~tplv-goo7wpa0wc-image.image)<br><br>> Prompt: Draw a bounding box around the head of the wolf cartoon character in the middle and output the coordinates of the bounding box. |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/114267ea04e7424a8dc2e168c55b2ae8~tplv-goo7wpa0wc-image.image)<br><br>> Model response: `<bbox>175 98 791 476</bbox>` |‌ |
 
-
-<span id="90aef7dd"></span>
 # Supported models
 
-See [Visual understanding](model-list.md#76df97c8).
+See [Capabilities](model-list.md#76df97c8).
 
-<span id="750b19d5"></span>
-# # Procedure
+# Procedure
 
 Now let's dive into the sample code to understand how Grounding works.
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> **Tip**
 
+> If you're new to ModelArk, see [Quick start](quick-start.md) to get up and running quickly.
 
-<div data-tips="true" data-tips-type="tip">If you're new to ModelArk, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/quick-start">Quick start</a> to get up and running quickly.</div>
-
-
-<span id="cb799c3b"></span>
 ## 1. Complete the configuration
 
 First, import necessary libraries, set parameters such as model ID, image path, and prompt, and read the API key from environment variables.
@@ -39,7 +31,7 @@ import cv2
 from arkruntime import Ark
 
 # Configure parameters
-DEFAULT_MODEL = "seed-2-0-lite-260228"  # Replace with Model ID .
+DEFAULT_MODEL = "dola-seed-2-1-turbo-260628"  # Replace with Model ID .
 IMAGE_PATH = "./ark_demo_img.png"  # Replace with the path to your local test image
 PROMPT = "Draw a bounding box around the head of the wolf cartoon character in the middle and output the coordinates of the bounding box."
 BBOX_TAG_START = "<bbox>"
@@ -56,8 +48,6 @@ client = Ark(
 )
 ```
 
-
-<span id="c6651960"></span>
 ## 2. Read image and convert to Base64 string
 
 Read the local image file and convert it to Base64 string format for transmission via API.
@@ -67,8 +57,6 @@ with open(IMAGE_PATH, "rb") as f:
     base64_image = base64.b64encode(f.read()).decode('utf-8')
 ```
 
-
-<span id="10dc2486"></span>
 ## 3. Call API to generate bounding box
 
 Send the Base64\-encoded image and text prompt as multimodal input to the Grounding model to get prediction results.
@@ -90,8 +78,6 @@ response = client.chat.completions.create(
 bbox_content = response.choices[0].message.content
 ```
 
-
-<span id="cbfeb48d"></span>
 ## 4. Parse the bounding box coordinates returned by the model
 
 Extract the bounding box coordinates from the results returned by the model and verify whether their format meets expectations.
@@ -116,13 +102,11 @@ except ValueError as e:
     exit(1)
 ```
 
-
-<span id="7de20f90"></span>
 ## 5. Draw the bounding box on the original image and save it
 
 Convert coordinates: `x_min`, `y_min`, `x_max`, `y_max` are **scaled coordinates normalized to 1000\*1000**, with **the value range of [0, 999]** . After dividing the image width and height into 1000 equal parts, the coordinate system is drawn with the top\-left corner of the image as the origin, corresponding to the coordinate position of the point. The principle is shown in the following figure.
 
-<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e247476bb66b4b4f945b48318c18ee9b~tplv-goo7wpa0wc-image.image) </span>
+![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e247476bb66b4b4f945b48318c18ee9b~tplv-goo7wpa0wc-image.image)
 
 Scale the bounding box coordinates according to the actual size of the image, and map the relative coordinates output by the model to absolute coordinates. This step requires calculation. For example, the absolute value of the horizontal axis of the top\-left corner coordinate is `x=x_min/1000*w`, where w is the actual width of the image.
 
@@ -146,24 +130,19 @@ cv2.imwrite(output_path, image)
 print(f"Successfully saved annotated image: {output_path}")
 ```
 
-
-<span id="4c0fb035"></span>
 ## Result preview
 
 Configure and run this sample code to generate a preview of the drawn image at the specified path.
 
-<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/114267ea04e7424a8dc2e168c55b2ae8~tplv-goo7wpa0wc-image.image) </span>
+![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/114267ea04e7424a8dc2e168c55b2ae8~tplv-goo7wpa0wc-image.image)
 
-<span id="93a6289f"></span>
 # More examples
 
-
-<span aceTableMode="list" aceTableWidth="3,3,4,3"></span>
 |Scenario |Prompt keywords |Prompt example |Result example |
 |---|---|---|---|
-|Detecting objects with specific attributes<br><br>> Need to locate objects with specific attributes that match the natural language description in the image |`<bbox>x1 y1 x2 y2</bbox>` |`Help me box the burning area in the forest and represent it in the form <bbox>x1 y1 x2 y2</bbox>` |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e8140cc3d68240fcaab0a92be13101bd~tplv-goo7wpa0wc-image.image) </span> |
-|Detecting multiple objects<br><br>> Need to detect objects of multiple predefined categories at the same time |`[{"category": category, "bbox": "<bbox>x1 y1 x2 y2</bbox>"}, {"category": category, "bbox": "<bbox>x1 y1 x2 y2</bbox>"}]` |Please detect all objects in the image that belong to the categories "plate, photo, kid, cup". For each object, provide its category and bounding box in the following format: `[{"category": category, "bbox": "<bbox>x1 y1 x2 y2</bbox>"}, {"category": category, "bbox": "<bbox>x1 y1 x2 y2</bbox>"}]` |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f768fcf0037a4baf80b2d4157898d8a2~tplv-goo7wpa0wc-image.image) </span> |
-|Locating target objects based on reference image<br><br>> Locate the target objects in another image based on the reference image |`<bbox>x1 y1 x2 y2</bbox>` |Please identify similar targets in the second image based on the main target in the first image, and provide the bounding box for each object in the format: `<bbox>x1 y1 x2 y2</bbox>` |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/8ca3750ecfd540f285703e11f3c9edf9~tplv-goo7wpa0wc-image.image) </span> |
-|Counting objects<br><br>> Need to count the number of specific objects |`<point>x y</point>` |Locate all people on the water in the image, output points in the format `<point>x1 y1</point>`, and count how many people are on the water. |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/2392404be5034344b31fc99b9e637dac~tplv-goo7wpa0wc-image.image) </span> |
-|Recognizing image text<br><br>> Need to extract the text content and position from the image |`<text>text</text><polygon>x1 y1, x2 y2, x3 y3, x4 y4</polygon>` |Annotate the text in the image in the format `<text>text</text><polygon>x1 y1, x2 y2, x3 y3, x4 y4</polygon>`. |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/7ef81d129cb34b5a8e3e1c8cc5d67f7e~tplv-goo7wpa0wc-image.image) </span> |
-|Detecting 3D objects<br><br>> Detect 3D objects in the image |`<detailed camera parameters of the image>`<br><br>`<3dbbox>x_center y_center z_center x_size y_size z_size pitch yaw roll</3dbbox>` |The following are the detailed camera parameters of this image.<br><br>`Camera intrinsics: focal length f_x=5545.08, f_y=5545.08. The principal point coordinates are near the image center, so when the image width is 4284 and the height is 5712, c_x=2142.00 and c_y=2856.00. Here we do not consider distortion parameters. Therefore, the intrinsic matrix K = [[1460.00, 0, 2142.00], [0, 1460.00, 2856.00], [0, 0, 1]].`<br><br>`Camera coordinate system: The X axis points right, the Y axis points down, and the Z axis points forward. The origin is the camera position. We use the camera coordinate system as the world coordinate system, that is, the camera extrinsic matrix is [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]].`<br><br>Please output each 3D box in the following format: `<3dbbox>x_center y_center z_center x_size y_size z_size pitch yaw roll</3dbbox>`<br><br>Note:<br><br>(1) x_center, y_center, z_center: The position of the target center along the XYZ axes in the camera coordinate system, in meters.<br><br>(2) x_size, y_size, z_size: The size of the target along the XYZ axes when the rotation angle is zero, in meters.<br><br>(3) pitch, yaw, roll: Euler angles around the XYZ axes respectively. Each angle value here is normalized to (\-1,1) and needs to be multiplied by 180 to convert to the actual angle. Detect cups in this image and display the results in 3D bounding box format. |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b8c5fa94a87c4977874c345630e0179e~tplv-goo7wpa0wc-image.image) </span> |
+|Detecting objects with specific attributes<br><br>> Need to locate objects with specific attributes that match the natural language description in the image |`<bbox>x1 y1 x2 y2</bbox>` |`Help me box the burning area in the forest and represent it in the form <bbox>x1 y1 x2 y2</bbox>` |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e8140cc3d68240fcaab0a92be13101bd~tplv-goo7wpa0wc-image.image) |
+|Detecting multiple objects<br><br>> Need to detect objects of multiple predefined categories at the same time |`[{"category": category, "bbox": "<bbox>x1 y1 x2 y2</bbox>"}, {"category": category, "bbox": "<bbox>x1 y1 x2 y2</bbox>"}]` |Please detect all objects in the image that belong to the categories "plate, photo, kid, cup". For each object, provide its category and bounding box in the following format: `[{"category": category, "bbox": "<bbox>x1 y1 x2 y2</bbox>"}, {"category": category, "bbox": "<bbox>x1 y1 x2 y2</bbox>"}]` |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f768fcf0037a4baf80b2d4157898d8a2~tplv-goo7wpa0wc-image.image) |
+|Locating target objects based on reference image<br><br>> Locate the target objects in another image based on the reference image |`<bbox>x1 y1 x2 y2</bbox>` |Please identify similar targets in the second image based on the main target in the first image, and provide the bounding box for each object in the format: `<bbox>x1 y1 x2 y2</bbox>` |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/8ca3750ecfd540f285703e11f3c9edf9~tplv-goo7wpa0wc-image.image) |
+|Counting objects<br><br>> Need to count the number of specific objects |`<point>x y</point>` |Locate all people on the water in the image, output points in the format `<point>x1 y1</point>`, and count how many people are on the water. |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/2392404be5034344b31fc99b9e637dac~tplv-goo7wpa0wc-image.image) |
+|Recognizing image text<br><br>> Need to extract the text content and position from the image |`<text>text</text><polygon>x1 y1, x2 y2, x3 y3, x4 y4</polygon>` |Annotate the text in the image in the format `<text>text</text><polygon>x1 y1, x2 y2, x3 y3, x4 y4</polygon>`. |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/7ef81d129cb34b5a8e3e1c8cc5d67f7e~tplv-goo7wpa0wc-image.image) |
+|Detecting 3D objects<br><br>> Detect 3D objects in the image |`<detailed camera parameters of the image>`<br><br>`<3dbbox>x_center y_center z_center x_size y_size z_size pitch yaw roll</3dbbox>` |The following are the detailed camera parameters of this image.<br><br>`Camera intrinsics: focal length f_x=5545.08, f_y=5545.08. The principal point coordinates are near the image center, so when the image width is 4284 and the height is 5712, c_x=2142.00 and c_y=2856.00. Here we do not consider distortion parameters. Therefore, the intrinsic matrix K = [[1460.00, 0, 2142.00], [0, 1460.00, 2856.00], [0, 0, 1]].`<br><br>`Camera coordinate system: The X axis points right, the Y axis points down, and the Z axis points forward. The origin is the camera position. We use the camera coordinate system as the world coordinate system, that is, the camera extrinsic matrix is [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]].`<br><br>Please output each 3D box in the following format: `<3dbbox>x_center y_center z_center x_size y_size z_size pitch yaw roll</3dbbox>`<br><br>Note:<br><br>(1) x_center, y_center, z_center: The position of the target center along the XYZ axes in the camera coordinate system, in meters.<br><br>(2) x_size, y_size, z_size: The size of the target along the XYZ axes when the rotation angle is zero, in meters.<br><br>(3) pitch, yaw, roll: Euler angles around the XYZ axes respectively. Each angle value here is normalized to (\-1,1) and needs to be multiplied by 180 to convert to the actual angle. Detect cups in this image and display the results in 3D bounding box format. |![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b8c5fa94a87c4977874c345630e0179e~tplv-goo7wpa0wc-image.image) |

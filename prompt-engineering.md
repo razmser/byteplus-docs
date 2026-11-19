@@ -12,9 +12,9 @@ Prompt engineering involves writing efficient and stable instructions for models
 
 > Prompt guidelines for other models
 
-* > Image generation: [Seedream 4.0\-4.5 prompt guide](seedream-4-0-5-0-prompt-guide.md), [Seedream 3.0 prompt guide](https://docs.volcengine.com/docs/ark/seedream-3-0-prompt-guide)
+* > Image generation: [Seedream 4.0\-4.5 prompt guide](seedream-4-0-5-0-prompt-guide.md)
 
-* > Video generation: [Seedance\-1.0\-pro&pro\-fast prompt guide](seedance-1-0-pro-pro-fast.md)
+* > Video generation: [Seedance\-1.0\-pro&pro\-fast prompt guide](seedance-1-0-pro-pro-fast.md), [Dreamina Seedance 2.0 series prompt guide](seedance-2-0-prompt-guide.md).
 
 ## **Choose model and prompt strategy**
 
@@ -67,7 +67,7 @@ Use structured content to let the model clearly know "where the rules are, where
 
 Example:
 
-```plaintext
+```Plain
 # Identity
 You are a corporate document assistant, responsible for outputting clear and fact-checkable content.
 
@@ -99,7 +99,7 @@ Guide the model to generalize without fine\-tuning by providing a few examples.
 
 Example (sentiment classification):
 
-```plaintext
+```Plain
 # Identity
 You are a sentiment classifier that only outputs words (Positive / Negative / Neutral).
 
@@ -128,7 +128,7 @@ You are a sentiment classifier that only outputs words (Positive / Negative / Ne
 
 Example (specified steps):
 
-```plaintext
+```Plain
 Please complete the task by taking the following steps:
 1. Clarify goals and constraints
 2. List required inputs and available tools
@@ -174,7 +174,7 @@ Please complete the task by taking the following steps:
 
 Templates:
 
-```plaintext
+```Plain
 Suppose you are a {role}, and you will solve {task} based on {context}. Execute according to the following rules:
 1. Rule 1
 2. Rule 2
@@ -210,7 +210,7 @@ Requirements:
 
 For more information, see [Skylark role creation guide](roleplay-prompt-guide.md).
 
-```plaintext
+```Plain
 You are a {role}, known as {xxx}, born in {background and context}.
 
 Personality traits:

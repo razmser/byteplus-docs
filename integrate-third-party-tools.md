@@ -132,12 +132,12 @@ Windows Codex configuration file path: `%USERPROFILE%\.codex\config.toml`. The f
 
    * `env_key`: This sets the environment variable name. Do not directly modify `ARK_API_KEY`; you need to set the value of this environment variable in the next step.
 
-   ```plaintext
+   ```Plain
    model = "<Model ID>"
-   model_provider = "volcengine"
+   model_provider = "byteplus"
    
-   [model_providers.volcengine]
-   name = "volcengine"
+   [model_providers.byteplus]
+   name = "byteplus"
    base_url = "https://ark.ap-southeast.bytepluses.com/api/v3"
    env_key = "ARK_API_KEY"
    wire_api = "responses"
@@ -213,7 +213,7 @@ If the built\-in tools do not cover your use case, you can integrate second\-par
 
 Edit `~/.codex/config.toml` (`%USERPROFILE%\.codex\config.toml` on Windows) and add the MCP server configuration.
 
-```plaintext
+```Plain
 [mcp_servers.<MCP_name>]
 command = "<launch_command>"
 args = ["<launch_arguments>"]
@@ -396,7 +396,7 @@ The Claude Code IDE plugin depends on the Claude Code CLI tool. You must complet
 > Because the IDE plugin is continuously evolving, the following content is for reference only. For installation and usage details, see [Visual Studio Code](https://code.claude.com/docs/en/vs-code) and [JetBrains IDEs](https://code.claude.com/docs/en/jetbrains).
 
 <Tabs>
-<Tab zoneid="p4OoZRBXt9" title="Claude Code VS Code plugin">
+<Tab zoneid="RhTyrw5bAs" title="Claude Code VS Code plugin">
 
 > **Tip**
 
@@ -453,7 +453,7 @@ After saving the configuration information, you can start using Claude Code.
 
 
 </Tab>
-<Tab zoneid="muH2lkd7FU" title="Claude Code JetBrains plugin">
+<Tab zoneid="F216B8TlZB" title="Claude Code JetBrains plugin">
 <TabTitle>Claude Code JetBrains plugin</TabTitle>
 
 <div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
@@ -533,7 +533,7 @@ Using the model `seed-1-8-251228` as an example, the configuration is as follows
       "provider": {
         "myprovider": {
           "npm": "@ai-sdk/openai-compatible",
-          "name": "volcengine",
+          "name": "byteplus",
           "options": {
             "baseURL": "https://ark.ap-southeast.bytepluses.com/api/v3",
             "apiKey": "<ARK_API_KEY>"
@@ -669,7 +669,7 @@ openclaw dashboard
 
 
 </Tab>
-<Tab zoneid="l8B4p92jFi" title="Terminal">
+<Tab zoneid="oZpxQ9Rbah" title="Terminal">
 <TabTitle>Terminal</TabTitle>
 
 1. Run the following command in the terminal to open the OpenClaw configuration file.

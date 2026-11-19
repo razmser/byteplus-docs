@@ -170,7 +170,7 @@ echo "Environment ID: $ENVIRONMENT_ID"
 
 The limited outbound access policy includes the following configuration items:
 
-* `allowed_hosts`: A list of external domain names that the sandbox is allowed to access directly. Only bare domain names or leftmost wildcard domain names are supported, such as `api.example.com` and `*.example-cdn.com`. Do not enter URLs, ports, paths, query parameters, IP addresses, or `localhost`.
+* `allowed_hosts`: The list of external domain names that the sandbox can access directly, up to 64 domain names. Only bare domain names or leftmost wildcard domain names are supported, such as `api.example.com` and `*.example-cdn.com`. Do not enter URLs, ports, paths, query parameters, IP addresses, or `localhost`.
 
 * `allow_package_managers`: Whether to additionally allow package managers to access the platform\-configured package repository domains. After this is enabled, the sandbox can access the corresponding package repositories for `apt`, `cargo`, `gem`, `go`, `npm`, and `pip` dependencies. When it is disabled or omitted, `packages` will not automatically allow access to external package repositories.
 

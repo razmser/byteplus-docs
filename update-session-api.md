@@ -1138,7 +1138,7 @@ Whether access to package manager repositories is allowed in limited outbound mo
 
 `environment.config.networking.allowed_hosts`
 
-The list of external domain names that the sandbox is allowed to directly access in limited outbound mode.
+The list of external domain names that the sandbox is allowed to directly access in limited outbound mode. Up to 64 domains are allowed.
 
 **packages** `object`  |  Dependency package configuration
 

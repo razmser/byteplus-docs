@@ -2,7 +2,7 @@
 
 Markdown mirror of [BytePlus ModelArk's documentation](https://docs.byteplus.com/en/docs/ModelArk/).
 
-Contains **348 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
+Contains **350 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
 
 Links to mirrored pages point to local files; external links and images remain online. Code examples and OpenAPI blocks are preserved.
 
@@ -134,6 +134,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Error codes](error-codes.md)
 - [Model Playground overview](experience-center-overview.md)
 - [Files API tutorial](file-api.md)
+- [Model fine-tuning dataset format description](fine-tuning-dataset-format.md)
 - [Foundation models](foundation-models.md)
 - [Inference free trial](free-inference-quota.md)
 - [Free Tokens Only mode](free-tokens-only-mode.md)
@@ -266,6 +267,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Quick start (console)](quick-start-console.md)
 - [Quick start](quick-start.md)
 - [Read documentation from URLs](read-docs-from-urls.md)
+- [Read documentation with AI agents](read-docs-with-ai-agents.md)
 - [Receive webhook events](receive-webhook-events.md)
 - [Renew work lease](record-work-heartbeat-api.md)
 - [Region availability](region-availability.md)

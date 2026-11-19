@@ -168,7 +168,7 @@ Output item type identifier, used to distinguish OutputItem variants.
 
 Value is fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `response.created.response.output.arguments`
 
@@ -1326,7 +1326,7 @@ Output item type identifier, used to distinguish OutputItem variants.
 
 Value is fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `response.in_progress.response.output.arguments`
 
@@ -2484,7 +2484,7 @@ Output item type identifier, used to distinguish OutputItem variants.
 
 Value is fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `response.completed.response.output.arguments`
 
@@ -3642,7 +3642,7 @@ Output item type identifier, used to distinguish OutputItem variants.
 
 Value is fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `response.incomplete.response.output.arguments`
 
@@ -4800,7 +4800,7 @@ Output item type identifier, used to distinguish OutputItem variants.
 
 Value is fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `response.failed.response.output.arguments`
 

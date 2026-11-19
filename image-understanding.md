@@ -204,6 +204,8 @@ for item in response.output:
 
 * [Chat API](chat-api.md): Supports images as input for analysis. Accepts file ID as an input for image understanding. For instructions, see [Upload via Files API (recommended)](image-understanding.md#2c38c01b).
 
+* [Messages API](messages-api.md): Supports images as input for analysis.
+
 # Image input methods
 
 The supported image input methods are as follows:

@@ -1226,6 +1226,8 @@ It is generally recommended to adjust either `temperature` or `top_p`, while mod
 
 * > For the `seed-2-0-pro-260328` and `seed-2-0-lite-260228` models, the **temperature** parameter is fixed as `1.0`, and manually specified parameter values are ignored.
 
+* > For `deepseek-v4-1-flash` series models, the **temperature** parameter does not take effect in reasoning mode.
+
 **Range**: `[0, 2]`
 
 **thinking** `object`  |  Deep reasoning switch

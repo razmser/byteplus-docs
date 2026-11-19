@@ -198,6 +198,8 @@ Supported APIs:
 
 * [Chat API](chat-api.md): A widely used API with low migration costs for existing businesses.
 
+* [Messages API](messages-api.md): Compatible with the Anthropic Messages API protocol and can be used to integrate tools such as Claude Code.
+
 # Basic usage
 
 ## Multi\-turn conversation
@@ -627,7 +629,7 @@ After deep thinking is enabled, some models will output the original thinking co
 
    
    <span aceTableMode="list" aceTableWidth="8,3"></span>
-   |Flowchart |Note |
+   |Flowchart |Description |
    |---|---|
    |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/deep-thinking-01.svg) </span> |* During each turn of the conversation, the deep reasoning model outputs chain\-of\-thought (CoT) content and the final answer.<br><br>* In the next conversation turn, the previously output chain\-of\-thought content will not be spliced into the context.<br><br>> The chain\-of\-thought content shows the model's problem\-solving process, including splitting the problem into multiple sub\-problems to process, generating multiple responses and synthesizing a better answer, etc. |
    
@@ -638,7 +640,7 @@ After deep thinking is enabled, some models will output the original thinking co
 
    
    <span aceTableMode="list" aceTableWidth="8,3"></span>
-   |Flowchart |Note |
+   |Flowchart |Description |
    |---|---|
    |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/deep-thinking-02.svg) </span> |* When answering question 1 (requests 1.1 \- 1.2), the model gives the answer after multiple thinking processes and tool calls. ModelArk will input the complete context including the chain\-of\-thought content to the model for processing.<br><br>* When starting to answer question 2 (request 2.1), ModelArk will independently judge and delete the chain\-of\-thought in the previous context before inputting it to the model. |
    

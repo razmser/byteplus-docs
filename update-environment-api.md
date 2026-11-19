@@ -108,7 +108,7 @@ The list of external domain names that the sandbox is allowed to directly access
 
 * > URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
 
-* > When omitted or passed as an empty array, no additional external domain names are allowed.
+* > Up to 64 domains are allowed. When omitted or passed as an empty array, no additional external domain names are allowed.
 
 **packages** `object`  |  Dependency package configuration
 
@@ -364,7 +364,7 @@ The list of external domain names that the sandbox is allowed to directly access
 
 * > URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
 
-* > When omitted or passed as an empty array, no additional external domain names are allowed.
+* > Up to 64 domains are allowed. When omitted or passed as an empty array, no additional external domain names are allowed.
 
 **packages** `object`  |  Dependency package configuration
 

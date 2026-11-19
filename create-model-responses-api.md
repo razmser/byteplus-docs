@@ -50,7 +50,7 @@ Text input to the model `object`
 
 Text content input to the model.
 
-**text** `string` `Required`  |  Text only
+**text** `string` `Required`  |  Text
 
 `input.content.text`
 
@@ -400,7 +400,7 @@ Identifies the input element type and is used to distinguish different types of 
 
 Value is fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `input.arguments`
 
@@ -472,7 +472,7 @@ Text input to the model `object`
 
 Text content input to the model.
 
-**text** `string` `Required`  |  Text only
+**text** `string` `Required`  |  Text
 
 `input.output.text`
 
@@ -1382,6 +1382,8 @@ The sampling temperature that controls the degree of smoothing applied to the pr
 
 * > The **temperature** parameter value for the `seed-2-0-code-preview-260328`, `seed-2-0-pro-260328`, and `seed-2-0-lite-260228` models is fixed as `1.0`; manually specified parameter values are ignored.
 
+* > For `deepseek-v4-1-flash` series models, the **temperature** parameter does not take effect in reasoning mode.
+
 **Range**: `[0, 2]`
 
 **text** `object`  |  Output format
@@ -1794,7 +1796,7 @@ Output item type identifier, used to distinguish OutputItem variants.
 
 Value is fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `output.arguments`
 

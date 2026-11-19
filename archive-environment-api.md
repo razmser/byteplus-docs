@@ -106,7 +106,7 @@ The list of external domain names that the sandbox can directly access in limite
 
 > **Tip**
 
-> The returned values are bare domain names or wildcard domain names with the wildcard in the leftmost position, such as `example.com` and `*.example.com`. They do not include URLs, ports, paths, query parameters, IP addresses, or `localhost`.
+> The returned values are bare domain names or wildcard domain names with the wildcard in the leftmost position, such as `example.com` and `*.example.com`. They do not include URLs, ports, paths, query parameters, IP addresses, or `localhost`. Up to 64 domains are allowed.
 
 **packages** `object`  |  Dependency package configuration
 

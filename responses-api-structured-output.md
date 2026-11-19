@@ -6,44 +6,34 @@ By configuring the **text.format** object, you can demand the model to output in
 
 Compared with controlling the model to output in JSON format through prompts, using the structured output capability has the following advantages:
 
-
 * Reliable output: The output structure conforms to the expected data type, including parameter hierarchy, name, type, order, etc., avoiding missing necessary parameters or generating hallucinated valid values.
 
 * Easy to use: You can define the output format via API parameters, so you can use simpler prompts and you don't have to repeatedly emphasize or use strong wording in prompts.
 
+> **Tip**
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> This capability is still in the beta phase. Proceed with caution when using it in the production environment.
 
-
-<div data-tips="true" data-tips-type="tip">This capability is still in the beta phase. Proceed with caution when using it in the production environment.</div>
-
-
-<span id="0047487f"></span>
 ## Supported models
 
-For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For more information, see [Structured output (beta)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1330310#86588b72).
+For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For more information, see [Capabilities](model-list.md#86588b72).
 
-<span id="7503fb44"></span>
-## API reference
+## API documentation
 
-[Responses API](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1569618)
+[Responses API](create-model-responses-api.md)
 
-<span id="607e37db"></span>
 ## json_object mode
 
 This code sample shows how to use the Responses API to implement JSON object structured output.
 
-
-<Tabs>
-<Tab zoneid="Bi8YPRo3Af" title="Curl">
-<TabTitle>Curl</TabTitle>
+**Curl**
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "seed-2-0-lite-260228",
+    "model": "dola-seed-2-1-turbo-260628",
     "thinking": { "type": "disabled" },
     "text": {
       "format": {
@@ -63,11 +53,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
   }'
 ```
 
-
-
-</Tab>
-<Tab zoneid="bK90rUweLj" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -81,7 +67,7 @@ client = Ark(
 )
 
 response = client.responses.create(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     input=[
         {"role": "system", "content":
          "You are a professional math teaching assistant. When receiving a user math problem, you need to output in a structured JSON format. The returned JSON should include the explanation and answer fields."
@@ -94,11 +80,7 @@ response = client.responses.create(
 print(response)
 ```
 
-
-
-</Tab>
-<Tab zoneid="pJHKfUakFq" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 package main
@@ -121,7 +103,7 @@ func main() {
     ctx := context.Background()
 
     resp, err := client.CreateResponses(ctx, &responses.ResponsesRequest{
-        Model: "seed-2-0-lite-260228",
+        Model: "dola-seed-2-1-turbo-260628",
         Input: responses.NewInputItemArrayResponsesInput([]responses.InputItem{
             easyMessage(responses.MessageRoleSystem, "You are a professional math teaching assistant. When receiving a user math problem, you need to output in a structured JSON format. The returned JSON should include the explanation and answer fields."),
             easyMessage(responses.MessageRoleUser, "What is the approximate value of the square root of three"),
@@ -147,11 +129,7 @@ func easyMessage(role responses.MessageRole, content string) responses.InputItem
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="GvyAOUC2bP" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
 package com.ark.example;
@@ -166,7 +144,7 @@ public class demo {
                 .build();
 
         ResponsesRequest request = ResponsesRequest.builder()
-                .model("seed-2-0-lite-260228")
+                .model("dola-seed-2-1-turbo-260628")
                 .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.SYSTEM).content(
 
                                 MessageContent.ofString("You are a professional math teaching assistant. When receiving a user math problem, you need to output in a structured JSON format. The returned JSON should include the explanation and answer fields.")
@@ -184,11 +162,7 @@ public class demo {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="XMzZYmvfNt" title="OpenAI SDK">
-<TabTitle>OpenAI SDK</TabTitle>
+**OpenAI SDK**
 
 ```Python
 import os
@@ -202,7 +176,7 @@ client = OpenAI(
 )
 
 response = client.responses.create(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     input=[
         {"role": "system", "content":
         "You are a professional math teaching assistant. When receiving a user math problem, you need to output in a structured JSON format. The returned JSON should include the explanation and answer fields."
@@ -215,12 +189,6 @@ response = client.responses.create(
 print(response)
 ```
 
-
-
-</Tab>
-</Tabs>
-
-
 Response preview
 
 ```JSON
@@ -230,23 +198,18 @@ Response preview
 }
 ```
 
-
-<span id="f4619f55"></span>
 ## json_schema mode
 
 This code sample shows how to use the Responses API to implement JSON structured output that conforms to the schema parameter definition.
 
-
-<Tabs>
-<Tab zoneid="dgpfhbWodG" title="Curl">
-<TabTitle>Curl</TabTitle>
+**Curl**
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "seed-2-0-lite-260228",
+    "model": "dola-seed-2-1-turbo-260628",
     "input": [
         {
             "role": "user",
@@ -303,11 +266,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
   }'
 ```
 
-
-
-</Tab>
-<Tab zoneid="XxBvcTmkZi" title="OpenAI SDK">
-<TabTitle>OpenAI SDK</TabTitle>
+**OpenAI SDK**
 
 ```Python
 import os
@@ -327,7 +286,7 @@ class MathResponse(BaseModel):
     steps: list[Step]       # List of solution steps
     final_answer: str       # Final answer
 response = client.responses.parse(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     input=[
         {
             "role": "user",
@@ -344,12 +303,6 @@ response = client.responses.parse(
 
 print(response.output_parsed)
 ```
-
-
-
-</Tab>
-</Tabs>
-
 
 Response preview
 
@@ -377,33 +330,23 @@ Response preview
 }
 ```
 
-
-<span id="f5afc902"></span>
 ## Mode comparison: `json_object` and `json_schema`
 
 `json_schema` is an evolved version of `json_object`. Both modes support JSON structured output, and their specific similarities and differences are listed below.
 
-
-<span aceTableMode="list" aceTableWidth="1,2,2"></span>
 |Structured output |`json_schema` |`json_object` |
 |---|---|---|
 |Generate JSON response |Yes |Yes |
 |Customizable JSON structure |Yes |No<br><br>Only guarantees valid JSON response |
 |Recommended |Yes |No |
-|Supported models |See [Structured output (beta)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1330310#86588b72). |See [Structured output (beta)](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1330310#86588b72). |
+|Supported models |See [Capabilities](model-list.md#86588b72). |See [Capabilities](model-list.md#86588b72). |
 |Strict mode |Supported<br><br>Takes effect by setting **strict** to `true`. |Not applicable |
 |Configuration method |```JSON```<br>```"text": {```<br>```    "format": {```<br>```        "type": "json_schema",```<br>```        "name": "my_schema",```<br>```        "strict": true,```<br>```        "schema": {```<br>```            ...```<br>```        }```<br>```    }```<br>```}```<br> |```JSON```<br>```"text": {```<br>```  "format": {```<br>```    "type": "json_object"```<br>```  }```<br>```}```<br> |
 
-
-<span id="b9885e72"></span>
 ## Limitations
-
 
 * The QPS rate limits for the Responses API are as follows. If you need to increase the rate limit, submit [Ticket](https://console.byteplus.com/workorder/create?step=2&SubProductID=P00001514).
 
-
-
-<span aceTableMode="list" aceTableWidth="1,1"></span>
 |API name |QPS rate limits per account |
 |---|---|
 |Create model response |None |

@@ -320,6 +320,30 @@ Limits the amount of reasoning work. Reducing the reasoning depth can increase s
 
 > For models that support this parameter, default values, parameter compatibility mapping rules, and the relationship with the `thinking.type` parameter, see [Deep reasoning](deep-thinking.md).
 
+**format** `object`  |  Structured output format
+
+`output_config.format`
+
+Text output format definition.
+
+**type** `string` `Required`  |  Output format type
+
+`output_config.format.type`
+
+The following output formats are supported:
+
+* `json_object`: Returns results in JSON object format.
+
+* `json_schema`: Returns results constrained by JSON Schema. In this case, `schema` is required.
+
+**schema** `object`  |  JSON Schema definition
+
+`output_config.format.schema`
+
+JSON Schema that defines the output structure.
+
+Required when `type` is `json_schema`; ignored when `type` is `json_object`.
+
 **service_tier** `string` `Default default`  |  Inference mode
 
 Controls the online inference mode used.

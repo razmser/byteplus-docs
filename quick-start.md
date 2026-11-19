@@ -2,12 +2,6 @@
 
 You can complete your first API call within minutes.
 
-> **Use the documentation retrieval Skill**
-
-> `ark-docs-reader` automatically selects an available method to search and read the latest official documentation.
-
-> For installation, see [ark\-docs\-reader](ark-document-skills.md#ark-docs-reader).
-
 # 1. Obtain and configure an API key
 
 1. Obtain an API key: Switch to the target project in the lower\-left corner of the console, click [API Keys](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey) in the left navigation pane, and create or obtain a ModelArk API key.
@@ -819,6 +813,10 @@ func main() {
 ## Tool use
 
 Use tools or plugins to enable the model to read external data and call functions, including:
+
+* Third\-party tools: MCP\-compatible third\-party tools.
+
+* Custom functions: Tools that you define and develop.
 
 * [Function call](function-calling.md): Learn how to let the model call custom tools.
 

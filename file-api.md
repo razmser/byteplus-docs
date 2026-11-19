@@ -545,6 +545,8 @@ When you pass a TOS URI, the file must be stored in a BytePlus TOS bucket. Note 
 
 * `tos[bucket]` and `tos[prefix]` specify the bucket and storage path for uploading the file to a BytePlus TOS bucket.
 
+> If `url` points to a BytePlus TOS bucket in another account, the account or project that calls the Files API must have read permissions on that bucket. For cross\-account access to a TOS bucket, see [Cross-account authorization](https://docs.byteplus.com/en/docs/tos/docs-cross-account-authorization) and complete the authorization before calling the Files API.
+
 **Curl**
 
 ```Bash

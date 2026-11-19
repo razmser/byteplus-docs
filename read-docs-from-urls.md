@@ -54,6 +54,6 @@ scripts, styles, the footer, and interactive controls.
 
 ## Related documents
 
-* Compare all retrieval methods. See [Choose a retrieval method](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/read-docs-with-ai-agents).
+* Compare all retrieval methods. See [Choose a retrieval method](read-docs-with-ai-agents.md).
 
 * Discover documents through the index. See [llms.txt](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/read-ark-docs-with-llms-txt).

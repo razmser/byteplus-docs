@@ -142,7 +142,7 @@ The list of external domain names that the sandbox is allowed to directly access
 
 > **Tip**
 
-> Only bare domain names or leftmost wildcard domain names are supported, such as `example.com` and `*.example.com`. URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
+> Only bare domain names or leftmost wildcard domain names are supported, such as `example.com` and `*.example.com`. URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported. Up to 64 domains are allowed.
 
 **packages** `object`  |  Dependency package configuration
 

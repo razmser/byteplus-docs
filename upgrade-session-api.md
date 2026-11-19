@@ -438,7 +438,7 @@ passed as string key\-value pairs. The server merges them with the current confi
 
 `environment.config.networking`
 
-If omitted, the current policy is retained; if provided, it replaces the entire policy.
+If omitted, the current policy is retained; if provided, it replaces the entire policy. When an upgrade request changes only the outbound network policy, some existing sessions may return 403 OperationDenied.SandboxNetworkingUpgradeNotSupported, indicating that the session's sandbox does not support updating network rules in place. In this case, create a new session to use the new outbound network policy.
 
 **type** `string` `Required`  |  Outbound network policy type
 
@@ -478,7 +478,7 @@ The list of external domain names that the sandbox is allowed to directly access
 
 * > URLs, ports, paths, query parameters, IP addresses, and `localhost` are not supported. Middle wildcards and multi\-level wildcards are also not supported.
 
-* > When omitted or passed as an empty array, no additional external domain names are allowed.
+* > Up to 64 domains are allowed. When omitted or passed as an empty array, no additional external domain names are allowed.
 
 **packages** `object`  |  Dependency packages to add or update
 
@@ -1592,6 +1592,12 @@ The environment configuration used by the current session.
 
 Runtime environment type. Options: `cloud`, `self_hosted`.
 
+**build_script** `string`  |  Build script
+
+`environment.config.build_script`
+
+The build script executed after dependency packages are installed; an empty value means no build script is configured.
+
 **env** `object`  |  Environment variable
 
 `environment.config.env`
@@ -1675,6 +1681,18 @@ Dependency package configuration type, fixed as `packages`.
 `environment.config.setup_script`
 
 Initialization script executed when the session runtime environment starts.
+
+**spec** `string` `Default 1x`  |  Runtime specification
+
+`environment.config.spec`
+
+The runtime specification used by the session, which controls the sandbox CPU and memory configuration. Options: `1x`, `2x`, `4x`, `8x`.
+
+**template_id** `string`  |  Template ID
+
+`environment.config.template_id`
+
+The logical template ID currently used by the session environment.`base` indicates a regular execution template, and `browser` indicates a browser task template.
 
 **tos** `object`  |  Artifact storage configuration
 

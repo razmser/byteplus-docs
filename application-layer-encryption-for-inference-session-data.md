@@ -1,49 +1,36 @@
 # Inferential session data application layer encryption scheme
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+> **Note**
 
-
-<div data-tips="true" data-tips-type="warning">When you call the SDK, you only need to add one line of code to use this function for free. See <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1544136#23274b89">Data encryption</a> for example code.</div>
-
+> When you call the SDK, you only need to add one line of code to use this function for free. See [Data encryption](sdk-common-examples.md#23274b89) for example code.
 
 To ensure the secure transmission of inference session data, the ModelArk security team provides an end\-to\-end application\-layer encryption scheme for online inference, allowing users to encrypt inference session content locally using the SDK. This complements the default network\-layer encryption.
 
 Why both network and application layer encryption? Think of it this way: network\-layer encryption is like putting a file in a safe, while application\-layer encryption is like adding a lock to that safe. This double layer of protection ensures that even if someone intercepts the file, they cannot open it.
 
-<span id="a1bc4605"></span>
 ## **Scheme introduction**
 
 The specific process of session data application\-layer encryption is shown in the following video:
 
 Users can encrypt the inference session content locally using the SDK. After the encrypted ciphertext is securely transmitted to the sandbox, it's decrypted into plaintext only within the secure sandbox memory for model inference. After the model inference within the secure sandbox is complete, the generated results are encrypted by the secure sandbox and transmitted back to the user's local environment as ciphertext. Finally, the user decrypts the ciphertext locally using the SDK to obtain the plaintext inference results.
 
-<span id="be035c68"></span>
 ## **Usage instructions**
 
-The inference session data application\-layer encryption function is integrated into the BytePlus SDK. You can use this feature for free by adding just one line of code. See [Data encryption](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1544136#23274b89) for example code.
+The inference session data application\-layer encryption function is integrated into the BytePlus SDK. You can use this feature for free by adding just one line of code. See [Data encryption](sdk-common-examples.md#23274b89) for example code.
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> **Tip**
 
+* > **Language Support**: Currently only supports Python SDK.
 
+* > **Version Requirements**: It is recommended to use the latest version of the SDK. The latest version of the SDK can be obtained through `pip install byteplus-python-sdk-v2`.
 
-* <div data-tips="true" data-tips-type="tip"><strong>Language Support</strong>: Currently only supports Python SDK.</div>
+* > **Third\-Party Support**: Does not support third\-party SDKs, including the OpenAI SDK.
 
+* > **Capability Support**: Supports Seed and Skylark text generation models. Supports single\-turn/multi\-turn conversations within Chat Completions, including streaming/non\-streaming and synchronous/asynchronous interfaces.
 
-* <div data-tips="true" data-tips-type="tip"><strong>Version Requirements</strong>: It is recommended to use the latest version of the SDK. The latest version of the SDK can be obtained through <code>pip install byteplus-python-sdk-v2</code>.</div>
-
-
-* <div data-tips="true" data-tips-type="tip"><strong>Third\-Party Support</strong>: Does not support third\-party SDKs, including the OpenAI SDK.</div>
-
-
-* <div data-tips="true" data-tips-type="tip"><strong>Capability Support</strong>: Supports Seed and Skylark text generation models. Supports single\-turn/multi\-turn conversations within Chat Completions, including streaming/non\-streaming and synchronous/asynchronous interfaces.</div>
-
-
-
-<span id="cba262a7"></span>
 ## **Principle explanation**
 
 Using Alice and Bob to represent the client SDK and the secure sandbox container where the inference model resides, the basic principle is to implement a 0\-RTT protocol (a protocol that allows the client to send encrypted payload in the first message) using ECIES. The protocol is as follows:
-
 
 1. Alice obtains Bob's public key `PK[Bob]` through public channels. This public key must be an elliptic curve public key.
 
@@ -51,10 +38,7 @@ Using Alice and Bob to represent the client SDK and the secure sandbox container
 
 3. Bob receives `R` and decrypts the session key using his private key: `SK[Bob] × R = SK[Bob] × r × G = S`. Bob uses `S` to derive the decryption key and decrypts the ciphertext `Payload` to obtain the plaintext.
 
-
-<span id="23eca6db"></span>
 ## Verification instructions
-
 
 * **Verifying Message Encryption**:
 
@@ -68,18 +52,15 @@ Using Alice and Bob to represent the client SDK and the secure sandbox container
 
    * **Verification**: You can view the call logs of the `GetEndpointCertificate` interface in Cloud Audit.
 
-
-<span id="83d556f4"></span>
 ## **Certificate description**
 
-This certificate is only applicable to BytePlus's Skylark series models (see [Model releases - 2025](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2172655) announcement) and is not applicable to models from other companies.
+This certificate is only applicable to BytePlus's Skylark series models (see the [2025 model release announcement](model-release-announcement-2025.md)) and is not applicable to models from other companies.
 
 The elliptic curve public key obtained by the client from public channels comes from the self\-signed certificate of the Skylark model. All Skylark models use the same public key. The corresponding private key is managed by ModelArk's private CA service and uses the P\-256 elliptic curve.
 
 The Skylark model's certificate can be obtained through the ModelArk OpenAPI using the `GetEndpointCertificate` interface.
 
 Certificate Details:
-
 
 |Certificate key algorithm ||ECDSA 256 |
 |---|---|---|
@@ -99,18 +80,14 @@ Certificate Details:
 |The effective time of the certificate ||1704264758 |
 |The validity period of the certificate ||5 years |
 
-
 Leaf certificate information:
 
-<Attachment link="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/d4ea207203ae48ef928935d6da33b6c5~tplv-goo7wpa0wc-image.image" name="certificate.pem">certificate.pem</Attachment>
-
+[certificate.pem](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/d4ea207203ae48ef928935d6da33b6c5~tplv-goo7wpa0wc-image.image)
 
 Intermediate root certificate and root certificate information:
 
-<Attachment link="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f62e5a90d74848c3a150734fc6521f2d~tplv-goo7wpa0wc-image.image" name="certificate_chain.pem">certificate_chain.pem</Attachment>
+[certificate_chain.pem](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f62e5a90d74848c3a150734fc6521f2d~tplv-goo7wpa0wc-image.image)
 
-
-<span id="11423135"></span>
 ## **Performance information**
 
 On a single core of an Intel(R) Xeon(R) Platinum 8260 CPU @ 2.40GHz, with a message length of 256 bytes, the average additional time spent on encryption and decryption for a single conversation request is 0.5786 ms.

@@ -155,6 +155,8 @@ Supported APIs:
 
 * [Chat API](chat-api.md): A widely used API with low migration costs for existing businesses.
 
+* [Messages API](messages-api.md): Compatible with the Anthropic Messages API protocol and can be used to integrate tools such as Claude Code.
+
 # Example
 
 ## Multi\-turn conversation
@@ -325,6 +327,8 @@ Control the model to output standard formats that programs can process (mainly J
 * [Structured output (beta)](structured-output-beta.md): Use the [Chat API](chat-api.md) to implement structured output.
 
 * [Structured output (beta)](structured-output-beta.md): Use the [Responses API](create-model-responses-api.md) to implement structured output.
+
+* [Structured output (beta)](structured-output-beta.md): Use the [Messages API](messages-api.md) to implement structured output.
 
 ## Batch inference
 
