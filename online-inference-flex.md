@@ -26,7 +26,7 @@
 
 > **tip**
 
-> Models released after Dola Seed 2.1 no longer support [Batch Chat](batch-inference.md#075b8a07) (`ep-bi-*`). For batch traffic that previously submitted requests individually through Batch Chat, migrate to an online inference endpoint and specify `service_tier=flex` in each request.
+> Models released after Dola Seed 2.1 no longer support [Batch Chat](batch-inference.md#batch-chat) (`ep-bi-*`). For batch traffic that previously submitted requests individually through Batch Chat, migrate to an online inference endpoint and specify `service_tier=flex` in each request.
 
 ## Supported scope
 

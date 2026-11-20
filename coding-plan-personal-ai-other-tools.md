@@ -83,7 +83,7 @@ After the Cline plugin is installed, you need to configure the following informa
 
 * **API Key**: [Get API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey)
 
-* **Model ID**: Specify either `ark-code-latest` or a supported model here. See [Key configuration](coding-plan-personal-ai-other-tools.md#59b5ff11) for details.
+* **Model ID**: Specify either `ark-code-latest` or a supported model here. See [Key configuration](coding-plan-personal-ai-other-tools.md#key-configuration) for details.
 
 After configuration is complete, you can input requirements in the input box and interact with the model.
 
@@ -105,7 +105,7 @@ After Cursor is installed, you must log in to a paid account to configure Models
 
 * Override OpenAI Base URL: `https://ark.ap-southeast.bytepluses.com/api/coding/v3`
 
-* Add Custom Model: Specify either `ark-code-latest` or a supported model here. See [Key configuration](coding-plan-personal-ai-other-tools.md#59b5ff11) for details.
+* Add Custom Model: Specify either `ark-code-latest` or a supported model here. See [Key configuration](coding-plan-personal-ai-other-tools.md#key-configuration) for details.
 
 > **Note**
 
@@ -135,7 +135,7 @@ Select **Settings** → **Providers** → **Custom provider**, then configure th
 
 * **API Key**: [Get API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey)
 
-* **Model ID**: The model name to configure, for example `ark-code-latest`. For supported models, see [Key configuration](coding-plan-personal-ai-other-tools.md#59b5ff11).
+* **Model ID**: The model name to configure, for example `ark-code-latest`. For supported models, see [Key configuration](coding-plan-personal-ai-other-tools.md#key-configuration).
 
 * **Model Name**: Display name of the model. Fill in as needed.
 
@@ -167,7 +167,7 @@ After installation is complete, configure the following information.
 
 * **API Key**: [Get API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey)
 
-* **Model**: Specify either `ark-code-latest` or a supported model here. See [Key configuration](coding-plan-personal-ai-other-tools.md#59b5ff11) for details.
+* **Model**: Specify either `ark-code-latest` or a supported model here. See [Key configuration](coding-plan-personal-ai-other-tools.md#key-configuration) for details.
 
 Once configuration is complete, you can enter your requirements in the input box and interact with the model.
 

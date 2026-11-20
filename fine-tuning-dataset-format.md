@@ -100,7 +100,7 @@ One JSON format data per line:
    }
    ```
 
-   * Different models have different configurable enumeration values; for more models, refer to [Text and code generation](model-list.md#32e9e053).
+   * Different models have different configurable enumeration values; for more models, refer to [Text and code generation](model-list.md#text-and-code).
 
       |Model Version |enabled |disabled |auto |
       |---|---|---|---|
@@ -852,7 +852,7 @@ Each line contains one JSON format data:
 
 * **thinking** (str, required for models that support this parameter, prohibited for those that do not): Some models with deep thinking capabilities support controlling whether to enable deep thinking through the **thinking** field.
 
-   * Different models have different configurable enumeration values; for more models, please refer to [Text and code generation](model-list.md#32e9e053).
+   * Different models have different configurable enumeration values; for more models, please refer to [Text and code generation](model-list.md#text-and-code).
 
       ```Plain Text
         |Model Version |enabled |disabled |auto |
@@ -1045,7 +1045,7 @@ When you need to understand video content, you can extract frames from the video
 
 Before running the script, you need to configure the API Key and obtain the Model ID. For specific methods, please refer to [Quick start](quick-start.md).
 
-> When creating an inference endpoint, select a large model that supports visual understanding. For details, please refer to [Capabilities](model-list.md#76df97c8).
+> When creating an inference endpoint, select a large model that supports visual understanding. For details, please refer to [Capabilities](model-list.md#text-code-capabilities).
 
 Before running the script, install the dependency packages in the terminal first.
 

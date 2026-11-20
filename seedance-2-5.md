@@ -3634,7 +3634,7 @@ For general prompt\-writing methods and templates, see the [Dreamina Seedance 2.
 
    * Width and height length (px): [300, 6000]
 
-   * Total number of pixels: [614×664=407696, 3326×2494=8295044], meaning the product of the width and height meets the interval requirement of [407696, 8295044].
+   * Total number of pixels: [614 × 664 = 407696, 4096 × 2160 = 8847360]
 
 * Size: A single video must not exceed 200 MB.
 

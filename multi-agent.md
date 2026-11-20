@@ -254,7 +254,7 @@ Subagents in the same session share the environment, sandbox, file system, and b
 
 * Updating the main agent does not modify the configuration used by existing sessions.
 
-* The main agent and subagents incur model and runtime resource usage separately. For details, see [Pricing](model-pricing.md#ma_billing).
+* The main agent and subagents incur model and runtime resource usage separately. For details, see [Pricing](model-pricing.md#managed-agents).
 
 ### Update and check configuration
 
@@ -942,7 +942,7 @@ When using a self\-hosted environment, you do not need to configure tool executi
 
 **Runtime limits**
 
-* Threads in the same session share runtime resources, but each thread generates its own model and runtime resource usage. For billing information, see [Managed Agents](model-pricing.md#ma_billing).
+* Threads in the same session share runtime resources, but each thread generates its own model and runtime resource usage. For billing information, see [Managed Agents](model-pricing.md#managed-agents).
 
 * If a process failure occurs before supplemental message processing is complete, query the thread history and task status first after recovery. Resend the message only after you confirm that it has not been processed.
 

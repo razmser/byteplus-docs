@@ -14,7 +14,7 @@ ModelArk APIs are divided into data plane APIs (APIs for model calls) and contro
 
 > **Note**
 
-> The base URL for the data plane API provided below is different from the base URL supported by Coding Plan. Coding Plan users should use the correct base URL to avoid extra fees caused by an incorrect address. For details, see [Base URL](coding-plan-personal-get-started.md#e17276e8).
+> The base URL for the data plane API provided below is different from the base URL supported by Coding Plan. Coding Plan users should use the correct base URL to avoid extra fees caused by an incorrect address. For details, see [Base URL](coding-plan-personal-get-started.md#configuration-information).
 
 Base URLs for each API type:
 

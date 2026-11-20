@@ -37,7 +37,7 @@ Compared with Chat API, Responses API has advantages in multiple capabilities.
 
 ## Supported models
 
-For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For more information, see [Text and code generation](model-list.md#32e9e053).
+For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For more information, see [Text and code generation](model-list.md#text-and-code).
 
 ## Basic differences
 

@@ -43,7 +43,7 @@ Function calling is helpful under the following cases that require collaboration
 
 # Supported models
 
-For the complete list of models that support function call, see [Tool use](model-list.md#f44ceef7).
+For the complete list of models that support function call, see [Tool use](model-list.md#text-code-tool-use).
 
 ---
 

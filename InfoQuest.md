@@ -2,17 +2,13 @@
 
 If you need to equip your AI model with real\-time internet search capabilities, integrating the Info Quest MCP service is an efficient solution. This document explains in detail how to configure and invoke Info Quest MCP through ModelArk's large model service, helping businesses quickly obtain accurate real\-time information.
 
-<span id="19ac0961"></span>
 ## **Prerequisites**
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> **Tip**
 
+> If you're new to ModelArk, see [Quick start](quick-start.md) to get up and running quickly.
 
-<div data-tips="true" data-tips-type="tip">If you're new to ModelArk, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1399008">Quick start</a> to get up and running quickly.</div>
-
-
-
-* [Install and upgrade SDK](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1541595)
+* [Install and upgrade SDK](install-and-upgrade-sdk.md)
 
 * Visit the [Info Quest console](https://console.byteplus.com/infoquest/infoquests?tab=mcp) to obtain MCP information:
 
@@ -20,22 +16,17 @@ If you need to equip your AI model with real\-time internet search capabilities,
 
    * `Authorization` authorization information: as shown in the figure below.
 
-   <span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e36f997ff1f84c1bbd05e6108f54a4e4~tplv-goo7wpa0wc-image.image) </span>
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e36f997ff1f84c1bbd05e6108f54a4e4~tplv-goo7wpa0wc-image.image)
 
-
-<span id="9fe4d840"></span>
 ## **Procedure**
 
-<span id="68204830"></span>
 ### **Configure** client information
 
 When initializing the ModelArk client using the Python SDK, you need to configure the following key parameters:
 
-
 * `base_url`: https://ark.ap\-southeast.bytepluses.com/api/v3
 
-* `api_key`: see [Obtain and configure an API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1541594)
-
+* `api_key`: see [Obtain and configure an API Key](api-key.md)
 
 **Code sample**
 
@@ -46,14 +37,11 @@ client = Ark(
 )
 ```
 
-
-<span id="e96ef07e"></span>
 ### **MCP invocation implementation**
 
 When initiating a request through the `client.responses.create` method, you need to accurately configure model parameters, MCP tool information, and user input:
 
-
-* `model`: select an available model on the platform (such as seed\-2\-0\-lite\-260228). For more models, see [Tool calling](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1330310#f44ceef7).
+* `model`: select an available model on the platform (such as dola\-seed\-2\-1\-turbo\-260628). For more models, see [Tool calling](model-list.md#text-code-tool-use).
 
 * `tools`: MCP tool configuration parameters, including:
 
@@ -71,13 +59,12 @@ When initiating a request through the `client.responses.create` method, you need
 
 * `extra_headers`: must contain `{"ark-beta-mcp": "true"}` to enable MCP invocation permission.
 
-
 **Code sample**
 
 ```Python
 # Initiate MCP invocation request
 response = client.responses.create(
-    model="seed-2-0-lite-260228",  # Replace with an actual available model
+    model="dola-seed-2-1-turbo-260628",  # Replace with an actual available model
     tools=[
         {
             "type": "mcp",
@@ -99,15 +86,13 @@ response = client.responses.create(
 )
 ```
 
-
-<span id="bd6f6709"></span>
 ### Complete code sample
 
 ```Python
 from arkruntime import Ark
 import os
 
-# Retrieve the API key from environment variables (See https://docs.byteplus.com/en/docs/ModelArk/1399008 for details).
+# Retrieve the API key from environment variables (See https://ai.byteplus.com/ark/region:ap-southeast-1/docs/quick-start for details).
 api_key = os.getenv('ARK_API_KEY')
 
 # Initialize the client and enable the MCP
@@ -118,7 +103,7 @@ client = Ark(
 
 # Send a basic MCP call request
 response = client.responses.create(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     tools=[
         {
             "type": "mcp",
@@ -151,13 +136,11 @@ for chunk in response:
         print(chunk.delta, end="", flush=True)
 ```
 
-
-<span id="9e0aacec"></span>
 ### Response
 
 After the invocation is successful, you can directly extract the search results returned by Info Quest MCP (such as real\-time weather information) from the `response` object.
 
-```text
+```Plain Text
 ... (Thinking process)...
 
 Here is the weather information for London today (November 25, 2025) compiled from multiple reliable meteorological sources:
@@ -167,8 +150,6 @@ Here is the weather information for London today (November 25, 2025) compiled fr
 - Note: Some outdated posts (1 week to several months ago) mention torrential rain, snow or wind warnings, which do not apply to today's weather.
 ```
 
-
-<span id="6166cea3"></span>
 ## **Summary**
 
 Through the above steps, you can quickly integrate ModelArk with Info Quest MCP to equip your AI model with powerful real\-time internet search capabilities, and meet diverse and dynamic business needs.

@@ -46,7 +46,7 @@ Charges incurred by model calls are automatically deducted in the following orde
 
 For more information about using the models, see the following documents:
 
-* [Video generation models](model-pricing.md#8f25f772): Learn about token billing and estimation methods to understand video generation costs for different specifications.
+* [Video generation models](model-pricing.md#video-generation-models): Learn about token billing and estimation methods to understand video generation costs for different specifications.
 
 * [Create a video generation task](create-video-generation-task-api.md): Learn how to integrate and use the API.
 

@@ -27,7 +27,7 @@ ModelArk supports multiple model inference methods for different business scenar
 
 * For enterprise workloads that require dedicated computing resources for cost\-efficient, high\-performance inference at scale, use Model Unit. For details, see [Model Unit](model-unit-overview.md).
 
-* To let the platform manage and process an entire batch when longer completion times are acceptable, use [Batch inference](batch-inference.md#075b8a07). This method is designed for processing data at very large scale and for workloads that require task status tracking, result files, and failure recovery.
+* To let the platform manage and process an entire batch when longer completion times are acceptable, use [Batch inference](batch-inference.md#batch-job). This method is designed for processing data at very large scale and for workloads that require task status tracking, result files, and failure recovery.
 
 # About inference endpoints
 

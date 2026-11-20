@@ -1000,7 +1000,7 @@ Example: `{"<Token_ID>": -100}`. The actual effect of this parameter may vary by
 
 > **Note**
 
-> Models with deep reasoning capabilities do not support this parameter. For the list of these models, see [Model list](model-list.md#32e9e053) and find the models with "Deep reasoning" in the Capabilities column.
+> Models with deep reasoning capabilities do not support this parameter. For the list of these models, see [Model list](model-list.md#text-and-code) and find the models with "Deep reasoning" in the Capabilities column.
 
 **Range**: `[-100, 100]`
 
@@ -1176,7 +1176,7 @@ When the model encounters the string specified by the `stop` parameter, it will 
 
 Example: `["hello", "weather"]`.
 
-> [Deep reasoning models](model-list.md#32e9e053) do not support this parameter by default, except for DeepSeek V4 models mentioned above.
+> [Deep reasoning models](model-list.md#text-and-code) do not support this parameter by default, except for DeepSeek V4 models mentioned above.
 
 **stream** `boolean` `Default false`  |  Streaming response
 
@@ -1298,7 +1298,7 @@ Type of the call. In this case, set it to `function`.
 
 List of tools available for calling, which may be included in the model's response.
 
-This structure needs to be configured when you require the model to return tools to be called. For models that support this parameter, see [documentation](model-list.md#f44ceef7).
+This structure needs to be configured when you require the model to return tools to be called. For models that support this parameter, see [documentation](model-list.md#text-code-tool-use).
 
 **function** `object` `Required`  |  Function information
 

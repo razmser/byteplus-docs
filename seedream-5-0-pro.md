@@ -1115,4 +1115,4 @@ Image URLs are retained for only 24 hours. They are automatically cleared after 
 
    * For layer decomposition, each request initially deducts 17 IPM, reserving quota for the maximum output of one base image and 16 layers. After generation is complete, quota deducted beyond the actual number of generated images is returned.
 
-* Limits vary by model. For more information, see [Image generation capabilities](model-list.md#9df4d9fd).
+* Limits vary by model. For more information, see [Image generation capabilities](model-list.md#image-generation).

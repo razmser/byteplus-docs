@@ -147,7 +147,7 @@ public class ChatCompletionsExample {
 
 # Models and APIs
 
-Supported models: [Text and code generation](model-list.md#32e9e053)
+Supported models: [Text and code generation](model-list.md#text-and-code)
 
 Supported APIs:
 

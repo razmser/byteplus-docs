@@ -94,7 +94,7 @@ On the DeepSeek card, select **Custom settings**, fill in the following informat
 
 * **API endpoint**: `https://ark.ap-southeast.bytepluses.com/api/coding/v3`
 
-* **Add model**: For available models, see [Model configuration](coding-plan-personal-ai-deepseek-harness.md#8f1d9f20).
+* **Add model**: For available models, see [Model configuration](coding-plan-personal-ai-deepseek-harness.md#model-configuration).
 
 ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/harness2.png)
 
@@ -116,7 +116,7 @@ Click **Add custom provider** and fill in the following information to create a 
 
 * **API key**: Enter the Coding Plan [API key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
 
-* **Add model**: For available models, see [Model configuration](coding-plan-personal-ai-deepseek-harness.md#8f1d9f20).
+* **Add model**: For available models, see [Model configuration](coding-plan-personal-ai-deepseek-harness.md#model-configuration).
 
 4. (Optional) To enable image input for a model, configure it in the configuration file.
 

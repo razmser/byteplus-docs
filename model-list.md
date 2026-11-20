@@ -4,31 +4,25 @@ ModelArk provides models for text and code, video, image, 3D, and embedding work
 
 ## Featured models
 
-[Dola Seed 2.1 Turbo](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seed-2-1-turbo)
+**Dola Seed 2.1 Turbo**
 
-![Dola Seed 2.1 Turbo](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_thinking.png)
-
-* **Best for:**  General\-purpose agentic workloads
+![](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_thinking.png)* **Best for:**  General\-purpose agentic workloads
 
 * **Key capabilities:**  Deep reasoning, multimodal understanding, tool use, and structured output
 
 * **Key limits:**  256K context, 256K max output (incl. CoT), and 0.5K max RPM
 
-[Dreamina Seedance 2.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5)
+**Dreamina Seedance 2.5**
 
-![Dreamina Seedance 2.5](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_video_generation.png)
-
-* **Best for:**  Video generation and editing
+![](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_video_generation.png)* **Best for:**  Video generation and editing
 
 * **Key capabilities:**  Reference\-to\-video, video editing, video extension, image\-to\-video, and text\-to\-video
 
 * **Key limits:**  Up to 4K, 4\-30 seconds, and 0.6K default max RPM for enterprise users
 
-[Dola Seedream 5.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-5)
+**Dola Seedream 5.5**
 
-![Dola Seedream 5.5](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_image_generation.png)
-
-* **Best for:**  Precise multi\-round image editing and layer decomposition
+![](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/get-started/banner_image_generation.png)* **Best for:**  Precise multi\-round image editing and layer decomposition
 
 * **Key capabilities:**  Native RGBA image generation, rich text OCR, and up to 99 output layers
 

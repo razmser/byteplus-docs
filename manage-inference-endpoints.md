@@ -47,7 +47,7 @@ Some models support version switching. You can replace the version in use with a
 
 * > During a version switch, the cache is temporarily unavailable. When you send requests via the Responses API, cache hits will not occur, but the requests will still be stored and will incur cache storage charges. After the switch completes, historical caches from previous turns can be hit normally.
 
-* > Built\-in tool support may also differ between model versions. If the target model does not support the required tool calls, the request will fail. For compatibility details, see [Tool use](model-list.md#f44ceef7).
+* > Built\-in tool support may also differ between model versions. If the target model does not support the required tool calls, the request will fail. For compatibility details, see [Tool use](model-list.md#text-code-tool-use).
 
 Version switching takes about 1 hour. Rollback is supported during the process \- you can gradually switch back as needed or roll back in one step.
 

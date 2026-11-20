@@ -35,7 +35,7 @@ Context caching supports two working modes, which can be selected based on conve
 
 ## Supported models
 
-Models that support implicit cache are listed below. For details, see [Context caching](model-list.md#ed095742).
+Models that support implicit cache are listed below. For details, see [Context caching](model-list.md#text-code-context-caching).
 
 * For online inference, Dola Seed 2.0 and later series models support implicit cache, and this feature cannot be disabled.
 
@@ -300,7 +300,7 @@ Compared with implicit cache, explicit cache must be created explicitly and incu
 
 ## Supported models
 
-For models and APIs that support explicit cache, see [Context caching](model-list.md#ed095742).
+For models and APIs that support explicit cache, see [Context caching](model-list.md#text-code-context-caching).
 
 ## Limitations
 

@@ -6,7 +6,7 @@ Create a Hyper3D generation task. The model will generate 3D content based on th
 
 > **Tip**
 
-> This API charges for output tokens at 0.0133 USD/1K Tokens. Each generated 3D model consumes a fixed 30,000 tokens, equivalent to $0.399 per model. See [Pricing](model-pricing.md#33538fff) for details.
+> This API charges for output tokens at 0.0133 USD/1K Tokens. Each generated 3D model consumes a fixed 30,000 tokens, equivalent to $0.399 per model. See [Pricing](model-pricing.md#3d-generation-models) for details.
 
 **Model capabilities**
 
@@ -24,7 +24,7 @@ Australia (AU), Cambodia (KH), Cayman Islands (KY), Egypt (EG), Fiji (FJ), Ghana
 
 **Quick start**
 
-![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_b9c82890e851fc10cc31f48f9065abc6.png) [Model Playground](https://ai.byteplus.com/ark/region:ap-southeast-1/experience/vision?projectName=default)![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_2abecd05ca2779567c6d32f0ddc7874d.png) [Model List](model-list.md)![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_a5fdd3028d35cc512a10bd71b982b6eb.png) [Model Billing](model-pricing.md#8f25f772)![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_afbcf38bdec05c05089d5de5c3fd8fc8.png) [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey?apikey=%7B%7D)
+![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_b9c82890e851fc10cc31f48f9065abc6.png) [Model Playground](https://ai.byteplus.com/ark/region:ap-southeast-1/experience/vision?projectName=default)![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_2abecd05ca2779567c6d32f0ddc7874d.png) [Model List](model-list.md)![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_a5fdd3028d35cc512a10bd71b982b6eb.png) [Model Billing](model-pricing.md#video-generation-models)![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_afbcf38bdec05c05089d5de5c3fd8fc8.png) [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey?apikey=%7B%7D)
 
 ![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_57d0bca8e0d122ab1191b40101b5df75.png) [API Call Guide](video-generation-tutorial.md)![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_f45b5cd5863d1eed3bc3c81b9af54407.png) [API Reference](shadoweye-create-3d-generation-task-api.md)![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_1609c71a747f84df24be1e6421ce58f0.png) [FAQs](modelark-faq.md)![图片](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_bef4bc3de3535ee19d0c5d6c37b0ffdd.png) [Model Activation](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&tab=ComputerVision)
 

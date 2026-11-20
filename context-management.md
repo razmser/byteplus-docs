@@ -430,7 +430,7 @@ In addition, the platform supports controlling token usage by controlling the le
 
 > [Responses API](create-model-responses-api.md) uses the max_output_tokens parameter to control the model output length. For details, see [Set maximum output length](responses-api-deep-thinking.md#1460ba95).
 
-Supported models: large language models released on 250528 and later. Unless otherwise specified, this parameter is supported by default. For the list of large language models on the ModelArk platform, see [Text and code generation](model-list.md#32e9e053).
+Supported models: large language models released on 250528 and later. Unless otherwise specified, this parameter is supported by default. For the list of large language models on the ModelArk platform, see [Text and code generation](model-list.md#text-and-code).
 
 > The doubao\-seed\-translation\-250915 model (not available for BytePlus users) does not support this parameter.
 

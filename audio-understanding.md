@@ -8,7 +8,7 @@ Some large models support audio understanding. You can input audio via local fil
 
 # Supported models
 
-See [Capabilities](model-list.md#9619c0ba).
+See [Capabilities](model-list.md#text-code-capabilities).
 
 # APIs
 
@@ -1505,7 +1505,7 @@ print(response)
 
 > **Note**
 
-> Replace the model ID as needed. To process audio information embedded in a video, use a model that supports audio understanding. For details, see [Model list](model-list.md#9619c0ba).
+> Replace the model ID as needed. To process audio information embedded in a video, use a model that supports audio understanding. For details, see [Model list](model-list.md#text-code-capabilities).
 
 ## General audio question answering
 

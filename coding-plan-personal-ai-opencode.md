@@ -158,7 +158,7 @@ Configuration file path on Windows: `%USERPROFILE%\.config\opencode\opencode.jso
 
    * `<ARK_API_KEY>`: Replace with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
 
-   * `model`: Update to the target model. See [Key configuration](coding-plan-personal-ai-opencode.md#8f1d9f20) for supported models.
+   * `model`: Update to the target model. See [Key configuration](coding-plan-personal-ai-opencode.md#model-configuration) for supported models.
 
    Coding Plan is compatible with the OpenAI interface protocol and supports both Responses API and Chat API. The Responses API configuration is recommended for better reasoning quality.
 
@@ -283,13 +283,8 @@ Configuration file path on Windows: `%USERPROFILE%\.config\opencode\opencode.jso
             "output": 32000
           },
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         },
         "dola-seed-2.0-lite": {
@@ -299,13 +294,8 @@ Configuration file path on Windows: `%USERPROFILE%\.config\opencode\opencode.jso
             "output": 32000
           },
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         },
         "dola-seed-2.0-code": {
@@ -315,13 +305,8 @@ Configuration file path on Windows: `%USERPROFILE%\.config\opencode\opencode.jso
             "output": 32000
           },
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         }
       }
@@ -433,13 +418,8 @@ Configuration file path on Windows: `%USERPROFILE%\.config\opencode\opencode.jso
             "output": 32000
           },
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         },
         "dola-seed-2.0-lite": {
@@ -449,13 +429,8 @@ Configuration file path on Windows: `%USERPROFILE%\.config\opencode\opencode.jso
             "output": 32000
           },
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         },
         "dola-seed-2.0-code": {
@@ -465,13 +440,8 @@ Configuration file path on Windows: `%USERPROFILE%\.config\opencode\opencode.jso
             "output": 32000
           },
           "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
+            "input": ["text", "image"],
+            "output": ["text"]
           }
         }
       }

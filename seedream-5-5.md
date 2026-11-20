@@ -1201,4 +1201,4 @@ Image URLs are retained for 24 hours and then removed automatically. Save genera
 
    * For layer decomposition, each request pre\-deducts IPM based on `max_images`. After all images are generated, excess quota is returned based on the actual output count.
 
-* Limits vary by model. See [Image generation capabilities](model-list.md#9df4d9fd).
+* Limits vary by model. See [Image generation capabilities](model-list.md#image-generation).

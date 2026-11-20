@@ -4,7 +4,7 @@ Vision language models can understand visual information in videos, and complete
 
 # Supported models
 
-See [Capabilities](model-list.md#76df97c8).
+See [Capabilities](model-list.md#text-code-capabilities).
 
 # APIs
 

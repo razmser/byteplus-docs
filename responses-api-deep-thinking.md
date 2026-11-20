@@ -8,7 +8,7 @@ Models with deep reasoning capability can efficiently handle complex tasks. Befo
 
 ## Supported models
 
-For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For details, see [Text and code generation](model-list.md#32e9e053) and find the models with "Deep reasoning" in the Capabilities column.
+For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For details, see [Text and code generation](model-list.md#text-and-code) and find the models with "Deep reasoning" in the Capabilities column.
 
 ## API documentation
 

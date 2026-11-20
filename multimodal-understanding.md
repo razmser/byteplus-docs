@@ -4,7 +4,7 @@ Vision models support input of images, videos, and documents to perform vision\-
 
 ## Supported models
 
-For visual models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For details, see [Capabilities](model-list.md#76df97c8).
+For visual models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For details, see [Capabilities](model-list.md#text-code-capabilities).
 
 ## API documentation
 

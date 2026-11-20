@@ -6,7 +6,7 @@ When calling a model, if you want to control and guide the model output, you can
 
 Supported models are as follows:
 
-* Text generation models without deep reasoning capability: You can find specific models in the [Text and code generation](model-list.md#32e9e053) section.
+* Text generation models without deep reasoning capability: You can find specific models in the [Text and code generation](model-list.md#text-and-code) section.
 
 * Some models with deep reasoning capability:
 

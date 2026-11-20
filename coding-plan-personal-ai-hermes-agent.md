@@ -148,7 +148,7 @@ Coding Plan is compatible with the OpenAI interface protocol and supports both R
 
 > To use Responses API, set `api_mode: codex_responses`.
 
-Run the following commands to configure Hermes Agent. Replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey). For supported models, see [Key configuration](coding-plan-personal-ai-hermes-agent.md#8f1d9f20).
+Run the following commands to configure Hermes Agent. Replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey). For supported models, see [Key configuration](coding-plan-personal-ai-hermes-agent.md#model-configuration).
 
 ```Bash
 hermes config set model.provider custom
@@ -175,7 +175,7 @@ model:
 
 > To use Chat API, set `api_mode: chat_completions`.
 
-Run the following commands to configure Hermes Agent. Replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey). For supported models, see [Key configuration](coding-plan-personal-ai-hermes-agent.md#8f1d9f20).
+Run the following commands to configure Hermes Agent. Replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey). For supported models, see [Key configuration](coding-plan-personal-ai-hermes-agent.md#model-configuration).
 
 ```Bash
 hermes config set model.provider custom

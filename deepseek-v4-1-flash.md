@@ -14,7 +14,7 @@ Useful links:
 
 * [deepseek-v4-1-flash-economy-261017](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?name=deepseek-v4-1-flash-economy): View information about the economy edition.
 
-* [Pricing](model-pricing.md#aa1874cf): View pricing information for peak hours and off\-peak hours.
+* [Pricing](model-pricing.md#standard-online-inference): View pricing information for peak hours and off\-peak hours.
 
 # What's different
 
@@ -50,7 +50,7 @@ The ModelArk `deepseek-v4-1-flash-260910` model has been upgraded to bring more 
 
 ## Prefix completion
 
-> For how to configure and use prefill\-based response, see [Prefill-based response](continuation-mode.md#6eb2f599).
+> For how to configure and use prefill\-based response, see [Prefill-based response](continuation-mode.md#parameter-configuration).
 
 The prefix completion behavior supported by `deepseek-v4-1-flash-260910` is as follows:
 

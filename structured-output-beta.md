@@ -16,7 +16,7 @@ Compared with controlling the model to output in JSON format through prompts, us
 
 # Supported models
 
-See [Structured output (beta)](model-list.md#86588b72).
+See [Structured output (beta)](model-list.md#text-code-capabilities).
 
 # API documentation
 
@@ -426,7 +426,7 @@ Response preview
 
 ## json_object mode
 
-Whe using Chat API, you need to include the string json in the input message, and configure the `"response_format":{"type": "json_object"}` parameter.
+Whe using Chat API, you need to include the string JSON in the input message, and configure the `"response_format":{"type": "json_object"}` parameter.
 
 > For examples of implementing JSON Object structured output that conforms to the schema parameter definition using the Responses API, see [json_object mode](responses-api-structured-output.md#607e37db).
 
@@ -666,7 +666,7 @@ Response preview
 |Generate JSON response |Yes |Yes |
 |Customizable JSON structure |Yes |No<br><br>Only guarantees valid JSON response |
 |Recommended |Yes |No |
-|Supported models |See [Structured output (beta)](model-list.md#86588b72) |See [Structured output (beta)](model-list.md#86588b72) |
+|Supported models |See [Structured output (beta)](model-list.md#text-code-capabilities) |See [Structured output (beta)](model-list.md#text-code-capabilities) |
 |Strict mode<br><br>> Generate responses strictly in accordance with the defined structure. |Supported<br><br>Takes effect by setting **strict** to `true`.<br><br><br>* See [JSON Schema syntax support](structured-output-beta.md#07ec5656) for syntax explanation. An explicit error will be displayed if an unsupported structure is provided. |Not applicable |
 |Configuration method |...,<br><br>"response_format": {<br><br>"type": "json_schema",<br><br>"json_schema":{<br><br>"name":"my_schema",<br><br>"strict": true,<br><br>"schema": {...}<br><br>}<br><br>},<br><br>... |...,<br><br>"response_format": {<br><br>"type": "json_object"<br><br>},<br><br>... |
 
@@ -970,7 +970,7 @@ After
 
 ## Use tools for evaluation and optimization
 
-To avoid inconsistencies between JSON schema and programming language type definitions, it is recommended to use native language tools, for example, [Pydantic](https://docs.pydantic.dev/latest/) for Python, and [Zod](https://zod.dev/) for TypeScript.
+To avoid inconsistencies between JSON Schema and programming language type definitions, it is recommended to use native language tools, for example, [Pydantic](https://docs.pydantic.dev/latest/) for Python, and [Zod](https://zod.dev/) for TypeScript.
 
 # Appendix 3. Prompt engineering tips
 

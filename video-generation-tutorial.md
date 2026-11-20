@@ -2154,7 +2154,11 @@ if __name__ == '__main__':
 
    * Width and height (px): [300, 6000]
 
-   * Total pixel count: [614×664=407696, 3326×2494=8295044], that is, the product of width and height must fall within the range [407696, 8295044].
+   * Total pixel count:
+
+      * **Dreamina Seedance 2.5 series:**  [614 × 664 = 407696, 4096 × 2160 = 8847360]
+
+      * **Dreamina Seedance 2.0 series:**  [614 × 664 = 407696, 3326 × 2494 = 8295044]
 
 * Size: Each video must not exceed 200 MB.
 
@@ -2213,7 +2217,7 @@ Under the same primary account, requests to the same model, regardless of model 
 
 **Online inference**
 
-> RPM and maximum concurrent task limits vary by model. For details, see [Video generation](model-list.md#7571da3f).
+> RPM and maximum concurrent task limits vary by model. For details, see [Video generation](model-list.md#video-generation).
 
 * **RPM (requests per minute)** : The maximum number of video generation tasks that can be created per minute. If this limit is exceeded, the task creation request fails due to rate limiting.
 
@@ -2221,7 +2225,7 @@ Under the same primary account, requests to the same model, regardless of model 
 
 **Offline inference**
 
-> TPD limits vary by model. For details, see [Video generation](model-list.md#7571da3f).
+> TPD limits vary by model. For details, see [Video generation](model-list.md#video-generation).
 
 * **TPD (tokens per day)** : The maximum number of tokens that can be processed per day.
 

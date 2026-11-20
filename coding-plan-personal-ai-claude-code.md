@@ -206,7 +206,7 @@ Windows Claude Code configuration file path: `C:\Users\<username>\.claude\settin
 
 > **tip**
 
-* > To enable the 1M context window, see [Extended context](coding-plan-personal-ai-claude-code.md#7a3e5c1b).
+* > To enable the 1M context window, see [Extended context](coding-plan-personal-ai-claude-code.md#extended-context).
 
 * > We recommend using the full model configuration and choosing models by task complexity: Haiku (lightweight), Sonnet (daily), Opus (complex).
 

@@ -538,7 +538,7 @@ For details, see [Create a model response](create-model-responses-api.md).
 
 ## Supported models
 
-See [Tool use](model-list.md#f44ceef7).
+See [Tool use](model-list.md#text-code-tool-use).
 
 > For model calls, make sure the MCP service has been activated and the required model permissions have been requested. Users who have not activated the service cannot use MCP features.
 

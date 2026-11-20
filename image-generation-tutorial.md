@@ -41,7 +41,7 @@ The following table compares the capabilities and parameters of each Seedream mo
 ||Prompt optimization mode |standard mode |standard mode, fast mode |standard mode |standard mode |standard mode |standard mode, fast mode |
 ||Number of generated images |Single image; layer decomposition supports up to one base image and 99 layers |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Number of input reference images + number of generated images ≤ 15. | | |
 ||Maximum output image count<br><br>> Layer decomposition<br><br><br> |2\-100 images, including the base image |✗ |✗ |✗ |✗ |✗ |
-|Max Images per Minute | |[Image generation](model-list.md#9df4d9fd) |500 |500 |500 |500 |500 |
+|Max Images per Minute | |[Image generation](model-list.md#image-generation) |500 |500 |500 |500 |500 |
 
 # Prerequisites
 
@@ -1997,4 +1997,4 @@ We recommend configuring [BytePlus TOS data subscription](https://docs.byteplus.
 
    * In layer decomposition scenarios, Dola Seedream 5.5 pre\-deducts IPM based on `layer_decomposition_options.max_images` (default: 30); Seedream 5.0 pro / flash pre\-deduct 17 IPM for each request. After all images are generated, excess quota is returned based on the actual number of generated images.
 
-* The limit values vary by model. For more details, see [Image generation](model-list.md#9df4d9fd).
+* The limit values vary by model. For more details, see [Image generation](model-list.md#image-generation).

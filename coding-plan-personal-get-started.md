@@ -66,43 +66,43 @@ Go to [ModelArk Coding Plan event](https://www.byteplus.com/en/activity/codingpl
 
 Coding Plan supports a range of popular programming tools \- you can choose what best fits your workflow:
 
-[Claude Code](coding-plan-personal-ai-claude-code.md)
+**Claude Code**
 
 AI terminal coding assistant for natural\-language programming
 
-[TraeCode](coding-plan-personal-ai-trae.md)
+**TraeCode**
 
 Intelligent IDE for next\-generation development workflows
 
-[Roo Code](coding-plan-personal-ai-other-tools.md)
+**Roo Code**
 
 Lightweight coding assistant
 
-[Codex](coding-plan-personal-ai-codex.md)
+**Codex**
 
 OpenAI's coding tool (CLI and ChatGPT desktop app)
 
-[OpenCode](coding-plan-personal-ai-opencode.md)
+**OpenCode**
 
 Open\-source AI coding agent tool
 
-[Cline](coding-plan-personal-ai-other-tools.md)
+**Cline**
 
 VS Code extension for code completion and debugging
 
-[Kilo Code](coding-plan-personal-ai-other-tools.md)
+**Kilo Code**
 
 Lightweight, high\-performance coding tool
 
-[OpenClaw](coding-plan-personal-ai-openclaw.md)
+**OpenClaw**
 
 Open\-source, self\-hosted personal AI assistant
 
-[Cursor](coding-plan-personal-ai-other-tools.md)
+**Cursor**
 
 AI\-native code editor
 
-[Hermes Agent](coding-plan-personal-ai-hermes-agent.md)
+**Hermes Agent**
 
 Open\-source, self\-hosted AI agent
 
@@ -254,7 +254,7 @@ Windows Claude Code configuration file path: `C:\Users\<username>\.claude\settin
 
 > **tip**
 
-* > To enable the 1M context window, see [Extended context](coding-plan-personal-ai-claude-code.md#7a3e5c1b).
+* > To enable the 1M context window, see [Extended context](coding-plan-personal-ai-claude-code.md#extended-context).
 
 * > We recommend using the full model configuration and choosing models by task complexity: Haiku (lightweight), Sonnet (daily), Opus (complex).
 

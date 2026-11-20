@@ -6,11 +6,11 @@ To build a usable agent based on the model API, you need to implement common com
 
 > ModelArk currently provides two ways to build agents based on Dola models: use the **model API** when you need fine\-grained control over the agent loop; use **Managed Agents** when you want ModelArk to host the agent and you want to focus on business logic. For detailed differences, see [Comparison with the model API](overview.md#vs_model_api).
 
-[Quick start](quick-start-code.md)
+**Quick start**
 
 Run your first ModelArk\-managed agent in four steps: create an agent, create an environment, start a session, send a message and receive a streaming response.
 
-[Start a session](start-session.md)
+**Start a session**
 
 Create a session based on an agent and an environment, send user events, and let the agent start executing the task.
 
@@ -116,4 +116,4 @@ The following two paths are available to get started:
 
 ## Billing
 
-Managed Agents is billed based on the sum of three items actually consumed during agent runs: tokens, agent runtime duration, and the number of tool calls. For details, see [Managed Agents billing](model-pricing.md#ma_billing).
+Managed Agents is billed based on the sum of three items actually consumed during agent runs: tokens, agent runtime duration, and the number of tool calls. For details, see [Managed Agents billing](model-pricing.md#managed-agents).

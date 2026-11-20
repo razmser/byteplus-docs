@@ -110,7 +110,7 @@ print(completion.choices[0].message.content)
 
 After creating the batch inference endpoint, you can call the batch inference service through the SDKs for Python, Go, Java, and other languages. If you want to take full advantage of the high throughput of batch inference, pay attention to core configurations such as **timeouts** and **concurrency policies**. Here are some suggestions.
 
-> View the full range of languages [sample code](batch-inference.md#01826852).
+> View the full range of languages [sample code](batch-inference.md#batch-chat-examples).
 
 ### Increase task request completion rate
 
@@ -139,7 +139,7 @@ ModelArk provides a quota of at least 10B tokens/day for each master account, an
 
 After creating the client and before sending requests to the ModelArk service, you need to start the relevant client\-side threads.
 
-> For the Java client, no additional threads need to be started manually because it already includes a thread pool. The exact method varies by programming language. For details, refer to the [sample code](batch-inference.md#01826852).
+> For the Java client, no additional threads need to be started manually because it already includes a thread pool. The exact method varies by programming language. For details, refer to the [sample code](batch-inference.md#batch-chat-examples).
 
 When configuring `workerNum`, consider factors such as expected peak traffic, average latency, and the upper limit of machine concurrency. The following example shows how to estimate the number of concurrent requests and replicas.
 

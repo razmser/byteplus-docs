@@ -18,7 +18,7 @@ You can pass in filter parameters to return matching tasks.
 
 **Quick start**
 
-[Playground](https://ai.byteplus.com/ark/region:ap-southeast-1/experience/gen_video?projectName=default) | [Model list](model-list.md) | [Model billing](model-pricing.md#8f25f772) | [API key](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey?apikey=%7B%7D)
+[Playground](https://ai.byteplus.com/ark/region:ap-southeast-1/experience/gen_video?projectName=default) | [Model list](model-list.md) | [Model billing](model-pricing.md#video-generation-models) | [API key](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey?apikey=%7B%7D)
 
 [API tutorial](video-generation-tutorial.md) | [API reference](list-video-generation-tasks-api.md) | [FAQs](modelark-faq.md) | [Model activation](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&tab=ComputerVision)
 

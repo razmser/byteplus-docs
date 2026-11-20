@@ -72,7 +72,7 @@ This API supports the following authentication method(s). For details, see [Base
 
 **model** `string` `Required`  |  Model ID
 
-The ID of the model to call. Activate the model on the [Model activation](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&OpenTokenDrawer=false) page, and then find its [Model ID](model-list.md#9df4d9fd).
+The ID of the model to call. Activate the model on the [Model activation](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&OpenTokenDrawer=false) page, and then find its [Model ID](model-list.md#image-generation).
 
 You can also call the model by using an Endpoint ID to access advanced capabilities such as rate limits, payment options, runtime status, monitoring, and security. For details, see [Get an Endpoint ID](online-inference-standard.md).
 

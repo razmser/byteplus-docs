@@ -6,7 +6,7 @@ Batch inference is suitable for scenarios that do not require real\-time respons
 
 # Supported models
 
-See [Batch inference](batch-inference.md#1cbb9a13).
+See [Batch inference](batch-inference.md#supported-models).
 
 > If you want to increase the total quota for batch inference, or if you have other language models that require batch inference, you can submit [a ticket](https://console.byteplus.com/workorder/create) to apply.
 
@@ -180,7 +180,7 @@ Without relying on storage, the ModelArk model interface is directly requested, 
 
 ### 2. Batch inference using the Batch Inference endpoint SDK
 
-See the specific call method [sample code](batch-inference.md#01826852).
+See the specific call method [sample code](batch-inference.md#batch-chat-examples).
 
 # Quota
 

@@ -67,7 +67,7 @@ Use structured content to let the model clearly know "where the rules are, where
 
 Example:
 
-```Plain
+```plaintext
 # Identity
 You are a corporate document assistant, responsible for outputting clear and fact-checkable content.
 
@@ -99,7 +99,7 @@ Guide the model to generalize without fine\-tuning by providing a few examples.
 
 Example (sentiment classification):
 
-```Plain
+```plaintext
 # Identity
 You are a sentiment classifier that only outputs words (Positive / Negative / Neutral).
 
@@ -128,7 +128,7 @@ You are a sentiment classifier that only outputs words (Positive / Negative / Ne
 
 Example (specified steps):
 
-```Plain
+```plaintext
 Please complete the task by taking the following steps:
 1. Clarify goals and constraints
 2. List required inputs and available tools
@@ -174,7 +174,7 @@ Please complete the task by taking the following steps:
 
 Templates:
 
-```Plain
+```plaintext
 Suppose you are a {role}, and you will solve {task} based on {context}. Execute according to the following rules:
 1. Rule 1
 2. Rule 2
@@ -210,7 +210,7 @@ Requirements:
 
 For more information, see [Skylark role creation guide](roleplay-prompt-guide.md).
 
-```Plain
+```plaintext
 You are a {role}, known as {xxx}, born in {background and context}.
 
 Personality traits:

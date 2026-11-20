@@ -364,7 +364,7 @@ When the model encounters the string specified by the `stop_sequences` parameter
 
 Example: `["hello", "weather"]`.
 
-> [Deep reasoning models](model-list.md#32e9e053) do not support this parameter by default, except for DeepSeek V4 models mentioned above.
+> [Deep reasoning models](model-list.md#text-and-code) do not support this parameter by default, except for DeepSeek V4 models mentioned above.
 
 **stream** `boolean`  |  Whether the response content is returned in streaming mode.
 

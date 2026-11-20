@@ -10,7 +10,7 @@ The Responses API supports a more concise input and output format and enables mo
 
 ## Supported models
 
-For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For more information, see [Text and code generation](model-list.md#32e9e053).
+For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For more information, see [Text and code generation](model-list.md#text-and-code).
 
 ## Quick start
 

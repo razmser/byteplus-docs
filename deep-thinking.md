@@ -190,7 +190,7 @@ print(completion.choices[0].message.content)
 
 # Models and APIs
 
-Supported models: See [Text and code generation](model-list.md#32e9e053) and find the models with "Deep reasoning" in the Capabilities column.
+Supported models: See [Text and code generation](model-list.md#text-and-code) and find the models with "Deep reasoning" in the Capabilities column.
 
 Supported APIs:
 
