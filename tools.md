@@ -100,7 +100,7 @@ export AGENT_ID
 printf 'Agent ID: %s\n' "$AGENT_ID"
 ```
 
-After configuration, when the agent needs to query an order, it sends `agent.custom_tool_use`. The business application reads the tool name and input parameters, performs the query, and then returns the result through `user.custom_tool_result`. For the complete integration process and examples for multimedia use cases, see [[Basics] How to use custom tools in Managed Agents](managed-agent-custom-tool-tutorial.md).
+After configuration, when the agent needs to query an order, it sends `agent.custom_tool_use`. The business application reads the tool name and input parameters, performs the query, and then returns the result through `user.custom_tool_result`. For the complete integration process and examples for multimedia use cases, see [How to use custom tools in Managed Agents](managed-agent-custom-tool-tutorial.md).
 
 ## Configure the basic toolset
 
@@ -373,7 +373,7 @@ Custom tools are executed by the business application, with the following event 
 
 5. After all pending results are passed back, the session returns `session.status_running`, and the agent continues processing the task based on the tool results.
 
-For the complete example, see [[Basics] How to use custom tools in Managed Agents](managed-agent-custom-tool-tutorial.md). For the parameter structure of all tool events, see [Session event structure reference](sessions-events-reference-v2.md).
+For the complete example, see [How to use custom tools in Managed Agents](managed-agent-custom-tool-tutorial.md). For the parameter structure of all tool events, see [Session event structure reference](sessions-events-reference-v2.md).
 
 ## Update tool configuration
 
@@ -503,18 +503,18 @@ After fixing the MCP configuration, update the agent and create a new session or
 
 ## Related documents
 
-[Agent](define-agent.md)
+**Agent**
 
 An agent is a configuration template that contains basic information, system prompt, and extended capabilities.
 
-[Skills](skills.md)
+**Skills**
 
 Skills are used to add domain knowledge, operation processes, and best practices to an agent.
 
-[MCP](mcp.md)
+**MCP**
 
 MCP (Model Context Protocol) is used to connect tools and data sources from third\-party systems to an agent.
 
-[Tool permission policies](tool-permission-policy.md)
+**Tool permission policies**
 
 Tool permission policies are used to control whether tool calls initiated by an agent are executed automatically or paused for confirmation from business applications.
