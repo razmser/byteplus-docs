@@ -10,7 +10,7 @@ The biggest difference from object detection is that it needs to understand natu
 
 # Supported models
 
-See [Capabilities](model-list.md#text-code-capabilities).
+See [Capabilities](model-list.md#visual-understanding).
 
 # Procedure
 

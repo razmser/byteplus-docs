@@ -47,7 +47,7 @@ For the complete list of models that support function call, see [Tool use](model
 
 ---
 
-# # Procedure
+# Procedure
 
 ## Basic procedure
 
@@ -105,7 +105,7 @@ def get_current_weather(location, unit="Celsius"):
 
 For more specifications and notes on function construction, see[Appendix 1: Tool function parameter construction specification](function-calling.md#4d571c97).
 
-### Step 2: Send a model request
+### Step 2: Send a request to the model
 
 Include the user's question and function definition in the request, and the model will return the function that needs to be called and its parameters according to the requirements.
 
@@ -750,7 +750,7 @@ When designing prompts, follow the following core principles to provide clear, d
 |Category |Problem |Before |After |
 |---|---|---|---|
 |Function |Nonstandard naming and description |```JSON```<br>```{```<br>```   "type": "function",```<br>```    "function": {```<br>```        "name": "GPT1",```<br>```        "description": "Create event"```<br>```     }```<br>```}```<br> |```JSON```<br>```{```<br>```   "type": "function",```<br>```    "function": {```<br>```        "name": "CreateEvent",```<br>```        "description": "When you need to create an event for the user, this tool creates an event and returns the event ID"```<br>```     }```<br>```}```<br> |
-|Parameter |Unnecessary complex formats (or nesting) |```JSON```<br>```{```<br>```    "time": {```<br>```        "type": "object",```<br>```        "description": "Event time",```<br>```        "properties": {```<br>```            "timestamp": {```<br>```                "description": "Event time"```<br>```            }```<br>```        }```<br>```    }```<br>```}```<br> |```JSON```<br>```{```<br>```    "time": {```<br>```        "type": "string",```<br>```        "description": "Event time"```<br>```    }```<br>```}```<br> |
+|Arguments |Unnecessary complex formats (or nesting) |```JSON```<br>```{```<br>```    "time": {```<br>```        "type": "object",```<br>```        "description": "Event time",```<br>```        "properties": {```<br>```            "timestamp": {```<br>```                "description": "Event time"```<br>```            }```<br>```        }```<br>```    }```<br>```}```<br> |```JSON```<br>```{```<br>```    "time": {```<br>```        "type": "string",```<br>```        "description": "Event time"```<br>```    }```<br>```}```<br> |
 ||Parameter with fixed values |```JSON```<br>```{```<br>```    "time": {```<br>```        "type": "object",```<br>```        "description": "Event time",```<br>```        "properties": {```<br>```            "timestamp": {```<br>```                "description": "Always pass the fixed value 2024-01-01"```<br>```            }```<br>```        }```<br>```    }```<br>```}```<br> |Since the parameter value is fixed, delete this parameter and handle it with code. |
 |Business process |Unnecessary rounds of LLM calls |System prompt:<br><br>```Go```<br>```You are communicating with user Alan. You need to query the user ID first, then create an event using the ID.…```<br> |System prompt:<br><br>```Go```<br>```You are communicating with user Alan (ID=abc123). You can create an event using the ID.…```<br> |
 |Ambiguity |System prompt:<br><br>```Go```<br>```You can look up a user by ID and get the user's event ID```<br><br><br>The two IDs here are not clear, so the model may mix them up. |System prompt:<br><br>```Go```<br>```Each user has a unique user ID; each event has a corresponding event ID; the two are independent IDs.```<br>```You can look up a user by user ID and get all event IDs of the user```<br> | |

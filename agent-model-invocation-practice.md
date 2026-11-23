@@ -4,95 +4,113 @@
 
 > In agent scenarios, if the model performance is not as expected, the task pass rate drops, the output is truncated, or the cache hit rate is abnormally low, we recommend first checking the model calling method. The [recommended practices](agent-model-invocation-practice.md#recommended-practice) are as follows:
 
-* > **Pass reasoning content back**: Select a passback method supported by your model. For models that require the encrypted reasoning content to be passed back, you **must pass back the encrypted reasoning content as is**.
+* > **Pass chain\-of\-thought back**: Select a passback method supported by your model. For models that require encrypted chain\-of\-thought to be passed back, **you must pass back the encrypted chain\-of\-thought exactly as is**.
 
-* > **Configure key parameters**: Configure recommended values for the output length, thinking, reasoning_effort, temperature, and top_p parameters.
+* > **Configure key parameters**: Configure recommended values for the output length, **thinking**, **reasoning_effort**, **temperature**, and **top_p** parameters.
 
-* > **Follow cache hit principles**: Keep sampling parameters, thinking configuration, tool definitions, and the system prompt stable within the same session to avoid resetting prefix cache.
+* > **Follow cache hit principles**: Keep sampling parameters, thinking configuration, tool definitions, and the **system prompt** stable within the same session to avoid resetting context cache.
 
 This topic summarizes possible causes based on common issues in agent scenarios and provides recommended practices to help troubleshoot.
 
 |FAQs |Possible causes |[Recommended practices](agent-model-invocation-practice.md#recommended-practice) |
 |---|---|---|
-|The performance of multi\-turn tool calling decreases as the number of turns increases |The reasoning content is not passed back, causing reasoning content to be lost after the tool returns in each turn. |Pass thinking content back |
-|The task pass rate differs significantly across different implementations with the same model and the same prompt. |Parameter configuration does not follow the recommended values; context passback is incomplete. |Configure key parameters<br><br>Pass thinking content back |
+|The performance of multi\-turn tool calling decreases as the number of turns increases |The chain\-of\-thought is not passed back, causing the chain\-of\-thought to be lost after each tool response. |Pass back chain\-of\-thought |
+|The task pass rate differs significantly across different implementations with the same model and the same prompt. |Parameter configuration does not follow the recommended values; context passback is incomplete. |Configure key parameters<br><br>Pass back chain\-of\-thought |
 |The response is truncated, tool parameter JSON is incomplete, or `finish_reason` / `stop_reason` is `length`. |`max_tokens` is not explicitly passed in or its value is too small. |Adjust the output length parameter |
 |The prompt cache hit rate is abnormally low. |The system prompt or tool definitions change between turns; parameters are changed within the session. |Follow cache hit principles |
 
 # Recommended practices
 
-The three APIs differ in parameter names, hierarchy, and default return policies. Configure them according to the API you actually use and the following table.
+The three APIs differ in parameter names, hierarchy, and default response policies. First select the corresponding passback method based on the model, and then configure the parameters according to the corresponding table.
 
-|Dimension |Chat API (OpenAI compatible)<br><br>`/api/v3/chat/completions` |Responses API<br><br>`/api/v3/responses` |Anthropic\-compatible<br><br>`/api/compatible/v1/messages` |
+## Pass back the original chain\-of\-thought
+
+Supported models:
+
+* Seed models: seed\-2\-0\-pro\-260328, seed\-2\-0\-lite\-260228, seed\-2\-0\-mini\-260215
+
+* Open\-source models: deepseek\-v4\-pro\-260425, deepseek\-v4\-flash\-ga\-260731, deepseek\-v4\-1\-flash\-261017, deepseek\-v4\-1\-flash\-260910, glm\-5\-2\-260617
+
+|Dimension |[Chat API](chat-api.md) |[Responses API](create-model-responses-api.md) |[Messages API](messages-api.md) |
 |---|---|---|---|
-|Models that support passing back the original reasoning content (plaintext) |Seed models: seed\-2\-0\-pro\-260328, seed\-2\-0\-lite\-260228, seed\-2\-0\-mini\-260215<br><br>Open\-source models: deepseek\-v4\-pro\-260425, deepseek\-v4\-flash\-ga\-260731, deepseek\-v4\-1\-flash\-261017, deepseek\-v4\-1\-flash\-260910, glm\-5\-2\-260617 |||
-|Parameter for passing back the original reasoning content<br><br>> The original reasoning content needs to be appended back to the next request. |`choices[].message.reasoning_content` |* Manual passback: `output[reasoning].summary[].text`<br><br>* Use `previous_response_id`: Configure `store: true` to automatically obtain the original reasoning content. |`content[thinking].thinking` |
-|**Models that support passing back encrypted reasoning content** |Seed models: dola\-seed\-2\-1\-turbo\-260628, seed\-2\-0\-lite\-260428<br><br>> **Note**<br><br><br><br>* > When using supported models, you need to **pass back the encrypted reasoning content**. For key rules and usage examples for passback, see [key rules](agent-model-invocation-practice.md#key-rules) and [example of using encrypted reasoning content blocks](agent-model-invocation-practice.md#encrypted-thinking-block-examples). The content returned by the model call includes the encrypted reasoning content parameter and the plaintext summary parameter, not the original reasoning content. The complete reasoning content that the model actually uses for reasoning is stored in the **encrypted parameter**. Passing back only summary parameters such as `reasoning_content` is not the same as passing back the complete reasoning content, and will directly degrade the model's reasoning performance.<br><br><br>* > Different versions of the same model may belong to different categories: `seed-2-0-lite-260228` passes back the original reasoning content (plaintext), while `seed-2-0-lite-260428` and later versions pass back encrypted reasoning content blocks. When upgrading the model version, make sure to update the calling code accordingly. Otherwise, the passback method may become invalid and no API error will be triggered.<br> |||
-|**Parameter for passing back the encrypted reasoning content**<br><br>> The encrypted reasoning content needs to be appended back to the next request. |`choices[].message.encrypted_content` |* Manual passback: `output[reasoning].encrypted_content`<br><br>* Use `previous_response_id`: Configure `store: true` to automatically obtain the original reasoning content. |`content[thinking].signature` |
-|Whether the encrypted reasoning content parameter is returned by default |Yes |Yes |Yes |
-|Parameter for passing back the plaintext summary of reasoning content<br><br>> Do not pass back only the plaintext summary of reasoning content. This will degrade model performance. |`choices[].message.reasoning_content` |`output[reasoning].summary[].text` |`content[thinking].thinking` |
-|Configure the output length parameter |`max_tokens` / `max_completion_tokens`<br><br>**Recommended**: Must be explicitly passed in. For agents, a value ≥ `128000` is recommended. |`max_output_tokens`<br><br>**Recommended**: Must be explicitly passed in. For agents, a value ≥ `128000` is recommended. |`max_tokens`<br><br>**Recommended**: Must be explicitly passed in. For agents, a value ≥ `128000` is recommended. |
-|Configure the thinking parameter |`{"type": "enabled"}`<br><br>**Recommended**: Explicitly enable it for agentic use. |`{"type": "enabled"}`<br><br>**Recommended**: Explicitly enable it for agentic use. |`{"type": "enabled"}`<br><br>**Recommended**: Explicitly enable it for agentic use. |
-|Configure the reasoning_effort parameter |`"reasoning_effort": "high"`<br><br>**Recommended**: `high` or above is recommended for agents. |`"reasoning": {"effort": "high"}`<br><br>**Recommended**: `high` or above is recommended for agents. |`"output_config": {"effort": "high"}`<br><br>**Recommended**: `high` or above is recommended for agents. |
-|Configure the temperature / top_p parameters |**Recommended**: `temperature=1`, `top_p=0.95` |**Recommended**: `temperature=1`, `top_p=0.95` |**Recommended**: `temperature=1`, `top_p=0.95` |
+|Original chain\-of\-thought parameter<br><br>> **Instructions**: Add the original chain\-of\-thought back to the next request. |`choices[].message.reasoning_content` |`output[reasoning].summary[].text`, or configure `store: true` and use `previous_response_id` |`content[thinking].thinking` |
+
+## Pass back encrypted chain\-of\-thought
+
+Supported models:
+
+* Seed models: dola\-seed\-2\-1\-turbo\-260628, seed\-2\-0\-lite\-260428
 
 > **Note**
 
-> Make sure to keep sampling parameters, thinking configuration, tool definitions, and the system prompt stable within the same session. Any change during the session will reset prefix cache.
+* > When using supported models, you need to **pass back the encrypted chain\-of\-thought**. For key rules and usage examples for passback, see [key rules](agent-model-invocation-practice.md#key-rules) and [example of using encrypted chain\-of\-thought](agent-model-invocation-practice.md#encrypted-thinking-block-examples). The content returned by the model call is the encrypted chain\-of\-thought parameter and the summary parameter, not the original chain\-of\-thought. The complete chain\-of\-thought that the model actually uses for reasoning is in the **encrypted parameter**. Passing back only summary parameters such as `reasoning_content` is not the same as passing back the complete chain\-of\-thought, and will directly degrade the model's reasoning performance.
 
-# Core mechanism: Passing reasoning content back
+* > Different versions of the same model may belong to different categories: `seed-2-0-lite-260228` passes back the original chain\-of\-thought (plaintext), while `seed-2-0-lite-260428` and later versions pass back encrypted chain\-of\-thought. When upgrading the model version, make sure to update your calling code at the same time. Otherwise, model quality will decrease significantly, and no API error will be triggered.
 
-## Why reasoning content needs to be passed back
+|Dimension |[Chat API](chat-api.md) |[Responses API](create-model-responses-api.md) |[Messages API](messages-api.md) |
+|---|---|---|---|
+|Encrypted chain\-of\-thought parameter<br><br>> **Instructions**: Append the encrypted chain\-of\-thought back to the next request. |`choices[].message.encrypted_content` |`output[reasoning].encrypted_content`, or configure `store: true` and then use `previous_response_id` |`content[thinking].signature` |
+|Whether the encrypted chain\-of\-thought parameter is returned by default |Yes |Yes |Yes |
+|Chain\-of\-thought summary parameter<br><br>> **Instructions**: Do not pass back only the chain\-of\-thought summary, because this will degrade model performance. |`choices[].message.reasoning_content` |`output[reasoning].summary[].text` |`content[thinking].thinking` |
+
+## General parameter configuration
+
+The general parameter configuration is the same for both model types. Configure it as shown in the following table.
+
+|Dimension |[Chat API](chat-api.md) |[Responses API](create-model-responses-api.md) |[Messages API](messages-api.md) |
+|---|---|---|---|
+|Configure the output length parameter |`max_tokens` / `max_completion_tokens`<br><br>We recommend configuring it explicitly, with a value no lower than `128000`. |`max_output_tokens`<br><br>We recommend configuring it explicitly, with a value no lower than `128000`. |`max_tokens`<br><br>We recommend configuring it explicitly, with a value no lower than `128000`. |
+|Configure the thinking parameter |`{"type": "enabled"}`<br><br>We recommend enabling it explicitly. |`{"type": "enabled"}`<br><br>We recommend enabling it explicitly. |`{"type": "enabled"}`<br><br>We recommend enabling it explicitly. |
+|Configure the reasoning_effort parameter |`"reasoning_effort": "high"`<br><br>We recommend `high` or higher. |`"reasoning": {"effort": "high"}`<br><br>We recommend `high` or higher. |`"output_config": {"effort": "high"}`<br><br>We recommend `high` or higher. |
+|Configure the temperature / top_p parameters |We recommend `temperature=1` and `top_p=0.95`. |We recommend `temperature=1` and `top_p=0.95`. |We recommend `temperature=1` and `top_p=0.95`. |
+
+> **Note**
+
+> Make sure to keep sampling parameters, thinking configuration, tool definitions, and the **system prompt** stable within the same session. Any change during the session will reset context cache. Common operations that invalidate the cache include modifying the **thinking** configuration, **reasoning_effort**, sampling parameters, the **system prompt**, or tool definitions. You can observe cache hits by checking the number of cache\-hit tokens in the response.
+
+# Core mechanism: chain\-of\-thought passback
+
+## Why you need to pass back the chain\-of\-thought
 
 In agent scenarios, a task usually goes through multiple turns of "reasoning \-\> tool calling \-\> waiting for results \-\> continuing reasoning \-\> tool calling". After tool results are returned, the model needs to continue completing the subsequent steps on that reasoning path.
 
-If reasoning content is not passed back, the following impacts may occur:
+If chain\-of\-thought is not passed back, the following impacts may occur:
 
 * **Reasoning continuity is interrupted**: After tool results are returned, the model can only reconstruct the context based on the visible conversation text. For complex tasks, these implicit intermediate judgments cannot be fully restored, which can easily cause unsmooth reasoning transitions or logical gaps.
 
 * **Multistep execution stability decreases**: Because the intermediate reasoning state is missing, the model may repeat derivations that have already been done, or use assumptions in the next step that are inconsistent with the previous step. This can cause task execution to go off track, make steps unstable, and affect result consistency and reproducibility.
 
-* **Overall cost increases**: The reasoning content that is passed back participates in caching together with the tool result, making it more likely to hit the prompt cache. For scenarios that include multiple tool calls, cache hits mean less repeated token consumption, reducing the overall cost.
+* **Overall cost increases**: The chain\-of\-thought that is passed back participates in caching together with the tool result, making it more likely to hit the prompt cache. For scenarios that include multiple tool calls, cache hits mean less repeated token consumption, reducing the overall cost.
 
 ## Passback methods and supported models
 
-ModelArk supports two types of reasoning content passback methods:
+ModelArk supports two types of chain\-of\-thought passback methods:
 
-* **Pass back the original reasoning content (plaintext)** : Append the original reasoning content in the response directly back to the next request.
+* **Pass back the original chain\-of\-thought (plaintext)** : Append the original chain\-of\-thought in the response directly back to the next request.
 
-* **Pass back the encrypted reasoning content**: Append the encrypted content in the response back to the next request as is.
+* **Pass back encrypted chain\-of\-thought**: Append the encrypted content from the response unchanged to the next request.
 
 The models supported by the two passback methods are different. For details, see [recommended practices](agent-model-invocation-practice.md#recommended-practice).
 
 ## Key rules
 
-* The encrypted reasoning content parameter **must be passed back as is and in full**. Any tampering or truncation returns an `Invalid signature` error.
+* The encrypted chain\-of\-thought parameter **must be passed back exactly as is and in full**. Any tampering or truncation returns an `Invalid signature` error.
 
-* Not passing back the encrypted reasoning content **does not trigger an error, but affects reasoning performance**.
+* Not passing back the encrypted chain\-of\-thought **does not trigger an error, but affects reasoning performance**.
 
-* The encrypted reasoning content parameter **has a higher priority than the reasoning content summary**: When both are passed in, the plaintext summary is ignored.
+* The encrypted chain\-of\-thought parameter **takes precedence over the chain\-of\-thought summary**: if both are provided, the summary is ignored.
 
-* Billing for the output reasoning content part is calculated based on the original reasoning content tokens. If the encrypted reasoning content is not passed back, the paid reasoning content not only fails to take effect, but may also degrade reasoning performance.
+* Billing for the output chain\-of\-thought portion is calculated based on the original chain\-of\-thought tokens. If you do not pass back the encrypted chain\-of\-thought, the chain\-of\-thought you have paid for not only has no effect, but may also degrade reasoning performance.
 
 ---
 
-# Other key parameter configuration recommendations
-
-|Key configuration |Recommended configuration |Impact of incorrect configuration |Self\-check method |
-|---|---|---|---|
-|thinking |Explicitly set it to `enabled` for agentic use. |The ability to plan multi\-step tasks decreases. |Check whether the response contains a reasoning content block. |
-|reasoning_effort |Set it to `high` or above in agent and multi\-step tool calling scenarios. |With lower levels of reasoning effort, reasoning is insufficient, and the error rate of tool selection and tool parameter construction increases. |\- |
-|Temperature and top_p |`temperature=1`, `top_p=0.95` |It will affect tool call stability and reasoning quality.<br><br>> It is not recommended to adjust `temperature` and `top_p` significantly at the same time, because their combined effects are hard to pinpoint. |\- |
-|max_tokens |**Must be explicitly passed in**. For agents, a value ≥ `128000` is recommended. The actual value must be determined based on the model's `max_output_tokens` limit and the business requirements. |Responses are truncated, tool parameter JSON is incomplete, or the agent loop is interrupted. |Check whether `finish_reason` / `stop_reason` is `length`. |
-|Cache hit rate |Place the system prompt and tool definitions at the beginning of the request, and keep them stable within the same session.<br><br>> **Note**<br><br><br>> Common operations that invalidate the cache: changing the `thinking` configuration, changing `reasoning_effort`, changing sampling parameters (`temperature`, `top_p`, etc.), changing the system prompt, and changing tool definitions.<br> |Cache hit rate decreases, and overall costs increase. |Check the number of cache hit tokens in the response. |
-
-# Examples of passing back encrypted reasoning content blocks
+# Examples for passing back encrypted chain\-of\-thought
 
 **Chat API (OpenAI-compatible)**
 
 ### Non\-streaming response
 
-For a non\-streaming response, the encrypted block is in the **flat parameter** `encrypted_content` of the assistant message, at the same level as `reasoning_content` and `tool_calls`.`encrypted_content` is returned by default and does not need to be declared separately.
+For a non\-streaming response, the encrypted content is in the **flat parameter** `encrypted_content` of the assistant message, at the same level as `reasoning_content` and `tool_calls`.`encrypted_content` is returned by default and does not need to be declared separately.
 
 **Correct usage**: Add the entire assistant message object from the response to `messages` in the next round, and avoid selecting parameters to rebuild it.
 
@@ -112,7 +130,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/chat/completions \
       {
         "role": "assistant",
         "reasoning_content": "The user asks about the weather in Beijing tomorrow. Tomorrow is August 11, 2026. Call the weather tool.",
-        "encrypted_content": "<complete encrypted block, passed back as is>",
+        "encrypted_content": "<complete encrypted content, passed back as is>",
         "tool_calls": [
           {
             "id": "call_wiezxeyae8jzxl3jx8nhfgb5",
@@ -149,9 +167,9 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/chat/completions \
 
 ### Streaming response
 
-In a streaming response, the encrypted reasoning content block is delivered as an **independent chunk** after reasoning content output is complete and before the final answer starts. The `content` and `reasoning_content` of this chunk **may both be empty**.
+In a streaming response, the encrypted chain\-of\-thought is delivered as an **independent chunk** after chain\-of\-thought output is complete and before the final answer starts. The `content` and `reasoning_content` of this chunk **may both be empty**.
 
-**Correct usage**: Make sure to handle the `encrypted_content` parameter in your streaming merge logic. If you only handle `delta.content` or `delta.reasoning_content`, the encrypted reasoning content block will be lost directly, which affects reasoning quality.
+**Correct usage**: Make sure to handle the `encrypted_content` parameter in your streaming merge logic. If you only handle `delta.content` or `delta.reasoning_content`, the encrypted chain\-of\-thought will be lost directly, which affects reasoning quality.
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/chat/completions \
@@ -173,7 +191,7 @@ Response snippet (example):
 ```text
 data: {"choices":[{"delta":{"reasoning_content":"The user asks about tomorrow"}}]}
 data: {"choices":[{"delta":{"reasoning_content":"weather in Beijing…"}}]}
-data: {"choices":[{"delta":{"content":"","reasoning_content":"","encrypted_content":"<complete encrypted block>"}}]}
+data: {"choices":[{"delta":{"content":"","reasoning_content":"","encrypted_content":"<complete encrypted content>"}}]}
 data: {"choices":[{"delta":{"content":"Tomorrow in Beijing"}}]}
 data: [DONE]
 ```
@@ -182,15 +200,15 @@ data: [DONE]
 
 ### Non\-streaming response
 
-For a non\-streaming response, the encrypted block is in the item with `type == "reasoning"` in the `output` array.
+For a non\-streaming response, the encrypted content is in the item with `type == "reasoning"` in the `output` array.
 
-Pass back the encrypted reasoning content block as follows:
+You can pass back encrypted chain\-of\-thought in the following ways:
 
-* **previous_response_id**: **Note that you must explicitly configure ** **`store: true`**. The server hosts the session state. The client does not need to carry historical items itself. The encrypted reasoning content block is automatically obtained and passed back to the model for reasoning.
+* **previous_response_id**: **Note that you must explicitly configure ** **`store: true`**. The server hosts the session state. The client does not need to carry historical items itself. The encrypted chain\-of\-thought is automatically obtained and passed back to the model for reasoning.
 
-* **Manually passing back encrypted reasoning content blocks**: Get the reasoning item from the response and pass back `encrypted_content` as is in subsequent requests.
+* **Manually passing back encrypted chain\-of\-thought**: Get the reasoning item from the response and pass back `encrypted_content` as is in subsequent requests.
 
-Notes for manually passing back encrypted reasoning content blocks:
+Notes for manually passing back encrypted chain\-of\-thought:
 
 * The **`id`** of the reasoning item must be passed back as is and cannot be generated by yourself.
 
@@ -198,7 +216,7 @@ Notes for manually passing back encrypted reasoning content blocks:
 
 * For multiple consecutive tool calls, all items (`reasoning` / `function_call` / `function_call_output`) after the last user message must be passed back in their original order. You cannot pass back only the last one.
 
-An example of manually passing back the encrypted reasoning content block is as follows:
+The following example shows how to manually pass back encrypted chain\-of\-thought:
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
@@ -215,7 +233,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
         "id": "rs_0c2e0389c1bdc80f016a79c44c1fd08198bbdcb852ca75789b",
         "type": "reasoning",
         "content": [],
-        "encrypted_content": "<complete encrypted block, passed back as is>",
+        "encrypted_content": "<complete encrypted content, passed back as is>",
         "summary": [
           {"type": "summary_text", "text": "First get the user's city, then check the weather for 2026-08-11."}
         ]
@@ -283,11 +301,11 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
 
 ### Streaming response
 
-For streaming responses, reasoning content encrypted blocks are delivered through related events such as `response.output_item.added` / `response.output_item.done` / `response.completed`. You need to filter for events where the **encrypted_content** parameter is not empty, and obtain the encrypted reasoning content.
+For streaming responses, the encrypted chain\-of\-thought content is delivered through related events such as `response.output_item.added` / `response.output_item.done` / `response.completed`. You need to filter for events where the **encrypted_content** parameter is not empty and obtain the encrypted chain\-of\-thought content.
 
-After obtaining the reasoning content encrypted block, see the example above for how to pass it back.
+After you obtain the encrypted chain\-of\-thought content, see the example above for how to pass it back.
 
-**Anthropic-compatible API**
+**Messages API**
 
 The encrypted content is in the **`signature`** parameter of the block with `type == "thinking"` in the assistant content array (the native name in the Anthropic protocol).
 
@@ -314,7 +332,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/compatible/v1/messages \
           {
             "type": "thinking",
             "thinking": "The user asks about tomorrow's weather. Tomorrow is 2026-08-11. Need to get the city first, then check the weather.",
-            "signature": "<complete encrypted block, passed back as is>"
+            "signature": "<complete encrypted content, passed back as is>"
           },
           {
             "type": "tool_use",

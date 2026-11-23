@@ -84,7 +84,7 @@ ModelArk Managed Agents is best suited for workloads with the following characte
 
 Based on these characteristics, the following are typical business scenarios with validated PMF:
 
-|Scenario |Repetition |Risk |Note |
+|Scenario |Repetition |Risk |Description |
 |---|---|---|---|
 |**IT ticket handling** |High |Low |Highly structured and highly templated, with high agent processing accuracy. |
 |**Automatic report generation**. |High |Low |Fixed data collection and summary logic, making it easy to agentize. |

@@ -4,7 +4,7 @@ Vision language models can understand visual information in videos, and complete
 
 # Supported models
 
-See [Capabilities](model-list.md#text-code-capabilities).
+See [Capabilities](model-list.md#visual-understanding).
 
 # APIs
 
@@ -2194,7 +2194,7 @@ Different models have different frame sampling strategies, as detailed below:
 |Max pixels per frame |Maximum tokens per frame \* 42 \* 42<br><br>[110000, 670000] |
 |Number of sampled frames |* Frame sampling count range: [16 frames, 1280 frames].<br><br><br>```Bash```<br>```# Maximum number of sampled frames```<br>```80×1024 tokens ÷ 64 tokens per frame = 1280 frames```<br><br><br><br>* `min_frames`: The minimum frame sampling count. The default value is 16. If the total number of sampled frames calculated based on `fps` is less than 16, processing is performed with 16 frames first. |
 |Maximum tokens of the video |`max_video_tokens`: The upper limit on the total number of tokens for all sampled frames in a single video. The default value is 81920 (80 × 1024). |
-|Frame sampling scheme |Note<br><br><br>* It is recommended to evaluate the output quality and adjust the fps parameter configuration or video duration as needed.<br><br>* If the video binary data does not contain frame count encoding information, frames will be evenly sampled according to fps. If the maximum token amount of video in a single request exceeds the model's maximum input length, an error will be reported. If it does not exceed the limit, no error will be reported, but the tokens of the video input may exceed 80K. |
+|Frame sampling scheme |Description<br><br><br>* It is recommended to evaluate the output quality and adjust the fps parameter configuration or video duration as needed.<br><br>* If the video binary data does not contain frame count encoding information, frames will be evenly sampled according to fps. If the maximum token amount of video in a single request exceeds the model's maximum input length, an error will be reported. If it does not exceed the limit, no error will be reported, but the tokens of the video input may exceed 80K. |
 | |* If the fps is too high or the video duration is too long, and the number of processed frame images exceeds 1280 frames, 1280 frames will be evenly sampled at a time interval of `video duration / 1280` with 64 tokens per frame image.<br><br>* If the fps is too low or the video duration is too short, and the number of processed frame images is less than 16, the sampling scheme is as follows:<br><br>   * If the total number of video frames \>= 16, evenly sample 16 frames.<br><br>   * If the total number of video frames < 16, sample all frames of the video. |
 
 # How video understanding works

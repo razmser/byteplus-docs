@@ -112,7 +112,7 @@ The video understanding model ID or endpoint ID used for inference with this fil
 
 > **Note**
 
-> To process audio content in videos, set this parameter to a model that supports audio understanding. For supported models, see [Model list](model-list.md#text-code-capabilities).
+> To process audio content in videos, set this parameter to a model that supports audio understanding. For supported models, see [Model list](model-list.md#audio-understanding).
 
 **max_video_tokens** `integer`  |  Maximum tokens of the video
 
@@ -304,7 +304,7 @@ The video understanding model ID or endpoint ID used for inference with this fil
 
 > **Note**
 
-> To process audio content in videos, set this parameter to a model that supports audio understanding. For supported models, see [Model list](model-list.md#text-code-capabilities).
+> To process audio content in videos, set this parameter to a model that supports audio understanding. For supported models, see [Model list](model-list.md#audio-understanding).
 
 **max_video_tokens** `integer`  |  Maximum tokens of the video
 

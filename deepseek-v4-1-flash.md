@@ -108,7 +108,7 @@ The core method of video processing is "structured concatenation of frames and t
 
 ## Pass thinking content back
 
-> For the tutorial on passing thinking content back, see [Best practices of model calling for agents](agent-model-invocation-practice.md).
+> For the tutorial on passing chain\-of\-thought back, see [Best practices of model calling for agents](agent-model-invocation-practice.md).
 
 The DeepSeek V4.1 Flash model supports **passing back the original thinking content** (plaintext). In agent scenarios, you need to add the original thinking content back into the next request.
 
@@ -132,7 +132,7 @@ The DeepSeek V4.1 Flash model supports **passing back the original thinking cont
 
 |API |Chat API |Responses API |
 |---|---|---|
-|Parameter |**max_tokens**/**max_completion_tokens** |**max_output_tokens** |
+|Arguments |**max_tokens**/**max_completion_tokens** |**max_output_tokens** |
 |Rules |**Controls the length of the model response and model chain\-of\-thought content.**  No error is reported if the length is exceeded.<br><br>> **Note**<br><br><br>> If the chain\-of\-thought content exceeds **max_tokens**, the reasoning will be truncated.<br> |Controls the length of the model response and model chain\-of\-thought content. No error is reported if the length is exceeded. |
 |Default value |131072 (128K) |131072 (128K) |
 

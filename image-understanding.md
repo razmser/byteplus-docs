@@ -196,7 +196,7 @@ for item in response.output:
 
 # Supported models
 
-* See [Capabilities](model-list.md#text-code-capabilities).
+* See [Capabilities](model-list.md#visual-understanding).
 
 # APIs
 

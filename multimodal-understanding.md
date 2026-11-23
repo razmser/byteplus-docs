@@ -4,7 +4,7 @@ Vision models support input of images, videos, and documents to perform vision\-
 
 ## Supported models
 
-For visual models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For details, see [Capabilities](model-list.md#text-code-capabilities).
+For visual models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For details, see [Capabilities](model-list.md#visual-understanding).
 
 ## API documentation
 
@@ -405,7 +405,7 @@ The video file and prompt used in the example are as follows:
 |---|---|
 |[video](https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/608b664aad1b49ce9fd41b597551236b)<br> |Please describe the movement sequence of the characters in the video, and output the start time (start_time), end time (end_time), event (event), and danger status (danger) in JSON format. Please use HH:mm:ss to represent the timestamp. |
 
-Code sample:
+Code samples:
 
 **Curl**
 

@@ -54,7 +54,7 @@ The rest of this topic uses `multiagent_20261001` as an example to describe suba
 
 `multiagent_20261001` supports three subagent sources. You can choose based on whether the roles are fixed, whether they need to be reused, and whether temporary roles need to be created at runtime:
 
-|Source |Note |Supported use cases |Configuration method |
+|Source |Description |Supported use cases |Configuration method |
 |---|---|---|---|
 |Predefined agent |Agents that are created in advance and can have their versions fixed |The roles and capabilities are stable and need to be reused across multiple tasks |Reference existing agents in `predefined_agents` |
 |Self |Reuse the current agent's model and capabilities, but store the conversation context separately. |Multiple similar subtasks need to be processed in parallel. |Add `{"type":"self"}` to `predefined_agents` |

@@ -16,7 +16,7 @@ Compared with controlling the model to output in JSON format through prompts, us
 
 ## Supported models
 
-For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For more information, see [Capabilities](model-list.md#text-code-capabilities).
+For large language models of version 250615 and later, the Responses API is supported by default unless otherwise specified. For more information, see [Capabilities](model-list.md#structured-output).
 
 ## API documentation
 
@@ -339,7 +339,7 @@ Response preview
 |Generate JSON response |Yes |Yes |
 |Customizable JSON structure |Yes |No<br><br>Only guarantees valid JSON response |
 |Recommended |Yes |No |
-|Supported models |See [Capabilities](model-list.md#text-code-capabilities). |See [Capabilities](model-list.md#text-code-capabilities). |
+|Supported models |See [Capabilities](model-list.md#structured-output). |See [Capabilities](model-list.md#structured-output). |
 |Strict mode |Supported<br><br>Takes effect by setting **strict** to `true`. |Not applicable |
 |Configuration method |```JSON```<br>```"text": {```<br>```    "format": {```<br>```        "type": "json_schema",```<br>```        "name": "my_schema",```<br>```        "strict": true,```<br>```        "schema": {```<br>```            ...```<br>```        }```<br>```    }```<br>```}```<br> |```JSON```<br>```"text": {```<br>```  "format": {```<br>```    "type": "json_object"```<br>```  }```<br>```}```<br> |
 

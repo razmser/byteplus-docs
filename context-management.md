@@ -994,7 +994,7 @@ For the complete code samples and usage, see [Adjust chain-of-thought length](re
 
 ## Multi\-turn conversations
 
-|Flowchart |Note |
+|Flowchart |Description |
 |---|---|
 |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/context-management-02.svg) |* During each turn of the conversation, the deep reasoning model outputs chain\-of\-thought (CoT) content and the final answer.<br><br>* In the next conversation turn, the previously output chain\-of\-thought content will not be spliced into the context.<br><br>> The chain\-of\-thought content shows the model's problem\-solving process, including splitting the problem into multiple sub\-problems to process, generating multiple responses and synthesizing a better answer, etc. |
 
@@ -1002,7 +1002,7 @@ For the complete code samples and usage, see [Adjust chain-of-thought length](re
 
 The deep reasoning execution logic is optimized for tool calling scenarios. The platform determines on its own whether to input the chain\-of\-thought content to the model so that it participates in reasoning in subsequent turns, ensuring that the output is coherent, accurate, and explainable.
 
-|Flowchart |Note |
+|Flowchart |Description |
 |---|---|
 |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/context-management-03.svg) |* When answering question 1 (requests 1.1 \- 1.2), the model gives the answer after multiple thinking processes and tool calls. ModelArk will input the complete context including the chain\-of\-thought content to the model for processing.<br><br>* When starting to answer question 2 (request 2.1), ModelArk will independently judge and delete the chain\-of\-thought in the previous context before inputting it to the model. |
 
@@ -1279,7 +1279,7 @@ The model output = model response + model chain\-of\-thought (if any).
 
 The length limits for each object are described below.
 
-|Object |Key parameter |Note |Configurable |
+|Object |Key parameter |Description |Configurable |
 |---|---|---|---|
 |Problem |Maximum input length |`context window` \- `chain-of-thought window`, shares the quota with the response.<br><br>> This can be understood as the question\-answering quota. |Model specification, not configurable |
 |Chain\-of\-thought |Chain\-of\-thought window |Exclusive and not shared. That is, even if there is unused quota in a single request, it is not shared with the question or response. |Model specification, not configurable |
@@ -1296,7 +1296,7 @@ Content truncation logic example: model A has the following properties: context 
 
 ## Configure only **max_completion_tokens**
 
-|Affected/controlled object |Key parameter |Note |Configurable |
+|Affected/controlled object |Key parameter |Description |Configurable |
 |---|---|---|---|
 |Problem |Maximum input length |Shares the quota with the response; that is, unused quota is shared with the response content. |Model specification, not configurable |
 |Chain\-of\-thought |Maximum output length |Shares the quota with the response; that is, unused quota is shared with the response content. |API parameter, configurable |

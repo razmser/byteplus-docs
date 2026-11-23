@@ -4,7 +4,7 @@ Some models support processing PDF documents and use visual capabilities to unde
 
 # Supported models
 
-See [Capabilities](model-list.md#text-code-capabilities).
+See [Capabilities](model-list.md#visual-understanding).
 
 # APIs
 
