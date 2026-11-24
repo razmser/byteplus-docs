@@ -121,9 +121,9 @@ Only custom inference endpoints support this method. Use it when an entire workl
 
 2. Save the configuration and invoke the model by using the endpoint ID. Requests that do not explicitly specify `service_tier` use low\-latency online inference by default.
 
-> **warning**
+   > **warning**
 
-> An explicit `service_tier` value in a request takes precedence over the default service tier of the inference endpoint.
+   > An explicit `service_tier` value in a request takes precedence over the default service tier of the inference endpoint.
 
 ## **Billing**
 

@@ -10,7 +10,7 @@ Integration and tooling: connecting ModelArk to third\-party agents, installing 
 
 ## +connect
 
-Install arkcli AI skills to all detected local agents
+Install ArkCLI AI skills to all detected local agents
 
 ```Bash
 arkcli +connect
@@ -19,8 +19,8 @@ arkcli +connect
 |Flag |Type |Description |
 |---|---|---|
 |`--path` |string |Install arkcli skills to a specific local skills directory instead of detected global agent dirs; relative paths resolve from the current working directory |
-|`--refresh` |bool |External build: redownload the latest skill from the CDN (preferred) or GitHub (fallback) before installation (the internal build embeds the skill, so this flag has no effect) |
-|`--keep-conflicting` |bool |Keep third\-party generation skills (byted\-ark\-seedance/seedream) that otherwise hijack +gen routing; by default +connect removes them from every agent dir |
+|`--refresh` |bool |Redownload the latest skill from the CDN (preferred) or GitHub (fallback) before installation; builds that already embed the skills ignore this flag |
+|`--keep-conflicting` |bool |Keep third\-party Seedance/Seedream generation skills that otherwise hijack +gen routing; by default +connect removes them from every agent dir |
 
 ### +connect list
 
@@ -96,7 +96,7 @@ arkcli helper list
 Remove model/provider configuration injected by arkcli for a harness while preserving other user settings
 
 ```Bash
-arkcli helper reset <claude-code|codex|deepseek-harness|pi|opencode|openclaw|hermes|zcode|kimi-code|grok|workbuddy>
+arkcli helper reset <claude-code|codex|deepseek-harness|pi|opencode|openclaw|hermes|trae|zcode|kimi-code|cursor|grok|workbuddy>
 ```
 
 |Flag |Type |Description |

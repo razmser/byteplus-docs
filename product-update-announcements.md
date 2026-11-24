@@ -11,7 +11,7 @@ This document describes the key feature updates of the ModelArk platform.
 |Module |Description |
 |---|---|
 |Tools |The [DeepSeek Harness plugin](coding-plan-personal-ai-deepseek-harness.md#configure-deepseek-harness) supports connecting Agent Plan, Coding Plan, or postpaid models through the official ModelArk plugin. |
-|API |The validity period of [Draft](video-generation-tutorial.md#draft-mode) video task IDs is extended to 14 days. After expiration, the Draft video cannot be used to generate a final video. |
+|API |The validity period of [Draft](video-generation-tutorial.md#5acd28c8) video task IDs is extended to 14 days. After expiration, the Draft video cannot be used to generate a final video. |
 |Playground |Added experience with the Kimi K3.1 Pro, DeepSeek\-V4.1\-Flash, and DeepSeek\-V4.1\-Flash\-Economy models in the [Experience Center](https://ai.byteplus.com/ark/region:ap-southeast-1/experience). |
 |Model Finetune |The `lora_alpha` hyperparameter is no longer available for LoRA training tasks. Use `lora_scaling=1.0` instead. See [Model fine-tuning overview](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/fine-tuning-overview). |
 |Usage |* Supports querying usage by request and asynchronous task. See [Query single request usage](get-inference-request-usage-api.md) and [Query asynchronous task usage](get-inference-task-usage-api.md).<br><br>* Call data can be split by model, inference endpoint, and API Key, with further usage detail available. See [IAM API Key best practices](iam-api-key-best-practices.md). |

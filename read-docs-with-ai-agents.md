@@ -12,11 +12,11 @@ Use the ModelArk `llms.txt` index to discover documentation and fetch only the r
 
 ## Use the documentation retrieval Skill
 
-Install `ark-docs-reader` so that an AI agent selects the retrieval path for the target site:
+Install `ark-docs-reader` so that the Skill selects the retrieval path for the target site:
 
 * ModelArk: Use the ModelArk `llms.txt` index and matched English Markdown documents, keeping every source within the current site.
 
-Run the following command to install `ark-docs-reader`:
+Before installation, prepare Node.js 22.20.0 or later and npm. The Node.js installer includes `npx`. Run the following command to install `ark-docs-reader`:
 
 ```Bash
 npx --yes skills@latest add "https://arkdocs-en.tos-ap-southeast-1.volces.com/skills/" \

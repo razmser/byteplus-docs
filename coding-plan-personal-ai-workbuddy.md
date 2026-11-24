@@ -68,11 +68,11 @@ The Base URL differs by tool depending on the protocol it is compatible with:
 
 1. Start WorkBuddy, click your account avatar in the bottom\-left corner, and select **Settings**.
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/workbuddy1.png)
+   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/workbuddy1.png)
 
 2. In the left navigation, select **Models**, and in the custom models area click **Add model**.
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/workbuddy2.png)
+   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/workbuddy2.png)
 
 3. Under Provider, select **Custom**, fill in the following parameters, and save:
 
@@ -86,7 +86,7 @@ The Base URL differs by tool depending on the protocol it is compatible with:
 
    * **Custom protocol**: When the model service uses a non\-standard URL path (for example, wrapped behind a gateway or proxy layer), you can enable the custom protocol toggle in advanced configuration. When enabled, Tencent WorkBuddy sends requests directly to the URL you provide, skipping path validation and auto\-completion. When disabled (default): uses the standard `/chat/completions` path with auto\-validation and auto\-completion of the API endpoint. When enabled: uses the API endpoint you provide directly, skipping path validation and auto\-completion.
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/workbuddy3.png)
+      ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/workbuddy3.png)
 
 In addition to adding a custom model via the client UI, you can also directly edit the local configuration file `~/.workbuddy/models.json` to connect to Coding Plan. After saving, WorkBuddy automatically watches for and hot\-reloads the new configuration (**no restart required**). The `name` field is what appears in the model dropdown on the main screen.
 

@@ -266,18 +266,18 @@ If you are sure you no longer need to retain the agent and its historical versio
 
 ## Related documents
 
-[Skills](skills.md)
+**Skills**
 
 Skills are used to add domain knowledge, operation processes, and best practices to an agent.
 
-[MCP](mcp.md)
+**MCP**
 
 MCP (Model Context Protocol) is used to connect tools and data sources from third\-party systems to an agent.
 
-[Tools](tools.md)
+**Tools**
 
 Tools determine which execution capabilities an agent can call in a session.
 
-[Tool permission policies](tool-permission-policy.md)
+**Tool permission policies**
 
 Tool permission policies are used to control whether tool calls initiated by an agent are executed automatically or paused for confirmation from business applications.

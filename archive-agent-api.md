@@ -256,6 +256,14 @@ The ID of the referenced agent.
 
 The version number of the referenced agent.
 
+**scene** `string`  |  Agent scene
+
+Scene marker for the agent.
+
+* `default`: a normal agent.
+
+* `dreams`: an agent used for Dream memory organization tasks.
+
 **skills** `object[]`  |  Skill list
 
 List of skills attached to the agent.

@@ -65,7 +65,7 @@ It is recommended that you prioritize using the Files API to upload local files.
                    },
                    {
                        "type": "input_text",
-                   "text": "Provide the document’s text content by paragraph and output it in JSON format, including the paragraph type (type) and text content (content)."
+                       "text": "Provide the document’s text content by paragraph and output it in JSON format, including the paragraph type (type) and text content (content)."
                    }
                ]
            }

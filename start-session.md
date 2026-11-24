@@ -276,9 +276,9 @@ echo "Session ID: $SESSION_ID"
 
 * **`config.setup_script`**: configures the Bash initialization script to run when the current session starts. Passing a non\-empty string replaces the script of the base environment; passing an empty string `""` clears it. The script runs in the `/workspace` directory, and its content cannot exceed 256 KiB (262144 bytes).
 
-> **Note**
+   > **Note**
 
-> If `setup_script` exceeds the size limit, it is not executed. If the script exits with a non\-zero status code, operations completed before the exit are not rolled back. In both cases, the session may still be created successfully and continue running. Have the script write a checkable marker file, and verify that dependencies, directories, or files are ready before sending the task.
+   > If `setup_script` exceeds the size limit, it is not executed. If the script exits with a non\-zero status code, operations completed before the exit are not rolled back. In both cases, the session may still be created successfully and continue running. Have the script write a checkable marker file, and verify that dependencies, directories, or files are ready before sending the task.
 
 > **Tip**
 
@@ -373,9 +373,9 @@ This decoupled design lets the client inject vaults credentials and check the sa
 
 4. Continue reading the same event stream until you receive `session.status_idle` or `session.status_terminated`.
 
-> **Note**
+   > **Note**
 
-> SSE only pushes events generated after the connection is established. It does not replay historical events. If you send the message before establishing the connection, the client may miss messages, tool calls, or status events that have already been generated.
+   > SSE only pushes events generated after the connection is established. It does not replay historical events. If you send the message before establishing the connection, the client may miss messages, tool calls, or status events that have already been generated.
 
 The following example requires `curl` and `jq` to be installed locally:
 

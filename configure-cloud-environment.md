@@ -174,9 +174,9 @@ The limited outbound access policy includes the following configuration items:
 
 * `allow_package_managers`: Whether to additionally allow package managers to access the platform\-configured package repository domains. After this is enabled, the sandbox can access the corresponding package repositories for `apt`, `cargo`, `gem`, `go`, `npm`, and `pip` dependencies. When it is disabled or omitted, `packages` will not automatically allow access to external package repositories.
 
-> **Note**
+   > **Note**
 
-> `limited` is a fail\-closed policy. If `allowed_hosts` is omitted and `allow_package_managers` is not enabled, the sandbox does not allow access to additional external domain names. After you update an environment, only sessions created or upgraded later use the new policy. Existing sessions continue to use the configuration frozen at creation time.
+   > `limited` is a fail\-closed policy. If `allowed_hosts` is omitted and `allow_package_managers` is not enabled, the sandbox does not allow access to additional external domain names. After you update an environment, only sessions created or upgraded later use the new policy. Existing sessions continue to use the configuration frozen at creation time.
 
 ## Configure artifact storage
 

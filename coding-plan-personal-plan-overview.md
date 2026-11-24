@@ -125,43 +125,43 @@ You can configure the model in either of the following ways (see [Key configurat
 
 If you encounter an error while using the Coding Plan, check the corresponding error scenario to help diagnose the issue. For details, see [Error codes](error-codes.md).
 
-[Claude Code](coding-plan-personal-ai-claude-code.md)
+**Claude Code**
 
 AI terminal coding assistant for natural\-language programming
 
-[TraeCode](coding-plan-personal-ai-trae.md)
+**TraeCode**
 
 Intelligent IDE for next\-generation development workflows
 
-[Roo Code](coding-plan-personal-ai-other-tools.md)
+**Roo Code**
 
 Lightweight coding assistant
 
-[Codex](coding-plan-personal-ai-codex.md)
+**Codex**
 
 OpenAI's coding tool (CLI and ChatGPT desktop app)
 
-[Hermes Agent](coding-plan-personal-ai-hermes-agent.md)
+**Hermes Agent**
 
 Open\-source, self\-hosted AI agent
 
-[OpenCode](coding-plan-personal-ai-opencode.md)
+**OpenCode**
 
 Open\-source AI coding agent tool
 
-[Cline](coding-plan-personal-ai-other-tools.md)
+**Cline**
 
 VS Code extension for code completion and debugging
 
-[OpenClaw](coding-plan-personal-ai-openclaw.md)
+**OpenClaw**
 
 Open\-source, self\-hosted personal AI assistant
 
-[Cursor](coding-plan-personal-ai-other-tools.md)
+**Cursor**
 
 AI\-native code editor
 
-[Kilo Code](coding-plan-personal-ai-other-tools.md)
+**Kilo Code**
 
 Lightweight, high\-performance coding tool
 

@@ -321,11 +321,11 @@ When a basic tool or MCP tool uses `always_ask`, the session pauses and waits fo
 
 4. After all pending confirmation events are handled, the session returns `session.status_running`. Tools which are allowed to run continue to run, and rejected results are passed to the agent to adjust subsequent processing.
 
-> **Handle confirmation results**
+   > **Handle confirmation results**
 
-> When rejecting a call, you can pass the reason back to the agent through `deny_message`. The agent chooses another tool, falls back to degraded processing, or explains to the end user that it cannot continue based on the rejection reason.
+   > When rejecting a call, you can pass the reason back to the agent through `deny_message`. The agent chooses another tool, falls back to degraded processing, or explains to the end user that it cannot continue based on the rejection reason.
 
-> During the `requires_action` stage, handle all confirmation events in `stop_reason.event_ids` first. Do not use a new `user.message` as a substitute for confirmation. For `always_allow`, `always_ask`, and override rules, see [Tool permission policy](tool-permission-policy.md).
+   > During the `requires_action` stage, handle all confirmation events in `stop_reason.event_ids` first. Do not use a new `user.message` as a substitute for confirmation. For `always_allow`, `always_ask`, and override rules, see [Tool permission policy](tool-permission-policy.md).
 
 ### Handle self\-hosted tool calls
 

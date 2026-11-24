@@ -32,7 +32,7 @@ ModelArk supports two multi\-agent configurations: `multiagent_20261001` and `co
 
 * As long as any thread is still running, the session remains `running`. The session enters `idle` only after all threads stop running. At this point, you still need to check `stop_reason` to determine whether the task has ended or is waiting for an external operation.
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/managed-agent/multiagent-thread-result-routing.svg)
+   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/managed-agent/multiagent-thread-result-routing.svg)
 
 ### `coordinator` mode
 
@@ -46,7 +46,7 @@ ModelArk supports two multi\-agent configurations: `multiagent_20261001` and `co
 
 * After the delegation is complete, the one\-time sub\-thread becomes `idle` and can still be queried through the thread API.
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/managed-agent/coordinator-delegation-result-routing.svg)
+   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/managed-agent/coordinator-delegation-result-routing.svg)
 
 The rest of this topic uses `multiagent_20261001` as an example to describe subagent sources, configuration, and session management. If an existing agent uses `coordinator`, see [Migrate from ](multi-agent.md#migrate-from-coordinator)[coordinator](multi-agent.md#migrate-from-coordinator) for migration restrictions.
 

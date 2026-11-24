@@ -70,7 +70,7 @@ Coding Plan is compatible with both OpenAI and Anthropic API protocols, and ZCod
 
 1. Start the ZCode client, click the **Settings** icon in the bottom\-left corner, go to **Model settings**, and click **Add provider**.
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/zcode1.png)
+   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/zcode1.png)
 
 2. In the form that appears, fill in the following parameters and save the provider.
 
@@ -88,7 +88,7 @@ Coding Plan is compatible with both OpenAI and Anthropic API protocols, and ZCod
       |Chat Completions |`https://ark.ap-southeast.bytepluses.com/api/coding/v3` |
       |Responses |`https://ark.ap-southeast.bytepluses.com/api/coding/v3` |
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/zcode2.png)
+      ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/zcode2.png)
 
 3. Click **Add model**, fill in the following parameters in the form, and save the model. You can click **Add model** multiple times to add multiple models under one provider.
 
@@ -290,7 +290,7 @@ Example `~/.zcode/v2/config.json` when API format is **Responses**
 
 1. After saving, return to the ZCode main screen.
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/zcode4.png)
+   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/zcode4.png)
 
 # Use ZCode
 

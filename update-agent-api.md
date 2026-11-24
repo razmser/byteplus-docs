@@ -742,6 +742,14 @@ The ID of the referenced agent.
 
 The version number of the referenced agent.
 
+**scene** `string`  |  Scene tag
+
+The business scene of the agent.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
+
 **skills** `object[]`  |  Skill list
 
 List of skills attached to the agent.

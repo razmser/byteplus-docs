@@ -213,20 +213,18 @@ Target_modality: {}.\nInstruction:{}\nQuery:
 
    * Common examples:
 
-|Corpus Library Modality |Target_modality Value |
-|---|---|
-|All samples are text only |text |
-|All samples are a combination of images and text |text and image |
-|All samples are video |video |
-|All samples are a combination of text and videos |text and video |
-|Samples include three modalities: text, images, and videos |text/image/video |
-|Samples include three modalities: text, videos, and text and video |text/video/text and video |
+      |Corpus Library Modality |Target_modality Value |
+      |---|---|
+      |All samples are text only |text |
+      |All samples are a combination of images and text |text and image |
+      |All samples are video |video |
+      |All samples are a combination of text and videos |text and video |
+      |Samples include three modalities: text, images, and videos |text/image/video |
+      |Samples include three modalities: text, videos, and text and video |text/video/text and video |
 
-```Plain Text
-:::warning Note
-Incorrect entry of `Target_modality` will directly lead to reduced retrieval accuracy. Please strictly match the modality of the Corpus library or dataset.
-:::
-```
+   > **Note**
+
+   > Incorrect entry of `Target_modality` will directly lead to reduced retrieval accuracy. Please strictly match the modality of the Corpus library or dataset.
 
 2. **`Instruction`**
 
@@ -298,10 +296,10 @@ To meet requirements not covered by the above instructions, refer to the [exampl
 
 * **Configuration example**:
 
-|Role |Instruction field configuration |
-|---|---|
-|Query |`Target_modality: text.\nInstruction:Generate an embedding for this sentence to retrieve related articles\nQuery:` |
-|Corpus |`Instruction:Compress the text into one word.\nQuery:` |
+   |Role |Instruction field configuration |
+   |---|---|
+   |Query |`Target_modality: text.\nInstruction:Generate an embedding for this sentence to retrieve related articles\nQuery:` |
+   |Corpus |`Instruction:Compress the text into one word.\nQuery:` |
 
 #### Multimodal task
 
@@ -329,13 +327,13 @@ To meet requirements not covered by the above instructions, refer to the [exampl
 
 * **Typical scenario example**
 
-|Business Scenario |Query\-side Instruction Configuration |Corpus\-side instruction configuration |
-|---|---|---|
-|Cross\-modal question answering (Query: text question; Corpus: text / image) |`Target_modality: text/image.`<br><br>`Instruction: Find the corresponding text or image that can answer this question`<br><br>`Query:` |Text corpus: `Instruction:Compress the text into one word.`<br><br>`Query:`<br><br>Image corpus: `Instruction:Compress the image into one word.`<br><br>`Query:` |
-|Original image retrieval (ignore PS processing) |`Target_modality: image.`<br><br>`Instruction: Find the image that is exactly the same as this one. It may have undergone PS processing, including scaling, cropping, and watermarking. Please ignore traces of PS processing`<br><br>`Query:` |`Instruction:Compress the image into one word.\nQuery:` |
-|E\-commerce clothing retrieval (ignore background / subject) |`Target_modality: image.`<br><br>`Instruction: Ignore the background and main subject, and find images of the same product appearing in this image`<br><br>`Query:` |`Instruction:Compress the image into one word.\nQuery:` |
-|E\-commerce product retrieval (text description to image) |`Target_modality: image.`<br><br>`Instruction: Based on the description of the product in the following text, find the corresponding product image that meets the criteria.`<br><br>`Query:` |`Instruction:Compress the image into one word.\nQuery:` |
-|Dish image search (by text description) |`Target_modality: image.`<br><br>`Instruction: Based on the relevant dishes mentioned in this text, find images of the relevant dishes.`<br><br>`Query:` |`Instruction:Compress the image into one word.\nQuery:` |
+   |Business Scenario |Query\-side Instruction Configuration |Corpus\-side instruction configuration |
+   |---|---|---|
+   |Cross\-modal question answering (Query: text question; Corpus: text / image) |`Target_modality: text/image.`<br><br>`Instruction: Find the corresponding text or image that can answer this question`<br><br>`Query:` |Text corpus: `Instruction:Compress the text into one word.`<br><br>`Query:`<br><br>Image corpus: `Instruction:Compress the image into one word.`<br><br>`Query:` |
+   |Original image retrieval (ignore PS processing) |`Target_modality: image.`<br><br>`Instruction: Find the image that is exactly the same as this one. It may have undergone PS processing, including scaling, cropping, and watermarking. Please ignore traces of PS processing`<br><br>`Query:` |`Instruction:Compress the image into one word.\nQuery:` |
+   |E\-commerce clothing retrieval (ignore background / subject) |`Target_modality: image.`<br><br>`Instruction: Ignore the background and main subject, and find images of the same product appearing in this image`<br><br>`Query:` |`Instruction:Compress the image into one word.\nQuery:` |
+   |E\-commerce product retrieval (text description to image) |`Target_modality: image.`<br><br>`Instruction: Based on the description of the product in the following text, find the corresponding product image that meets the criteria.`<br><br>`Query:` |`Instruction:Compress the image into one word.\nQuery:` |
+   |Dish image search (by text description) |`Target_modality: image.`<br><br>`Instruction: Based on the relevant dishes mentioned in this text, find images of the relevant dishes.`<br><br>`Query:` |`Instruction:Compress the image into one word.\nQuery:` |
 
 ## Set vector `dimensions`
 

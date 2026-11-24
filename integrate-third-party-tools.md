@@ -94,37 +94,37 @@ codex --version
 
 1. Create and open the Codex configuration file. The file path varies by system. Use the following steps:
 
-**macOS/Linux**
+   **macOS/Linux**
 
 macOS/Linux Codex configuration file path: `~/.codex/config.toml`.
 
-1. If the `.codex` directory does not exist in the home directory, run the following command to create it.
+      1. If the `.codex` directory does not exist in the home directory, run the following command to create it.
 
-   ```Bash
-   mkdir -p ~/.codex
-   ```
+         ```Bash
+         mkdir -p ~/.codex
+         ```
 
-2. Create and open the configuration file.
+      2. Create and open the configuration file.
 
-   ```Bash
-   nano ~/.codex/config.toml
-   ```
+         ```Bash
+         nano ~/.codex/config.toml
+         ```
 
-**Windows**
+   **Windows**
 
 Windows Codex configuration file path: `%USERPROFILE%\.codex\config.toml`. The following uses the CMD command line as an example.
 
-1. If the `.codex` directory does not exist in the current user directory, run the following command to create it.
+      1. If the `.codex` directory does not exist in the current user directory, run the following command to create it.
 
-   ```Bash
-   if not exist "%USERPROFILE%\.codex" mkdir "%USERPROFILE%\.codex"
-   ```
+         ```Bash
+         if not exist "%USERPROFILE%\.codex" mkdir "%USERPROFILE%\.codex"
+         ```
 
-2. Create and open the configuration file.
+      2. Create and open the configuration file.
 
-   ```Bash
-   notepad "%USERPROFILE%\.codex\config.toml"
-   ```
+         ```Bash
+         notepad "%USERPROFILE%\.codex\config.toml"
+         ```
 
 2. Edit `config.toml`. The configuration information to focus on is as follows:
 
@@ -261,13 +261,13 @@ After installing Claude Code, configure the following information.
 
    * `<Model_Name>`: Replace it with the [model ID](model-list.md) you want to use.
 
-> **Tip**
+   > **Tip**
 
-> The configuration file paths differ by system, as follows:
+   > The configuration file paths differ by system, as follows:
 
-* > macOS & Linux: `~/.claude/settings.json`
+   * > macOS & Linux: `~/.claude/settings.json`
 
-* > Windows: `C:\Users\<username>\.claude\settings.json`
+   * > Windows: `C:\Users\<username>\.claude\settings.json`
 
 The following uses `dola-seed-2-1-turbo-260628` as an example. The configuration is as follows:
 
@@ -295,13 +295,13 @@ The following uses `dola-seed-2-1-turbo-260628` as an example. The configuration
 
 2. Edit or add the `.claude.json` file, and modify or add the `hasCompletedOnboarding` parameter with the value `true`.
 
-> **Tip**
+   > **Tip**
 
-> The configuration file paths differ by system, as follows:
+   > The configuration file paths differ by system, as follows:
 
-* > macOS and Linux: `~/.claude.json`
+   * > macOS and Linux: `~/.claude.json`
 
-* > Windows: `C:\Users\<username>\.claude.json`
+   * > Windows: `C:\Users\<username>\.claude.json`
 
 ```JSON
 {
@@ -395,8 +395,7 @@ The Claude Code IDE plugin depends on the Claude Code CLI tool. You must complet
 
 > Because the IDE plugin is continuously evolving, the following content is for reference only. For installation and usage details, see [Visual Studio Code](https://code.claude.com/docs/en/vs-code) and [JetBrains IDEs](https://code.claude.com/docs/en/jetbrains).
 
-<Tabs>
-<Tab zoneid="kRTHwZ66El" title="Claude Code VS Code plugin">
+**Claude Code VS Code plugin**
 
 > **Tip**
 
@@ -412,7 +411,7 @@ Open VS Code and search for `claude code` in the extension marketplace to instal
 
 1. After installation, click the Claude Code icon in the upper\-right corner of VS Code to go to the Claude Code page.
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/388665c0f9ed47379faa5291e180a6b2~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/388665c0f9ed47379faa5291e180a6b2~tplv-goo7wpa0wc-image.image)
 
 2. In the dialog box, enter `/config` and press Enter to go to the settings configuration page.
 
@@ -426,7 +425,6 @@ Open VS Code and search for `claude code` in the extension marketplace to instal
 
 * > `<Model_Name>`: Replace it with one of the supported model names above, such as dola\-seed\-2\-1\-turbo\-260628.
 
-```Plain Text
 ```JSON
 ...
 "claudeCode.environmentVariables": [
@@ -446,44 +444,28 @@ Open VS Code and search for `claude code` in the extension marketplace to instal
 "claudeCode.selectedModel": "<Model_Name>",
 ...
 ```
-```
-
 
 After saving the configuration information, you can start using Claude Code.
 
+**Claude Code JetBrains plugin**
 
-</Tab>
-<Tab zoneid="c3sV7id6XS" title="Claude Code JetBrains plugin">
-<TabTitle>Claude Code JetBrains plugin</TabTitle>
+> **Tip**
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> The Claude Code JetBrains plugin supports JetBrains IDEs such as IntelliJ IDEA, PyCharm, and WebStorm.
 
-
-<div data-tips="true" data-tips-type="tip">The Claude Code JetBrains plugin supports JetBrains IDEs such as IntelliJ IDEA, PyCharm, and WebStorm.</div>
-
-
-<span id="install-the-plugin"></span>
 ### Install the plugin
 
 Open a JetBrains IDE and search for `claude code` in the plugin marketplace to install it.
 
-<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/5859916985a34036bb41f5097ba58f6c~tplv-goo7wpa0wc-image.image) </span>
+![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/5859916985a34036bb41f5097ba58f6c~tplv-goo7wpa0wc-image.image)
 
-<span id="get-started"></span>
 ### Get started
 
 After installation, restart the IDE, then click the Claude Code icon to go to the Claude Code page and start using it.
 
-
-</Tab>
-</Tabs>
-
-
-<span id="d6a39e24"></span>
 ## Integrate with second\-party/third\-party MCP servers and skills
 
-If the built\-in tools do not cover your use case, you can integrate second\-party and third\-party MCP servers and skills in Claude Code (for how to obtain MCP servers, see [Get an MCP server](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/integrate-third-party-tools#c5f28d13)).
-
+If the built\-in tools do not cover your use case, you can integrate second\-party and third\-party MCP servers and skills in Claude Code (for how to obtain MCP servers, see [Get an MCP server](integrate-third-party-tools.md#c5f28d13)).
 
 1. Integrate an MCP server: run the following command to add one (using the stdio type as an example).
 
@@ -568,19 +550,19 @@ If the built\-in tools do not cover your use case, OpenCode supports configuring
 
 1. Run the following command to install OpenClaw.
 
-**macOS**
+   **macOS**
 
 ```Bash
-curl -fsSL https://openclaw.ai/install.sh | bash
-```
+   curl -fsSL https://openclaw.ai/install.sh | bash
+   ```
 
-**Windows**
+   **Windows**
 
 The installation command in a Windows PowerShell environment is as follows:
 
-```Bash
-iwr -useb https://openclaw.ai/install.ps1 | iex
-```
+   ```Bash
+   iwr -useb https://openclaw.ai/install.ps1 | iex
+   ```
 
 2. Follow the prompts to complete the OpenClaw configuration. The configuration information is as follows.
 
@@ -610,9 +592,9 @@ iwr -useb https://openclaw.ai/install.ps1 | iex
 
 1. Run the following command to open the Web UI.
 
-```Bash
-openclaw dashboard
-```
+   ```Bash
+   openclaw dashboard
+   ```
 
 2. In the left menu bar, select **Configuration** \- **Settings** \- **Advanced**, then click **Open** to view and modify the configuration information. The detailed configuration information is as follows. The key configuration items that need to be modified are:
 
@@ -626,7 +608,6 @@ openclaw dashboard
 
 * > If OpenClaw has already been configured, do not directly overwrite the existing configuration. We recommend updating the `models`, `agents`, and `gateway` node information based on the provided configuration. The `models` node contains the list of supported models.
 
-```Plain Text
 ```JSON
 {
   "models": {
@@ -659,25 +640,18 @@ openclaw dashboard
   }
 }
 ```
-```
-
-
 
 3. After completing the configuration, save the configuration file first, and then click **Update** to update the configuration. After the configuration update is complete, you need to reconnect to the service to access the Web UI.
 
-   <span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/be24b57cff314b749016abd2fd3ada7a~tplv-goo7wpa0wc-image.image) </span>
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/be24b57cff314b749016abd2fd3ada7a~tplv-goo7wpa0wc-image.image)
 
-
-</Tab>
-<Tab zoneid="f2EnsnBNHm" title="Terminal">
-<TabTitle>Terminal</TabTitle>
+**Terminal**
 
 1. Run the following command in the terminal to open the OpenClaw configuration file.
 
-
-```Bash
-nano ~/.openclaw/openclaw.json
-```
+   ```Bash
+   nano ~/.openclaw/openclaw.json
+   ```
 
 2. Modify the configuration information. The core configuration information that needs to be modified is as follows:
 
@@ -691,7 +665,6 @@ nano ~/.openclaw/openclaw.json
 
 * > If OpenClaw has already been configured, do not directly overwrite the existing configuration. We recommend updating the `models`, `agents`, and `gateway` node information based on the provided configuration. The `models` node contains the list of supported models.
 
-```Plain Text
 ```JSON
 {
   "models": {
@@ -724,9 +697,6 @@ nano ~/.openclaw/openclaw.json
   }
 }
 ```
-```
-
-
 
 3. After completing the configuration, save the file, and run the following command in the terminal to restart the service for the changes to take effect.
 
@@ -738,16 +708,16 @@ nano ~/.openclaw/openclaw.json
 
 * Open the TUI and check the gateway status.
 
-```JSON
-openclaw tui
-/status
-```
+   ```JSON
+   openclaw tui
+   /status
+   ```
 
 * Open the Web UI and interact on the Chat page.
 
-```JSON
-openclaw dashboard
-```
+   ```JSON
+   openclaw dashboard
+   ```
 
 ## Integrate skills
 
@@ -829,11 +799,11 @@ Click **Add model provider \-\> Custom model API** and enter the following infor
 
 * **API address** and **API protocol**: The supported API addresses, API protocols, and their mappings are as follows. Make sure you configure them correctly.
 
-|API protocol |API address |
-|---|---|
-|openai\-completions |`https://ark.ap-southeast.bytepluses.com/api/v3` |
-|openai\-responses |`https://ark.ap-southeast.bytepluses.com/api/v3` |
-|anthropic\-messages |`https://ark.ap-southeast.bytepluses.com/api/compatible` |
+   |API protocol |API address |
+   |---|---|
+   |openai\-completions |`https://ark.ap-southeast.bytepluses.com/api/v3` |
+   |openai\-responses |`https://ark.ap-southeast.bytepluses.com/api/v3` |
+   |anthropic\-messages |`https://ark.ap-southeast.bytepluses.com/api/compatible` |
 
 * **API key**: Get an [API key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey)
 

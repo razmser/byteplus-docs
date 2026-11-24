@@ -52,9 +52,9 @@ For an omni reference\-to\-video task, if you do not explicitly distinguish the 
 
 3. We recommend setting `ratio` to `adaptive` and `duration` to `-1`. If you provide reference videos, we recommend that each video be 4–30 seconds long.
 
-> **Note**
+   > **Note**
 
-> When `omni_reference_task_type` is set to `auto`, the model may classify the task as reference\-to\-video, video editing, or video extension based on the prompt intent. Video editing and video extension have special parameter constraints. **Using the recommended configuration satisfies these constraints and reduces**[**asynchronous errors**](seedance-2-5.md#2.5_error_handling)**after task creation.**
+   > When `omni_reference_task_type` is set to `auto`, the model may classify the task as reference\-to\-video, video editing, or video extension based on the prompt intent. Video editing and video extension have special parameter constraints. **Using the recommended configuration satisfies these constraints and reduces**[**asynchronous errors**](seedance-2-5.md#2.5_error_handling)**after task creation.**
 
 #### Video editing
 
@@ -104,9 +104,9 @@ Seedance 2.5 series models validate parameters when a task is submitted and agai
 
 * For omni reference\-to\-video tasks, when `omni_reference_task_type` is explicitly set to `edit` or `extend`, the API validates the special parameter constraints earlier. If the request does not meet the requirements, the API immediately returns an error.
 
-> **Note**
+   > **Note**
 
-> When actually processing the task, the model still further determines the task type based on the prompt. If the actual task type identified by the model does not match the specified value, the task still triggers an asynchronous error ([error code:](error-codes.md)[`InvalidParameter.TaskTypeMismatch`](error-codes.md)). Follow the prompting guidance for each task type to reduce the chance of errors.
+   > When actually processing the task, the model still further determines the task type based on the prompt. If the actual task type identified by the model does not match the specified value, the task still triggers an asynchronous error ([error code:](error-codes.md)[`InvalidParameter.TaskTypeMismatch`](error-codes.md)). Follow the prompting guidance for each task type to reduce the chance of errors.
 
 #### Asynchronous validation (after a task starts)
 
@@ -114,9 +114,9 @@ Seedance 2.5 series models validate parameters when a task is submitted and agai
 
 * For first\-frame/first\-last\-frame video generation, if the parameter configuration does not meet the special constraints for the task, the task returns an error asynchronously.
 
-> **Note**
+   > **Note**
 
-> Asynchronous errors caused by incompatibility between parameter configuration and task type return the error code [`InvalidParameter.TaskTypeConstraint`](error-codes.md).
+   > Asynchronous errors caused by incompatibility between parameter configuration and task type return the error code [`InvalidParameter.TaskTypeConstraint`](error-codes.md).
 
 ## Getting started
 
@@ -170,9 +170,9 @@ Before you begin, make sure you have completed the following preparations:
 
 2. Run the build script:
 
-```BASH
-./setup_mac.sh
-```
+   ```BASH
+   ./setup_mac.sh
+   ```
 
 3. The script will automatically configure the entire environment.
 

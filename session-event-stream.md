@@ -67,7 +67,7 @@ Select the corresponding API based on the use case:
 
 Event types follow the `{domain}.{action}` naming convention. First determine the direction and responsibilities based on the event domain, and then read the corresponding structure based on the full `type`.
 
-|Event domain |Direction |Note |
+|Event domain |Direction |Description |
 |---|---|---|
 |`user.*`, `system.message` |Client to session |Submit user messages, dynamic system prompts, interrupts, tool confirmations, or tool results. |
 |`agent.*` |Session to client |Return messages, thinking process, tool calls, and main\-child thread communication events. |
@@ -300,7 +300,7 @@ In addition to the fixed system prompt configured when [defining an agent](defin
 
 The same request needs to distinguish between the API submission order and the model context order:
 
-|Stage |Order |Note |
+|Stage |Order |Description |
 |---|---|---|
 |The `events` array in the API request |Send `user.message` first, then send `system.message`. |`system.message` must immediately follow `user.message` and be the last element in the array. |
 |Context before entering the model |In order: the agent system prompt, historical `system.message`, the current\-turn `system.message`, and the current\-turn `user.message`. |The server first appends the current\-turn `system.message` to the system\-role context, and then initiates the model call for the current turn. |
@@ -802,7 +802,7 @@ Select the corresponding event based on the statistics scope:
 
 * **Usage for a single model request**: Read `model_usage` from the `span.model_request_end` event to analyze the token consumption and inference speed of a specific model call.
 
-The following `session.usage` example includes the session's cumulative runtime, model tokens, and number of server\-side search requests:
+The following `session.usage` example includes the session's cumulative runtime, model tokens, the number of server\-side search requests, and video generation usage:
 
 ```jsonc
 {
@@ -825,6 +825,18 @@ The following `session.usage` example includes the session's cumulative runtime,
   }
 }
 ```
+
+`server_tool_use.video_generate` is the cumulative usage of the built\-in `video_generate` tool, grouped by model. The parameters are as follows:
+
+* **`name`**: The model name in the tool configuration, for example `dreamina-seedance-2-5`.
+
+* **`id`**: The model or inference endpoint ID that was actually called.
+
+* **`requests`**: The number of tasks that were successfully completed upstream and returned usage.
+
+* **`tokens`**: The total number of video generation tokens consumed as returned by the upstream service.
+
+The `video_generate` parameter is not returned when there is no video generation usage.
 
 `input_tokens` in the `session.usage` event is the total number of input tokens, including the portions read from and written to the cache; `cache_read_input_tokens` is the portion that hits the prompt cache.`cache_creation.ephemeral_1h_input_tokens` and `cache_creation.ephemeral_5m_input_tokens` currently always return `0`. They cannot be used to determine whether a session created a cache, or to calculate uncached input.
 

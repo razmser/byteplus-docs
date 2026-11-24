@@ -6,7 +6,7 @@ When a documentation page URL is known, an AI agent should try `<DOC_URL>.md` fo
 
 |URL type |Response content |Advantage |Limitation |
 |---|---|---|---|
-|Markdown mirror |Markdown text |Primarily contains the title and article body, suitable for direct agent context. |Requires a known documentation page and a site that provides `<DOC_URL>.md`. |
+|Markdown mirror |Markdown text |Primarily contains the title and article body, suitable for adding directly to the agent's context. |Requires a known documentation page and a site that provides `<DOC_URL>.md`. |
 |HTML page |`text/html` |An agent with a web\-reading tool can fetch it without changing the URL. |Raw HTML also contains navigation, scripts, styles, and page metadata, which consume context and affect article extraction. |
 
 ## Read a Markdown mirror

@@ -50,6 +50,10 @@ Resource access permissions. For `file`, this is fixed as `read_only`; for other
 
 Returned when `type` is `file`, indicating the currently available file ID.
 
+**instructions** `string`  |  Instructions
+
+Returned when `type` is `memory_store`, indicating the instructions currently used by the session for this memory store.
+
 **memory_store_id** `string`  |  Memory store ID
 
 Returned when `type` is `memory_store`, indicating the memory store ID mounted to the session.

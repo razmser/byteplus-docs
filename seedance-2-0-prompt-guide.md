@@ -152,9 +152,9 @@ Use shot order, write a simple "Shot 1 / Shot 2 / Shot 3" storyboard for each se
 
 * Use identifiers such as `Shot 1`, `Shot 2`, and `Shot 3` to organize content in the order events occur (primary first, secondary later). Do not impose strict limits on the duration of each segment; prioritize allowing the model to naturally generate the pacing based on the plot.
 
-> **Tip**
+   > **Tip**
 
-> The model's support for precise timing (such as 0–3 seconds) is unstable, and forcibly limiting duration may lead to abnormal generation results.
+   > The model's support for precise timing (such as 0–3 seconds) is unstable, and forcibly limiting duration may lead to abnormal generation results.
 
 * It is recommended to organize each shot according to the following logic:
 
@@ -365,9 +365,9 @@ Strengthen the independence and weight of the face reference:
 
 3. **Place important assets first**: The more an asset requires **precise reference**, the **earlier** it should be placed in the prompt.
 
-> **Note**
+   > **Note**
 
-> For character references, using a headshot + full\-body photo is sufficient. **Using multi\-view character images is not recommended**. Multi\-view assets contain different angles of the same character, and the model may easily identify them as multiple different subjects, which instead worsens the ID drift issue.
+   > For character references, using a headshot + full\-body photo is sufficient. **Using multi\-view character images is not recommended**. Multi\-view assets contain different angles of the same character, and the model may easily identify them as multiple different subjects, which instead worsens the ID drift issue.
 
 |Before |After |
 |---|---|
@@ -435,9 +435,9 @@ The current recommendation is to repair this in post\-editing by aligning keyfra
 
 5. Export and check the smoothness of the stitched video.
 
-> **Tip**
+   > **Tip**
 
-> After video frame alignment, slight jumps may still exist. It is recommended to end the video when generating a prefill\-based response video at the moment of a transition cut, and start the next video from the new scene after the ending cut.
+   > After video frame alignment, slight jumps may still exist. It is recommended to end the video when generating a prefill\-based response video at the moment of a transition cut, and start the next video from the new scene after the ending cut.
 
 |Before |After |
 |---|---|

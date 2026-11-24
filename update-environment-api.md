@@ -461,3 +461,7 @@ A description of the environment's purpose.
 **metadata** `object`  |  Custom metadata
 
 The custom business attributes of the environment, returned as string key\-value pairs.
+
+**scene** `string`  |  Scene tag
+
+The business scene that the environment belongs to. Options: `default`, `dreams`.

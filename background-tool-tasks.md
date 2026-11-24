@@ -51,7 +51,7 @@ For example, after you send "Run the tests in the background and summarize the f
 
 A task goes through the following states from submission to completion:
 
-|Status |Note |
+|Status |Description |
 |---|---|
 |`queued` |The task has been created and is waiting to run. |
 |`running` |The tool is running, or the tool artifacts are being saved to the session workspace. |
@@ -74,7 +74,7 @@ For complete request parameters and response parameters, see [List session tasks
 
 The list is returned in descending order by creation time. You can use the following query parameters to narrow the scope:
 
-|Parameter |Type |Note |
+|Arguments |Type |Description |
 |---|---|---|
 |`state` |string |Filter by status. Separate multiple statuses with half\-width commas, for example, `queued,running`. |
 |`session_thread_id` |string |Return only tasks created by the specified session thread. If omitted, tasks for the entire session are returned. |
@@ -129,7 +129,7 @@ When querying a single task, if the task status is `succeeded`, `failed`, `cance
 
 * **`result.content`**: the text result returned by the tool.
 
-* **`result.meta_info`**: information used to locate artifacts or logs. A Bash task can return the exit code and paths to standard output and standard error logs; a video generation task can return the generation task ID, the video URL, and the artifact path in the session workspace.
+* **`result.meta_info`**: information used to locate artifacts or logs. Bash tasks can return exit codes and standard output and standard error log paths; video generation tasks can return the generation task ID, upstream task ID, video URL, generation parameters, generation usage, actual artifact specifications, metadata archive path, and artifact paths in the session workspace.
 
 * **`error_code`** ** and ** **`error_message`**: Error information when the task fails, is canceled, or has an unknown status, and the server has recorded the failure reason.
 

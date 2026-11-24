@@ -296,6 +296,16 @@ The ID of the referenced agent.
 
 The version number of the referenced agent.
 
+**scene** `string`  |  Scene tag
+
+`data.scene`
+
+The business scene for this historical version.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
+
 **skills** `object[]`  |  Skill list
 
 `data.skills`

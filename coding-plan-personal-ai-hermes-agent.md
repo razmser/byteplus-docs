@@ -210,7 +210,7 @@ model:
    hermes
    ```
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/183992bd59e84921b3cd540e4fc98642~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/183992bd59e84921b3cd540e4fc98642~tplv-goo7wpa0wc-image.image)
 
 2. Get started with Hermes Agent. For supported CLI Interface, see [Documentation](https://hermes-agent.nousresearch.com/docs/user-guide/cli).
 
@@ -260,7 +260,7 @@ You can switch the **text generation model** at any time.
 
 3. Open the newly created Feishu bot in Feishu and send any message to obtain the pairing code.
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/c2011e63fa4f4be8af7b0a56c3ea1301~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/c2011e63fa4f4be8af7b0a56c3ea1301~tplv-goo7wpa0wc-image.image)
 
 4. Run the following command in the terminal to configure Feishu. Replace `<pairing-code>` with the obtained pairing code.
 

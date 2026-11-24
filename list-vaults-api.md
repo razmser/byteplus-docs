@@ -52,6 +52,16 @@ Do not pass `page` in the first request to `GET /api/v3/vaults?limit=20`. The su
 
 Do not generate or modify this value yourself.
 
+**scene** `string`  |  Vault scenario
+
+Filter by the vault usage scenario. If omitted or an empty value is passed, no filtering is applied.
+
+* `default`: General business scenario.
+
+* `dreams`: Memory organization scenario.
+
+Passing other values does not cause an error; if no scenario matches, an empty list is returned.
+
 ## Response parameters
 
 **data** `object[]`  |  Vault list
@@ -95,6 +105,16 @@ The latest update time of the vault in RFC 3339 format.
 `data.metadata`
 
 String key\-value pairs set for the vault, which can be used to categorize or associate business information. Returns `null` if not set.
+
+**scene** `string`  |  Vault scenario
+
+`data.scene`
+
+The vault's usage scenario.
+
+* `default`: General business scenario.
+
+* `dreams`: Memory organization scenario.
 
 **next_page** `string`  |  Next page identifier
 

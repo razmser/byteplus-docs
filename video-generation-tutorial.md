@@ -2172,10 +2172,10 @@ if __name__ == '__main__':
 
    * Dreamina Seedance 2.0 series: 3 videos
 
-|**Container format** |**Common file extensions** |**MIME** |**Supported encoding** |
-|---|---|---|---|
-|MP4 |.mp4 |video/mp4 |video: H.264/AVC, H.265/HEVC<br><br>audio: AAC, MP3 |
-|QuickTime |.mov |video/quicktime |video: H.264/AVC, H.265/HEVC<br><br>audio: AAC, MP3, PCM |
+      |**Container format** |**Common file extensions** |**MIME** |**Supported encoding** |
+      |---|---|---|---|
+      |MP4 |.mp4 |video/mp4 |video: H.264/AVC, H.265/HEVC<br><br>audio: AAC, MP3 |
+      |QuickTime |.mov |video/quicktime |video: H.264/AVC, H.265/HEVC<br><br>audio: AAC, MP3, PCM |
 
 **Audio requirements**
 

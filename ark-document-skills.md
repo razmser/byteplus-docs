@@ -16,7 +16,7 @@ Before installation, prepare Node.js 22.20.0 or later and npm. After installatio
 
 ### ark\-docs\-reader
 
-`ark-docs-reader` is a documentation retrieval Skill installed in an AI agent. While handling ModelArk tasks, the agent uses the ModelArk `llms.txt` index and matched English Markdown documents to search and read the latest official documentation.
+`ark-docs-reader` is a documentation retrieval Skill installed in an AI agent. While handling ModelArk tasks, the agent uses the ModelArk `llms.txt` index and the matching English Markdown pages to search and read the latest official documentation.
 
 Run the following command to install the Skill:
 

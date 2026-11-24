@@ -1,0 +1,169 @@
+# Cancel dream
+
+`POST https://ark.ap-southeast.bytepluses.com/api/v3/dreams/{dream_id}/cancel`
+
+Request to cancel a dream that is in the `pending` or `running` state. A task that is already in the `canceled` state is returned directly as the current task; tasks in other terminal states cannot be canceled.
+
+The API first records the cancellation intent, and then a background task confirms that execution has stopped. The `status` in the response may still be `pending` or `running`. Continue querying the task until it enters a terminal state.
+
+## Authentication
+
+This API supports the following authentication method(s). For details, see [Base URL and authentication](base-url-and-authentication.md).
+
+* API Key authentication. Go to the [API Key Management](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey) page. Obtain a long\-lived API key.
+
+---
+
+## Request parameters
+
+### Path parameters
+
+**dream_id** `string` `Required`  |  Dream ID
+
+The dream task ID to cancel, in the format of a string that starts with `drm-`.
+
+## Response parameters
+
+**created_at** `string`  |  Creation time
+
+The task creation time, in RFC 3339 format.
+
+**id** `string`  |  Dream ID
+
+The unique identifier of the dream task, in the format of a string that starts with `drm-`.
+
+**inputs** `object[]`  |  Task input
+
+The input snapshot saved when the task was created.
+
+Source memory store input `object`
+
+The source memory store input saved when the task was created.
+
+**memory_store_id** `string`  |  Source memory store ID
+
+`inputs.memory_store_id`
+
+Source memory store ID.
+
+**type** `string`  |  Input type
+
+`inputs.type`
+
+Input type, fixed as `memory_store`.
+
+Historical session input `object`
+
+The historical session input saved when the task was created.
+
+**session_ids** `string[]`  |  Historical session IDs
+
+`inputs.session_ids`
+
+The list of historical session IDs saved when the task was created.
+
+**type** `string`  |  Input type
+
+`inputs.type`
+
+Input type, fixed as `sessions`.
+
+**model** `object`  |  Model information
+
+Information about the model used to perform the memory organization task.
+
+**id** `string`  |  Model ID
+
+`model.id`
+
+The model ID used to perform the memory organization task.
+
+**outputs** `object[]`  |  Task output
+
+The output memory store created by the dream. The access timing and content integrity are indicated by `status`.
+
+**memory_store_id** `string`  |  Output memory store ID
+
+`outputs.memory_store_id`
+
+The output memory store ID created by the dream.
+
+**type** `string`  |  Output type
+
+`outputs.type`
+
+Output type, fixed as `memory_store`.
+
+**status** `string`  |  Task status
+
+The current status of the dream task. After the cancellation request is recorded, the response may still be `pending` or `running`.
+
+* `pending`: The task has been accepted and is waiting to run. The output memory store is not yet accessible.
+
+* `running`: The task is running. The output memory store is not yet accessible.
+
+* `completed`: The task is completed. The output memory store is available.
+
+* `failed`: The task failed to run. The output memory store is accessible, but its content may be empty or incomplete; see `error` for the reason.
+
+* `canceled`: The task has been canceled. The output memory store is accessible, but its content may be empty or incomplete.
+
+**type** `string`  |  Object type
+
+Object type, fixed as `dream`.
+
+**ended_at** `string`  |  End time
+
+The time when the task enters a terminal state, in RFC 3339 format.`null` if the task has not ended.
+
+**error** `object`  |  Failure information
+
+Information about the asynchronous execution failure of the task.`null` if the task has not failed.
+
+**message** `string`  |  Error information
+
+`error.message`
+
+The reason why dream execution failed, used to troubleshoot task failure.
+
+**type** `string`  |  Error type
+
+`error.type`
+
+Error type.`timeout` indicates that the task timed out; `internal_error` indicates that an internal error occurred during task execution.
+
+**instructions** `string`  |  Organization instructions
+
+The memory organization requirements passed in when the task was created.`null` if not passed in.
+
+**running_time** `number`  |  Cumulative running time
+
+The cumulative running time of dream excluding idle intervals, in seconds.`null` if it has not been obtained yet.
+
+**usage** `object`  |  Usage statistics
+
+Token usage of the task. A value of `null` indicates that the usage is unknown and must not be interpreted as zero consumption.
+
+**cache_creation_input_tokens** `integer`  |  Input tokens written to the cache
+
+`usage.cache_creation_input_tokens`
+
+Number of input tokens written to the cache.
+
+**cache_read_input_tokens** `integer`  |  Cache read tokens
+
+`usage.cache_read_input_tokens`
+
+The number of input tokens read from the cache.
+
+**input_tokens** `integer`  |  Total input tokens
+
+`usage.input_tokens`
+
+The number of input tokens consumed by this dream execution.
+
+**output_tokens** `integer`  |  Total output tokens
+
+`usage.output_tokens`
+
+The number of output tokens generated by this dream execution.

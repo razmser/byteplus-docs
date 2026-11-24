@@ -104,6 +104,22 @@ The update time of the memory store, in RFC 3339 UTC format.
 
 Description of the memory store's purpose and stored content.
 
+**dream_id** `string`  |  Dream task ID
+
+Returned only for dream output memory stores. Indicates the dream ID that created the output memory store. This parameter is not returned for regular memory stores.
+
+**dream_status** `string`  |  Dream task status
+
+Returned only for dream output memory stores. Indicates the status of the dream that created the output memory store. This parameter is not returned for regular memory stores. Options: `pending`, `running`, `completed`, `failed`, `canceled`.
+
+**mountable** `boolean`  |  Whether mountable
+
+Indicates whether the memory store can currently be mounted, read, or modified. Regular memory stores return `true`. Dream output memory stores return `false` when in the `pending` or `running` state, and return `true` when in the `completed`, `failed`, or `canceled` state.
+
 **project_name** `string`  |  Project name
 
 The name of the project to which the memory store actually belongs.
+
+**usage_ready** `boolean`  |  Whether usage is ready
+
+Indicates whether `memory_count` and `storage_bytes` are available as accurate statistics. Regular memory stores return `true`. Dream output memory stores return `false` when in the `pending` or `running` state, and return `true` when in the `completed`, `failed`, or `canceled` state.

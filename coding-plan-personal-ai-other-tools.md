@@ -107,9 +107,9 @@ After Cursor is installed, you must log in to a paid account to configure Models
 
 * Add Custom Model: Specify either `ark-code-latest` or a supported model here. See [Key configuration](coding-plan-personal-ai-other-tools.md#key-configuration) for details.
 
-> **Note**
+   > **Note**
 
-> If `glm-5.2` or `glm-5.3-flash` cannot be used because of a naming conflict, use `glm-5-2` or `glm-5-3-flash`, respectively.
+   > If `glm-5.2` or `glm-5.3-flash` cannot be used because of a naming conflict, use `glm-5-2` or `glm-5-3-flash`, respectively.
 
 Once configuration is complete, you can select the configured model in the chat panel to interact with the model.
 

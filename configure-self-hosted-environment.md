@@ -50,9 +50,9 @@ The following is the end\-to\-end workflow for a self\-hosted environment:
 
 9. The worker completes the work item and continues polling.
 
-> **Note**
+   > **Note**
 
-> A self\-hosted environment does not move all tools to the worker. The file and network policies of the enterprise sandbox constrain only the six tools executed by the worker. They do not constrain web, MCP, or multimodal tools executed on the ModelArk side.
+   > A self\-hosted environment does not move all tools to the worker. The file and network policies of the enterprise sandbox constrain only the six tools executed by the worker. They do not constrain web, MCP, or multimodal tools executed on the ModelArk side.
 
 ## Prerequisites
 

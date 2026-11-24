@@ -58,9 +58,9 @@ One JSON format data per line:
 
    * **role**  *(str, required)* : Role. Valid values include system, user, and assistant.
 
-> **Tip**
+      > **Tip**
 
-> **Note**: To improve the model's Function Calling capability, you need to select a model that supports Function Calling training and provide a training set containing Function Calling formatted data for fine\-tuning; for specific models and formats, please refer to [Notes for multi\-turn output](function-calling.md#ff6e0fcb)
+      > **Note**: To improve the model's Function Calling capability, you need to select a model that supports Function Calling training and provide a training set containing Function Calling formatted data for fine\-tuning; for specific models and formats, please refer to [Notes for multi\-turn output](function-calling.md#ff6e0fcb)
 
 * **content**  *(str, required)* : Dialogue content text.
 
@@ -74,13 +74,13 @@ One JSON format data per line:
 
       * If only the last turn of the conversation carries reasoning_content during training in multi\-turn conversation scenarios, the model will learn not to perform thinking in intermediate conversation turns, affecting the model's thinking performance.
 
-      ```Plaintext
-      For example, suppose the user samples are up1 assistant1 (with cot), up2 assistant2 (with cot), up3 assistant3 (with cot), they should be split into the following three samples for training respectively:
-      
-      up1 assistant1 (with cot)
-      up1 assistant1 (without cot & loss_mask = 0) up2 assistant2 (with cot)
-      up1 assistant1 (without cot & loss_mask = 0) up2 assistant2 (without cot & loss_mask = 0) up3 assistant3 (with cot)
-      ```
+         ```Plaintext
+         For example, suppose the user samples are up1 assistant1 (with cot), up2 assistant2 (with cot), up3 assistant3 (with cot), they should be split into the following three samples for training respectively:
+         
+         up1 assistant1 (with cot)
+         up1 assistant1 (without cot & loss_mask = 0) up2 assistant2 (with cot)
+         up1 assistant1 (without cot & loss_mask = 0) up2 assistant2 (without cot & loss_mask = 0) up3 assistant3 (with cot)
+         ```
 
 * **thinking** (str, required for models that support this parameter, prohibited for models that do not): Some models with deep thinking capabilities support controlling whether to enable deep thinking capabilities through the **thinking** field.
 
@@ -598,14 +598,14 @@ Each line contains one piece of sample data in JSON format:
 
 1. Create a storage bucket (Bucket) for storing files (Objects). For detailed steps to create a bucket, refer to [the Object Storage Console Quick Start](https://docs.byteplus.com/en/docs/tos/docs-quick-start_1). An example directory structure is as follows:
 
-   ```Bash
-   bucketname    # Bucket name
-   ├── sample  # Folder name in the bucket
-   ├── data.jsonl
-   └── video   # Folder name in the bucket
-   ├── xxx.mp4
-   └── xxxx.mp4
-   ```
+```Bash
+bucketname    # Bucket name
+├── sample  # Folder name in the bucket
+├── data.jsonl
+└── video   # Folder name in the bucket
+├── xxx.mp4
+└── xxxx.mp4
+```
 
 2. Fill in the TOS object address in the JSONL file using the format "tos://${bucket}/${object}". For the structure above, the URL would be "tos://bucketname/video/xxx.mp4".**Note that the video files referenced by the TOS URL must be in the same bucket as the JSONL file.**  This format accelerates data processing, reduces time consumed by multi\-role transmission, and thereby improves training efficiency.After completing the above steps, **select the "Import from TOS" method when configuring data for the fine\-tuning task, and only upload the JSONL file.**
 
@@ -669,7 +669,7 @@ One JSON\-formatted data per line:
 
    * **content**  *(str, required)* : Conversation content text, not included in the last message
 
-   * **chosen**  *(str, required)* : Preferred positive example content, must be included in the last message
+      * **chosen**  *(str, required)* : Preferred positive example content, must be included in the last message
 
    * **rejected**  *(str, required)* : Non\-preferred negative example content, must be included in the last message
 
@@ -854,12 +854,10 @@ Each line contains one JSON format data:
 
    * Different models have different configurable enumeration values; for more models, please refer to [Text and code generation](model-list.md#text-and-code).
 
-      ```Plain Text
-        |Model Version |enabled |disabled |auto |
-        |---|---|---|---|
-        |seed-1-6-250615 |✅ |✅ |✅ |
-        |seed-1-6-flash-250615 |✅ |✅ |❌ |
-      ```
+   |Model Version |enabled |disabled |auto |
+   |---|---|---|---|
+   |seed\-1\-6\-250615 |✅ |✅ |✅ |
+   |seed\-1\-6\-flash\-250615 |✅ |✅ |❌ |
 
    * `enabled` indicates forcing the model to think; in this case, the assistant in choices must return with the reasoning_content field, otherwise the model performance will be affected
 
@@ -1066,14 +1064,14 @@ Configure your variables, including:
 
 * Select your frame extraction strategy.
 
-```Python
-...
-# 1. CONSTANT_INTERVAL: Fixed time interval frame extraction, time interval can be adjusted
-# 2. EVEN_INTERVAL: Uniform frame extraction with fixed total number of frames, total number of frames can be adjusted
-        extraction_strategy=Strategy.CONSTANT_INTERVAL,
-        # extraction_strategy=Strategy.EVEN_INTERVAL,
-...
-```
+   ```Python
+   ...
+   # 1. CONSTANT_INTERVAL: Fixed time interval frame extraction, time interval can be adjusted
+   # 2. EVEN_INTERVAL: Uniform frame extraction with fixed total number of frames, total number of frames can be adjusted
+           extraction_strategy=Strategy.CONSTANT_INTERVAL,
+           # extraction_strategy=Strategy.EVEN_INTERVAL,
+   ...
+   ```
 
 ### Complete Python script
 

@@ -41,8 +41,8 @@ arkcli billing list
 |`--billing-mode` |string_slice |Filter by billing mode (repeatable): 1 (subscription) \| 2 (pay\-as\-you\-go) \| 3 (contract) \| 4 (fulfillment) |
 |`--ignore-zero` |bool |Skip line items with discounted price = 0 |
 |`--mine` |bool |Limit to bills attributed to resources owned by the current SSO sub\-user. Pair with \-\-mine\-by to choose attribution dimension. Subscription/account\-level bills (Coding Plan / Coding Plan Team) are excluded since they have no IAM owner. Mutually exclusive with \-\-endpoint/\-\-apikey/\-\-apikey\-sid/\-\-split\-dim. |
-|`--mine-by` |string |Scope of \-\-mine: endpoint (default, 'infra ownership' — total spend on endpoints I deployed, regardless of caller) \| apikey (cost causation — bills caused by my API keys). Two views never overlap and are not addable: endpoint rolls up by which infra was used; apikey rolls up by who paid. Default aligns with usage stats \-\-mine\-by. |
-|`--limit` |int |Pagination mode: return at most N rows per wire call (1\-300). In multi fan\-out (\-\-end / \-\-mine), this applies per fan\-out; total returned ≤ limit × fanout_count. Always check is_truncated + partial_failures summary before sum. |
+|`--mine-by` |string |Scope of \-\-mine: endpoint (default, 'infra ownership' — total spend on endpoints I deployed, regardless of caller) \| apikey (cost causation — bills caused by my API keys). Two views never overlap and cannot be added together: endpoint rolls up by which infra was used; apikey rolls up by who paid. Default aligns with usage stats \-\-mine\-by. |
+|`--limit` |int |Pagination mode: return at most N rows per wire call (1\-300). In multi fan\-out (\-\-end / \-\-mine), this applies per fan\-out; total returned ≤ limit × fanout_count. Always check is_truncated + partial_failures summary before summing. |
 |`--offset` |int |Pagination mode: skip N rows per wire call. Loop offset += limit until offset \>= total_records (single fan\-out) or use shell loop for multi fan\-out. |
 |`--output` |string |Write the full Output (items + summary + partial_failures) to FILE as JSON; stdout shows metadata only (items omitted). Auto\-raises the internal page cap to 1000 (300k rows) so large accounts can dump full detail in one go; user \-\-page\-limit=N still wins. |
 
@@ -75,11 +75,9 @@ arkcli doctor monitor collect --endpoint <endpoint-id> --metric request.rpm.by_a
 |`monitor alert templates` |List VMP alert templates |
 |`monitor alert template --template-id <id>` |Show a single alert template |
 
-Continuous orchestration (rollout watch with Feishu push, release\-compare reports, daily\-digest inspections, incident drilldown) is handled by the embedded `arkcli-vmp-workflows` Skill; the commands above are one\-shot read\-only collection and queries.
-
 ### doctor +verify\-origin
 
-Verify ModelArk generation\-origin features for 1\-20 images or videos
+Check whether 1\-20 images or videos carry ModelArk generation\-origin features
 
 ```Bash
 arkcli doctor +verify-origin <media-url> [media-url...]
@@ -89,11 +87,11 @@ arkcli doctor +verify-origin <media-url> [media-url...]
 |---|---|---|
 |`--query-id` |string_slice |Resume an existing verification QueryID without creating a task; repeat up to 20 times |
 |`--timeout` |string |Maximum wait time for the entire batch, for example 2m or 10m (default: 2m0s) |
-|`--yes` |bool |After reviewing the price, confirm once for every media item in this batch and create all verification tasks |
+|`--yes` |bool |After reviewing the price, confirm once for the whole batch and create all verification tasks |
 
 ### doctor account
 
-Diagnose the current BytePlus account (identity / readiness / balance / IAM / VMP / TOS)
+Diagnose the current account (identity / real\-name verification / balance / IAM / VMP / TOS)
 
 ```Bash
 arkcli doctor account
@@ -117,7 +115,7 @@ arkcli doctor infer-endpoint <endpoint-id>
 
 |Flag |Type |Description |
 |---|---|---|
-|`--auto-bind` |bool |When BytePlus VMP and the ModelArk service\-linked role are ready but no workspace is bound, reuse the first workspace or create ark_default and bind ModelArk telemetry |
+|`--auto-bind` |bool |When BytePlus VMP and the ModelArk service\-linked role are ready but no workspace is bound, reuse the first workspace or create ark_default and bind ModelArk telemetry (if the subscription / SLR is missing, only provide the cloud\-product activation link; do not enable it for the user) |
 |`--window` |string |Lookback window in Go duration syntax (e.g. 1h, 24h; '7d' is not supported by time.ParseDuration) |
 
 ### doctor metrics
@@ -130,7 +128,7 @@ arkcli doctor metrics <id>
 
 |Flag |Type |Description |
 |---|---|---|
-|`--auto-bind` |bool |When BytePlus VMP and the ModelArk service\-linked role are ready but no workspace is bound, reuse the first workspace or create ark_default and bind ModelArk telemetry |
+|`--auto-bind` |bool |When BytePlus VMP and the ModelArk service\-linked role are ready but no workspace is bound, reuse the first workspace or create ark_default and bind ModelArk telemetry (if the subscription / cross\-service authorization is missing, still provide the LinkOpenMgmtCloudProduct link; do not enable it for the user) |
 |`--filter` |stringArray |Inject an extra label\-matcher (repeatable, label=value); template must declare a ${@filters} directive (default: []) |
 |`--format` |string |Output shape (bare\-form 'metrics' only — list/describe always print JSON): json \| scalar \| table |
 |`--param` |stringArray |Bind a catalog parameter (repeatable, key=value) (default: []) |
@@ -164,7 +162,7 @@ arkcli doctor metrics raw
 
 |Flag |Type |Description |
 |---|---|---|
-|`--auto-bind` |bool |When BytePlus VMP and the ModelArk service\-linked role are ready but no workspace is bound, reuse the first workspace or create ark_default and bind ModelArk telemetry |
+|`--auto-bind` |bool |When BytePlus VMP and the ModelArk service\-linked role are ready but no workspace is bound, reuse the first workspace or create ark_default and bind ModelArk telemetry (if the subscription / cross\-service authorization is missing, still provide the LinkOpenMgmtCloudProduct link; do not enable it for the user) |
 |`--format` |string |Output shape: json \| scalar \| table |
 |`--promql` |string |PromQL expression (required) |
 |`--step` |string |Sample step (Go duration; default auto) |
@@ -181,7 +179,7 @@ arkcli doctor model <model-name>
 
 |Flag |Type |Description |
 |---|---|---|
-|`--auto-bind` |bool |When BytePlus VMP and the ModelArk service\-linked role are ready but no workspace is bound, reuse the first workspace or create ark_default and bind ModelArk telemetry |
+|`--auto-bind` |bool |When BytePlus VMP and the ModelArk service\-linked role are ready but no workspace is bound, reuse the first workspace or create ark_default and bind ModelArk telemetry (if the subscription / SLR is missing, only provide the cloud\-product activation link; do not enable it for the user) |
 |`--window` |string |Lookback window (Go duration syntax, e.g. 1h, 24h) |
 
 ## usage

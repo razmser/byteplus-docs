@@ -82,7 +82,7 @@ Prerequisites: You have installed Node.js (LTS version recommended).
 
 2. In the DeepSeek Harness Web UI, click **Settings** in the bottom\-left corner.
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/harness1.png)
+   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/harness1.png)
 
 3. In the left navigation, click **Models**, and configure according to the on\-screen information.
 
@@ -96,7 +96,7 @@ On the DeepSeek card, select **Custom settings**, fill in the following informat
 
 * **Add model**: For available models, see [Model configuration](coding-plan-personal-ai-deepseek-harness.md#model-configuration).
 
-![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/harness2.png)
+   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/harness2.png)
 
 * Option 2: Add a custom provider
 
@@ -108,11 +108,11 @@ Click **Add custom provider** and fill in the following information to create a 
 
 * **API endpoint**, **API protocol**: The supported API endpoints, API protocols, and their correspondence are as follows. Do not misconfigure.
 
-|API protocol |API endpoint |
-|---|---|
-|openai\-completions |`https://ark.ap-southeast.bytepluses.com/api/coding/v3` |
-|openai\-responses |`https://ark.ap-southeast.bytepluses.com/api/coding/v3` |
-|anthropic\-messages |`https://ark.ap-southeast.bytepluses.com/api/coding` |
+   |API protocol |API endpoint |
+   |---|---|
+   |openai\-completions |`https://ark.ap-southeast.bytepluses.com/api/coding/v3` |
+   |openai\-responses |`https://ark.ap-southeast.bytepluses.com/api/coding/v3` |
+   |anthropic\-messages |`https://ark.ap-southeast.bytepluses.com/api/coding` |
 
 * **API key**: Enter the Coding Plan [API key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
 

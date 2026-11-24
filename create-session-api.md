@@ -780,6 +780,22 @@ The ID of the memory store to mount to the session, returned by the create memor
 
 * > You can add up to 10 resources of type `memory_store`.
 
+**instructions** `string`  |  Instructions
+
+`resources.instructions`
+
+Instructions followed when the session uses this memory store, up to 4096 characters.
+
+**access** `string` `Default read_write`  |  Access permissions
+
+`resources.access`
+
+The session's access permissions for the memory store:
+
+* `read_only`: The agent can read from the memory store, but cannot write to it.
+
+* `read_write`: The agent can read from and write to the memory store.
+
 TOS resource `object`
 
 A TOS object directory mounted to the session.
@@ -853,6 +869,12 @@ Session title, used to help users identify and manage the session. Up to 255 cha
 **vault_ids** `string[]`  |  Vault ID list
 
 List of vault IDs bound to the session.
+
+**scene** `string` `Default default`  |  Session scene
+
+Session scene marker.
+
+* `default`: regular session.
 
 **initial_events** `object[]`  |  Initial event list
 
@@ -1714,6 +1736,16 @@ Custom tool name snapshot created when the session is created.
 
 The member agent version number snapshot created when the session was created.
 
+**scene** `string`  |  Scene tag
+
+`agent.scene`
+
+Business scene of the session agent snapshot.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
+
 **skills** `object[]`  |  Skill list
 
 `agent.skills`
@@ -2180,6 +2212,16 @@ User\-defined metadata.
 
 The list of `config` subparameter names actually overridden by the current session relative to the base environment. Returned only when *type* is `environment_with_overrides` and overridden parameters exist.
 
+**scene** `string`  |  Scene tag
+
+`environment.scene`
+
+The business scene associated with the environment snapshot.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
+
 **resources** `object[]`  |  Resource list
 
 The list of resources actually mounted to the runtime environment after the session is created.
@@ -2266,6 +2308,14 @@ The session's access permissions for the memory store.
 
 * `read_only`: The agent can only read the memory store.
 
+* `read_write`: The agent can read from and modify the memory store.
+
+**instructions** `string`  |  Instructions
+
+`resources.instructions`
+
+Instructions currently used by the session for this memory store.
+
 **memory_store_id** `string`  |  Memory store ID
 
 `resources.memory_store_id`
@@ -2329,6 +2379,12 @@ The object prefix of the mounted directory in TOS.
 `resources.tos_region`
 
 The ID of the region where the TOS mount source is located.
+
+**scene** `string`  |  Session scene
+
+Session scene marker.
+
+* `default`: regular session.
 
 **tags** `object[]`  |  Tag list
 

@@ -152,11 +152,119 @@ Information for reading logs, locating artifacts in the session workspace, or as
 
 The exit code of the Bash command. This parameter is not returned when the execution environment does not return an exit code.
 
+**generation_params** `object`  |  Generation parameters
+
+`result.meta_info.generation_params`
+
+The generation parameters actually submitted to the content generation service. This parameter is not returned when no generation parameters are available.
+
+**duration** `integer`  |  Duration
+
+`result.meta_info.generation_params.duration`
+
+Duration of the generated video, in seconds.
+
+**generate_audio** `boolean`  |  Generate audio track
+
+`result.meta_info.generation_params.generate_audio`
+
+Whether to also generate an audio track.
+
+**model** `string`  |  Models
+
+`result.meta_info.generation_params.model`
+
+The model that was actually used.
+
+**ratio** `string`  |  Aspect ratio
+
+`result.meta_info.generation_params.ratio`
+
+Aspect ratio of the generated video.
+
+**resolution** `string`  |  Resolution
+
+`result.meta_info.generation_params.resolution`
+
+Resolution of the generated video.
+
+**seed** `integer`  |  Random seed
+
+`result.meta_info.generation_params.seed`
+
+The random seed for generating the video. `-1` means random.
+
+**watermark** `boolean`  |  Add watermark
+
+`result.meta_info.generation_params.watermark`
+
+Whether to add a watermark.
+
+**meta_path** `string`  |  Metadata archive path
+
+`result.meta_info.meta_path`
+
+The session workspace path of the archive file containing the complete request, response, and artifact information.
+
+**output** `object`  |  Actual artifact specifications
+
+`result.meta_info.output`
+
+The actual artifact specifications. This parameter is not returned when no specification is available.
+
+**duration** `number`  |  Duration
+
+`result.meta_info.output.duration`
+
+Actual video duration, in seconds.
+
+**fps** `number`  |  Frame rate
+
+`result.meta_info.output.fps`
+
+Actual video frame rate.
+
+**has_audio** `boolean`  |  Has audio track
+
+`result.meta_info.output.has_audio`
+
+Whether the actual video has an audio track.
+
+**height** `integer`  |  Height
+
+`result.meta_info.output.height`
+
+Actual video height, in pixels.
+
+**ratio** `string`  |  Aspect ratio
+
+`result.meta_info.output.ratio`
+
+Actual video aspect ratio.
+
+**resolution** `string`  |  Resolution
+
+`result.meta_info.output.resolution`
+
+Actual video resolution.
+
+**width** `integer`  |  Width
+
+`result.meta_info.output.width`
+
+Actual video width, in pixels.
+
 **output_path** `string`  |  Artifact path
 
 `result.meta_info.output_path`
 
 The file path of the tool artifact or compatibility\-mode output in the session workspace.
+
+**provider_task_id** `string`  |  Upstream task ID
+
+`result.meta_info.provider_task_id`
+
+The upstream task ID returned by the content generation service, used to associate the generation task.
 
 **stderr_path** `string`  |  Standard error path
 
@@ -175,6 +283,24 @@ The file path of Bash standard output in the session workspace.
 `result.meta_info.task_id`
 
 The task ID of the video generation task in the content generation service.
+
+**usage** `object`  |  Generation usage
+
+`result.meta_info.usage`
+
+Usage information returned by the upstream service. This parameter is not returned when no usage data is available.
+
+**completion_tokens** `integer`  |  Generation token consumption
+
+`result.meta_info.usage.completion_tokens`
+
+The number of tokens consumed by this video generation, used for billing calculation.
+
+**total_tokens** `integer`  |  Total usage
+
+`result.meta_info.usage.total_tokens`
+
+The total token usage for this video generation.
 
 **video_url** `string`  |  Video URL
 

@@ -2,11 +2,9 @@
 
 When you use the official SDK, see this guide for typical usage such as setting custom headers.
 
-<span id="243f3c5f"></span>
 ## Set timeout and retry limits
 
 When your network environment is unstable or the response time is long, you can set the timeout and retry limits to improve service availability.
-
 
 * Timeout setting (`timeout`): Suitable for scenarios with long response times, such as when deep reasoning models take a long time to answer questions. This helps avoid service interruptions caused by request timeouts. We recommend 30 minutes (1800 seconds).
 
@@ -18,11 +16,7 @@ When your network environment is unstable or the response time is long, you can 
 
 * Retry limit (`max_retries`): Suitable for unstable network scenarios. Requests that fail due to transient faults, such as network fluctuations, are automatically retried. The default value is 2, meaning that a failed request is retried 2 more times by default. You can configure it as needed.
 
-
-
-<Tabs>
-<Tab zoneid="VPlRnbc9M5" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -40,11 +34,7 @@ client = Ark(
 )
 ```
 
-
-
-</Tab>
-<Tab zoneid="C1Z1lTSAJv" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 import (
@@ -61,56 +51,28 @@ client := arkruntime.NewClientWithApiKey(
 )
 ```
 
-
-
-</Tab>
-<Tab zoneid="mG3q0A69YQ" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
-package com.example;
-
-import com.volcengine.ark.runtime.models.chat.*;
-import com.volcengine.ark.runtime.service.ArkService;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import com.volcengine.ark.runtime.service.ArkService;
 
-public class ChatCompletionsExample {
+public class ConfigureSdkTimeoutRetryExample {
     public static void main(String[] args) {
         String apiKey = System.getenv("ARK_API_KEY");
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") //The base URL for model invocation .
-                .apiKey(apiKey)
-                .timeout(Duration.ofSeconds(1800))//Set the backend's timeout for completing request processing, in seconds; recommended to be 1800 seconds or more
-                .connectTimeout(Duration.ofSeconds(20))//Set the connection timeout to 20 seconds
-                .retryTimes(2)//Set the retry count to 2
-                .build();
-        final List<ChatCompletionRequestMessage> messages = new ArrayList<>();
-        final ChatCompletionRequestMessage userMessage = ChatCompletionRequestUserMessage.builder().role(ChatCompletionRequestMessageType.USER).content(ChatCompletionMessageContent.ofString("Hello"))
-                .build();
-        messages.add(userMessage);
+            .apiKey(apiKey)
+            .timeout(Duration.ofMinutes(30))
+            .connectTimeout(Duration.ofSeconds(20))
+            .retryTimes(2)
+            .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+            .build();
 
-        ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
-                .model("seed-2-0-lite-260228") //Replace with Model ID .
-                .messages(messages)
-                .build();
-
-        service.createChatCompletion(chatCompletionRequest).getChoices()
-                .forEach(choice -> System.out.println(choice.getMessage().getContent()));
-        // Shut down the service.
         service.shutdownExecutor();
     }
 }
 ```
 
-
-
-</Tab>
-</Tabs>
-
-
-<span id="c8e7ffaf"></span>
 ## Set custom headers
 
 The custom `header` parameter uses a key\-value structure and is presented as an object. The following is an example format:
@@ -124,18 +86,13 @@ The custom `header` parameter uses a key\-value structure and is presented as an
 }
 ```
 
-
 It can be used to pass extra information, such as a configuration ID to correlate logs and enable data encryption.
 
-<span id="7493fbd5"></span>
 ### Troubleshooting
 
 When making requests, you can set the **key** to `X-Client-Request-Id` for multiple requests, configure the **value** as a custom ID, and provide the ID to the ModelArk support team. This helps correlate client\-side and server\-side logs for troubleshooting.
 
-
-<Tabs>
-<Tab zoneid="HGQ93yiusR" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -150,7 +107,7 @@ client = Ark(
 
 completion = client.chat.completions.create(
     #Replace with Model ID .
-    model = "seed-2-0-lite-260228",
+    model = "dola-seed-2-1-turbo-260628",
     messages = [
         {"role": "user", "content": "Hello"},
     ],
@@ -160,11 +117,7 @@ completion = client.chat.completions.create(
 print(completion.choices[0].message.content)
 ```
 
-
-
-</Tab>
-<Tab zoneid="TXe8g6ljcs" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 package main
@@ -185,7 +138,7 @@ func main() {
     )
     ctx := context.Background()
     req := &chat.ChatCompletionRequest{
-        Model: "seed-2-0-lite-260228", //Replace with Model ID .
+        Model: "dola-seed-2-1-turbo-260628", //Replace with Model ID .
         Messages: []chat.ChatCompletionRequestMessage{
 userMessage("Hello"),
         },
@@ -217,11 +170,7 @@ func userMessage(content string) chat.ChatCompletionRequestMessage {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="qAJJgijS86" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
 package com.example;
@@ -244,7 +193,7 @@ public class ChatCompletionsExample3 {
         final ChatCompletionRequestMessage userMessage = ChatCompletionRequestUserMessage.builder().role(ChatCompletionRequestMessageType.USER).content(ChatCompletionMessageContent.ofString("What are common cruciferous plants?")).build();
         messages.add(userMessage);
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
-                .model("seed-2-0-lite-260228") //Replace with Model ID .
+                .model("dola-seed-2-1-turbo-260628") //Replace with Model ID .
                 .messages(messages)
                 .build();
         // Use custom request headers
@@ -255,17 +204,9 @@ public class ChatCompletionsExample3 {
 }
 ```
 
-
-
-</Tab>
-</Tabs>
-
-
-<span id="23274b89"></span>
 ### Encrypt data
 
 To ensure the security of inference session data during transmission, you can encrypt session data for online inference. After this capability is enabled, the SDK encrypts the content of inference sessions.
-
 
 * Supported capabilities:
 
@@ -273,15 +214,11 @@ To ensure the security of inference session data during transmission, you can en
 
    * Only Base64 images can be encrypted. Images in the form of URLs cannot be encrypted.
 
-   * Only [Chat API](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1494384) in the official Python SDK and Java SDK is supported.
+   * Only [Chat API](chat-api.md) in the official Python SDK and Java SDK is supported.
 
    * Single\-turn and multi\-turn sessions are supported, as are streaming and non\-streaming, synchronous and asynchronous calls.
 
-
-
-<Tabs>
-<Tab zoneid="JRWCDi6vSH" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -296,7 +233,7 @@ client = Ark(
 
 completion = client.chat.completions.create(
     #Replace with Model ID .
-    model = "seed-2-0-lite-260228",
+    model = "dola-seed-2-1-turbo-260628",
     messages = [
         {"role": "user", "content": "Hello"},
     ],
@@ -306,11 +243,7 @@ completion = client.chat.completions.create(
 print(completion.choices[0].message.content)
 ```
 
-
-
-</Tab>
-<Tab zoneid="oQ136iC1OG" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 Add the following configuration to the `pom.xml` file:
 
@@ -330,7 +263,6 @@ Add the following configuration to the `pom.xml` file:
     </dependency>
 </dependencies>
 ```
-
 
 The code example is as follows:
 
@@ -361,7 +293,7 @@ public class ChatCompletionsExample {
         messages.add(userMessage);
 
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
-                .model("seed-2-0-lite-260228") //Replace with Model ID
+                .model("dola-seed-2-1-turbo-260628") //Replace with Model ID
                 .messages(messages)
                 .build();
 
@@ -376,21 +308,11 @@ public class ChatCompletionsExample {
 }
 ```
 
-
-
-</Tab>
-</Tabs>
-
-
-<span id="063cdc02"></span>
 ## Singleton requests
 
 Use a singleton to request the model service. Do not repeatedly create instances, as this causes extra resource consumption.
 
-
-<Tabs>
-<Tab zoneid="iZTZi6QYX7" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -406,7 +328,7 @@ client = Ark(
 
 # Request 1
 completion = client.chat.completions.create(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     messages=[
         {"role": "user", "content": "Nice day"},
     ],
@@ -416,7 +338,7 @@ print(completion.choices[0].message.content)
 
 # Request 2
 completion = client.chat.completions.create(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     messages=[
         {"role": "user", "content": "Hello"},
     ],
@@ -424,11 +346,7 @@ completion = client.chat.completions.create(
 print(completion.choices[0].message.content)
 ```
 
-
-
-</Tab>
-<Tab zoneid="WPiVQLGLyf" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 package main
@@ -450,7 +368,7 @@ func main() {
     // First request
     req1 := &chat.ChatCompletionRequest{
        // Replace with Model ID .
-       Model: "seed-2-0-lite-260228",
+       Model: "dola-seed-2-1-turbo-260628",
        Messages: []chat.ChatCompletionRequestMessage{
 userMessage("Nice day"),
        },
@@ -466,7 +384,7 @@ userMessage("Nice day"),
     // Second request
     req2 := &chat.ChatCompletionRequest{
        // Replace with Model ID .
-       Model: "seed-2-0-lite-260228",
+       Model: "dola-seed-2-1-turbo-260628",
        Messages: []chat.ChatCompletionRequestMessage{
 userMessage("Hello"),
        },
@@ -492,11 +410,7 @@ func userMessage(content string) chat.ChatCompletionRequestMessage {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="sVPTfh21gI" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
 package com.example;
@@ -519,7 +433,7 @@ public class ChatCompletionsExample4 {
         final ChatCompletionRequestMessage userMessage1 = ChatCompletionRequestUserMessage.builder().role(ChatCompletionRequestMessageType.USER).content(ChatCompletionMessageContent.ofString("Nice weather today?")).build();
         messages1.add(userMessage1);
         ChatCompletionRequest chatCompletionRequest1 = ChatCompletionRequest.builder()
-                .model("seed-2-0-lite-260228")//Replace with Model ID .
+                .model("dola-seed-2-1-turbo-260628")//Replace with Model ID .
                 .messages(messages1)
                 .build();
         service.createChatCompletion(chatCompletionRequest1).getChoices().forEach(choice -> System.out.println(choice.getMessage().getContent()));
@@ -528,7 +442,7 @@ public class ChatCompletionsExample4 {
         final ChatCompletionRequestMessage userMessage2 = ChatCompletionRequestUserMessage.builder().role(ChatCompletionRequestMessageType.USER).content(ChatCompletionMessageContent.ofString("Hello")).build();
         messages2.add(userMessage2);
         ChatCompletionRequest chatCompletionRequest2 = ChatCompletionRequest.builder()
-                .model("seed-2-0-lite-260228")//Replace with Model ID .
+                .model("dola-seed-2-1-turbo-260628")//Replace with Model ID .
                 .messages(messages2)
                 .build();
         service.createChatCompletion(chatCompletionRequest2).getChoices().forEach(choice -> System.out.println(choice.getMessage().getContent()));
@@ -538,21 +452,11 @@ public class ChatCompletionsExample4 {
 }
 ```
 
-
-
-</Tab>
-</Tabs>
-
-
-<span id="065e9d3e"></span>
 ## Set base URL
 
 When initializing `Ark` or `AsyncArk` instances, you usually do not need to configure the `base_url` parameter. Use it when you need to connect to a service endpoint in a non\-default region, as shown in the following example.
 
-
-<Tabs>
-<Tab zoneid="oGRIRSD7s7" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -566,11 +470,7 @@ client = Ark(
 )
 ```
 
-
-
-</Tab>
-<Tab zoneid="SluUTYIjVq" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 import (
@@ -584,11 +484,7 @@ client := arkruntime.NewClientWithApiKey(
 )
 ```
 
-
-
-</Tab>
-<Tab zoneid="sRJTK3m4ic" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
 import com.volcengine.ark.runtime.service.ArkService;
@@ -606,8 +502,3 @@ public class CreateArkClientExample {
     // do your operation...
 }
 ```
-
-
-
-</Tab>
-</Tabs>

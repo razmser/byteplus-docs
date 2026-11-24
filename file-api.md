@@ -1069,112 +1069,112 @@ If you have frequent storage needs, you can manage storage space as follows. For
 
 * Manually call the delete API to clean up inactive files: Delete uploaded files through the Files API. The following is an example.
 
-**Curl**
+   **Curl**
 
 ```Bash
-curl https://ark.ap-southeast.bytepluses.com/api/v3/files/file-20251014**** \
--X DELETE \
--H "Authorization: Bearer $ARK_API_KEY"
-```
+   curl https://ark.ap-southeast.bytepluses.com/api/v3/files/file-20251014**** \
+   -X DELETE \
+   -H "Authorization: Bearer $ARK_API_KEY"
+   ```
 
-**Python SDK**
+   **Python SDK**
 
 ```Python
-import os
-from arkruntime import Ark
+   import os
+   from arkruntime import Ark
+   
+   api_key = os.getenv('ARK_API_KEY')
+   
+   client = Ark(
+       base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
+       api_key=api_key,
+   )
+   
+   if __name__ == "__main__":
+       try:
+           response = client.files.delete(
+               file_id="file-20251014****"
+           )
+           print(response)
+       except Exception as e:
+           print(f"failed to delete response: {e}")
+   ```
 
-api_key = os.getenv('ARK_API_KEY')
-
-client = Ark(
-    base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
-    api_key=api_key,
-)
-
-if __name__ == "__main__":
-    try:
-        response = client.files.delete(
-            file_id="file-20251014****"
-        )
-        print(response)
-    except Exception as e:
-        print(f"failed to delete response: {e}")
-```
-
-**Go SDK**
+   **Go SDK**
 
 ```Go
-package main
+   package main
+   
+   import (
+       "context"
+       "fmt"
+       "os"
+   
+       "github.com/volcengine/ark-runtime-go/arkruntime"
+   )
+   
+   func main() {
+       client := arkruntime.NewClientWithApiKey(
+           os.Getenv("ARK_API_KEY"),
+           arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
+       )
+       ctx := context.Background()
+   
+       fileInfo, err := client.DeleteFile(ctx, "file-20251014****")
+       if err != nil {
+           fmt.Printf("delete file error: %v", err)
+           return
+       }
+       fmt.Printf(" delete file: %v", fileInfo)
+   }
+   ```
 
-import (
-    "context"
-    "fmt"
-    "os"
-
-    "github.com/volcengine/ark-runtime-go/arkruntime"
-)
-
-func main() {
-    client := arkruntime.NewClientWithApiKey(
-        os.Getenv("ARK_API_KEY"),
-        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
-    )
-    ctx := context.Background()
-
-    fileInfo, err := client.DeleteFile(ctx, "file-20251014****")
-    if err != nil {
-        fmt.Printf("delete file error: %v", err)
-        return
-    }
-    fmt.Printf(" delete file: %v", fileInfo)
-}
-```
-
-**Java SDK**
+   **Java SDK**
 
 ```Java
-package com.ark.sample;
+   package com.ark.sample;
+   
+   import com.volcengine.ark.runtime.models.file.*;
+   import com.volcengine.ark.runtime.service.ArkService;
+   
+   public class demo {
+       public static void main(String[] args) {
+           String apiKey = System.getenv("ARK_API_KEY");
+           ArkService service = ArkService.builder().apiKey(apiKey)
+                   .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                   .build();
+   
+           // Delete the file.
+           FileDeleted deleteFile = service.deleteFile("file-20251014****");
+           System.out.println("Delete File:" + deleteFile);
+   
+           service.shutdownExecutor();
+       }
+   }
+   ```
 
-import com.volcengine.ark.runtime.models.file.*;
-import com.volcengine.ark.runtime.service.ArkService;
-
-public class demo {
-    public static void main(String[] args) {
-        String apiKey = System.getenv("ARK_API_KEY");
-        ArkService service = ArkService.builder().apiKey(apiKey)
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
-                .build();
-
-        // Delete the file.
-        FileDeleted deleteFile = service.deleteFile("file-20251014****");
-        System.out.println("Delete File:" + deleteFile);
-
-        service.shutdownExecutor();
-    }
-}
-```
-
-**OpenAI SDK**
+   **OpenAI SDK**
 
 ```Python
-import os
-from openai import OpenAI
-
-api_key = os.getenv('ARK_API_KEY')
-
-client = OpenAI(
-    base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
-    api_key=api_key,
-)
-
-if __name__ == "__main__":
-    try:
-        response = client.files.delete(
-            file_id="file-20251014****"
-        )
-        print(response)
-    except Exception as e:
-        print(f"failed to delete response: {e}")
-```
+   import os
+   from openai import OpenAI
+   
+   api_key = os.getenv('ARK_API_KEY')
+   
+   client = OpenAI(
+       base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
+       api_key=api_key,
+   )
+   
+   if __name__ == "__main__":
+       try:
+           response = client.files.delete(
+               file_id="file-20251014****"
+           )
+           print(response)
+       except Exception as e:
+           print(f"failed to delete response: {e}")
+   ```
 
 # Use File ID for multimodal understanding
 

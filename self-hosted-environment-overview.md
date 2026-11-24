@@ -86,9 +86,9 @@ The collaboration process between the ModelArk control plane and the enterprise 
 
 7. After the task ends, the worker cleans up the execution environment and continues polling for the next work item.
 
-> **Tip**
+   > **Tip**
 
-> Tool calls and tool results pass through the ModelArk control plane, and agent orchestration and model inference are still completed on the ModelArk side. Self\-hosting only changes where the primary agent's Bash and file tools are executed. It does not change the executors of web, MCP, multimodal, and custom tools. For details, see [Self\-hosted environment security](self-hosted-environment-security.md).
+   > Tool calls and tool results pass through the ModelArk control plane, and agent orchestration and model inference are still completed on the ModelArk side. Self\-hosting only changes where the primary agent's Bash and file tools are executed. It does not change the executors of web, MCP, multimodal, and custom tools. For details, see [Self\-hosted environment security](self-hosted-environment-security.md).
 
 ## Core objects
 
@@ -147,9 +147,9 @@ A self\-hosted environment only changes where some tools are executed. Model inf
 
 * **Unclaimed work reclamation**: The `reclaim_older_than_ms` parameter is the claim timeout threshold, in milliseconds. If a worker does not claim the work item within this time after pulling it, another worker can fetch the work item again.
 
-> **Note**
+   > **Note**
 
-> This parameter is used only to set the claim timeout threshold for unclaimed work. After a work item is claimed, it is not affected by this parameter. When a worker's heartbeat is interrupted, the server updates the work item status to `stopped` after the lease expires and a 60\-second grace period has elapsed. Besides, it does not automatically assign the work item to another worker. When the original worker that claimed the work item resumes heartbeats using the same non\-empty worker ID as in the ACK, the work item that was stopped due to lease expiration can be restored directly to `active`.
+   > This parameter is used only to set the claim timeout threshold for unclaimed work. After a work item is claimed, it is not affected by this parameter. When a worker's heartbeat is interrupted, the server updates the work item status to `stopped` after the lease expires and a 60\-second grace period has elapsed. Besides, it does not automatically assign the work item to another worker. When the original worker that claimed the work item resumes heartbeats using the same non\-empty worker ID as in the ACK, the work item that was stopped due to lease expiration can be restored directly to `active`.
 
 ## Manage the environment lifecycle
 

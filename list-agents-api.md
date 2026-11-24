@@ -56,6 +56,12 @@ Next page identifier.
 
 * When paging continuously, keep other filter parameters unchanged.
 
+**scene** `string`  |  Scene tag
+
+Filter by business scene and return only agents in the specified scene. If omitted or an empty value is passed, no filtering is applied.
+
+Common values are `default` and `dreams`. Passing other values does not cause an error, but returns an empty list.
+
 ## Response parameters
 
 **data** `object[]`  |  Agent list
@@ -319,6 +325,16 @@ The ID of the referenced agent.
 `data.multiagent.subagents.predefined_agents.version`
 
 The version number of the referenced agent.
+
+**scene** `string`  |  Scene tag
+
+`data.scene`
+
+The business scene of the agent.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
 
 **skills** `object[]`  |  Skill list
 

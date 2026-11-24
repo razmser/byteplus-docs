@@ -225,11 +225,11 @@ Customizes the polygon count (number of faces) of the 3D model.
 
 * When **mesh_mode** is `Quad`: range [1000, 200000], default: `18000`
 
-> **Tip**
+   > **Tip**
 
-* > When both **quality_override**and**subdivisionlevel** are provided, **subdivisionlevel** will be ignored.
+   * > When both **quality_override**and**subdivisionlevel** are provided, **subdivisionlevel** will be ignored.
 
-* > It is recommended to specify a face count ≥ 150,000.
+   * > It is recommended to specify a face count ≥ 150,000.
 
 ---
 
@@ -239,9 +239,9 @@ Enhances the resolution of texture maps. Optional value:
 
 * `HighPack`: Provides 4K resolution texture maps.
 
-> **Tip**
+   > **Tip**
 
-> If this parameter is not specified, texture maps will default to 2K resolution.
+   > If this parameter is not specified, texture maps will default to 2K resolution.
 
 ---
 

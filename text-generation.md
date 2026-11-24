@@ -216,85 +216,85 @@ For complex tasks or scenarios with multiple concurrent tasks, you can use the A
 
 * Chat API code sample:
 
-**Python**
+   **Python**
 
 ```Python
-import asyncio
-import os
-# Install SDK: python -m pip install --upgrade arkruntime
-from arkruntime import AsyncArk
-
-# Initialize Ark client
-client = AsyncArk(
-# The base URL for model invocation
-    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-# Get API Key:https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
-    api_key=os.getenv('ARK_API_KEY'),
-)
-
-async def main() -> None:
-    stream = await client.chat.completions.create(
-# Replace with Model ID
-        model = "dola-seed-2-1-turbo-260628",
-        messages=[
-            {"role": "system", "content": "You are an AI assistant."},
-            {"role": "user", "content": "What are common cruciferous plants?"},
-        ],
-        stream=True
-    )
-    async for completion in stream:
-        print(completion.choices[0].delta.content, end="")
-    print()
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
+   import asyncio
+   import os
+   # Install SDK: python -m pip install --upgrade arkruntime
+   from arkruntime import AsyncArk
+   
+   # Initialize Ark client
+   client = AsyncArk(
+   # The base URL for model invocation
+       base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+   # Get API Key:https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+       api_key=os.getenv('ARK_API_KEY'),
+   )
+   
+   async def main() -> None:
+       stream = await client.chat.completions.create(
+   # Replace with Model ID
+           model = "dola-seed-2-1-turbo-260628",
+           messages=[
+               {"role": "system", "content": "You are an AI assistant."},
+               {"role": "user", "content": "What are common cruciferous plants?"},
+           ],
+           stream=True
+       )
+       async for completion in stream:
+           print(completion.choices[0].delta.content, end="")
+       print()
+   
+   if __name__ == "__main__":
+       asyncio.run(main())
+   ```
 
 * Responses API code sample:
 
-**Python**
+   **Python**
 
 ```Python
-import asyncio
-import os
-from arkruntime import AsyncArk
-from arkruntime.types.responses.response_completed_event import ResponseCompletedEvent
-from arkruntime.types.responses.response_reasoning_summary_text_delta_event import ResponseReasoningSummaryTextDeltaEvent
-from arkruntime.types.responses.response_output_item_added_event import ResponseOutputItemAddedEvent
-from arkruntime.types.responses.response_text_delta_event import ResponseTextDeltaEvent
-from arkruntime.types.responses.response_text_done_event import ResponseTextDoneEvent
-
-
-client = AsyncArk(
-    base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
-    api_key=os.getenv('ARK_API_KEY')
-)
-
-async def main():
-    stream = await client.responses.create(
-        model="dola-seed-2-1-turbo-260628",
-        input=[
-            {"role": "system", "content": "You are an AI assistant."},
-            {"role": "user", "content": "What are common cruciferous plants?"},
-        ],
-        stream=True
-    )
-    async for event in stream:
-        if isinstance(event, ResponseReasoningSummaryTextDeltaEvent):
-            print(event.delta, end="")
-        if isinstance(event, ResponseOutputItemAddedEvent):
-            print("\noutPutItem " + event.type + " start:")
-        if isinstance(event, ResponseTextDeltaEvent):
-            print(event.delta,end="")
-        if isinstance(event, ResponseTextDoneEvent):
-            print("\noutPutTextDone.")
-        if isinstance(event, ResponseCompletedEvent):
-            print("Response Completed. Usage = " + event.response.usage.model_dump_json())
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
+   import asyncio
+   import os
+   from arkruntime import AsyncArk
+   from arkruntime.types.responses.response_completed_event import ResponseCompletedEvent
+   from arkruntime.types.responses.response_reasoning_summary_text_delta_event import ResponseReasoningSummaryTextDeltaEvent
+   from arkruntime.types.responses.response_output_item_added_event import ResponseOutputItemAddedEvent
+   from arkruntime.types.responses.response_text_delta_event import ResponseTextDeltaEvent
+   from arkruntime.types.responses.response_text_done_event import ResponseTextDoneEvent
+   
+   
+   client = AsyncArk(
+       base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
+       api_key=os.getenv('ARK_API_KEY')
+   )
+   
+   async def main():
+       stream = await client.responses.create(
+           model="dola-seed-2-1-turbo-260628",
+           input=[
+               {"role": "system", "content": "You are an AI assistant."},
+               {"role": "user", "content": "What are common cruciferous plants?"},
+           ],
+           stream=True
+       )
+       async for event in stream:
+           if isinstance(event, ResponseReasoningSummaryTextDeltaEvent):
+               print(event.delta, end="")
+           if isinstance(event, ResponseOutputItemAddedEvent):
+               print("\noutPutItem " + event.type + " start:")
+           if isinstance(event, ResponseTextDeltaEvent):
+               print(event.delta,end="")
+           if isinstance(event, ResponseTextDoneEvent):
+               print("\noutPutTextDone.")
+           if isinstance(event, ResponseCompletedEvent):
+               print("Response Completed. Usage = " + event.response.usage.model_dump_json())
+   
+   
+   if __name__ == "__main__":
+       asyncio.run(main())
+   ```
 
 # More usage
 

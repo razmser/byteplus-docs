@@ -26,17 +26,17 @@ Seedream 4.5 and 4.0 support a wide range of tasks such as text\-to\-image gener
 
    If a particular style is needed, use **precise style keywords** or **reference images** to achieve better results.
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/60e818dd3f234233a84422774b51abfe~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/60e818dd3f234233a84422774b51abfe~tplv-goo7wpa0wc-image.image)
 
-picture book style
+   picture book style
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a0fbf4ea3eaf4ec78c9969223fde10f2~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a0fbf4ea3eaf4ec78c9969223fde10f2~tplv-goo7wpa0wc-image.image)
 
-children's book illustration style
+   children's book illustration style
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/835e5c45884d46c9b3563f277af98e0f~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/835e5c45884d46c9b3563f277af98e0f~tplv-goo7wpa0wc-image.image)
 
-style reference image
+   style reference image
 
 4. **Improve text rendering accuracy**
 

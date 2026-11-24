@@ -69,7 +69,7 @@ Seedance 2.5 series and Seedance 2.0 series models can be activated if any of th
 
 3. You have purchased a resource pack of **USD 30** or more for any Seedance 2.0 or 2.5 series model and have remaining quota.
 
-For detailed activation thresholds and applicable scopes, see [Activate, use, and cancel Dreamina Seedance 2.5 and 2.0 series models](seedance-model-activation-usage-and-refund.md).
+For detailed activation thresholds and applicable scopes, see [Activate, use, and cancel Dreamina Seedance models](seedance-model-activation-usage-and-refund.md).
 
 After activation, pay\-as\-you\-go usage is enabled for these models.
 

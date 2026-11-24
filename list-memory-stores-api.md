@@ -28,6 +28,10 @@ Filter by creator user ID. The user ID can be obtained from `created_by.user_id`
 
 * If omitted, creator filtering is not applied.
 
+**exclude_dreaming** `boolean` `Default false`  |  Exclude incomplete memory stores
+
+The returned results can include regular memory stores and dream output memory stores.`true` means excluding dream output memory stores in the `pending` or `running` state; `false` or omission means not excluding these memory stores.
+
 **limit** `integer` `Default 20`  |  Items per page
 
 The number of memory stores returned on a single page.
@@ -126,11 +130,35 @@ The update time of the memory store, in RFC 3339 UTC format.
 
 Description of the memory store's purpose and stored content.
 
+**dream_id** `string`  |  Dream task ID
+
+`data.dream_id`
+
+Returned only for dream output memory stores. Indicates the dream ID that created the output memory store. This parameter is not returned for regular memory stores.
+
+**dream_status** `string`  |  Dream task status
+
+`data.dream_status`
+
+Returned only for dream output memory stores. Indicates the status of the dream that created the output memory store. This parameter is not returned for regular memory stores. Options: `pending`, `running`, `completed`, `failed`, `canceled`.
+
+**mountable** `boolean`  |  Whether mountable
+
+`data.mountable`
+
+Indicates whether the memory store can currently be mounted, read, or modified. Regular memory stores return `true`. Dream output memory stores return `false` when in the `pending` or `running` state, and return `true` when in the `completed`, `failed`, or `canceled` state.
+
 **project_name** `string`  |  Project name
 
 `data.project_name`
 
 The name of the project to which the memory store actually belongs.
+
+**usage_ready** `boolean`  |  Whether usage is ready
+
+`data.usage_ready`
+
+Indicates whether `memory_count` and `storage_bytes` are available as accurate statistics. Regular memory stores return `true`. Dream output memory stores return `false` when in the `pending` or `running` state, and return `true` when in the `completed`, `failed`, or `canceled` state.
 
 **next_page** `string`  |  Next page identifier
 

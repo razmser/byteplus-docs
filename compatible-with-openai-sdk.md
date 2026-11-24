@@ -2,24 +2,17 @@
 
 ModelArk model APIs are largely compatible with the OpenAI SDK. With minimal code changes, you can integrate ModelArk model services into your existing code.
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> **Tip**
 
+> Community third\-party SDKs are not maintained by the BytePlus team; this document is for reference only.
 
-<div data-tips="true" data-tips-type="tip">Community third\-party SDKs are not maintained by the BytePlus team; this document is for reference only.</div>
-
-
-<span id="509924d1"></span>
 # Prerequisites
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> **Tip**
 
+> If you're new to ModelArk, see [Quick start](quick-start.md) to get up and running quickly.
 
-<div data-tips="true" data-tips-type="tip">If you're new to ModelArk, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1399008">Quick start</a> to get up and running quickly.</div>
-
-
-<span id="fe0e81ca"></span>
 # OpenAI SDK
-
 
 * Python version: 3.7 or later.
 
@@ -28,10 +21,7 @@ ModelArk model APIs are largely compatible with the OpenAI SDK. With minimal cod
    ```bash
    pip install --upgrade "openai>=1.0"
    ```
-   
 
-
-<span id="0569f4fe"></span>
 ## Quickstart example
 
 ```Python
@@ -47,7 +37,7 @@ client = OpenAI(
 
 completion = client.chat.completions.create(
     #Replace with Model ID.
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     messages = [
         {"role": "user", "content": "Hello"},
     ],
@@ -55,8 +45,6 @@ completion = client.chat.completions.create(
 print(completion.choices[0].message.content)
 ```
 
-
-<span id="922db236"></span>
 ## Extra field settings
 
 Use the **extra_body** dictionary to pass fields not supported by the OpenAI SDK, such as the **thinking** field to toggle deep reasoning.
@@ -74,7 +62,7 @@ client = OpenAI(
 
 completion = client.chat.completions.create(
     #Replace with Model ID.
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     messages = [
         {"role": "user", "content": "Hello"},
     ],
@@ -88,8 +76,6 @@ completion = client.chat.completions.create(
 print(completion.choices[0].message.content)
 ```
 
-
-<span id="1cd60a34"></span>
 ## Custom header settings
 
 Use it to carry additional information, such as a configuration ID for log correlation, and to enable data encryption.
@@ -107,7 +93,7 @@ client = OpenAI(
 
 completion = client.chat.completions.create(
     #Replace with Model ID.
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     messages = [
         {"role": "user", "content": "Hello"},
     ],
@@ -117,8 +103,6 @@ completion = client.chat.completions.create(
 print(completion.choices[0].message.content)
 ```
 
-
-<span id="697a06ce"></span>
 # LangChain OpenAI SDK
 
 Install the LangChain OpenAI SDK:
@@ -127,8 +111,6 @@ Install the LangChain OpenAI SDK:
 pip install langchain-openai
 ```
 
-
-<span id="2bcdd714"></span>
 ## Sample code
 
 ```Python
@@ -142,7 +124,7 @@ llm = ChatOpenAI(
     #The base URL for model invocation
     openai_api_base="https://ark.ap-southeast.bytepluses.com/api/v3",
     #Replace with Model ID
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
 )
 
 template = """Question: {question}

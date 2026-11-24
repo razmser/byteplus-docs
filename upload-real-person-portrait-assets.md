@@ -34,7 +34,7 @@ Real\-human assets must be used only after the actor's consent and authorization
 
 1. Go to the [ModelArk Model Playground](https://ai.byteplus.com/ark/region:ap-southeast-1/experience/gen_video?model=dreamina-seedance-2-0-260128), and click the **My assets** tab at the bottom \> **Real\-human** \> **Add real\-human assets \>**  Create an asset group. (**The account must complete real\-human or enterprise authentication**)
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e1e41210c79041ca9e76d74dcba1ec89~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e1e41210c79041ca9e76d74dcba1ec89~tplv-goo7wpa0wc-image.image)
 
 2. Set the authorization validity period and agree to the **Personal Information Processing Rules**.
 
@@ -64,73 +64,73 @@ Real\-human assets must be used only after the actor's consent and authorization
 
    * Recommended image styles:
 
-> **Tip**
+      > **Tip**
 
-> **Full\-body reference image requirements**
+      > **Full\-body reference image requirements**
 
-* > **Layout**: Portrait orientation
+      * > **Layout**: Portrait orientation
 
-* > **Content**: A front\-facing, full\-body image of the person.
+      * > **Content**: A front\-facing, full\-body image of the person.
 
-![](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/372f80d7ac3547bca195f4f5f1b59cb4~tplv-goo7wpa0wc-image.image)
+      ![](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/372f80d7ac3547bca195f4f5f1b59cb4~tplv-goo7wpa0wc-image.image)
 
-> **Tip**
+      > **Tip**
 
-> **Facial close\-up image requirements**
+      > **Facial close\-up image requirements**
 
-* > **Layout**: Portrait orientation
+      * > **Layout**: Portrait orientation
 
-* > **Content**: Front\-facing close\-up with a neutral expression, framed above the shoulders; the face should occupy about **two\-thirds** of the image.
+      * > **Content**: Front\-facing close\-up with a neutral expression, framed above the shoulders; the face should occupy about **two\-thirds** of the image.
 
-![](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/94dcbab909bd4020a92ea8e20d164d43~tplv-goo7wpa0wc-image.image)
+      ![](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/94dcbab909bd4020a92ea8e20d164d43~tplv-goo7wpa0wc-image.image)
 
 * Specific format requirements:
 
-> **Tip**
+   > **Tip**
 
-> **Images**
+   > **Images**
 
-* > Formats: jpeg, png, webp, tiff, gif, heic/heif
+   * > Formats: jpeg, png, webp, tiff, gif, heic/heif
 
-* > Aspect ratio (W/H): (0.4, 2.5)
+   * > Aspect ratio (W/H): (0.4, 2.5)
 
-* > Width/height (px): (300, 6000)
+   * > Width/height (px): (300, 6000)
 
-* <div data-tips="true" data-tips-type="tip">Size: < 30 MB per image</div>
+   * <div data-tips="true" data-tips-type="tip" data-wrapper-indent="1">Size: < 30 MB per image   </div>
 
-> **Videos**
+   > **Videos**
 
-* > Formats: mp4, mov
+   * > Formats: mp4, mov
 
-* > Resolution: 480p, 720p, 1080p, 4K
+   * > Resolution: 480p, 720p, 1080p, 4K
 
-* > Duration: [2, 30] seconds
+   * > Duration: [2, 30] seconds
 
-* > Dimensions:
+   * > Dimensions:
 
-   * > Aspect ratio (W/H): [0.4, 2.5]
+      * > Aspect ratio (W/H): [0.4, 2.5]
 
-   * > Width/height (px): [300, 6000]
+      * > Width/height (px): [300, 6000]
 
-   * > Total pixels (W×H):
+      * > Total pixels (W×H):
 
-      * > **Dreamina Seedance 2.5 series:** [614 × 664 = 407696, 4096 × 2160 = 8847360]
+         * > **Dreamina Seedance 2.5 series:** [614 × 664 = 407696, 4096 × 2160 = 8847360]
 
-      * > **Dreamina Seedance 2.0 series:** [614 × 664 = 407696, 3326 × 2494 = 8295044]
+         * > **Dreamina Seedance 2.0 series:** [614 × 664 = 407696, 3326 × 2494 = 8295044]
 
-* > Size: ≤ 200 MB per video
+   * > Size: ≤ 200 MB per video
 
-* > FPS: [24, 60]
+   * > FPS: [24, 60]
 
-> **Audio**
+   > **Audio**
 
-* > Formats: wav, mp3
+   * > Formats: wav, mp3
 
-* > Duration: [2, 30] seconds
+   * > Duration: [2, 30] seconds
 
-* > Size: ≤ 15 MB per audio
+   * > Size: ≤ 15 MB per audio
 
-> Different models support different input audio and video durations. We recommend recording the duration of uploaded audio and video files before upload, so end users can identify which assets can be used with Dreamina Seedance 2.0 and Seedance 2.5 models.
+   > Different models support different input audio and video durations. We recommend recording the duration of uploaded audio and video files before upload, so end users can identify which assets can be used with Dreamina Seedance 2.0 and Seedance 2.5 models.
 
 * After passing the consistency check, the materials are stored in the database.
 

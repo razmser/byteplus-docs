@@ -8,9 +8,9 @@
 
 2. After the configuration is complete, run the `claude` command to restart.
 
-> **tip**
+   > **tip**
 
-> To explicitly turn off deep reasoning, set `"type"` to `"disabled"`. Omitting the `thinking` field entirely is equivalent to `disabled`.
+   > To explicitly turn off deep reasoning, set `"type"` to `"disabled"`. Omitting the `thinking` field entirely is equivalent to `disabled`.
 
 ### How to enable deep\-reasoning in OpenCode?
 
@@ -105,9 +105,9 @@ API compatibility issue: The ModelArk API does not support the **developer** rol
 
 1. Add the **compat** compatibility configuration `"compat": { "supportsDeveloperRole": false }` inside the **model** object, as shown below:
 
-> **Tip**
+   > **Tip**
 
-> The **compat** configuration must be placed at the model level and not at the provider level; otherwise, an `Unrecognized key: "compat"` error will occur.
+   > The **compat** configuration must be placed at the model level and not at the provider level; otherwise, an `Unrecognized key: "compat"` error will occur.
 
 ```JSON
 {
@@ -203,9 +203,9 @@ Explicitly set the model used for image understanding in `agents.defaults.imageM
 
 3. Restart the Gateway to apply the configuration, then images can be understood by OpenClaw.
 
-```Bash
-openclaw gateway restart
-```
+   ```Bash
+   openclaw gateway restart
+   ```
 
 ### How to handle the error 'gateway connect failed: Error: pairing required' when installing OpenClaw?
 

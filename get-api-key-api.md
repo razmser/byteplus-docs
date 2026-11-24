@@ -20,7 +20,7 @@ This API supports the following authentication method(s). For details, see [Base
 
 The validity period of the temporary API key, in seconds.
 
-**Range**: `[0, 2592000]`
+**Range**: `[0, 3600]`
 
 **ResourceIds** `string[]` `Required`  |  Resource ID list
 

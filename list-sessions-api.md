@@ -72,6 +72,12 @@ Sort order.`asc` indicates ascending order by creation time, and `desc` indicate
 
 Next page identifier. Omit this parameter for the first request; for subsequent requests, pass the `next_page` value from the previous response as is, and keep `order` and the filter conditions unchanged.
 
+**scene** `string`  |  Session scene
+
+Filter by session scene tag. If omitted or an empty value is passed, no filtering is applied.
+
+Common values are `default` and `dreams`. Passing other values does not cause an error, but returns an empty list.
+
 **status** `string[]`  |  Session status
 
 Filter by the session status. You can pass this parameter multiple times; the server returns sessions that match any of the statuses. Options: `idle`, `running`, `terminated`, `rescheduling`, `initializing`, `failed`, `upgrading`.
@@ -880,6 +886,16 @@ Custom tool name snapshot created when the session is created.
 
 The member agent version number snapshot created when the session was created.
 
+**scene** `string`  |  Scene tag
+
+`data.agent.scene`
+
+Business scene of the session agent snapshot.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
+
 **skills** `object[]`  |  Skill list
 
 `data.agent.skills`
@@ -1300,6 +1316,16 @@ User\-defined metadata.
 
 The list of `config` subparameter names actually overridden by the current session relative to the base environment. Returned only when *type* is `environment_with_overrides` and overridden parameters exist.
 
+**scene** `string`  |  Scene tag
+
+`data.environment.scene`
+
+The business scene associated with the environment snapshot.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
+
 **resources** `object[]`  |  Resource list
 
 `data.resources`
@@ -1388,6 +1414,14 @@ The session's access permissions for the memory store.
 
 * `read_only`: The agent can only read the memory store.
 
+* `read_write`: The agent can read from and modify the memory store.
+
+**instructions** `string`  |  Instructions
+
+`data.resources.instructions`
+
+Instructions currently used by the session for this memory store.
+
 **memory_store_id** `string`  |  Memory store ID
 
 `data.resources.memory_store_id`
@@ -1451,6 +1485,16 @@ The object prefix of the mounted directory in TOS.
 `data.resources.tos_region`
 
 The ID of the region where the TOS mount source is located.
+
+**scene** `string`  |  Session scene
+
+`data.scene`
+
+Session scene marker.
+
+* `default`: regular session.
+
+* `dreams`: a session used for Dream memory organization tasks.
 
 **tags** `object[]`  |  Tag list
 

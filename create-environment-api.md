@@ -230,6 +230,10 @@ Used to record the business attributes of the environment. Pass it in as string 
 
 > It can contain up to 16 key\-value pairs. Keys can be up to 64 characters long, and values can be up to 512 characters long.
 
+**scene** `string` `Default default`  |  Scene tag
+
+The business scene that the environment belongs to. Options: `default`, `dreams`.
+
 ## Response parameters
 
 **created_at** `string`  |  Creation time
@@ -419,3 +423,7 @@ A description of the environment's purpose.
 **metadata** `object`  |  Custom metadata
 
 The custom business attributes of the environment, returned as string key\-value pairs.
+
+**scene** `string`  |  Scene tag
+
+The business scene that the environment belongs to. Options: `default`, `dreams`.

@@ -649,11 +649,11 @@ Controls whether the generated image includes an alpha (transparency) channel. V
 
 * > When using `transparent` mode, requirements vary by model:
 
-> |Model |Seedream 5.5 |Seedream 5.0 pro / 5.0 flash |
-> |---|---|---|
-> |Text\-to\-RGBA |Supported |Not supported |
-> |Image\-to\-RGBA |Supported<br><br>Up to 10 reference images |Supported<br><br>Only one reference image is supported |
-> |Input image requirements |Alpha channel not required |Alpha channel required |
+   > |Model |Seedream 5.5 |Seedream 5.0 pro / 5.0 flash |
+>    |---|---|---|
+>    |Text\-to\-RGBA |Supported |Not supported |
+>    |Image\-to\-RGBA |Supported<br><br>Up to 10 reference images |Supported<br><br>Only one reference image is supported |
+>    |Input image requirements |Alpha channel not required |Alpha channel required |
 
 **Supported models**:
 

@@ -72,19 +72,19 @@ The Base URL differs by tool depending on the protocol it is compatible with:
 
 1. Run the following command to install OpenClaw.
 
-**macOS**
+   **macOS**
 
 ```Bash
-curl -fsSL https://openclaw.ai/install.sh | bash
-```
+   curl -fsSL https://openclaw.ai/install.sh | bash
+   ```
 
-**Windows**
+   **Windows**
 
 PowerShell:
 
-```PowerShell
-iwr -useb https://openclaw.ai/install.ps1 | iex
-```
+   ```PowerShell
+   iwr -useb https://openclaw.ai/install.ps1 | iex
+   ```
 
 2. Complete the OpenClaw configuration following the prompts. Refer to the configuration example below.
 
@@ -179,9 +179,9 @@ The two API types share the same configuration structure; only the API adapter u
 
 1. Run the following command to open the Web UI.
 
-```Bash
-openclaw dashboard
-```
+   ```Bash
+   openclaw dashboard
+   ```
 
 2. In the left menu bar, select configuration \> **All Settings** \> **Raw** to view and modify the configuration. The specific configuration information is as follows. You need to replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
 
@@ -321,9 +321,9 @@ openclaw dashboard
 
 1. Run the following command in the terminal to open the OpenClaw configuration file.
 
-```Bash
-nano ~/.openclaw/openclaw.json
-```
+   ```Bash
+   nano ~/.openclaw/openclaw.json
+   ```
 
 2. Modify the configuration information to complete the integration with Coding Plan. Replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
 
@@ -465,16 +465,16 @@ nano ~/.openclaw/openclaw.json
 
 * Open TUI and view the Gateway status.
 
-```Bash
-openclaw tui
-/status
-```
+   ```Bash
+   openclaw tui
+   /status
+   ```
 
 * Open the Web UI and interact on the Chat page.
 
-```Bash
-openclaw dashboard
-```
+   ```Bash
+   openclaw dashboard
+   ```
 
 ## Switch model
 
@@ -550,9 +550,9 @@ Select any of the following methods to configure the embedding model.
 
 1. Execute the following command to open the Web UI.
 
-```Bash
-openclaw dashboard
-```
+   ```Bash
+   openclaw dashboard
+   ```
 
 2. In the left menu, select **configuration** \- **All Settings** \- **Raw**, then add `memorySearch` configuration information under the `agents.defaults` node. The configuration to be added is as follows. You need to replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
 
@@ -583,9 +583,9 @@ openclaw dashboard
 
 1. Execute the following command in the terminal to open the OpenClaw configuration file.
 
-```Bash
-nano ~/.openclaw/openclaw.json
-```
+   ```Bash
+   nano ~/.openclaw/openclaw.json
+   ```
 
 2. Add `memorySearch` configuration information under the `agents.defaults` node. The configuration to be added is as follows. You need to replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
 

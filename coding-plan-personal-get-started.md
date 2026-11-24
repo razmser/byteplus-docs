@@ -252,29 +252,29 @@ Windows Claude Code configuration file path: `C:\Users\<username>\.claude\settin
    }
    ```
 
-> **tip**
+   > **tip**
 
-* > To enable the 1M context window, see [Extended context](coding-plan-personal-ai-claude-code.md#extended-context).
+   * > To enable the 1M context window, see [Extended context](coding-plan-personal-ai-claude-code.md#extended-context).
 
-* > We recommend using the full model configuration and choosing models by task complexity: Haiku (lightweight), Sonnet (daily), Opus (complex).
+   * > We recommend using the full model configuration and choosing models by task complexity: Haiku (lightweight), Sonnet (daily), Opus (complex).
 
-* > `CLAUDE_CODE_SUBAGENT_MODEL` is recommended to match the main model.
+   * > `CLAUDE_CODE_SUBAGENT_MODEL` is recommended to match the main model.
 
-* > `ANTHROPIC_DEFAULT_HAIKU_MODEL` is recommended to be set to a small\-size model, which usually does not affect the overall experience.
+   * > `ANTHROPIC_DEFAULT_HAIKU_MODEL` is recommended to be set to a small\-size model, which usually does not affect the overall experience.
 
-* > `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` disables Claude Code's background anonymous telemetry requests. By default these requests go through `ANTHROPIC_BASE_URL` and consume Coding Plan quota; setting it to `"1"` prevents silent quota consumption (Method 1 with ArkCLI Helper configures this automatically).
+   * > `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` disables Claude Code's background anonymous telemetry requests. By default these requests go through `ANTHROPIC_BASE_URL` and consume Coding Plan quota; setting it to `"1"` prevents silent quota consumption (Method 1 with ArkCLI Helper configures this automatically).
 
-* > To disable thinking mode, add `"CLAUDE_CODE_EXTRA_BODY": "{\"thinking\":{\"type\":\"disabled\"}}"` under `env`.
+   * > To disable thinking mode, add `"CLAUDE_CODE_EXTRA_BODY": "{\"thinking\":{\"type\":\"disabled\"}}"` under `env`.
 
 3. Edit or add the `.claude.json` file, modify or add the `hasCompletedOnboarding` field and set its value to true.
 
-> **Tip**
+   > **Tip**
 
-> The configuration file path varies by system, as follows:
+   > The configuration file path varies by system, as follows:
 
-* > macOS & Linux: `~/.claude.json`
+   * > macOS & Linux: `~/.claude.json`
 
-* > Windows: `C:\Users\<username>\.claude.json`
+   * > Windows: `C:\Users\<username>\.claude.json`
 
 ```JSON
 {
@@ -310,9 +310,9 @@ If the following prompt appears, it may be because you have previously logged in
 
 3. Start the conversation in Claude Code.
 
-> **Note**
+   > **Note**
 
-> [How to enable the deep\-reasoning mode in Claude Code?](coding-plan-personal-faq.md#5e379f69)
+   > [How to enable the deep\-reasoning mode in Claude Code?](coding-plan-personal-faq.md#5e379f69)
 
 ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/631742d8a5814d68a5cbc62988ba8cab~tplv-goo7wpa0wc-image.image)
 

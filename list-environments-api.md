@@ -36,6 +36,10 @@ Used to continue querying the next page. Omit it for the first request; for subs
 
 > Do not parse or construct the next page identifier yourself.
 
+**scene** `string`  |  Scene tag
+
+Filters results by the business scene that the environment belongs to. Options: `default`, `dreams`.
+
 ## Response parameters
 
 **data** `object[]`  |  Environment list
@@ -243,6 +247,12 @@ A description of the environment's purpose.
 `data.metadata`
 
 The custom business attributes of the environment, returned as string key\-value pairs.
+
+**scene** `string`  |  Scene tag
+
+`data.scene`
+
+The business scene that the environment belongs to. Options: `default`, `dreams`.
 
 **next_page** `string`  |  Next page identifier
 

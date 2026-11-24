@@ -122,6 +122,14 @@ The session's access permissions for the memory store.
 
 * `read_only`: The agent can only read the memory store.
 
+* `read_write`: The agent can read from and modify the memory store.
+
+**instructions** `string`  |  Instructions
+
+`data.instructions`
+
+Instructions currently used by the session for this memory store.
+
 **memory_store_id** `string`  |  Memory store ID
 
 `data.memory_store_id`

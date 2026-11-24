@@ -356,9 +356,9 @@ Process the request in the following order:
 
 8. After you reliably save the event or business processing result, return HTTP 2xx.
 
-> **Note**
+   > **Note**
 
-> Do not parse JSON first and then reserialize the body for signature verification. Changes in spaces, parameter order, or escaping will change the byte sequence, causing signature verification to fail for valid requests.
+   > Do not parse JSON first and then reserialize the body for signature verification. Changes in spaces, parameter order, or escaping will change the byte sequence, causing signature verification to fail for valid requests.
 
 The Python example uses an in\-memory set for deduplication, and records are lost after the process restarts. In production, enforce a unique constraint on event IDs in a database or cache, and retain deduplication records for at least the business traceability period.
 
@@ -512,9 +512,9 @@ If you need to continuously receive business notifications, do not directly foll
 
 5. **Remove the old secret**: Keep the old secret for at least the signature time window allowed by the receiver. The example in this guide uses 5 minutes. Then remove the old secret and exit rotation mode.
 
-> **Warning**
+   > **Warning**
 
-> The platform does not sign with both the new and old secrets at the same time. If the receiver has not loaded the new secret, requests with the new signature will fail verification with the old secret. After the receiver removes the old secret, old signed requests that have already been sent will also fail verification. Return 503 for requests whose signatures temporarily cannot be verified only after explicitly entering controlled rotation mode. During normal operation, you should still return 401 to prevent attack requests from triggering platform retries.
+   > The platform does not sign with both the new and old secrets at the same time. If the receiver has not loaded the new secret, requests with the new signature will fail verification with the old secret. After the receiver removes the old secret, old signed requests that have already been sent will also fail verification. Return 503 for requests whose signatures temporarily cannot be verified only after explicitly entering controlled rotation mode. During normal operation, you should still return 401 to prevent attack requests from triggering platform retries.
 
 ## Clean up resources
 

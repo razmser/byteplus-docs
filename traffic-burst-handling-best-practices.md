@@ -2,16 +2,13 @@
 
 This document explains how services experiencing sudden traffic spikes can make simple changes to application code to avoid rate limits caused by spikes and maintain request success rates.
 
-<span id="2d1eb0be"></span>
 # What are rate limits?
 
 The ModelArk API enforces rate limits on requests per time window, token usage, usage growth rate, and concurrent requests to ensure stable operation and fair resource allocation. When a client's request triggers the API's rate limits, the API responds with a 429: 'Too Many Requests' error.
 
-<span id="bb51679a"></span>
 ## Why is rate limiting necessary?
 
 Rate limits are a common practice for API services, and configuring rate limits serves the following purposes:
-
 
 * **Reduce API abuse or misuse**: malicious attacks send a large number of requests to the server, attempting to overload the service and cause service interruptions. ModelArk rate limit settings can effectively prevent such scenarios.
 
@@ -19,37 +16,25 @@ Rate limits are a common practice for API services, and configuring rate limits 
 
 * **Help manage overall infrastructure load**: if API service requests spike, they may put significant pressure on server\-side resources, causing performance issues. Rate limit settings can help all users maintain a smooth, stable experience.
 
+> **Note**
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+> Rate limiting defines an upper bound on service usage per unit time—it is not a hard guarantee of available capacity. When workload spikes (for example, burst traffic) or the system stays under sustained high load, rate limiting may still be triggered. To make the best use of your rate limit quota and avoid failed requests consuming it, we recommend smoothing traffic ramp\-up and/or distributing traffic across models.
 
-
-<div data-tips="true" data-tips-type="warning">Rate limiting defines an upper bound on service usage per unit time—it is not a hard guarantee of available capacity. When workload spikes (for example, burst traffic) or the system stays under sustained high load, rate limiting may still be triggered. To make the best use of your rate limit quota and avoid failed requests consuming it, we recommend smoothing traffic ramp\-up and/or distributing traffic across models.</div>
-
-
-<span id="c683eb36"></span>
 ## Rate limit targets
 
 ModelArk currently supports the following rate limit targets:
 
+* **Model rate limits**: under the same primary account, limits are enforced per model (regardless of version). They are set by ModelArk and cannot be manually adjusted. For each model's default rate limit information, see [Model list](model-list.md).
 
-* **Model rate limits**: under the same primary account, limits are enforced per model (regardless of version). They are set by ModelArk and cannot be manually adjusted. For each model's default rate limit information, see [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1330310).
+   > **Tip**
 
-
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
-
-
-<div data-tips="true" data-tips-type="tip">If you have traffic demands exceeding the default limits, submit a ticket to request a quota increase.</div>
-
-
+   > If you have traffic demands exceeding the default limits, submit a ticket to request a quota increase.
 
 * **Inference endpoint rate limits**: rate limits apply to inference endpoints (EP). Users can adjust them to flexibly control model service usage in applications.
 
-
-<span id="667b1a4d"></span>
 ## Types of rate limit
 
 ModelArk provides various rate limit metrics.
-
 
 |Rate limit type |Description |Applies to |
 |---|---|---|
@@ -59,85 +44,62 @@ ModelArk provides various rate limit metrics.
 |IPM |Limit on the number of pictures generated per minute for picture\-generation models. |Typically a metric for rate limits on picture\-generation model services. |
 |Inflight Batchsize |Number of concurrent in\-flight requests: the limit on how many requests for the specified model can be processed simultaneously under the same primary account. An in\-flight request spans the entire lifecycle, including queuing, data transfer, computation, and response delivery. |Nearly all models have a corresponding concurrency metric. |
 
-
-<span id="4d33ed0d"></span>
 ## Error codes for rate limits
 
-> For detailed ModelArk error codes, see [Error codes](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1299023).
+> For detailed ModelArk error codes, see [Error codes](error-codes.md).
 
-
-<span id="b52e7d46"></span>
 # What is burst traffic?
 
 Request volume can fluctuate sharply within a given time window, for example a sudden surge of requests, commonly seen in scheduled data processing jobs and trending events. Compared with the previous minute, an increase of 3 million TPM or a 20% increase within 3 minutes is recognized by ModelArk as burst traffic (the platform dynamically adjusts the threshold based on current load and capacity).
 
 The TPM chart is shown below:
 
-
 |Burst Traffic Example |Description |
 |---|---|
-|<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/77f12271fa144237ac9bb1ca92331b96~tplv-goo7wpa0wc-image.image) </span> |**Common patterns**<br><br><br>* Increased request frequency<br><br>* Sudden spikes in input or output length<br><br>   **Monitoring metrics (TPM, RPM)** <br><br>* In the console, go to [Online Inference](https://ai.byteplus.com/ark/region:ap-southeast-1/endpoint) \> **View details** \> **Monitoring** |
+|![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/77f12271fa144237ac9bb1ca92331b96~tplv-goo7wpa0wc-image.image) |**Common patterns**<br><br><br>* Increased request frequency<br><br>* Sudden spikes in input or output length<br><br><br>**Monitoring metrics (TPM, RPM)** <br><br><br>* In the console, go to [Online Inference](https://ai.byteplus.com/ark/region:ap-southeast-1/endpoint) \> **View details** \> **Monitoring** |
 
-
-<span id="8c1934da"></span>
 # Platform handling strategy
 
 In this scenario, the platform quickly expands the service cluster for the specified model to progressively accommodate the load. At the same time, to protect the experience of most users, when burst traffic consumes too many resources and affects overall service utility, the platform prioritizes rate\-limiting or circuit\-breaking burst traffic to safeguard other users' utility. When rate limiting or circuit breaking is triggered, ModelArk responds to the surge in requests with the "429: 'Too Many Requests'" error and gradually recovers as resources expand to a certain level (on the order of minutes).
 
 Burst traffic rate\-limiting error codes are as follows:
 
-
 |Status code |Error type |Error Code |Error message |Description |
 |---|---|---|---|---|
-|429 |TooManyRequests |ServerOverloaded |The service is currently unable to handle additional requests due to server overload. Please retry later. Request ID: |Service resources are insufficient. Please try again later. It often occurs when there is a sudden increase in calling traffic or when an inference endpoint is called after being idle for a long time.<br><br><div data-tips="true" data-tips-type="tip" data-tips-is-title="true">tip</div><br><br><br><div data-tips="true" data-tips-type="tip">If you hit the burst\-traffic limit when calling the <code>seed-1-8</code> models or earlier models, this error code is returned.</div><br> |
-|429 |TooManyRequests |RequestBurstTooFast |System protection triggered by request burst. Please slow down traffic growth and increase requests gradually before retrying. |The surge in request volume has triggered system protection. Please slow down the ramp\-up rate, gradually increase traffic, and try again.<br><br><div data-tips="true" data-tips-type="tip" data-tips-is-title="true">tip</div><br><br><br><div data-tips="true" data-tips-type="tip">If you hit the burst\-traffic limit when calling the <code>seed-2-0</code> models or later models, this error code is returned.</div><br> |
+|429 |TooManyRequests |ServerOverloaded |The service is currently unable to handle additional requests due to server overload. Please retry later. Request ID: |Service resources are insufficient. Please try again later. It often occurs when there is a sudden increase in calling traffic or when an inference endpoint is called after being idle for a long time.<br><br>> **tip**<br><br><br>> If you hit the burst\-traffic limit when calling the `seed-1-8` models or earlier models, this error code is returned.<br> |
+|429 |TooManyRequests |RequestBurstTooFast |System protection triggered by request burst. Please slow down traffic growth and increase requests gradually before retrying. |The surge in request volume has triggered system protection. Please slow down the ramp\-up rate, gradually increase traffic, and try again.<br><br>> **tip**<br><br><br>> If you hit the burst\-traffic limit when calling the `seed-2-0` models or later models, this error code is returned.<br> |
 
-
-<span id="3a0a8c71"></span>
 # Client\-side handling strategies
 
 Business assessment indicates the presence of burst traffic rate limits. The following proactive optimization strategies are recommended to further improve request success rates and mitigate the risk of rate limits.
-
 
 * Client\-side smoothing \- proactively smooth the traffic ramp\-up curve: Use buffering mechanisms (such as message queues or local task queues) to convert instantaneous burst traffic into low\-fluctuation requests, thereby controlling the rate of traffic increase to the platform. Prevent `ServerOverloaded` errors at the source by avoiding excessively steep traffic increases.
 
 * Client\-side traffic splitting \- load\-balance traffic across multiple models: Leverage ModelArk's independent burst tolerance across multiple models to distribute traffic to several models with redundant capacity, preventing resource exhaustion of a single model.
 
+   > **Note**
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+   * > Only cross\-model distribution is supported (for example, calling both "Model A" and "Model B" at the same time): the resource pools of different models are independent of each other, which can distribute traffic pressure;
 
-
-
-* <div data-tips="true" data-tips-type="warning">Only cross\-model distribution is supported (for example, calling both "Model A" and "Model B" at the same time): the resource pools of different models are independent of each other, which can distribute traffic pressure;</div>
-
-
-* <div data-tips="true" data-tips-type="warning">Distribution across multiple endpoints or accounts for the same model is ineffective: all inference endpoints and accounts of the same model share the same underlying computing resource pool, so traffic will ultimately converge to the same resource pool, making it impossible to avoid the rate limit threshold of that model.</div>
-
+   * > Distribution across multiple endpoints or accounts for the same model is ineffective: all inference endpoints and accounts of the same model share the same underlying computing resource pool, so traffic will ultimately converge to the same resource pool, making it impossible to avoid the rate limit threshold of that model.
 
 * Purchase Model Units \- proactively expand the resource pool: Purchase model units, forecast your own traffic fluctuation trends, place an order to expand and purchase model units 15 minutes in advance, and use the expanded model units to handle your burst increments.
 
-
 Recommendations for strategy selection
 
-
-<span aceTableMode="list" aceTableWidth="2,2,3"></span>
 |Business Scenario |Recommended Combination Strategies |ModelArk Capabilities |
 |---|---|---|
 |Unpredictable instantaneous peaks (hot events) |Regulation + Load balancing |Dynamic limit tolerance curve + Multi\-model resource isolation |
 |Predictable periodic bursts (scheduled tasks) |Load balancing + Purchase model units |Scale up 15 minutes in advance + Independent resource pool |
 |Core business with high stability requirements |Primarily regulation + Purchase backup units |Stable load interval + Resource priority assurance |
 
-
 For services with burst traffic, consider the following strategies when sending task requests to avoid rate limits/circuit breaking.
 
-<span id="b0143313"></span>
 ## Practice 1: client\-side peak shaving and valley filling
 
-<span id="0bdd018b"></span>
 ### Design
 
 `Client-side burst peak requests → MQ receives without limitation (peak shaving) → Consumer-side consumption at a controlled rate and steady pace (valley filling) → ModelArk SDK calls the large model`
-
 
 1. **Peak shaving**: RabbitMQ acts as a traffic buffer; the producer has no rate limitation and handles all instantaneous peak requests, completely isolating peaks from the large model service.
 
@@ -147,13 +109,12 @@ For services with burst traffic, consider the following strategies when sending 
 
 4. **Reliability**: MQ queue plus message persistence and manual ACK confirmation ensure zero message loss; failed requests automatically return to the queue for retry.
 
-
 Code example:
 
 ```Python
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# pip install arkruntime
+# python -m pip install --upgrade arkruntime
 import time
 import json
 import os
@@ -165,7 +126,7 @@ from arkruntime import Ark
 MQ_QUEUE = "client_ark_queue"
 MQ_CONF = pika.ConnectionParameters('127.0.0.1', 5672, credentials=pika.PlainCredentials('guest', 'guest'))
 ARK_API_KEY = os.getenv('ARK_API_KEY')
-ARK_MODEL = "seed-2-0-lite-260228"
+ARK_MODEL = "dola-seed-2-1-turbo-260628"
 # Slope = step / interval = 2 / 5 = 0.4 QPS/s, ensuring no sudden spikes
 FLOW = {"curr_qps": 5, "max_qps": 30, "step": 2, "interval": 5, "count": 0}
 LOCK = threading.Lock()
@@ -244,17 +205,13 @@ if __name__ == '__main__':
     consumer()
 ```
 
-
-<span id="9294f1d8"></span>
 ## Practice 2: Implement the QPS ramp\-up strategy (recommended)
 
 The client monitors server response status in real time, dynamically adjusts the request rate, gradually increases throughput, effectively avoids service rate limits, and ensures service stability.
 
-<span id="e9790d0a"></span>
 ### Design
 
 The QPS ramp\-up working principle is shown in the figure below: count errors caused by rate limits at fixed time intervals to assess online service load.
-
 
 1. Gradually increase the request rate (QPS);
 
@@ -264,8 +221,6 @@ The QPS ramp\-up working principle is shown in the figure below: count errors ca
 
 4. It ultimately reaches the total rate limits (TPM, RPM) of the platform's corresponding model
 
-
-<span id="daece59b"></span>
 ### Core mechanism 1: dynamic rate adjustment
 
 QPS Climber (per\-second query rate climber) uses a trial\-and\-error adjustment strategy. It dynamically adjusts the request rate by periodically evaluating the request success rate. The core implementation is in the `adjustQPS()` method:
@@ -310,17 +265,13 @@ func (q *QPSClimber) adjustQPS() {
 }
 ```
 
-
-<span id="6dfa3af8"></span>
 ### Core mechanism 2: client rate limits and retry strategy
 
 QPS Climber implements two layers of protection:
 
-
 1. **Client token bucket rate limits**: it uses the `golang.org/x/time/rate` package to implement the token bucket algorithm and ensures that requests do not exceed the configured QPS limit
 
 2. **Exponential backoff retries**: for failed requests, apply an exponential backoff strategy to retry and avoid repeatedly hitting the server in a short period.
-
 
 The core implementation is in the `DoRequest()` method:
 
@@ -363,19 +314,15 @@ func (q *QPSClimber) DoRequest(ctx context.Context, req *model.CreateChatComplet
 }
 ```
 
-
-<span id="3295a511"></span>
 ### Core mechanism 3: intelligent routing after error classification
 
 Classify server\-side response errors into the following categories:
-
 
 * `ServerOverloadedCode`: service overload (e.g., HTTP 429)
 
 * `InternalServerError`: internal server error (e.g., HTTP 500)
 
 * `UnknownCode`: other request errors (such as HTTP 400)
-
 
 Use `convertToCode()` to implement intelligent error classification, providing decision support for dynamic rate adjustment:
 
@@ -394,8 +341,6 @@ func convertToCode(statusCode int) Code {
 }
 ```
 
-
-<span id="8b27df6d"></span>
 ### Configuration
 
 ```Go
@@ -414,9 +359,7 @@ func defaultOptions() *Options {
 }
 ```
 
-
 **Parameter description**
-
 
 |Parameter Name |Default Value |Recommended Value Range |Tuning Recommendations |
 |---|---|---|---|
@@ -429,10 +372,7 @@ func defaultOptions() *Options {
 |**RetryBaseDelay** |100 ms |50ms\-500ms |Unit: ms. Initial retry delay; adjust based on service response speed. |
 |**RetryMaxDelay** |3 s |3s\-10s |Maximum retry wait time. |
 
-
-<span id="17fc2d03"></span>
 ### Usage recommendations
-
 
 * **Use the singleton pattern**: create a single `QPSClimber` instance in your application, and have all API calls share this instance to avoid wasting resources
 
@@ -459,7 +399,6 @@ func defaultOptions() *Options {
    }
    wg.Wait()
    ```
-   
 
 * **Warm\-up mechanism**: start the application with a low initial QPS and gradually increase it via `adjustInterval` to avoid a traffic surge during cold start that could trigger circuit breaking
 
@@ -469,19 +408,15 @@ func defaultOptions() *Options {
 
 * **Fallback plan**: in extreme cases, consider implementing request fallback or a circuit\-breaking mechanism to keep core functionality available
 
-
-<span id="f6bbf34f"></span>
 ## Practice 3: backoff and retry strategy
 
 Using a backoff algorithm for request retries is a simple and effective way to avoid rate limits (not only in burst traffic scenarios). A randomized exponential backoff algorithm automates request retries.
 
-<span id="5e2dc1ab"></span>
 ### Design
 
 When a rate limit error occurs, pause briefly, then retry the failed request. If the request still fails, the system increases the wait duration and tries again. This process repeats until the request succeeds or reaches the maximum number of retries.
 
 Advantages:
-
 
 * Automatic retries allow the system to recover from rate limit errors, preventing crashes and data loss.
 
@@ -489,15 +424,11 @@ Advantages:
 
 * Add random jitter to the wait time to avoid a large number of requests retrying simultaneously.
 
+> **Note**
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+> Failed requests count toward the per\-minute request limit, so frequent retries will hit the rate limit threshold faster and lead to more request failures.
 
-
-<div data-tips="true" data-tips-type="warning">Failed requests count toward the per\-minute request limit, so frequent retries will hit the rate limit threshold faster and lead to more request failures.</div>
-
-
-<div data-tips="true" data-tips-type="warning">Using an exponential backoff algorithm for retries increases the likelihood of success while adhering to rate limits and helps ensure stable system operations.</div>
-
+> Using an exponential backoff algorithm for retries increases the likelihood of success while adhering to rate limits and helps ensure stable system operations.
 
 Code example:
 

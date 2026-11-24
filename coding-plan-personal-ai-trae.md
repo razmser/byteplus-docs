@@ -24,9 +24,9 @@ Visit the [official TraeCode website](https://www.trae.ai/) to download and inst
 
 * To use other models supported by Coding Plan, select Other Models and then specify the Model ID.
 
-> **warning**
+   > **warning**
 
-> The models shown in the TraeCode client's built\-in model dropdown do not match the actual model list supported by Coding Plan. To use a Coding Plan model, select **Other Models** and enter the Model ID manually.
+   > The models shown in the TraeCode client's built\-in model dropdown do not match the actual model list supported by Coding Plan. To use a Coding Plan model, select **Other Models** and enter the Model ID manually.
 
 |Configuration Method |Information |
 |---|---|

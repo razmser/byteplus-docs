@@ -4,28 +4,21 @@ Dola Seedream 5.0 pro (hereinafter referred to as Seedream 5.0 pro) and Dola See
 
 This document describes how to implement point\-based and bounding\-box\-based interactive editing with Seedream 5.0 pro and Seedream 5.0 flash. After a user uploads a reference image and specifies an edit position by selecting a point or drawing a bounding box, the frontend converts the selected position into **normalized coordinates**. The coordinate range is **0 to 999**, where the top\-left corner is 0,0 and the bottom\-right corner is 999,999. The frontend then marks the coordinates by using `<point>` or `<bbox>` and submits them together with the natural\-language prompt to the model. The model generates the edited image based on the reference image, coordinate positions, and text instructions.
 
-
-<span aceTableMode="list" aceTableWidth="2.5,1"></span>
 |Input image and bounding\-box selection |Preview |
 |---|---|
-|<video src="https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream_5.0_editing_demo.mp4" controls></video><br><br><br>&nbsp;<br><br>> Convert the target area selected by the user into spatial coordinates, and assemble them into a prompt that the model can understand.<br><br>> <br><br>> Prompt: `Use the subject in Image 2 <bbox>118 331 933 871</bbox> to replace the subject in Image 1 <bbox>179 283 796 986</bbox>.` |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_output.jpeg) </span><br><br>&nbsp;<br><br>> Generate the edited image based on the assembled prompt and the reference image. |
+|[video](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream_5.0_editing_demo.mp4)<br><br><br> <br><br>> Convert the target area selected by the user into spatial coordinates, and assemble them into a prompt that the model can understand.<br><br>> <br><br>> Prompt: `Use the subject in Image 2 <bbox>118 331 933 871</bbox> to replace the subject in Image 1 <bbox>179 283 796 986</bbox>.` |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_output.jpeg)<br><br> <br><br>> Generate the edited image based on the assembled prompt and the reference image. |
 
-
-<span id="key-steps"></span>
 # Key step: Convert the target area into normalized coordinates
 
 The model requires two key inputs: **the image to edit** and a **prompt** that contains normalized coordinates and editing instructions. Normalized coordinates map the point or bounding box selected on the image to a **1000 \* 1000 proportional coordinate system with values in the range [0,999]** . After the image width and height are divided into 1000 units, the top\-left corner of the image is `0,0`, and the bottom\-right corner is `999,999`.
 
 **Coordinate formats supported in prompts**:
 
-
 * **Point coordinates**: `<point>x y</point>`. This specifies a point, and the model determines the affected area.
 
 * **Bounding\-box coordinates**: `<bbox>x1 y1 x2 y2</bbox>`. This specifies the top\-left and bottom\-right coordinates to precisely control the size of the edit area.
 
-
 **How to process normalized coordinates**:
-
 
 1. Obtain the location information: After the user selects a point or draws a bounding box, first obtain the relative coordinates of the point or box within the displayed image area. The coordinates are relative to the top\-left corner of the image.
 
@@ -41,73 +34,54 @@ The model requires two key inputs: **the image to edit** and a **prompt** that c
 
       * `y = round(y_px / height * 1000)`
 
-      <div data-tips="true" data-tips-type="warning" data-tips-is-title="true" data-wrapper-indent="2">Note      </div>
-      
+      > **Note**
 
-      * <div data-tips="true" data-tips-type="warning" data-wrapper-indent="2"><code>x</code> and <code>y</code>: The normalized coordinates.      </div>
-      
+      * > `x` and `y`: The normalized coordinates.
 
-      * <div data-tips="true" data-tips-type="warning" data-wrapper-indent="2"><code>x_px</code> and <code>y_px</code>: The coordinates of the selected point relative to the top\-left corner of the image.      </div>
-      
+      * > `x_px` and `y_px`: The coordinates of the selected point relative to the top\-left corner of the image.
 
-      * <div data-tips="true" data-tips-type="warning" data-wrapper-indent="2"><code>width</code> and <code>height</code>: The displayed width and height of the image on the canvas.      </div>
-      
+      * > `width` and `height`: The displayed width and height of the image on the canvas.
 
    * Bounding box:
 
       Convert `x1_px, y1_px, x2_px, y2_px` by using the same rule to obtain `x1 y1 x2 y2`.
 
-
-<span id="supported-scenarios"></span>
 # Scenarios
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> **Tip**
 
+> For information about how to explicitly specify the target object in multi\-subject scenarios, see [Usage instructions](seedream-5-0-pro-editing-guide.md#usage).
 
-<div data-tips="true" data-tips-type="tip">For information about how to explicitly specify the target object in multi\-subject scenarios, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/seedream-5-0-pro-editing-guide#usage">Usage instructions</a>.</div>
-
-
-
-<span aceTableMode="list" aceTableWidth="2,1,3"></span>
 |Scenario |Interaction mode |Prompt |
 |---|---|---|
 |Edit an object near a specified point |Point |`Replace the object at <point>520 460</point> in Image 1 with a crown.` |
 |Edit an object in a specified area |Bounding\-box |`Replace the area <bbox>120 180 640 760</bbox> in Image 1 with a garden.` |
 |Cross\-image editing |Point selection and bounding\-box |`Place the subject from Image 1 <bbox>179 283 796 986</bbox> at the position of Image 2 <bbox>118 331 933 871</bbox>, and replace the object at Image 2 <point>50 50</point> with a crown.` |
 
-
-<span id="demo-and-overall-flow"></span>
 # Demo and flow overview
 
-<span id="demo-project"></span>
 ## Demo project
 
 You can download the [TouchEdit demo](https://arkdocs-en.tos-ap-southeast-1.volces.com/files/image-generation/touch_edit_demo_arkruntime-20260909.zip) to try interactive editing.
 
 After extracting the package, install its dependencies with `python3 -m pip install -r requirements.txt`, set `ARK_API_KEY`, and run `bash run.sh`.
 
-<span id="flow"></span>
 ## Flow overview
 
 The following flowchart shows the complete process for implementing interactive editing based on the code example.
 
-<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/image-generation/new-202607111020_en.svg) </span>
+![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/image-generation/new-202607111020.svg)
 
-<span id="implementation"></span>
 # Implementation
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+> **Note**
 
+> This document provides code snippets that demonstrate the key logic. The following snippets alone are not sufficient to implement the complete workflow. For the complete implementation, see [Demo project](seedream-5-0-pro-editing-guide.md#demo-project).
 
-<div data-tips="true" data-tips-type="warning">This document provides code snippets that demonstrate the key logic. The following snippets alone are not sufficient to implement the complete workflow. For the complete implementation, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/seedream-5-0-pro-editing-guide#demo-project">Demo project</a>.</div>
-
-
-<span id="upload-image-to-canvas"></span>
 ## 0. Upload and place the image on the canvas
 
 This step is mainly used to obtain the information of the image(s). In this example, the images uploaded by the user are converted into operable objects on the canvas. In addition to saving the image file itself, you must record the position, displayed size, original size of the images, and the total image count. This information provides the basis for subsequent point selection, bounding\-box selection, and model calls.
 
-<span id="upload-image-to-canvas-logic"></span>
 ### Key logic
 
 ```JavaScript
@@ -139,13 +113,10 @@ function addImageFromFile(file, dataUrl) {
 }
 ```
 
-
-<span id="select-point-or-bbox"></span>
 ## 1. Convert the target area into normalized coordinates
 
 This step converts the point selection or bounding\-box selection performed by the user on the canvas into coordinate location markers that can be used in the seedream\-5\-0\-pro prompt.
 
-<span id="select-point-or-bbox-principle"></span>
 ### How it works
 
 The area selected by a point or bounding box on the image must be converted into normalized coordinates.
@@ -157,18 +128,13 @@ Replace the object at Image 1 <point>520 460</point> with a crown.
 Replace the area <bbox>120 180 640 760</bbox> in Image 1 with a garden.
 ```
 
-
-
 * **Types of Coordinate**
 
-   
-   <span aceTableMode="list" aceTableWidth="1,2,2"></span>
    |Coordinate type |Description |Usage |
    |---|---|---|
    |Client coordinates |The mouse position relative to the top\-left corner of the browser window, i.e., `event.clientX / event.clientY`. |Raw input from browser events. |
    |World coordinates |The logical coordinate system inside the canvas. The `x / y / width / height` values of an image are all stored in this coordinate system. |Ensures that the image can still be correctly selected after the canvas is zoomed or panned. |
    |Normalized coordinates |Coordinates normalized to 0 to 999 relative to a single image. |The final coordinates written into `<point>` or `<bbox>`. |
-   
 
 * **Coordinate conversion**
 
@@ -180,10 +146,7 @@ Replace the area <bbox>120 180 640 760</bbox> in Image 1 with a garden.
 
       * Bounding\-box selection mode: Generate `<bbox> x1 y1 x2 y2</bbox>`.
 
-
-<span id="select-point-or-bbox-logic"></span>
 ### Key logic
-
 
 * Coordinate conversion
 
@@ -205,7 +168,6 @@ Replace the area <bbox>120 180 640 760</bbox> in Image 1 with a garden.
      };
    }
    ```
-   
 
 * Generate `<point>` or `<bbox>` coordinate markers based on point selection or bounding\-box selection
 
@@ -239,27 +201,19 @@ Replace the area <bbox>120 180 640 760</bbox> in Image 1 with a garden.
        renderImages();
    }
    ```
-   
 
-
-<span id="assemble-prompt"></span>
 ## 2. Assemble the prompt
 
 This step combines the user's natural\-language input with the spatial coordinates generated from point selection or bounding\-box selection to form the final prompt that seedream\-5\-0\-pro can understand.
 
-<span id="prompt-suggestions"></span>
 ### Prompt suggestions
 
-
-<span aceTableMode="list" aceTableWidth="1,3"></span>
 |Scenario |Reference format |
 |---|---|
 |Edit an object near a specified point |`Replace the object at Image 1 <point>520 460</point> with a crown.` |
 |Edit an object in a specified area |`Replace the area of Image 1 <bbox>120 180 640 760</bbox> with a garden.` |
 |Cross\-image editing |`Place the subject from Image 1 <bbox>179 283 796 986</bbox> at the position of Image 2 <bbox>118 331 933 871</bbox>.` |
 
-
-<span id="assemble-prompt-logic"></span>
 ### Key logic
 
 ```JavaScript
@@ -318,15 +272,11 @@ function buildModelInputFromPrompt() {
 }
 ```
 
-
-<span id="generate-image"></span>
 ## 3. Generate an image
 
 This step calls the Image Generation API based on the assembled prompt and input images, and returns the generated result to the frontend for display.
 
-<span id="generate-image-logic"></span>
 ### Key logic
-
 
 * The frontend submits an image generation request
 
@@ -352,7 +302,6 @@ This step calls the Image Generation API based on the assembled prompt and input
      renderGeneratedImage(data.url);
    });
    ```
-   
 
 * The backend calls the image generation API
 
@@ -392,24 +341,16 @@ This step calls the Image Generation API based on the assembled prompt and input
        },
    )
    ```
-   
 
-
-<span id="preview"></span>
 ### Output preview
 
-
-<span aceTableMode="list" aceTableWidth="1,1"></span>
 |Input image |Preview |
 |---|---|
-|<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_input_combined.png) </span><br><br>> Prompt: `Use the subject in Image 2 <bbox>118 331 933 871</bbox> to replace the subject in Image 1 <bbox>179 283 796 986</bbox>.` |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_output.jpeg) </span> |
+|![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_input_combined.png)<br><br>> Prompt: `Use the subject in Image 2 <bbox>118 331 933 871</bbox> to replace the subject in Image 1 <bbox>179 283 796 986</bbox>.` |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_output.jpeg) |
 
-
-<span id="usage"></span>
 # Tips for specifying the subject
 
 In multi\-subject scenarios, you can use the following approaches to specify the target object more clearly.
-
 
 * Explicitly specify the target object when a bounding box contains multiple subjects.
 
@@ -423,10 +364,7 @@ In multi\-subject scenarios, you can use the following approaches to specify the
 
    Example: `Replace the area Image 1 <bbox>120 180 640 760</bbox> with a garden, and keep the area Image 1 <bbox>700 120 920 360</bbox> unchanged.`
 
-
-<span id="related-docs"></span>
 # Related documents
-
 
 * [Seedream 5.0 pro / flash tutorial](seedream-5-0-pro.md)
 

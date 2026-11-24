@@ -1,5 +1,7 @@
 # CasePlatformV1BadcaseQuery — BytePlus ModelArk Seedance 2.x Generations Quality Diagnostics Result Query API
 
+`POST https://prompt-pilot.ap-southeast.bytepluses.com/case-platform?Action=CasePlatformV1BadcaseQuery&Version=2024-01-01`
+
 ## Usage
 
 After reporting a badcase with CasePlatformV1BadcaseReport, you can use this API to query how it was processed.
@@ -8,44 +10,45 @@ The report API retrieves the original task data from upstream using `task_id`, s
 
 If `Status` is `processing`, the investigation is still in progress and `ProblemLabel` and `SolutionNote` are not yet available. Query again later. Attachment URLs are re\-signed on each query; use the URLs from the latest response and query again if a link expires.
 
-## Notes
+> **Note**
 
-BytePlus does not store the detailed logs of your inference tasks by default. To let BytePlus ModelArk investigate a quality issue from a task ID alone, the corresponding request logs must be retained for a short period, and that requires your explicit consent.
+> BytePlus does not store the detailed logs of your inference tasks by default. To let BytePlus ModelArk investigate a quality issue from a task ID alone, the corresponding request logs must be retained for a short period, and that requires your explicit consent.
 
-**Enable Model Generations Quality Diagnostics before using this API.**  In the ModelArk console, open **Model Generations Quality Diagnostics** from the console home page, turn the feature on, and accept the Model Generations Quality Diagnostics agreement. Only users holding the arkfullaccess permission can change this setting. Querying from an account that has not opted in returns error code 70001.
+> **Enable Model Generations Quality Diagnostics before using this API.** In the ModelArk console, open **Model Generations Quality Diagnostics** from the console home page, turn the feature on, and accept the Model Generations Quality Diagnostics agreement. Only users holding the arkfullaccess permission can change this setting. Querying from an account that has not opted in returns error code 70001.
 
-What the agreement covers:
+> What the agreement covers:
 
-* **Scope** — asynchronous inference models only (Seedance 2.x, models and similar). Synchronous inference models such as Seed and Seedream are **not** included.
+* > **Scope** — asynchronous inference models only (Seedance 2.x, models and similar). Synchronous inference models such as Seed and Seedream are **not** included.
 
-* **Retention** — all asynchronous task logs under your primary account are stored for **3 days (72 hours)**  in Johor, and dropped afterwards.
+* > **Retention** — all asynchronous task logs under your primary account are stored for **3 days (72 hours)** in Johor, and dropped afterwards.
 
-* **Opting out** — ingestion stops immediately. Data already stored is not deleted on the spot; it clears naturally within 3 days.
+* > **Opting out** — ingestion stops immediately. Data already stored is not deleted on the spot; it clears naturally within 3 days.
 
-* **Reported cases** — a task you submit through the report API is retained long term and transferred across borders. It is used for model evaluation, regression and analysis. **It is not used to train models.**
+* > **Reported cases** — a task you submit through the report API is retained long term and transferred across borders. It is used for model evaluation, regression and analysis. **It is not used to train models.**
 
-   For the full terms, see the Model Generations Quality Diagnostics agreement (link TBD).
+   > For the full terms, see the [Model Generations Quality Diagnostics agreement](model-diagnostic-service-acknowledgement.md).
 
-   **This API and its documentation apply to the BytePlus ModelArk service. They do not apply to Volcengine Ark (mainland China).**
+   > **This API and its documentation apply to the BytePlus ModelArk service.**
 
-## Request Instructions
+### URL validity
+
+* `FeedbackImages[].Url` is a presigned screenshot URL valid for approximately **10 minutes**. See `ExpiresAt` for the exact expiry time. Each query generates a new URL. Query again after it expires.
+
+* `SolutionNote.Attachments[].Url` is a solution attachment URL that is re\-signed on each query. Use the URL from the latest response and query again if it expires.
+
+These durations describe the validity of the returned URLs, not the retention period of the case records.
+
+### Request headers
+
+For ModelArk API key authentication, set `Authorization: Bearer <API_KEY>` and `Content-Type: application/json`. The service resolves the account identity from the API key.
+
+For AK/SK authentication, set the `Authorization`, `X-Date`, and `X-Content-Sha256` headers required for V4 signing. Use `ark` for `Service` and `ap-southeast-1` for `Region`.
+
+### Request Instructions
 
 ### Calling with a BytePlus ModelArk API Key
 
 Obtain the API Key from [API Key Management](https://console.byteplus.com/ark/region:ap-southeast-1/apiKey). **Calling with a ModelArk API Key uses a different request scheme than AK/SK: the request URL is not https://open.byteplusapi.com but the Case Platform route below, and you must add the /case\-platform path.**
-
-```Bash
-curl --location 'https://prompt-pilot.ap-southeast.bytepluses.com/case-platform?Action=CasePlatformV1BadcaseQuery&Version=2024-01-01' \
---header 'accept: application/json, text/plain, */*' \
---header 'content-type: application/json' \
---header 'Authorization: Bearer ModelArk_API_KEY' \
---header 'Region: ap-southeast-1' \
---header 'ServiceName: ark' \
---header 'Version: 2024-01-01' \
---data-raw '{
-  "Id": "cgt-20260501132104-tfm9v"
-}'
-```
 
 The host is bytepluses.com — note the trailing s.
 
@@ -73,93 +76,65 @@ curl --location 'https://prompt-pilot.ap-southeast.bytepluses.com/case-platform?
 # => {"ResponseMetadata":{...,"Region":"ap-southeast-1","Error":null},"Result":{"Success":true}}
 ```
 
-## Request Parameters
+## Authentication
 
-The table below lists only the parameters specific to this interface plus a subset of common parameters. See the BytePlus ModelArk Common Parameters reference (link TBD) for more information.
+This API supports the following authentication method(s). For details, see [Base URL and authentication](base-url-and-authentication.md).
 
-|**Parameter** |**Type** |**Required** |**Description** |
-|---|---|---|---|
-|Action |String |Yes |The operation to perform. Value: CasePlatformV1BadcaseQuery. |
-|Version |String |Yes |API version. Value: 2024\-01\-01. |
-|Id |String |Yes |Example: cgt\-20260501132104\-tfm9v. A single task_id, or a list of task_ids. 1–50; exceeding the limit returns 422. Duplicate task_ids within one request are deduplicated and reported once. Split on comma, newline, space, tab and similar separators, with leading/trailing whitespace and empty fragments trimmed. |
+* [Recommended] API Key authentication. Go to the [API Key Management](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey) page. Obtain a long\-lived API key.
 
-## Response Parameters
+---
 
-The table below lists only the response parameters specific to this interface. See the BytePlus ModelArk Response Structure reference (link TBD) for more information.
+## Request parameters
 
-|**Parameter** |**Type** |**Description** |
+### Query parameters
+
+> Passed as URL query string.
+
+**Action** `string` `Required`  |    The operation to perform
+
+Value: CasePlatformV1BadcaseQuery.
+
+**Version** `string` `Required`  |  API version
+
+Value: 2024\-01\-01.
+
+### Body parameters
+
+**Id** `string / string[]` `Required`  |  Task ID list
+
+Example: cgt\-20260501132104\-tfm9v. A single task_id, or a list of task_ids. 1–50; exceeding the limit returns 422. Duplicate task_ids within one request are deduplicated and reported once. Split on comma, newline, space, tab and similar separators, with leading/trailing whitespace and empty fragments trimmed.
+
+### Screenshot download failure reasons
+
+A screenshot download failure does not prevent case creation and is not retried automatically. The same task cannot be reported again. To provide additional screenshots, contact technical support with `SubmissionId` and the task ID. Use the following table to diagnose the failure and check screenshot sources for future reports.
+
+|`ErrorCode` |`ErrorReason` |Meaning and resolution |
 |---|---|---|
-|Total |Integer |Example: 1. Number of deduplicated task_ids queried (Accepted + Rejected). |
-|Accepted |Object[] |task_ids that match a badcase belonging to the current account. Returns the submission\-time snapshot plus the processing result.<br><br>· **TaskId** (String) — task ID.<br><br>· **BadcaseType** (Array of String) — the categories selected at submission time; same enum as the report API.<br><br>· **Feedback** (String) — the feedback text entered at submission time.<br><br>· **SubmitTime** (String) — submission time, ISO 8601 UTC.<br><br>· **Status** (String) — outward processing status, processing or done.<br><br>· **ProblemLabel** (String) — issue label assigned by support staff. An empty string while processing.<br><br>· **SolutionNote** (Object) — the solution note written for you: text plus attachments. null while processing.<br><br>· **Text** (String) — the note text.<br><br>· **Attachments** (Array of Object) — image/file attachments, each {Type, URL, Name, MimeType}. The file URL is re\-signed when read, so use it promptly rather than storing it. |
-|Rejected |Object[] |task_ids that could not be returned.<br><br>· **TaskId** (String) — task ID.<br><br>· **Code** (Integer) — business error code.<br><br>· **Message** (String) — human\-readable reason. |
+|`40020` |`blocked_address` |The URL or redirect target is not a public address. Check the screenshot source. |
+|`40020` |`timeout` |The download exceeded 60 seconds. Check the image size and source server response time. |
+|`40020` |`http_error` |The source returned an error status such as 403 or 404. Check that the URL has not expired and requires no login. |
+|`40020` |`fetch_failed` |Connection failure, empty response, or more than 3 redirects. Check the direct image URL. |
+|`40020` |`not_image` |The content is not PNG, JPEG, or WebP. Check whether you submitted a web page or another file type. |
+|`40023` |`too_large` |The image exceeds 10 MB. Compress images before future submissions. |
+|`50010` |`storage_failed` |Platform storage failure. Contact technical support with the task ID. |
 
-Note that the two "empty" shapes differ: while Status is processing, ProblemLabel is an empty string and SolutionNote is null.
+### Error codes
 
-## Request Example
+For HTTP 4xx or 5xx, errors appear in `ResponseMetadata.Error`. Even with HTTP 200, check `Result.Accepted` and `Result.Rejected` to confirm the result for each task.
 
-```plaintext
-POST /?Action=CasePlatformV1BadcaseQuery&Version=2024-01-01 HTTP/1.1
-Host: open.byteplusapi.com
-Content-Type: application/json; charset=UTF-8
-X-Date: 20260625T001714Z
-X-Content-Sha256: 287e874e******d653b44d21e
-Authorization: HMAC-SHA256 Credential=Adfks******wekfwe/20260625/ap-southeast-1/ark/request, SignedHeaders=host;x-content-sha256;x-date, Signature=47a7d934ff7b37c03938******cd7b8278a40a1057690c401e92246a0e41085f
+|HTTP |Error code |Meaning and resolution |
+|---|---|---|
+|422 |`40011` |After normalization, `Id` is empty or contains more than 50 tasks. Correct the task list. |
+|400 |`100023` |Request validation failed. Check the JSON and field types according to `Message`. |
+|503 |`100050` |The upstream task query is busy or timed out. Retry later. |
+|200 |`40002` |The task does not exist or does not belong to the current account. Check the task ID and the account used for authentication. |
+|200 |`40012` |No badcase has been reported for this task. Call the report API first. |
 
-{
-  "Id": "cgt-20260501132104-tfm9v"
-}
-```
+In the query API, `40012` means that no report has been submitted. It differs from `40012` in the report API, which means the task ID format is invalid. Error messages may be in Chinese or English. Your application should use error codes to determine the cause.
 
-## Response Example
+### Error Codes
 
-```Plain Text
-{
-  "ResponseMetadata": {
-    "RequestId": "202606241717181540900962155418EE",
-    "Action": "CasePlatformV1BadcaseQuery",
-    "Version": "2024-01-01",
-    "Service": "ark",
-    "Region": "ap-southeast-1"
-  },
-  "Result": {
-    "Total": 2,
-    "Accepted": [
-      {
-        "TaskId": "cgt-20260501132104-tfm9v",
-        "BadcaseType": [
-          "character_id_drift"
-        ],
-        "Feedback": "Character hands are distorted, and lip movement does not match the dubbed audio",
-        "SubmitTime": "2026-05-08T07:19:22Z",
-        "Status": "done",
-        "ProblemLabel": "Character consistency",
-        "SolutionNote": {
-          "Text": "Confirmed to be a LoRA load-order issue; recommend explicitly specifying the style tag in the prompt",
-          "Attachments": [
-            {
-              "Type": "image",
-              "Url": "https://case-platform-files-cn-beijing.tos-cn-beijing.volces.com/.../repro.png?X-Tos-Algorithm=...",
-              "Name": "repro.png",
-              "MimeType": "image/png"
-            }
-          ]
-        }
-      }
-    ],
-    "Rejected": [
-      {
-        "TaskId": "cgt-20260502aaaaa-bbbbb",
-        "Code": 40012,
-        "Message": "task_id was never submitted as a badcase"
-      }
-    ]
-  }
-}
-```
-
-## Error Codes
-
-The table below lists the business\-logic error codes for this interface. See the BytePlus ModelArk Common Error Codes reference (link TBD) for common error codes.
+The table below lists the business\-logic error codes for this interface.
 
 |**HTTP status** |**Error code** |**Error message** |**Description** |
 |---|---|---|---|
@@ -169,3 +144,209 @@ The table below lists the business\-logic error codes for this interface. See th
 |403 |70001 |This Account did not opt\-in data Diagnostic agreement yet. Please opt\-in ModelArk Data Diagnostic Agreement. |The calling account has not enabled Model Generations Quality Diagnostics. **The whole request is refused** — no Accepted or Rejected is returned. Enable it as described under Notes. |
 
 **70001 behaves differently here than on the report API.**  Reporting may cover several accounts in one batch, so it evaluates the agreement per task_id and rejects only the tasks whose owner has not opted in. Querying is self\-service: it takes no AccountId and only ever reads back your own badcases, so an account that has not opted in has nothing it may read and the request is refused outright — including badcases it submitted before opting out.
+
+## Response parameters
+
+**Total** `integer`  |  Total tasks
+
+  Example: 1. Number of deduplicated task_ids queried (Accepted + Rejected).
+
+**Accepted** `object[]`  |  Accepted task list
+
+task_ids that match a badcase belonging to the current account. Returns the submission\-time snapshot plus the processing result.
+
+Note that the two "empty" shapes differ: while Status is processing, ProblemLabel is an empty string and SolutionNote is null.
+
+**Status** `string`  |  Processing status
+
+`Accepted.Status`
+
+outward processing status, processing or done. Options: `processing`, `done`.
+
+**TaskId** `string`  |  Task ID
+
+`Accepted.TaskId`
+
+task ID.
+
+**BadcaseType** `string[]`  |  Issue categories
+
+`Accepted.BadcaseType`
+
+the categories selected at submission time; same enum as the report API.
+
+**Feedback** `string`  |  Issue description
+
+`Accepted.Feedback`
+
+the feedback text entered at submission time.
+
+**FeedbackImages** `object[]`  |  Issue screenshots
+
+`Accepted.FeedbackImages`
+
+Screenshots attached to the report, returned in submission order. An empty array if no screenshots were submitted. Screenshot download status is independent of case investigation status. See the child fields for URLs and failure reasons.
+
+**ErrorCode** `integer / null`  |  Screenshot error code
+
+`Accepted.FeedbackImages.ErrorCode`
+
+The error code for a failed download: `40020` for a download failure, `40023` for an image exceeding 10 MB, or `50010` for a platform storage failure. `null` if no error occurred.
+
+**ErrorMessage** `string / null`  |  Screenshot error message
+
+`Accepted.FeedbackImages.ErrorMessage`
+
+An English description of the download failure, such as the HTTP status returned by the source server. `null` if no error occurred.
+
+**ErrorReason** `string / null`  |  Screenshot failure reason
+
+`Accepted.FeedbackImages.ErrorReason`
+
+The specific download failure reason. See "Screenshot download failure reasons" for values and resolutions. `null` if there is no failure or this field was not recorded for an older screenshot.
+
+**ExpiresAt** `string / null`  |  URL expiry time
+
+`Accepted.FeedbackImages.ExpiresAt`
+
+The expiry time of `Url` in ISO 8601 UTC format. `null` if no URL is available.
+
+**MediaKey** `string / null`  |  Internal media asset identifier
+
+`Accepted.FeedbackImages.MediaKey`
+
+An internal identifier used to renew URLs. Can be ignored and may be `null`.
+
+**MimeType** `string / null`  |  Image type
+
+`Accepted.FeedbackImages.MimeType`
+
+The MIME type identified from the actual file contents, such as `image/png`. `null` if not yet available.
+
+**Status** `string`  |  Screenshot download status
+
+`Accepted.FeedbackImages.Status`
+
+* `ok`: The screenshot has been saved and can be viewed using `Url`.
+
+* `pending`: The service is still downloading the screenshot.
+
+* `failed`: The download failed. Check `ErrorCode`, `ErrorReason`, and `ErrorMessage`.
+
+This status is independent of the investigation status in `Accepted[].Status`.
+
+**Url** `string / null`  |  Screenshot URL
+
+`Accepted.FeedbackImages.Url`
+
+A presigned screenshot URL, regenerated on each query and valid for approximately 10 minutes. `null` while the download is pending or if it failed. Query again to obtain a new URL after it expires.
+
+**ProblemLabel** `string`  |  Issue label
+
+`Accepted.ProblemLabel`
+
+issue label assigned by support staff. An empty string while processing.
+
+**SolutionNote** `object / null`  |  Solution
+
+`Accepted.SolutionNote`
+
+the solution note written for you: text plus attachments. null while processing.
+
+object `object`
+
+**Attachments** `object[] / null`  |  image/file attachments
+
+`Accepted.SolutionNote.Attachments`
+
+each {Type, Url, Name, MimeType}. The file URL is re\-signed when read, so use it promptly rather than storing it. May be `null`. Attachments can also be videos or audio.
+
+Attachment[] `object[]`
+
+**Type** `string`  |  File type
+
+`Accepted.SolutionNote.Attachments.Type`
+
+The file type. Options: `image`, `video`, `audio`.
+
+**Url** `string`  |  File URL
+
+`Accepted.SolutionNote.Attachments.Url`
+
+The file URL. TOS URLs are automatically re\-signed when read.
+
+**MimeType** `string / null`  |  MIME type
+
+`Accepted.SolutionNote.Attachments.MimeType`
+
+The Multipurpose Internet Mail Extensions (MIME) type. May be `null`.
+
+**Name** `string / null`  |  File name
+
+`Accepted.SolutionNote.Attachments.Name`
+
+The file name. May be `null`.
+
+null `null`
+
+**Text** `string / null`  |  the note text
+
+`Accepted.SolutionNote.Text`
+
+May be `null`.
+
+null `null`
+
+**SubmitTime** `string / null`  |  Submission time
+
+`Accepted.SubmitTime`
+
+submission time, ISO 8601 UTC. May be `null` if unavailable.
+
+**TimelineFeedbacks** `object[]`  |  Timeline feedback
+
+`Accepted.TimelineFeedbacks`
+
+Video timeline feedback included in the report, returned in submission order.
+
+**EndTime** `number`  |  The end of the time range in seconds
+
+`Accepted.TimelineFeedbacks.EndTime`
+
+If equal to the start, it represents a single point in time.
+
+**StartTime** `number`  |  The start of the time range in seconds.
+
+`Accepted.TimelineFeedbacks.StartTime`
+
+**BadcaseType** `string[] / null`  |  The list of video issue categories for this time range
+
+`Accepted.TimelineFeedbacks.BadcaseType`
+
+May be `null`.
+
+**Feedback** `string`  |  The issue description submitted for this time range.
+
+`Accepted.TimelineFeedbacks.Feedback`
+
+**Rejected** `object[]`  |  Rejected task list
+
+task_ids that could not be returned.
+
+**Code** `integer`  |  Error code
+
+`Rejected.Code`
+
+business error code.
+
+**Message** `string`  |  Rejection reason
+
+`Rejected.Message`
+
+human\-readable reason.
+
+**TaskId** `string`  |  Task ID
+
+`Rejected.TaskId`
+
+task ID.

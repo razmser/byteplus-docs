@@ -170,15 +170,15 @@ Configuration file path on Windows: `%USERPROFILE%\.config\opencode\opencode.jso
 
    Using `ark-code-latest` as an example:
 
-> **warning**
+   > **warning**
 
-* > `glm-5.2`, `glm-5.3-flash`, `deepseek-v4.1-flash`, `deepseek-v4-flash`, and `deepseek-v4-pro` support a 1M context window for long sessions involving large codebases. Specify the window size explicitly via the `limit.context` field.
+   * > `glm-5.2`, `glm-5.3-flash`, `deepseek-v4.1-flash`, `deepseek-v4-flash`, and `deepseek-v4-pro` support a 1M context window for long sessions involving large codebases. Specify the window size explicitly via the `limit.context` field.
 
-* > Under `provider.byteplus-plan.models`, **two locations** (the object key and the `name` field) must be **replaced with the same Model Name**. Do not miss either one.
+   * > Under `provider.byteplus-plan.models`, **two locations** (the object key and the `name` field) must be **replaced with the same Model Name**. Do not miss either one.
 
-* > To enable image understanding for a model, add the following configuration under the model node:
+   * > To enable image understanding for a model, add the following configuration under the model node:
 
-> `"modalities": {"input": ["text", "image"], "output": ["text"]}`
+   > `"modalities": {"input": ["text", "image"], "output": ["text"]}`
 
 **Responses API**
 

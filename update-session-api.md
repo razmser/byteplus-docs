@@ -842,6 +842,16 @@ Custom tool name snapshot created when the session is created.
 
 The member agent version number snapshot created when the session was created.
 
+**scene** `string`  |  Scene tag
+
+`agent.scene`
+
+Business scene of the session agent snapshot.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
+
 **skills** `object[]`  |  Skill list
 
 `agent.skills`
@@ -1242,6 +1252,16 @@ User\-defined metadata.
 
 The list of `config` subparameter names actually overridden by the current session relative to the base environment. Returned only when *type* is `environment_with_overrides` and overridden parameters exist.
 
+**scene** `string`  |  Scene tag
+
+`environment.scene`
+
+The business scene associated with the environment snapshot.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
+
 **resources** `object[]`  |  Resource list
 
 The updated list of resources currently mounted to the session's runtime environment.
@@ -1328,6 +1348,14 @@ The session's access permissions for the memory store.
 
 * `read_only`: The agent can only read the memory store.
 
+* `read_write`: The agent can read from and modify the memory store.
+
+**instructions** `string`  |  Instructions
+
+`resources.instructions`
+
+Instructions currently used by the session for this memory store.
+
 **memory_store_id** `string`  |  Memory store ID
 
 `resources.memory_store_id`
@@ -1391,6 +1419,14 @@ The object prefix of the mounted directory in TOS.
 `resources.tos_region`
 
 The ID of the region where the TOS mount source is located.
+
+**scene** `string`  |  Session scene
+
+Session scene marker.
+
+* `default`: regular session.
+
+* `dreams`: a session used for Dream memory organization tasks.
 
 **tags** `object[]`  |  Tag list
 

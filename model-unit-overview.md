@@ -118,13 +118,13 @@ e.g.: If you place an order successfully at 16:00 and unsubscribe successfully a
 
 2. Click the target endpoint name to go to the endpoint Overview page. In the **Compute Guarantee** section, adjust quantity, renew, or unsubscribe model units as needed.
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/1b89ae88c0ff41d38a114b3ab43141cd~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/1b89ae88c0ff41d38a114b3ab43141cd~tplv-goo7wpa0wc-image.image)
 
-> **Note**
+   > **Note**
 
-* > Model units are purchased by instance group. The model unit ID copied from endpoint Overview page is the instance group ID. Instance groups have strong association relationships, so renewal and unsubscribe actions must be initiated simultaneously.
+   * > Model units are purchased by instance group. The model unit ID copied from endpoint Overview page is the instance group ID. Instance groups have strong association relationships, so renewal and unsubscribe actions must be initiated simultaneously.
 
-* > Note that unsubscribing from model units that are not due will incur a penalty, which means you won't get a full refund.
+   * > Note that unsubscribing from model units that are not due will incur a penalty, which means you won't get a full refund.
 
 # Edit auto\-scaling rule
 

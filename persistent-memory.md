@@ -10,9 +10,7 @@ A memory store can store multiple memories. Each memory is identified by a separ
 
 Creating, reading, updating, and deleting memories do not depend on sessions. To let the agent use this content during runtime, mount the memory store as a resource when you create a session.
 
-After it is mounted, the content in the memory store appears as a read\-only directory at `/mnt/memory/{memory_store_id}/`. The agent can read the memories in it, but cannot create, update, delete, or move memories while the session is running.
-
-To modify memory content, call [Create memory](create-memory-api.md), [Update memory](update-memory-api.md), or [Delete memory](delete-memory-api.md).
+After a memory store is mounted, `access` determines the operations that the agent can perform. You can also manage memory directly in the console.
 
 ## Create a memory store
 
@@ -64,7 +62,7 @@ A memory store must be mounted through the `resources` array when creating a ses
 
 In the `resources` array, set the resource `type` to `memory_store` and specify the memory store to mount with `memory_store_id`.
 
-After mounting, the agent can only read this memory store.
+The following example explicitly sets the access permission to `read_only`, allowing the agent to read the memory store but not modify its content.
 
 ```bash
 session=$(
@@ -78,7 +76,8 @@ session=$(
   "resources": [
     {
       "type": "memory_store",
-      "memory_store_id": "$STORE_ID"
+      "memory_store_id": "$STORE_ID",
+      "access": "read_only"
     }
   ]
 }
@@ -90,11 +89,17 @@ printf '%s\n' "$session"
 SESSION_ID=$(jq -er '.id' <<<"$session")
 ```
 
+`access` defaults to `read_write`. If the agent processes untrusted content such as user input, web content, or output from third\-party tools, grant write permissions carefully. A successful prompt injection may write malicious content to the store, which subsequent sessions will read as trusted memory. For reference content such as shared specifications, knowledge bases, and glossaries, we recommend using `read_only`.
+
 A single session can mount up to 10 memory stores. You can split stores by use case, for example, to manage user preferences, project context, and team\-shared standards separately.
 
 ## How agents access memory
 
-* The agent can browse and read memories in the mounted directory, but cannot modify content through the current session.
+* **`read_only`**: The agent can browse, read, and search memory, but cannot modify content.
+
+* **`read_write`**: In addition to reading memory, the agent can create, update, delete, or move content. Changes are saved in the mounted memory store for continued use in subsequent sessions.
+
+* Agent reads of memory appear as ordinary tool calls in the session event stream, such as `agent.tool_use` and `agent.tool_result`.
 
 ## View and edit memory
 

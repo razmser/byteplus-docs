@@ -2,7 +2,7 @@
 
 Markdown mirror of [BytePlus ModelArk's documentation](https://docs.byteplus.com/en/docs/ModelArk/).
 
-Contains **350 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
+Contains **359 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
 
 Links to mirrored pages point to local files; external links and images remain online. Code examples and OpenAPI blocks are preserved.
 
@@ -11,7 +11,7 @@ Generated files are replaced by the next successful sync. Original content belon
 ## Pages
 
 - [Monitoring](1159199.md)
-- [Activation Management](1159200.md)
+- [Model Activation Management](1159200.md)
 - [Exclusive offer for new users](1928265.md)
 - [\[Announcement\] Temporary sign-in requirement for certain pages](2191792.md)
 - [ArkClaw Service Rules](2229122.md)
@@ -47,11 +47,14 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Batch inference (via console)](batch-inference-via-console.md)
 - [Batch inference](batch-inference.md)
 - [C2PA Content Credentials Guide](c2pa-content-credentials-guide.md)
+- [Cancel dream](cancel-dream-api.md)
 - [CancelEndpointRolling - Cancel inference endpoint rolling upgrade](cancel-endpoint-rolling-api.md)
 - [Cancel or delete a video generation task](cancel-or-delete-video-generation-tasks-api.md)
 - [Cancel session task](cancel-session-task-api.md)
 - [CasePlatformV1BadcaseQuery — BytePlus ModelArk Seedance 2.x Generations Quality Diagnostics Result Query API](case-platform-v1-badcase-query-api.md)
 - [CasePlatformV1BadcaseReport - BytePlus ModelArk Seedance 2.x Generations Quality Diagnostics API](case-platform-v1-badcase-report-api.md)
+- [Query large language model quality issue results](case-platform-v1-seed-badcase-query-api.md)
+- [Report large language model quality issues](case-platform-v1-seed-badcase-report-api.md)
 - [Chat & Generation](chat-and-generation.md)
 - [Chat API](chat-api.md)
 - [Cloud sandbox reference](cloud-sandbox-reference.md)
@@ -91,6 +94,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [CreateBatchInferenceJob](create-batch-inference-job-api.md)
 - [Create credential](create-credential-api.md)
 - [Create deployment](create-deployment-api.md)
+- [Create dream](create-dream-api.md)
 - [Create an inference endpoint](create-endpoint-api.md)
 - [CreateEndpointRolling - Create an inference endpoint rolling upgrade task](create-endpoint-rolling-api.md)
 - [Create environment](create-environment-api.md)
@@ -127,6 +131,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Disable webhook endpoint](disable-webhook-endpoint-api.md)
 - [Document understanding](document-understanding.md)
 - [Download skill of specified version](download-skill-version-content-api.md)
+- [Use Dream to organize long-term memory](dream-overview.md)
 - [EnableAutoModelActivation - Enable automatic activation of new models](enable-auto-model-activation-api.md)
 - [Enable model inference limits](enable-model-inference-limit-api.md)
 - [Enable webhook endpoint](enable-webhook-endpoint-api.md)
@@ -147,6 +152,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Get credential](get-credential-api.md)
 - [Get deployment details](get-deployment-api.md)
 - [Get deployment run details](get-deployment-run-api.md)
+- [Retrieve dream](get-dream-api.md)
 - [GetEndpoint](get-endpoint-api.md)
 - [GetEndpointCertificate](get-endpoint-certificate-api.md)
 - [GetEndpointRolling - Query inference endpoint rolling upgrade details](get-endpoint-rolling-api.md)
@@ -194,6 +200,7 @@ Generated files are replaced by the next successful sync. Original content belon
 - [List credentials](list-credentials-api.md)
 - [List deployment runs](list-deployment-runs-api.md)
 - [List deployments](list-deployments-api.md)
+- [List dreams](list-dreams-api.md)
 - [ListEndpoints](list-endpoints-api.md)
 - [List environments](list-environments-api.md)
 - [List session events](list-events-api.md)
@@ -286,6 +293,8 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Schedule agent runs](schedule-agent-runs.md)
 - [Common SDK usage examples](sdk-common-examples.md)
 - [Retrieve file](search-files-api.md)
+- [Query 3D generation quality issue results](seed3d-badcase-query.md)
+- [Report 3D generation quality issues](seed3d-badcase-report.md)
 - [Seedance-1.0-pro&pro-fast prompt guide](seedance-1-0-pro-pro-fast.md)
 - [Seedance-1.5-pro prompt guide](seedance-1-5-pro.md)
 - [Limited-time discount campaign rules for Seedance models](seedance-2-0-mini-fast-limited-time-discount.md)

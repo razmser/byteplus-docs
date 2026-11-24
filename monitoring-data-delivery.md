@@ -30,9 +30,9 @@ ModelArk online inference uses [Vital Managed Service for Prometheus](https://do
 
 4. In the **Workspace** section, click **Change workspace** to open the **Change project workspace** dialog.
 
-> **tip**
+   > **tip**
 
-> This setting applies to the project to which the endpoint belongs. Changing a project's workspace or the account's default workspace requires ArkFullAccess or ArkStandardGlobalAccess permissions.
+   > This setting applies to the project to which the endpoint belongs. Changing a project's workspace or the account's default workspace requires ArkFullAccess or ArkStandardGlobalAccess permissions.
 
 ## Workspace types
 
@@ -51,17 +51,17 @@ ModelArk online inference uses [Vital Managed Service for Prometheus](https://do
 
 4. Click **Save changes**.
 
-> **tip**
+   > **tip**
 
-> If there are no available workspaces under your account, click **Change the current project data delivered to VMP Workspace** in the dialog. After creating a workspace, return to the dialog to select it.
+   > If there are no available workspaces under your account, click **Change the current project data delivered to VMP Workspace** in the dialog. After creating a workspace, return to the dialog to select it.
 
-> **warning**
+   > **warning**
 
-* > After a workspace change, only new monitoring data is delivered to the new workspace. Historical data is not migrated.
+   * > After a workspace change, only new monitoring data is delivered to the new workspace. Historical data is not migrated.
 
-* > After a workspace change, the original workspace no longer receives new data. To continue viewing the full monitoring data, use aggregation query workspaces in VMP. For details, see [Creating aggregation query workspaces](https://docs.byteplus.com/en/docs/vmp/Creating_an_aggregate_query_workspace).
+   * > After a workspace change, the original workspace no longer receives new data. To continue viewing the full monitoring data, use aggregation query workspaces in VMP. For details, see [Creating aggregation query workspaces](https://docs.byteplus.com/en/docs/vmp/Creating_an_aggregate_query_workspace).
 
-* > After a workspace change, existing alert rules must be reconfigured.
+   * > After a workspace change, existing alert rules must be reconfigured.
 
 ## Metric delivery scope
 

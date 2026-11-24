@@ -166,9 +166,9 @@ Only custom inference endpoints support this method. Use it when an entire appli
 
 2. Save the configuration and invoke the model with the endpoint ID. Requests that do not explicitly specify `service_tier` use Online inference (Flex) by default.
 
-> **warning**
+   > **warning**
 
-> The `service_tier` value explicitly specified in a request takes precedence over the default service tier configured for the inference endpoint.
+   > The `service_tier` value explicitly specified in a request takes precedence over the default service tier configured for the inference endpoint.
 
 ## Billing
 

@@ -1,7 +1,6 @@
 # Managed Agents
 
-ARK Managed Agents: the full lifecycle of Agent / Skill / Env / Session / File / Memory Store / Vault, plus the shortcut workflows around a session.
-
+ARK Managed Agents: the full lifecycle of Agent / Skill / Env / Session / File / Memory Store / Vault / Channel, plus the shortcut workflows around a session.
 
 * The `agent` domain covers all eight resource types: the control plane (Agent/Skill/Env definitions) goes through ForTop/OpenTOP, the data plane (session runtime, files) connects directly;
 
@@ -9,8 +8,6 @@ ARK Managed Agents: the full lifecycle of Agent / Skill / Env / Session / File /
 
 * Typical chain: `agent create` → `env create` → `session create` → `session events send/stream`.
 
-
-<span id="debug-command"></span>
 ## +debug
 
 Diagnose a managed agent session (events, errors, and execution state by session\-id)
@@ -19,15 +16,11 @@ Diagnose a managed agent session (events, errors, and execution state by session
 arkcli +debug <session-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--limit` |int |Maximum recent events to inspect |
 |`--session-thread-id` |string |Filter events by session thread id |
 
-
-<span id="export-command"></span>
 ## +export
 
 Export managed agent session diagnostics to a local archive
@@ -36,16 +29,12 @@ Export managed agent session diagnostics to a local archive
 arkcli +export <session-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--output` |string |Output .tar.gz path |
 |`--limit` |int |Maximum events to export |
 |`--session-thread-id` |string |Filter events by session thread id |
 
-
-<span id="iterate-command"></span>
 ## +iterate
 
 Update a managed agent, create a fresh session, then optionally chat
@@ -53,8 +42,6 @@ Update a managed agent, create a fresh session, then optionally chat
 ```Bash
 arkcli +iterate <agent-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -91,19 +78,14 @@ arkcli +iterate <agent-id>
 |`--multiagent` |string |Multiagent config object |
 |`--metadata` |string |Metadata patch map object; null value deletes a key |
 
-
-<span id="domain-new"></span>
 ## +new
 
 ARK Managed Agent runtime commands: start a new agent session (`+new session`), create a new agent definition (`+new-agent`), and iterate on an existing agent (`+iterate`).
-
 
 * Task\-oriented entry points covering the define → session → iterate chain;
 
 * Underlying resources are managed by the `agent` domain; these commands are the shortest path to getting an agent running.
 
-
-<span id="new-session-command"></span>
 ### +new session
 
 Create a fresh managed\-agent session, then chat
@@ -111,8 +93,6 @@ Create a fresh managed\-agent session, then chat
 ```Bash
 arkcli +new session [agent-id]
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -134,8 +114,6 @@ arkcli +new session [agent-id]
 |`--max-event-chars` |int |Maximum characters shown for pretty event text; default 2000, 0 means unlimited |
 |`--raw` |bool |Print raw NDJSON stream events |
 
-
-<span id="new-agent-command"></span>
 ## +new\-agent
 
 Create a managed agent from structured fields, optionally forking an existing agent
@@ -143,8 +121,6 @@ Create a managed agent from structured fields, optionally forking an existing ag
 ```Bash
 arkcli +new-agent
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -172,8 +148,6 @@ arkcli +new-agent
 |`--show-system` |bool |Show the full System prompt in table output |
 |`--yes` |bool |In an interactive terminal, skip the [y/N] model\-activation prompt. Non\-interactive mode refuses activation unless ARKCLI_ALLOW_HEADLESS_ACTIVATION=1 is set. |
 
-
-<span id="tail-command"></span>
 ## +tail
 
 Tail managed agent session events
@@ -181,8 +155,6 @@ Tail managed agent session events
 ```Bash
 arkcli +tail <session-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -198,12 +170,9 @@ arkcli +tail <session-id>
 |`--order` |string |Sort order: asc \| desc |
 |`--raw` |bool |Print raw NDJSON events instead of the human\-readable tail view |
 
-
-<span id="domain-agent"></span>
 ## agent
 
-Full lifecycle management for ARK Managed Agents: eight resource types — Agent, Skill, Environment (Env), Session, File, Memory Store, Vault (credentials / MCP OAuth).
-
+Full lifecycle management for ARK Managed Agents: eight resource types — Agent, Skill, Environment (Env), Session, File, Memory Store, Vault (credentials / MCP OAuth), and Channel.
 
 * Control plane (Agent/Skill/Env definitions) prefers ForTop/OpenTOP; the data plane (session runtime, file upload/download) connects directly, and the CLI routes automatically;
 
@@ -213,8 +182,6 @@ Full lifecycle management for ARK Managed Agents: eight resource types — Agent
 
 * `vault credentials` and `vault oauth-flow` manage secrets without exposing them in shell history.
 
-
-<span id="agent-mcp-login-command"></span>
 ### agent +mcp\-login
 
 Create a vault MCP OAuth flow, open the authorization URL, and wait for callback
@@ -222,8 +189,6 @@ Create a vault MCP OAuth flow, open the authorization URL, and wait for callback
 ```Bash
 arkcli agent +mcp-login
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -240,8 +205,6 @@ arkcli agent +mcp-login
 |`--client-secret` |string |OAuth client secret, or @file to read from disk |
 |`--no-open` |bool |Do not open browser automatically; print authorization URL instead |
 
-
-<span id="agent-agent-create-command"></span>
 ### agent agent create
 
 Create a managed agent definition (name, model, system prompt, skills, tools)
@@ -249,8 +212,6 @@ Create a managed agent definition (name, model, system prompt, skills, tools)
 ```Bash
 arkcli agent agent create
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -275,8 +236,6 @@ arkcli agent agent create
 |`--show-system` |bool |Show the full System prompt in table output |
 |`--yes` |bool |In an interactive terminal, skip the [y/N] model\-activation prompt. Non\-interactive mode refuses activation unless ARKCLI_ALLOW_HEADLESS_ACTIVATION=1 is set. |
 
-
-<span id="agent-agent-delete-command"></span>
 ### agent agent delete
 
 Delete a managed agent and cascade its sessions (requires confirmation, or pass \-\-yes)
@@ -285,14 +244,10 @@ Delete a managed agent and cascade its sessions (requires confirmation, or pass 
 arkcli agent agent delete <agent-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--yes` |bool |Skip interactive confirmation for hard delete and cascading session deletion |
 
-
-<span id="agent-agent-get-command"></span>
 ### agent agent get
 
 Show a managed agent definition (config, version, bound skills; \-\-show\-system reveals the full system prompt)
@@ -301,15 +256,11 @@ Show a managed agent definition (config, version, bound skills; \-\-show\-system
 arkcli agent agent get <agent-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--version` |int |Agent version |
 |`--show-system` |bool |Show the full System prompt in table output |
 
-
-<span id="agent-agent-list-command"></span>
 ### agent agent list
 
 List managed agents with filters (name, id, time range) and pagination
@@ -317,8 +268,6 @@ List managed agents with filters (name, id, time range) and pagination
 ```Bash
 arkcli agent agent list
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -334,8 +283,6 @@ arkcli agent agent list
 |`--sort-order` |string |Sort order: Asc \| Desc |
 |`--show-system` |bool |Show the full System prompt in table output |
 
-
-<span id="agent-agent-update-command"></span>
 ### agent agent update
 
 Update a managed agent definition (name, model, skills; \-\-file accepts a JSON/YAML payload)
@@ -343,8 +290,6 @@ Update a managed agent definition (name, model, skills; \-\-file accepts a JSON/
 ```Bash
 arkcli agent agent update <agent-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -365,8 +310,6 @@ arkcli agent agent update <agent-id>
 |`--multiagent` |string |Multiagent config object |
 |`--metadata` |string |Metadata patch map object; null value deletes a key |
 
-
-<span id="agent-agent-versions-command"></span>
 ### agent agent versions
 
 List version history of a managed agent
@@ -375,15 +318,11 @@ List version history of a managed agent
 arkcli agent agent versions <agent-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor/page number |
 
-
-<span id="agent-env-create-command"></span>
 ### agent env create
 
 Create a managed agent environment
@@ -391,8 +330,6 @@ Create a managed agent environment
 ```Bash
 arkcli agent env create
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -405,8 +342,6 @@ arkcli agent env create
 |`--scope` |string |Environment scope |
 |`--runtime-type` |string |Environment runtime: cloud \| self_hosted (Config.Type) |
 
-
-<span id="agent-env-delete-command"></span>
 ### agent env delete
 
 Delete a managed agent environment
@@ -415,15 +350,11 @@ Delete a managed agent environment
 arkcli agent env delete <environment-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--yes` |bool |Skip interactive deletion confirmation |
 
-
-<span id="agent-env-get-command"></span>
 ### agent env get
 
 Get a managed agent environment
@@ -432,14 +363,10 @@ Get a managed agent environment
 arkcli agent env get <environment-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 
-
-<span id="agent-env-list-command"></span>
 ### agent env list
 
 List managed agent environments
@@ -447,8 +374,6 @@ List managed agent environments
 ```Bash
 arkcli agent env list
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -460,8 +385,6 @@ arkcli agent env list
 |`--sort-by` |string |Sort field |
 |`--sort-order` |string |Sort order: Asc \| Desc |
 
-
-<span id="agent-env-update-command"></span>
 ### agent env update
 
 Update a managed agent environment
@@ -469,8 +392,6 @@ Update a managed agent environment
 ```Bash
 arkcli agent env update <environment-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -482,8 +403,6 @@ arkcli agent env update <environment-id>
 |`--metadata` |string |Metadata map object |
 |`--scope` |string |Environment scope |
 
-
-<span id="agent-env-work-get-command"></span>
 ### agent env work get
 
 Get a self\-hosted work item
@@ -492,8 +411,6 @@ Get a self\-hosted work item
 arkcli agent env work get <environment-id> <work-id>
 ```
 
-
-<span id="agent-env-work-list-command"></span>
 ### agent env work list
 
 List self\-hosted environment work items
@@ -502,15 +419,11 @@ List self\-hosted environment work items
 arkcli agent env work list <environment-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor/page number |
 
-
-<span id="agent-env-work-stats-command"></span>
 ### agent env work stats
 
 Get self\-hosted work queue statistics
@@ -519,8 +432,6 @@ Get self\-hosted work queue statistics
 arkcli agent env work stats <environment-id>
 ```
 
-
-<span id="agent-env-work-stop-command"></span>
 ### agent env work stop
 
 Request a work item to stop
@@ -529,15 +440,11 @@ Request a work item to stop
 arkcli agent env work stop <environment-id> <work-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--force` |bool |Immediately mark work stopped; does not prove the remote sandbox has exited |
 |`--yes` |bool |Confirm stopping this work item |
 
-
-<span id="agent-file-delete-command"></span>
 ### agent file delete
 
 Delete a file from the ARK Files store
@@ -546,14 +453,10 @@ Delete a file from the ARK Files store
 arkcli agent file delete <file-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--yes` |bool |Confirm deletion |
 
-
-<span id="agent-file-get-command"></span>
 ### agent file get
 
 Get a file's metadata from the ARK Files store
@@ -562,8 +465,6 @@ Get a file's metadata from the ARK Files store
 arkcli agent file get <file-id>
 ```
 
-
-<span id="agent-file-list-command"></span>
 ### agent file list
 
 List files uploaded to the ARK Files store
@@ -571,8 +472,6 @@ List files uploaded to the ARK Files store
 ```Bash
 arkcli agent file list
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -582,8 +481,6 @@ arkcli agent file list
 |`--purpose` |string |File purpose (default: user_data) |
 |`--session-id` |string |Filter files by managed\-agent session scope |
 
-
-<span id="agent-file-upload-command"></span>
 ### agent file upload
 
 Upload a local file or URL to the ARK Files store and return a file_id
@@ -591,8 +488,6 @@ Upload a local file or URL to the ARK Files store and return a file_id
 ```Bash
 arkcli agent file upload
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -607,8 +502,6 @@ arkcli agent file upload
 |`--wait-timeout` |int |Maximum seconds to wait with \-\-wait\-active; default 120 |
 |`--wait-interval` |int |Polling interval in seconds with \-\-wait\-active; default 2 |
 
-
-<span id="agent-file-wait-command"></span>
 ### agent file wait
 
 Wait until a file reaches active status
@@ -617,15 +510,11 @@ Wait until a file reaches active status
 arkcli agent file wait <file-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--wait-timeout` |int |Maximum seconds to wait; default 120 |
 |`--wait-interval` |int |Polling interval in seconds; default 2 |
 
-
-<span id="agent-memory-store-create-command"></span>
 ### agent memory\-store create
 
 Create a memory store
@@ -634,16 +523,12 @@ Create a memory store
 arkcli agent memory-store create
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--name` |string |Memory store name |
 |`--description` |string |Memory store description |
 
-
-<span id="agent-memory-store-creators-command"></span>
 ### agent memory\-store creators
 
 List memory store creators
@@ -652,14 +537,10 @@ List memory store creators
 arkcli agent memory-store creators
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 
-
-<span id="agent-memory-store-delete-command"></span>
 ### agent memory\-store delete
 
 Delete a memory store
@@ -668,15 +549,11 @@ Delete a memory store
 arkcli agent memory-store delete <store-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--yes` |bool |Skip interactive deletion confirmation |
 
-
-<span id="agent-memory-store-get-command"></span>
 ### agent memory\-store get
 
 Get a memory store
@@ -685,14 +562,10 @@ Get a memory store
 arkcli agent memory-store get <store-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 
-
-<span id="agent-memory-store-list-command"></span>
 ### agent memory\-store list
 
 List memory stores
@@ -700,8 +573,6 @@ List memory stores
 ```Bash
 arkcli agent memory-store list
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -711,8 +582,6 @@ arkcli agent memory-store list
 |`--name` |string |Filter by memory store name |
 |`--created-by` |string_slice |Created\-by user IDs, comma\-separated or repeated |
 
-
-<span id="agent-memory-store-memories-batch-create-command"></span>
 ### agent memory\-store memories batch\-create
 
 Batch create memories
@@ -721,15 +590,11 @@ Batch create memories
 arkcli agent memory-store memories batch-create <store-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--items` |string |Memory items array |
 
-
-<span id="agent-memory-store-memories-create-command"></span>
 ### agent memory\-store memories create
 
 Create a memory
@@ -738,16 +603,12 @@ Create a memory
 arkcli agent memory-store memories create <store-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--path` |string |Memory path |
 |`--content` |string |Memory content, or @file to read from disk |
 
-
-<span id="agent-memory-store-memories-delete-command"></span>
 ### agent memory\-store memories delete
 
 Delete a memory
@@ -756,16 +617,12 @@ Delete a memory
 arkcli agent memory-store memories delete <store-id> [memory-id]
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--yes` |bool |Skip interactive deletion confirmation |
 |`--memory-id` |string |Memory id |
 
-
-<span id="agent-memory-store-memories-get-command"></span>
 ### agent memory\-store memories get
 
 Get a memory
@@ -774,16 +631,12 @@ Get a memory
 arkcli agent memory-store memories get <store-id> [memory-id]
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--memory-id` |string |Memory id |
 |`--view` |string |Memory view: basic \| full |
 
-
-<span id="agent-memory-store-memories-list-command"></span>
 ### agent memory\-store memories list
 
 List memories in a memory store
@@ -791,8 +644,6 @@ List memories in a memory store
 ```Bash
 arkcli agent memory-store memories list <store-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -803,8 +654,6 @@ arkcli agent memory-store memories list <store-id>
 |`--updated-after` |string |Filter memories updated after this time (RFC3339) |
 |`--depth` |int |List depth |
 
-
-<span id="agent-memory-store-memories-update-command"></span>
 ### agent memory\-store memories update
 
 Update a memory
@@ -812,8 +661,6 @@ Update a memory
 ```Bash
 arkcli agent memory-store memories update <store-id> [memory-id]
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -823,8 +670,6 @@ arkcli agent memory-store memories update <store-id> [memory-id]
 |`--content` |string |Memory content, or @file to read from disk |
 |`--content-sha256` |string |Expected current content sha256 for optimistic locking |
 
-
-<span id="agent-memory-store-update-command"></span>
 ### agent memory\-store update
 
 Update a memory store
@@ -833,16 +678,12 @@ Update a memory store
 arkcli agent memory-store update <store-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--name` |string |Memory store name |
 |`--description` |string |Memory store description |
 
-
-<span id="agent-model-config-command"></span>
 ### agent model config
 
 Query supported runtime parameter values and defaults for a foundation model
@@ -851,15 +692,11 @@ Query supported runtime parameter values and defaults for a foundation model
 arkcli agent model config <foundation-model-name>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--provider` |string |Model provider used to look up metadata (does not change account or product) (default: ark) |
 |`--key` |string_slice |Metadata key; repeat or comma\-separate; omitted queries all keys |
 
-
-<span id="agent-model-list-command"></span>
 ### agent model list
 
 List foundation models available as managed\-agent backbones
@@ -867,8 +704,6 @@ List foundation models available as managed\-agent backbones
 ```Bash
 arkcli agent model list
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -879,8 +714,6 @@ arkcli agent model list
 |`--include-all` |bool |Skip the selected usage's support filter; include all models with capability flags |
 |`--primary-only` |bool |Keep only primary versions from the complete model catalog |
 
-
-<span id="agent-session-compact-command"></span>
 ### agent session compact
 
 Compact the active context of an idle managed\-agent session
@@ -888,8 +721,6 @@ Compact the active context of an idle managed\-agent session
 ```Bash
 arkcli agent session compact <session-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -899,8 +730,6 @@ arkcli agent session compact <session-id>
 |`--poll` |bool |Poll the event list instead of opening the SSE stream |
 |`--raw` |bool |Print raw NDJSON events |
 
-
-<span id="agent-session-create-command"></span>
 ### agent session create
 
 Create a managed agent session
@@ -908,8 +737,6 @@ Create a managed agent session
 ```Bash
 arkcli agent session create
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -928,8 +755,6 @@ arkcli agent session create
 |`--agent-overrides` |string |AgentWithOverrides object; inline JSON/YAML or @file |
 |`--environment-overrides` |string |EnvironmentWithOverrides object; inline JSON/YAML or @file |
 
-
-<span id="agent-session-delete-command"></span>
 ### agent session delete
 
 Delete a managed agent session
@@ -938,15 +763,11 @@ Delete a managed agent session
 arkcli agent session delete <session-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--yes` |bool |Skip interactive deletion confirmation |
 
-
-<span id="agent-session-events-list-command"></span>
 ### agent session events list
 
 List managed agent session events
@@ -954,8 +775,6 @@ List managed agent session events
 ```Bash
 arkcli agent session events list <session-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -971,8 +790,6 @@ arkcli agent session events list <session-id>
 |`--session-thread-id` |string |Filter by session thread id |
 |`--order` |string |Sort order: asc \| desc |
 
-
-<span id="agent-session-events-send-command"></span>
 ### agent session events send
 
 Send managed agent session events
@@ -980,8 +797,6 @@ Send managed agent session events
 ```Bash
 arkcli agent session events send <session-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1009,8 +824,6 @@ arkcli agent session events send <session-id>
 |`--custom-tool-use-id` |string |Custom tool use id for user.custom_tool_result |
 |`--result` |string |Result value, e.g. allow \| deny |
 
-
-<span id="agent-session-events-stream-command"></span>
 ### agent session events stream
 
 Stream managed agent session events
@@ -1018,8 +831,6 @@ Stream managed agent session events
 ```Bash
 arkcli agent session events stream <session-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1034,8 +845,6 @@ arkcli agent session events stream <session-id>
 |`--max-event-chars` |int |Maximum characters shown for pretty event text; default 2000, 0 means unlimited |
 |`--order` |string |Sort order: asc \| desc |
 
-
-<span id="agent-session-get-command"></span>
 ### agent session get
 
 Get a managed agent session
@@ -1044,14 +853,10 @@ Get a managed agent session
 arkcli agent session get <session-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 
-
-<span id="agent-session-list-command"></span>
 ### agent session list
 
 List managed agent sessions
@@ -1059,8 +864,6 @@ List managed agent sessions
 ```Bash
 arkcli agent session list
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1077,8 +880,6 @@ arkcli agent session list
 |`--status` |string_slice |Filter by session status; repeatable or comma\-separated |
 |`--tags` |string |Tags map or tag array filter |
 
-
-<span id="agent-session-resources-add-command"></span>
 ### agent session resources add
 
 Add a resource to a managed agent session
@@ -1086,8 +887,6 @@ Add a resource to a managed agent session
 ```Bash
 arkcli agent session resources add <session-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1103,8 +902,6 @@ arkcli agent session resources add <session-id>
 |`--wait-timeout` |int |Maximum seconds for local file activation; with \-\-wait, also bounds Agent response wait (default 120) |
 |`--wait-interval` |int |Polling interval in seconds; default 2 |
 
-
-<span id="agent-session-resources-delete-command"></span>
 ### agent session resources delete
 
 Delete a managed agent session resource
@@ -1113,15 +910,11 @@ Delete a managed agent session resource
 arkcli agent session resources delete <session-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--yes` |bool |Skip interactive deletion confirmation |
 |`--resource-id` |string |Session resource id |
 
-
-<span id="agent-session-resources-get-command"></span>
 ### agent session resources get
 
 Show one resource attached to a managed agent session
@@ -1130,16 +923,12 @@ Show one resource attached to a managed agent session
 arkcli agent session resources get <session-id> [resource-id]
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--resource-id` |string |Session resource id |
 |`--file-id` |string |Match a file resource by file_id |
 |`--mount-path` |string |Match a file resource by mount_path |
 
-
-<span id="agent-session-resources-list-command"></span>
 ### agent session resources list
 
 List resources mounted to a managed agent session
@@ -1148,14 +937,10 @@ List resources mounted to a managed agent session
 arkcli agent session resources list <session-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML request body. Use \- or omit \-\-file to read stdin |
 
-
-<span id="agent-session-resources-update-command"></span>
 ### agent session resources update
 
 Update a managed agent session resource
@@ -1164,15 +949,11 @@ Update a managed agent session resource
 arkcli agent session resources update <session-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--resource-id` |string |Session resource id |
 |`--authorization-token` |string |New authorization token for github_repository resources |
 
-
-<span id="agent-session-threads-get-command"></span>
 ### agent session threads get
 
 Get a managed agent session thread
@@ -1181,15 +962,11 @@ Get a managed agent session thread
 arkcli agent session threads get <session-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML request body. Use \- or omit \-\-file to read stdin |
 |`--session-thread-id` |string |Session thread id |
 
-
-<span id="agent-session-threads-list-command"></span>
 ### agent session threads list
 
 List managed agent session threads
@@ -1198,16 +975,12 @@ List managed agent session threads
 arkcli agent session threads list <session-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML request body. Use \- or omit \-\-file to read stdin |
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor/page number |
 
-
-<span id="agent-session-update-command"></span>
 ### agent session update
 
 Update a managed agent session
@@ -1215,8 +988,6 @@ Update a managed agent session
 ```Bash
 arkcli agent session update <session-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1226,8 +997,6 @@ arkcli agent session update <session-id>
 |`--tags` |string |Tags map or tag array |
 |`--agent` |string |Agent patch object; intended for tools/mcp_servers only |
 
-
-<span id="agent-session-upgrade-command"></span>
 ### agent session upgrade
 
 Upgrade an existing session's runtime configuration (returns acceptance, not completion)
@@ -1235,8 +1004,6 @@ Upgrade an existing session's runtime configuration (returns acceptance, not com
 ```Bash
 arkcli agent session upgrade <session-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1253,8 +1020,6 @@ arkcli agent session upgrade <session-id>
 |`--initial-events` |string |Initial events array (JSON/YAML or @file); optional, [] means no event |
 |`--compact` |bool |Include the upgrade /compact event; false explicitly sets initial_events to [] |
 
-
-<span id="agent-skill-create-command"></span>
 ### agent skill create
 
 Upload a local skill zip package and create a custom managed\-agent skill
@@ -1263,16 +1028,12 @@ Upload a local skill zip package and create a custom managed\-agent skill
 arkcli agent skill create
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--zip` |string (required) |Path to a local skill zip package |
 |`--display-title` |string |Display title for the uploaded skill |
 |`--protection-enabled` |bool |Enable content protection for the created skill |
 
-
-<span id="agent-skill-delete-command"></span>
 ### agent skill delete
 
 Delete a custom managed\-agent skill (all skill versions must be deleted first)
@@ -1281,15 +1042,11 @@ Delete a custom managed\-agent skill (all skill versions must be deleted first)
 arkcli agent skill delete <skill-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--yes` |bool |Confirm permanent deletion |
 |`--version` |string |Delete only this skill version; omit to delete the skill (requires no remaining versions) |
 
-
-<span id="agent-skill-download-command"></span>
 ### agent skill download
 
 Download a custom managed\-agent skill version archive
@@ -1298,15 +1055,11 @@ Download a custom managed\-agent skill version archive
 arkcli agent skill download <skill-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--version` |string |Skill semantic version; defaults to the latest version |
 |`--output` |string |Local output zip path; defaults to\-v.zip |
 
-
-<span id="agent-skill-get-command"></span>
 ### agent skill get
 
 Get a custom or Ark managed\-agent skill through TOP GetSkill
@@ -1315,8 +1068,6 @@ Get a custom or Ark managed\-agent skill through TOP GetSkill
 arkcli agent skill get <skill-id>
 ```
 
-
-<span id="agent-skill-github-import-command"></span>
 ### agent skill github import
 
 Scan and import public skills from a GitHub repository
@@ -1325,8 +1076,6 @@ Scan and import public skills from a GitHub repository
 arkcli agent skill github import <repository-input>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--path` |string_slice |Repository\-relative skill path; repeatable |
@@ -1334,8 +1083,6 @@ arkcli agent skill github import <repository-input>
 |`--selected` |string |Selection array from @file with Path and optional ProtectionEnabled |
 |`--protection-enabled` |bool |Enable content protection for the created skill |
 
-
-<span id="agent-skill-github-scan-command"></span>
 ### agent skill github scan
 
 Scan public skills from a GitHub repository
@@ -1344,8 +1091,6 @@ Scan public skills from a GitHub repository
 arkcli agent skill github scan <repository-input>
 ```
 
-
-<span id="agent-skill-list-command"></span>
 ### agent skill list
 
 List TOP custom/ark managed agent skills
@@ -1353,8 +1098,6 @@ List TOP custom/ark managed agent skills
 ```Bash
 arkcli agent skill list
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1373,8 +1116,6 @@ arkcli agent skill list
 |`--create-time-gte` |string |Custom skill create time lower bound for TOP ListSkills |
 |`--create-time-lte` |string |Custom skill create time upper bound for TOP ListSkills |
 
-
-<span id="agent-skill-search-command"></span>
 ### agent skill search
 
 Search custom/Ark skills by user query and emit agent skill refs
@@ -1383,16 +1124,12 @@ Search custom/Ark skills by user query and emit agent skill refs
 arkcli agent skill search <query>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor/page number |
 |`--source` |string |Skill source: custom \| ark \| all |
 
-
-<span id="agent-skill-set-protection-command"></span>
 ### agent skill set\-protection
 
 Enable or disable content protection for a custom managed\-agent skill
@@ -1401,14 +1138,10 @@ Enable or disable content protection for a custom managed\-agent skill
 arkcli agent skill set-protection <skill-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--enabled` |bool (required) |Content protection state |
 
-
-<span id="agent-skill-update-command"></span>
 ### agent skill update
 
 Upload a new version for an existing custom managed\-agent skill
@@ -1417,15 +1150,11 @@ Upload a new version for an existing custom managed\-agent skill
 arkcli agent skill update <skill-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--zip` |string (required) |Path to the new local skill zip package |
 |`--display-title` |string |Display title for the new skill version |
 
-
-<span id="agent-skill-versions-command"></span>
 ### agent skill versions
 
 List versions of a custom or Ark managed\-agent skill
@@ -1434,15 +1163,11 @@ List versions of a custom or Ark managed\-agent skill
 arkcli agent skill versions <skill-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor |
 
-
-<span id="agent-vault-create-command"></span>
 ### agent vault create
 
 Create a credential vault
@@ -1451,16 +1176,12 @@ Create a credential vault
 arkcli agent vault create
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--display-name` |string |Vault display name |
 |`--metadata` |string |Metadata map object |
 
-
-<span id="agent-vault-credentials-create-command"></span>
 ### agent vault credentials create
 
 Create a credential in a vault
@@ -1468,8 +1189,6 @@ Create a credential in a vault
 ```Bash
 arkcli agent vault credentials create <vault-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1492,8 +1211,6 @@ arkcli agent vault credentials create <vault-id>
 |`--scope` |string |OAuth scope |
 |`--metadata` |string |Metadata map object |
 
-
-<span id="agent-vault-credentials-delete-command"></span>
 ### agent vault credentials delete
 
 Delete a credential
@@ -1502,15 +1219,11 @@ Delete a credential
 arkcli agent vault credentials delete <vault-id> <credential-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--yes` |bool |Skip interactive deletion confirmation |
 
-
-<span id="agent-vault-credentials-get-command"></span>
 ### agent vault credentials get
 
 Get a credential
@@ -1519,14 +1232,10 @@ Get a credential
 arkcli agent vault credentials get <vault-id> <credential-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 
-
-<span id="agent-vault-credentials-list-command"></span>
 ### agent vault credentials list
 
 List credentials in a vault
@@ -1534,8 +1243,6 @@ List credentials in a vault
 ```Bash
 arkcli agent vault credentials list <vault-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1545,8 +1252,6 @@ arkcli agent vault credentials list <vault-id>
 |`--id` |string |Filter by credential id |
 |`--name` |string |Filter by credential name |
 
-
-<span id="agent-vault-credentials-update-command"></span>
 ### agent vault credentials update
 
 Update a credential
@@ -1554,8 +1259,6 @@ Update a credential
 ```Bash
 arkcli agent vault credentials update <vault-id> <credential-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1578,8 +1281,6 @@ arkcli agent vault credentials update <vault-id> <credential-id>
 |`--scope` |string |OAuth scope |
 |`--metadata` |string |Metadata map object |
 
-
-<span id="agent-vault-delete-command"></span>
 ### agent vault delete
 
 Delete a credential vault
@@ -1588,15 +1289,11 @@ Delete a credential vault
 arkcli agent vault delete <vault-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--yes` |bool |Skip interactive deletion confirmation |
 
-
-<span id="agent-vault-get-command"></span>
 ### agent vault get
 
 Get a credential vault
@@ -1605,14 +1302,10 @@ Get a credential vault
 arkcli agent vault get <vault-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 
-
-<span id="agent-vault-list-command"></span>
 ### agent vault list
 
 List credential vaults
@@ -1620,8 +1313,6 @@ List credential vaults
 ```Bash
 arkcli agent vault list
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1631,8 +1322,6 @@ arkcli agent vault list
 |`--id` |string |Filter by vault id |
 |`--name` |string |Filter by vault name |
 
-
-<span id="agent-vault-oauth-flow-create-command"></span>
 ### agent vault oauth\-flow create
 
 Create a vault MCP OAuth flow and return the authorization URL
@@ -1640,8 +1329,6 @@ Create a vault MCP OAuth flow and return the authorization URL
 ```Bash
 arkcli agent vault oauth-flow create
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -1654,8 +1341,6 @@ arkcli agent vault oauth-flow create
 |`--client-id` |string |OAuth client id for custom MCP/provider override mode |
 |`--client-secret` |string |OAuth client secret, or @file to read from disk |
 
-
-<span id="agent-vault-oauth-provider-list-command"></span>
 ### agent vault oauth\-provider list
 
 List registered MCP providers usable for agent MCP servers and vault credentials
@@ -1664,16 +1349,12 @@ List registered MCP providers usable for agent MCP servers and vault credentials
 arkcli agent vault oauth-provider list
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--limit` |int |Page size |
 |`--page-token` |string |Next page token |
 
-
-<span id="agent-vault-update-command"></span>
 ### agent vault update
 
 Update a credential vault
@@ -1681,8 +1362,6 @@ Update a credential vault
 ```Bash
 arkcli agent vault update <vault-id>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|

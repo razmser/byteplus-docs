@@ -32,72 +32,72 @@ OpenClaw supports configuring embedding models to solve the problems of limited 
 
 2. Select any of the following methods to configure the embedding model.
 
-**Web UI**
+   **Web UI**
 
 1. Execute the following command to open the Web UI.
 
-```Bash
-openclaw dashboard
-```
+         ```Bash
+         openclaw dashboard
+         ```
 
-2. In the left menu bar, select **configuration** \- **All Settings** \- **Raw**, and add `memorySearch` related configuration information under the `agents.defaults` node. The added configuration information is as follows. You need to replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
+      2. In the left menu bar, select **configuration** \- **All Settings** \- **Raw**, and add `memorySearch` related configuration information under the `agents.defaults` node. The added configuration information is as follows. You need to replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
 
-   ```JSON
-   {
-     ...
-     "agents": {
-       "defaults": {
-         ...
-         "memorySearch": {
-           "provider": "openai",
-               "model": "skylark-embedding-vision",
-           "remote": {
-             "baseUrl": "https://ark.ap-southeast.bytepluses.com/api/coding/v3",
-             "apiKey": "<ARK_API_KEY>"
+         ```JSON
+         {
+           ...
+           "agents": {
+             "defaults": {
+               ...
+               "memorySearch": {
+                 "provider": "openai",
+                     "model": "skylark-embedding-vision",
+                 "remote": {
+                   "baseUrl": "https://ark.ap-southeast.bytepluses.com/api/coding/v3",
+                   "apiKey": "<ARK_API_KEY>"
+                 }
+               }
+               ...
+             }
            }
-         }
-         ...
-       }
-     }
-     ...
-    }
-   ```
+           ...
+          }
+         ```
 
-3. After configuration is complete, first click **Save** in the upper right corner to save, then click **Update** to update the configuration.
+      3. After configuration is complete, first click **Save** in the upper right corner to save, then click **Update** to update the configuration.
 
-**Terminal**
+   **Terminal**
 
 1. Execute the following command in the terminal to open the OpenClaw configuration file.
 
-```Bash
-nano ~/.openclaw/openclaw.json
-```
+         ```Bash
+         nano ~/.openclaw/openclaw.json
+         ```
 
-2. Add `memorySearch`\-related configuration information under the `agents.defaults` node. The configuration information to be added is as follows. You need to replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
+      2. Add `memorySearch`\-related configuration information under the `agents.defaults` node. The configuration information to be added is as follows. You need to replace `<ARK_API_KEY>` with your own [API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apikey).
 
-   ```JSON
-   {
-     ...
-     "agents": {
-       "defaults": {
-         ...
-         "memorySearch": {
-           "provider": "openai",
-               "model": "skylark-embedding-vision",
-           "remote": {
-             "baseUrl": "https://ark.ap-southeast.bytepluses.com/api/coding/v3",
-             "apiKey": "<ARK_API_KEY>"
+         ```JSON
+         {
+           ...
+           "agents": {
+             "defaults": {
+               ...
+               "memorySearch": {
+                 "provider": "openai",
+                     "model": "skylark-embedding-vision",
+                 "remote": {
+                   "baseUrl": "https://ark.ap-southeast.bytepluses.com/api/coding/v3",
+                   "apiKey": "<ARK_API_KEY>"
+                 }
+               }
+               ...
+             }
            }
+           ...
          }
-         ...
-       }
-     }
-     ...
-   }
-   ```
+         ```
 
-3. After completing the configuration, restart the gateway to apply the configuration.
+      3. After completing the configuration, restart the gateway to apply the configuration.
 
-   ```Bash
-   openclaw gateway restart
-   ```
+         ```Bash
+         openclaw gateway restart
+         ```

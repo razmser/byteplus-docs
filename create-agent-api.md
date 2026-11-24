@@ -242,6 +242,18 @@ The ID of the referenced agent. When `type` is `agent`, this parameter is used t
 
 The version number of the referenced agent. If omitted, the latest version is used.
 
+**scene** `string` `Default default`  |  Scene tag
+
+The business scene of the agent.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
+
+> **Tip**
+
+> If omitted, it is treated as `default`; other values are rejected.
+
 **skills** `object[]`  |  Skill configuration
 
 List of skills attached to the agent. Up to 50 skills are supported. If no skill version is specified, the latest version of the skill is used.
@@ -673,6 +685,14 @@ The ID of the referenced agent.
 `multiagent.subagents.predefined_agents.version`
 
 The version number of the referenced agent.
+
+**scene** `string`  |  Scene tag
+
+The business scene of the agent.
+
+* `default`: Default scene.
+
+* `dreams`: A scene for memory organization tasks.
 
 **skills** `object[]`  |  Skill list
 
