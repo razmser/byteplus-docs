@@ -165,7 +165,7 @@ arkcli profile create
 |Flag |Type |Description |
 |---|---|---|
 |`--name` |string |Profile name (default: {type} *{region}* ) |
-|`--type` |string |Profile type: platform \| coding\-plan \| coding\-plan\-team |
+|`--type` |string |Profile type: platform \| coding\-plan \| coding\-plan\-team \| agent\-plan\-team\-shared\-pool (agent\-plan\-team\-shared\-pool added in arkcli v1.0.64: Agent Plan Team shared package, the only Agent Plan type offered on BytePlus; must be paired with \-\-default\-api\-key carrying the admin\-distributed pool API key) |
 |`--region` |string |Region (fixed: ap\-southeast\-1) |
 |`--project` |string |Project name (default: default) |
 |`--default-api-key` |string |Default API key to bind (optional) |

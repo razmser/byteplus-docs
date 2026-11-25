@@ -206,7 +206,7 @@ arkcli usage balance
 |`--page-number` |int |[free\-quota] Page number (1\-based) |
 |`--page-size` |int |[free\-quota] Page size (default 20; reduced from 50 to keep ListModelChargeItems within the 10s timeout budget) |
 |`--project` |string |[media\-asset] Project scope; defaults to active profile project |
-|`--product` |string |[plan] Plan id: coding\-plan \| coding\-plan\-team |
+|`--product` |string |[plan] Plan id: coding\-plan \| coding\-plan\-team \| agent\-plan\-team\-shared\-pool (Agent Plan Team shared package, the only Agent Plan usage offered on BytePlus, arkcli v1.0.64) |
 |`--all` |bool |[plan] Query Coding Plan subscriptions even if not subscribed |
 |`--seat` |string |[plan] Filter to a specific SeatID (team\-edition only) |
 
@@ -220,9 +220,11 @@ arkcli usage plan
 
 |Flag |Type |Description |
 |---|---|---|
-|`--product` |string |Plan product id: coding\-plan \| coding\-plan\-team. Default = auto\-discover Coding Plan subscriptions. |
+|`--product` |string |Plan product id: coding\-plan \| coding\-plan\-team \| agent\-plan\-team\-shared\-pool (Agent Plan Team shared package, arkcli v1.0.64; exposes only the monthly period and requires an enterprise administrator). Default = auto\-discover Coding Plan subscriptions. |
+|`--plan` |string |Mutually exclusive alias of \-\-product (arkcli v1.0.64) |
 |`--all` |bool |Query coding\-plan and coding\-plan\-team even if not subscribed. Mutually exclusive with \-\-product. |
 |`--seat` |string |[team] Specific SeatID; defaults to caller's bound seat via GetSeatInfo |
+|`--seat-ids` |string |Mutually exclusive alias of \-\-seat; accepts exactly one SeatID (arkcli v1.0.64) |
 
 ### usage seats
 

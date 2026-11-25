@@ -16,7 +16,7 @@ Compared with controlling the model to output in JSON format through prompts, us
 
 # Supported models
 
-See [Structured output (beta)](model-list.md#text-code-capabilities).
+See [Structured output (beta)](model-list.md#structured-output).
 
 # API documentation
 
@@ -666,7 +666,7 @@ Response preview
 |Generate JSON response |Yes |Yes |
 |Customizable JSON structure |Yes |No<br><br>Only guarantees valid JSON response |
 |Recommended |Yes |No |
-|Supported models |See [Structured output (beta)](model-list.md#text-code-capabilities) |See [Structured output (beta)](model-list.md#text-code-capabilities) |
+|Supported models |See [Structured output (beta)](model-list.md#structured-output) |See [Structured output (beta)](model-list.md#structured-output) |
 |Strict mode<br><br>> Generate responses strictly in accordance with the defined structure. |Supported<br><br>Takes effect by setting **strict** to `true`.<br><br><br>* See [JSON Schema syntax support](structured-output-beta.md#07ec5656) for syntax explanation. An explicit error will be displayed if an unsupported structure is provided. |Not applicable |
 |Configuration method |...,<br><br>"response_format": {<br><br>"type": "json_schema",<br><br>"json_schema":{<br><br>"name":"my_schema",<br><br>"strict": true,<br><br>"schema": {...}<br><br>}<br><br>},<br><br>... |...,<br><br>"response_format": {<br><br>"type": "json_object"<br><br>},<br><br>... |
 

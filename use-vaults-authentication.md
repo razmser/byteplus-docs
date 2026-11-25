@@ -275,7 +275,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/vaults/vlt-20260701120000-pq
 
 * **Each vault can contain up to 100 credentials.**  Returns 409 when the limit is exceeded.
 
-MCP\-type credentials (`mcp_oauth`, `static_bearer`, `mcp_static`) immediately connect to the target MCP server to probe the handshake when they are created. If the handshake cannot be completed, the create request returns a 4xx error.`environment_variable` and `env_oauth` do not validate whether the key or access token is valid when they are created; invalid values appear as authentication errors or downstream service errors when a session accesses the corresponding host, but they do not prevent the session from continuing to run.
+MCP\-type credentials (`mcp_oauth`, `static_bearer`, `mcp_static`) immediately connect to the target MCP server to probe the handshake when they are created. If the handshake cannot be completed, the create request returns a 4xx error. `environment_variable` and `env_oauth` do not validate whether the key or access token is valid when they are created; invalid values appear as authentication errors or downstream service errors when a session accesses the corresponding host, but they do not prevent the session from continuing to run.
 
 ## Reference vaults when creating a session
 

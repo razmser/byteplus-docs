@@ -1236,7 +1236,7 @@ Storage expiration time, UTC Unix timestamp (in seconds). This applies to both `
 
 * > Cache storage time is billed by calendar hour: each calendar hour spanned by the cache lifecycle is billed as 1 hour, and any partial calendar hour is also billed as 1 hour. For example, if the cache is created at 10:57 and expires at 12:27, it is billed for 3 calendar hours (10:00\-11:00, 11:00\-12:00, and 12:00\-13:00).
 
-* > For detailed configuration and code samples, see [documentation](context-cache.md#expire-cache).
+* > For detailed configuration and code samples, see [documentation](context-cache.md#manage-clear).
 
 **include** `string[]`  |  Additional output data
 
@@ -1348,7 +1348,7 @@ Controls the online inference mode used.
 
 * `default`: This request only uses the [Online inference (standard)](online-inference-standard.md) mode, maintaining the standard service tier.
 
-   * Even if the inference endpoint being called has low latency throttling quota, it only uses the online inference (standard) mode.
+   * Even if the inference endpoint being called has low\-latency throttling quota, it uses only online inference (regular) mode.
 
 * `flex`: This request uses the [online inference (flex)](online-inference-flex.md) mode.
 
@@ -1380,7 +1380,7 @@ The sampling temperature that controls the degree of smoothing applied to the pr
 
 > **Note**
 
-* > The **temperature** parameter value for the `seed-2-0-code-preview-260328`, `seed-2-0-pro-260328`, and `seed-2-0-lite-260228` models is fixed as `1.0`; manually specified parameter values are ignored.
+* > For the `seed-2-0-pro-260328` model, the **temperature** parameter is fixed as `1.0`, and manually specified parameter values are ignored.
 
 * > For `deepseek-v4-1-flash` series models, the **temperature** parameter does not take effect in reasoning mode.
 
@@ -1636,7 +1636,7 @@ Nucleus sampling probability threshold. The model only considers tokens whose cu
 
 > **Note**
 
-* > The top_p parameter value for the `seed-2-0-code-preview-260328`, `seed-2-0-pro-260328`, and `seed-2-0-lite-260228` models is fixed as `0.95`; manually specified parameter values are ignored.
+* > For the `seed-2-0-pro-260328` model, the top_p parameter is fixed as `0.95`, and manually specified parameter values are ignored.
 
 * > For the `glm-5-3-flash-260828` model, the default value is 0.95.
 

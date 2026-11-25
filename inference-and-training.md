@@ -321,7 +321,7 @@ arkcli infer endpoint stop <endpoint-id>
 
 ### infer endpoint update
 
-Update an infer endpoint (name / description / rate limit)
+Update an infer endpoint (name / description / rate limit). Rate limits are grouped by model scenario: text, image, video and audio; flags from different scenarios cannot be mixed.
 
 ```Bash
 arkcli infer endpoint update <endpoint-id>
@@ -331,10 +331,28 @@ arkcli infer endpoint update <endpoint-id>
 |---|---|---|
 |`--name` |string |New endpoint name |
 |`--description` |string |New endpoint description (use empty string to clear) |
-|`--rpm` |int |Rate limit: requests per minute (must be paired with \-\-tpm) |
-|`--tpm` |int |Rate limit: tokens per minute (must be paired with \-\-rpm) |
-|`--cg-concurrent-requests` |int |ContentGeneration: max concurrent requests (image gen endpoints) |
-|`--cg-create-task-rpm` |int |ContentGeneration: CreateTask RPM (image gen endpoints) |
+|`--rpm` |int |Text RPM, must be provided together with \-\-tpm |
+|`--tpm` |int |Text TPM, must be provided together with \-\-rpm |
+|`--fast-tpm` |int |Low\-latency Fast TPM (arkcli v1.0.65) |
+|`--flex-tpm` |int |Low\-priority Flex TPM (arkcli v1.0.65) |
+|`--off-peak-flex-tpm` |int |Off\-peak low\-priority Flex TPM (arkcli v1.0.65) |
+|`--ipm` |int |Image IPM (images per minute) (arkcli v1.0.65) |
+|`--cg-concurrent-requests` |int |Standard\-resolution video task concurrency |
+|`--cg-create-task-rpm` |int |Standard\-resolution video CreateTask RPM |
+|`--cg-concurrent-requests-4k` |int |4K video task concurrency (arkcli v1.0.65) |
+|`--cg-create-task-rpm-4k` |int |4K video CreateTask RPM (arkcli v1.0.65) |
+|`--audio-concurrent-requests` |int |Audio request concurrency (independent of video task concurrency) (arkcli v1.0.65) |
+|`--audio-rpm` |int |Audio request RPM (independent of video CreateTask RPM) (arkcli v1.0.65) |
+
+Rate limit rules (arkcli v1.0.65):
+
+* All rate\-limit flags accept integers \>= \-1: a positive integer sets the endpoint override; 0 is an explicit zero; \-1 removes the corresponding endpoint override (it does not lift model quotas or promise unlimited throughput).
+
+* \-\-rpm and \-\-tpm must be provided together; text, image, video and audio rate\-limit flags cannot be mixed.
+
+* Tier\-only updates (\-\-fast\-tpm / \-\-flex\-tpm / \-\-off\-peak\-flex\-tpm) preserve the endpoint's current RPM/TPM; sibling fields in the same group that are not explicitly changed keep their current values.
+
+* Before execution, a read\-only preflight verifies the endpoint's model binding, capabilities and model quotas; \-\-dry\-run only previews the plan locally without online validation.
 
 ## train
 

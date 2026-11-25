@@ -10,12 +10,12 @@ Managed Agents validates `thinking`, `reasoning_effort`, and `service_tier` sepa
 
 ## Model parameters
 
-|Parameter |Valid values |Note |
+|Parameter |Valid values |Description |
 |---|---|---|
 |`model.id` |Model ID or inference endpoint ID |The model or inference endpoint used by the agent. When an inference endpoint ID is used, Managed Agents validates runtime parameters based on the model associated with the endpoint. |
-|`model.thinking` |`enabled`, `disabled`, `auto` |Thinking switch override, corresponding to the `thinking.type` parameter in the underlying model call.`auto` means the model determines whether to think; it does not mean inheritance. |
+|`model.thinking` |`enabled`, `disabled`, `auto` |Thinking switch, corresponding to the `thinking.type` parameter in the underlying model call. `auto` means the model determines whether to think; it does not mean inheritance. |
 |`model.reasoning_effort` |`none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`. |Reasoning effort tier, corresponding to the `reasoning_effort` parameter in the underlying model call. Different models support different tiers. |
-|`model.service_tier` |`auto`, `default`, `fast` |Inference service tier override, corresponding to the `service_tier` parameter in the underlying model call. Only some model versions support the `fast` tier. |
+|`model.service_tier` |`auto`, `default`, `fast` |Inference service tier, corresponding to the `service_tier` parameter in the underlying model call. Only some model versions support the `fast` tier. |
 
 > **Tip**
 
@@ -38,12 +38,11 @@ Values marked with "default" in the table indicate the default values of this mo
 |Model ID |`thinking` |`reasoning_effort` |`service_tier` |
 |---|---|---|---|
 |`doubao-seed-evolving` (not available for BytePlus currently) |enabled (default), disabled |low, medium, high (default), minimal |auto, default (default) |
-|`seed-2-0-pro-260328` |enabled (default), disabled |low, medium, high (default), minimal |auto, default (default) |
+|`doubao-seed-2-1-pro-260915` (not available for BytePlus currently) |enabled (default), disabled |low, medium, high (default), minimal |auto, default (default) |
 |`doubao-seed-2-1-lite-260915` (not available for BytePlus currently) |enabled (default), disabled |low, medium, high (default), minimal |auto, default (default) |
 |`doubao-seed-2-1-pro-260628` (not available for BytePlus currently) |enabled (default), disabled |low, medium, high (default), minimal |auto, default (default) |
 |`dola-seed-2-1-turbo-260628` |enabled (default), disabled |low, medium, high (default), minimal |auto, default (default), fast |
 |`seed-2-0-lite-260428` |enabled (default), disabled |low, medium (default), high, minimal |auto, default (default), fast |
-|`deepseek-v4-pro-260425` |enabled (default), disabled |low, high (default), max, minimal |auto, default (default) |
 |`deepseek-v4-pro-ga-260813` |enabled (default), disabled |none, low, high (default), max, minimal |auto, default (default) |
 |`deepseek-v4-flash-ga-260731` |enabled (default), disabled |none, low, high (default), max, minimal |auto, default (default) |
 |`glm-5-2-260617` |enabled (default), disabled |none, minimal, high, max (default) |auto, default (default) |

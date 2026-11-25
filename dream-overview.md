@@ -1,6 +1,6 @@
 # Use Dream to organize long-term memory
 
-When an agent accumulates duplicate, outdated, or conflicting memories across multiple sessions, manually organizing them one by one becomes increasingly slow and makes it easy to miss stable patterns from historical tasks.**Dream** can organize existing memories and related sessions according to specified rules, generating an independent new memory store in the background for reuse in subsequent tasks.
+When an agent accumulates duplicate, outdated, or conflicting memories across multiple sessions, manually organizing them one by one becomes increasingly slow and makes it easy to miss stable patterns from historical tasks. **Dream** can organize existing memories and related sessions according to specified rules, generating an independent new memory store in the background for reuse in subsequent tasks.
 
 ## Use case
 
@@ -190,9 +190,9 @@ fi
 
 * > **Cancel a task**: when canceling a task in the `pending` or `running` state, the [Cancel Dream](cancel-dream-api.md) API first records the cancellation intent. The API response may still return `pending` or `running`, so you need to continue querying until the task finishes.
 
-* > **View usage**: Query the number of input, output, and cached tokens actually consumed by the task through `usage`.`usage=null` indicates that usage data is not yet available in the current response.
+* > **View usage**: Query the number of input, output, and cached tokens actually consumed by the task through `usage`. `usage=null` indicates that usage data is not yet available in the current response.
 
-* > **View runtime**: Query the cumulative runtime of Dream excluding idle intervals (in seconds) through `running_time`.`null` is returned when this value is not yet available.
+* > **View runtime**: Query the cumulative runtime of Dream excluding idle intervals (in seconds) through `running_time`. `null` is returned when this value is not yet available.
 
 * > **Query historical tasks**: filter tasks by status or input memory store through the [List Dreams](list-dreams-api.md) API, and sort them by creation time. When the response contains `next_page`, pass that value unchanged into the next request.
 

@@ -1,105 +1,29 @@
 # Context cache
 
-In scenarios with large amounts of repeated context input such as multi\-turn conversations, tool calls, and role\-playing, context caching reuses computation results to avoid repeated processing of the same content by the model. This eliminates repeated\-loading overhead and can significantly reduce token costs.
+When an application repeatedly sends the same long prefix in multi\-turn conversations, tool calls, or fixed prompts, repeated input continues to consume compute power and iccur cost. Context cache reuses the computed results of these prefixes. Implicit cache is automatically enabled for supported models, while explicit cache is manually enabled by developers and requires lifecycle management. The two cannot take effect at the same time. An actual hit is determined by whether cached tokens are greater than 0. HTTP 200 or configuration echo alone cannot prove a hit. If you call the model only once and do not have a stable repeated prefix, caching is usually not needed. This topic covers mode selection, integration, observation, billing, and management.
 
 > **Tip**
 
 > If you're new to ModelArk, see [Quick start](quick-start.md) to get up and running quickly.
 
-# Cache modes
+## Quick start
 
-Context caching supports two working modes, which can be selected based on convenience, determinism, and cost requirements.
+Context cache lets supported models reuse repeated input prefixes. You do not need to choose a mode first or enable an additional cache switch. The first request warms up the cache. In the second request, keep the same long prefix and replace only the question at the end. You can directly compare the `usage` of the two requests to see the cache benefit. The following example uses implicit cache in the Responses API.
 
-* **Implicit cache**: **Automatically enabled**, requires no additional configuration from users, and cannot be disabled. It is suitable for scenarios where ease of integration is more important, or where it is difficult to explicitly manage or fix the prefix. The system automatically identifies common prefixes in requests and caches them.
-
-* **Explicit cache**: A caching mode that needs to be **manually enabled**. It requires manual creation and configuration of cache and supports deterministic hits.
-
-   > **Note**
-
-   > Implicit cache requires no configuration and is automatically enabled by the system. When a request uses explicit cache, the implicit cache does not take effect.
-
-|Comparison item |Implicit cache |Explicit cache |
+|Input |Output preview (`usage`) |Description |
 |---|---|---|
-|Supported use cases |Suitable for general scenarios that prioritize ease of integration and do not require explicit cache creation or management. It is especially suitable for scenarios such as multi\-turn conversations and tool calls, where common prefixes continue to grow during interactions and are difficult to stabilize as fixed prefixes. The system automatically identifies common prefixes and caches them. |Suitable for scenarios that require cache creation and configuration, stable reuse of a fixed prefix, and stronger controllability, such as role\-playing and fixed instruction templates, as well as multi\-turn conversations with stable prefixes and few tool calls or a stable structure. |
-|Configuration method |No configuration required, cannot be disabled. |Manual configuration required |
-|Impact on response quality |No impact |No impact |
-|Supported models |See [Supported models](context-cache.md#6024bcd0) |See [Supported models](context-cache.md#e8535e58) |
-|Supported APIs |[Responses API](create-model-responses-api.md)<br><br>[Chat API](chat-api.md)<br><br>[Batch API](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api) |[Responses API](create-model-responses-api.md) |
-|Cache hit |The hit rate cannot be guaranteed and is affected by multiple factors. The specific hit probability is determined by the system. |Deterministic hits (higher cache hit rate) |
-|Cache lifetime |Dynamically changes. The system periodically clears cache data that has not been used for a long time. |Supports configuring cache expiration time |
-|Minimum number of tokens for caching |Default: `1024 tokens`. For model\-specific thresholds, see [How it works](context-cache.md#8c7c47d5). |Prefix cache: `256 tokens`; session cache has no limit on cache block size. |
-|Billing for input tokens that hit the cache |Tiered billing based on model input length |Tiered billing based on model input length |
-|Cache storage billing |No charge |Charged |
+|First request: fixed prefix (repeated 30 times) + first\-round question |`{"usage": {"input_tokens_details": {"cached_tokens": 0}}}` |The first request has no reusable cached input. All input is billed at the regular input unit price and written to the cache. |
+|Second request: same fixed prefix + second\-round question |`{"usage": {"input_tokens_details": {"cached_tokens": 1336}}}` |The prefix hit is billed at the cached input unit price, and the repeated prefix is no longer computed. Compared with not using cache, this can reduce model usage costs and improve response speed when the prefix is long and hits are stable. |
 
-# Implicit cache
+The values in the table come from an actual run (`dola-seed-2-1-turbo-260628`, with the fixed prefix repeated 30 times). The actual number of tokens depends on the input, and the speed benefit depends on the model, prefix length, and service load.
 
-## Supported models
+`cached_tokens` greater than 0 indicates a hit for this request. For complete hit determination, zero\-value troubleshooting, and billing criteria, see [Implicit cache > Observation and billing](context-cache.md#implicit-observation-billing).
 
-Models that support implicit cache are listed below. For details, see [Context caching](model-list.md#text-code-context-caching).
+### Minimal example
 
-* For online inference, Dola Seed 2.0 and later series models support implicit cache, and this feature cannot be disabled.
+All of the following tabs are examples with the Responses API. The examples repeat the fixed prefix 30 times to exceed the default threshold. In actual use, adjust it based on the threshold of the corresponding model and determine whether a hit occurred through the second\-round `usage`.
 
-* For batch inference, implicit cache is enabled for supported models and cannot be disabled.
-
-## Improve the cache hit rate
-
-Implicit cache is an automatic mode that requires no additional configuration from users and cannot be disabled. Whether a cache hit occurs is determined by the system, and hits are not guaranteed.
-
-Recommendations:
-
-* Keep the prefix stable. Place stable content such as fixed role settings, background information, and long text at the beginning, and place variable content such as the current question, timestamp, and request ID at the end. For similar requests, keep the request structure and prefix content as consistent as possible to reduce hit fluctuations caused by frequent prefix changes.
-
-* Keep tool definitions, tool order, structured output schemas, and similar settings consistent.
-
-* Monitor hits and iterate on optimizations. You can record token statistics in responses, continuously observe trends in hit tokens, and optimize prompt organization and prefix stability accordingly.
-
-* Use prompt cache key to configure a stable cache routing identifier and increase the probability of cache reuse. See the configuration method below.
-
-## Use prompt cache key
-
-Prompt cache key is a routing affinity policy for the prompt cache capability. By setting a stable cache routing identifier in the request, the system will try to route requests that share the same prefix to services with a higher cache hit rate, thereby increasing the probability of implicit cache reuse.
-
-### Supported models and APIs
-
-* Supported models: Seed 2.0 and later model series.
-
-* Supported APIs:
-
-   * Chat API: Set `prompt_cache_key` in the request parameters.
-
-   * Responses API: Set `prompt_cache_key` in the request parameters.
-
-### How it works
-
-> **Tip**
-
-> **How it works**: The system uses the cache routing identifier in the request as a session\-level routing hint and isolates routing mappings by endpoint, model, and this value. This capability uses a best\-effort affinity policy. It does not commit to a fixed instance or guarantee that every request will hit the cache.
-
-1. **Initial request**: The system selects an available service based on the regular routing policy and creates a routing mapping for the cache routing identifier value.
-
-2. **Subsequent requests**: Requests with the same endpoint, model, and cache routing identifier value are preferentially routed to the mapped service to increase the probability of cache reuse for the same prefix.
-
-3. **Automatic fallback**: When the mapped service is unavailable, the request rate exceeds the protection threshold, or other protection conditions are triggered, requests fall back to regular routing.
-
-### Limitations
-
-* **Traffic limit**: The total traffic of requests corresponding to the same cache routing identifier should be kept within 15 requests per minute. When the rate is too high, some requests may fall back to regular routing and therefore cannot reuse prefix cache on the original service. For high\-traffic workloads, we recommend steadily distributing traffic across more values.
-
-* **Keep stable**: Requests with continuous context should use the same value and avoid frequent changes within the same session.
-
-* **Isolate sessions**: Different users or parallel sessions should use different values to avoid unrelated requests sharing routing mappings and creating hotspots.
-
-* **Avoid sensitive information**: We recommend using an unreadable internal session ID. Do not use phone numbers, email addresses, access credentials, or the original prompt text.
-
-* **No strong consistency guarantee**: During service scaling, releases, failovers, and mapping expiration, or when protection policies are triggered, requests may be rerouted.
-
-### How to use
-
-When calling a model, Chat API and Responses API can set `prompt_cache_key` in the request parameters. Ensure requests with continuous context use the same value to improve the cache hit rate.
-
-The following example uses Responses API:
-
-**Curl**
+**cURL**
 
 ```Bash
 PREFIX_CHUNK='You are a literary analysis assistant. Answer concisely and clearly. Analyze the story The Gift of the Magi by O. Henry. Della and Jim each sell a treasured possession to buy a Christmas gift for the other. '
@@ -246,432 +170,209 @@ class ContextCachePromptCacheKey {
 }
 ```
 
-## Billing
+## Select a cache mode
 
-When a request hits implicit cache, the billing rule is as follows:
+The key difference between implicit cache and explicit cache is whether active control is required. Implicit cache is automatically enabled by the system, requires no additional configuration, and does not incur cache storage fees. Explicit cache must be manually enabled, continues through response IDs or reuses fixed prefixes, and is billed based on cache storage duration. Choose explicit cache when you need to actively control the reuse method, lifecycle, or deletion timing. Use implicit cache first when you only need to reduce the cost of repeated prefixes.
 
-* Hit input tokens (`cached_tokens`): Billed at the cache hit input unit price.
+### Decision flowchart
 
-* Missed input tokens: Billed at the normal input unit price.
+First determine whether you need to actively control the cache, then choose a path based on model support and whether a stable repeated prefix exists. Implicit cache is automatically enabled even without a stable prefix, but the hit probability is unstable and the hit rate cannot be guaranteed.
 
-* Output tokens: Billed at the normal output unit price.
+![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/context-cache-mode-selection-v1.svg)
 
-* Cache storage: No charge.
+### Mode comparison
 
-> **Note**
+|Comparison item |Implicit cache |Explicit cache |
+|---|---|---|
+|Applies to |Chat, Responses, Messages, Batch (subject to the model list) |Responses |
+|Enabling and reuse methods |Automatically enabled for supported models, with no cache parameter required. Chat API and Responses API support an optional routing identifier. Messages API passes a session identifier through `metadata.user_id.session_id` to optimize affinity. |Manually enable it for each request; session cache uses response IDs to continue turn by turn, and prefix cache is reused by multiple requests after a fixed prefix is created. |
+|Supported use cases |Multi\-turn conversations, tool calls, and fixed long system prompts |Scenarios where you need to actively control the reuse method, lifecycle, or deletion timing |
+|Management and billing |No need to manage the cache lifecycle. No separate cache storage fee is currently charged. |You can set an expiration time. Storage fees for newly added cached tokens are charged by natural\-hour billing cycles. |
 
-* > Compared with explicit cache, **implicit cache storage is free of charge**.
+## Implicit cache
 
-* > **The cache hit input unit price may change with the context input length range**. For example, the cache hit input unit price of the Seed 2.0 series models varies when the input length is [0, 32k], [32k, 128k], or [128k, 256k].
+Implicit cache is automatically enabled for supported models and cannot be disabled. You can use it by sending a regular request. No cache switch or special configuration is required. `prompt_cache_key` only provides optional routing affinity optimization. If it is omitted, implicit cache still takes effect. A successful request only means the call succeeded. It does not mean the cache was hit.
 
-## How it works
+### Supported models and use cases
 
-When sending a request to a model that supports implicit caching, this feature is automatically enabled, and here is how it works:
+The specific model scope for implicit cache is subject to the "Context caching" section and the "Implicit caching" column in the [Model list](model-list.md#text-code-context-caching).
 
-* **Cache creation**: The system caches based on the **common prefix** of the request input. After a request completes inference, the system may write the reusable **prefix segment** from its input into the cache, so that subsequent requests can reuse it when the **same prefix** appears.
+|API |Automatically enabled |Optional optimization |Hit observation |Boundary |
+|---|---|---|---|---|
+|[Chat API](chat-api.md) |Automatically enabled for supported models and cannot be disabled |`prompt_cache_key` is an optional string and is not set by default. If it is omitted, implicit cache is still enabled, but routing affinity optimization using this identifier is not used. |`usage.prompt_tokens_details.cached_tokens` |Cached tokens greater than 0 indicate a hit for this request. A value of 0 indicates no hit for this request and does not mean the capability is disabled. |
+|[Responses API](create-model-responses-api.md) |Automatically enabled for supported models and cannot be disabled |`prompt_cache_key` is an optional string and is not set by default. If it is omitted, implicit cache is still enabled. |`usage.input_tokens_details.cached_tokens` |When explicit cache is enabled, do not interpret the same response as implicit cache. |
+|[Messages API](messages-api.md) |Automatically enabled for supported models |Supports passing a session identifier through `metadata.user_id.session_id` to achieve cache affinity similar to `prompt_cache_key`. There is no direct `prompt_cache_key` input parameter, and the hidden parameter in `metadata` is not a public configuration. |`usage.cache_read_input_tokens` |`usage.cache_creation_input_tokens` currently returns 0. This parameter indicates the amount read from implicit cache and does not indicate that a configurable explicit cache entry exists. |
+|[Batch API](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api) |Automatically used for supported models |The current public Batch Chat request does not require additional cache parameters. |`usage.prompt_tokens_details.cached_tokens` is currently fixed as 0. |A fixed value of 0 is the current observation boundary of the API, not a cache miss signal. |
 
-* **Cache hit**: When the input of a subsequent request has the **same prefix** as an existing cache entry, the system will try to reuse the cache result corresponding to this prefix, thereby reducing repeated calculations.
+For specific model IDs and cache length thresholds, see [How to use > Cache length threshold](context-cache.md#implicit-usage).
 
-   * **No guarantee of hit**: Cache capacity is limited, and old caches may be evicted; distributed routing also affects the hit probability.
+### How to use
+
+Implicit cache does not require any setup steps. You can send a standard request.
+
+#### Cache length threshold
+
+* **Cache creation**: After the input reaches the threshold for the corresponding model, the system automatically caches the reusable **prefix segment** in the request. You do not need to explicitly declare a common prefix. After the cache is created, the input of subsequent requests is automatically matched against existing caches.
+
+* **Cache hit**: When the input beginning of a subsequent request has the **same prefix** as an existing cache entry, the system will try to reuse the corresponding cache result, thereby reducing repeated calculations.
+
+   * **No guaranteed cache hit**: Cache capacity, eviction policies, distributed routing, prefix stability, and model thresholds all affect actual hits. The system cannot guarantee a hit every time.
 
    * **No guarantee of longest prefix hit**: The system comprehensively considers available resources and hit benefits; the hit length may not be the globally longest hit segment.
 
-* **Cache hit condition**: A cache hit can be triggered only after the cache block reaches the minimum number of tokens for the corresponding model. For the specific thresholds, see the table below.
+The input is written to the cache only after it reaches the minimum number of tokens for the corresponding model. Subsequent requests with the same prefix may then hit the cache. If the input is below the threshold, the capability remains enabled, but nothing is written for that request. The thresholds for different models are as follows:
 
-   |Applicable objects |Minimum cache block size |
-   |---|---|
-   |Default configuration |`1024 tokens` |
-   |* `glm-5-2-260617`<br><br>* `deepseek-v4-pro-ga-260813`<br><br>* `deepseek-v4-flash-ga-260731`<br><br>* `deepseek-v4-pro-260425`<br><br>* `deepseek-v4-flash-260425` |`2048 tokens` |
-   |`deepseek-v4-1-flash-260910` |`256 tokens` |
-   |* `deepseek-v4-1-flash-261017`<br><br>* `deepseek-v4-1-flash-economy-261017` |`128 tokens` |
-   |`glm-5-3-flash-260828` |`8960 tokens` |
+* **128 tokens**: `deepseek-v4-1-flash-261017`, `deepseek-v4-1-flash-economy-261017`.
 
-   > **Tip**
+* **256 tokens**: `deepseek-v4-1-flash-260910`.
 
-   > You can determine whether implicit cache is hit through the API response parameter `usage.prompt_tokens_details`:
+* **Default threshold**: At least 1024 tokens.
 
-   * > Hit: `cached_tokens > 0`
+* **2048 tokens**: `dola-seed-2-1-turbo-260628`, `glm-5-2-260617`, `deepseek-v4-pro-ga-260813`, `deepseek-v4-flash-ga-260731`, `deepseek-v4-pro-260425`, and `deepseek-v4-flash-260425`.
 
-   * > Missed: `cached_tokens = 0`
+* **8960 tokens**: `glm-5-3-flash-260828`.
 
-# Explicit cache
+#### Optimize cache hits
 
-Compared with implicit cache, explicit cache must be created explicitly and incurs the corresponding overhead, but it provides a higher cache hit rate and greater controllability. Currently, explicit cache supports two types: session cache and prefix cache.
+We recommend the following order:
 
-## Supported models
+1. **Prepare a stable prefix**: Put stable role settings, background knowledge, tool definitions, or long text at the beginning of the request, put dynamic questions at the end, and keep tool definitions, tool order, and structured output schemes stable.
 
-For models and APIs that support explicit cache, see [Context caching](model-list.md#text-code-context-caching).
+2. **Send a request**: Use a model that supports implicit cache. Chat, Responses, and Messages all automatically enable implicit cache. Chat and Responses can optionally set `prompt_cache_key` to improve routing affinity for requests with the same prefix. Messages supports passing a session identifier through `metadata.user_id.session_id` to achieve cache affinity and does not have a direct `prompt_cache_key` input parameter. Batch API automatically uses implicit cache for supported models, but `cached_tokens` is fixed as 0, so you cannot use it to calculate the hit rate.
 
-## Limitations
+3. **Verify hits**: Send a limited number of repeated requests with the same common prefix. For the complete determination procedure, see [Observation and billing](context-cache.md#implicit-observation-billing).
 
-To avoid cache invalidation caused by improper use, the following basic limitations for using explicit cache must be met:
+#### prompt_cache_key configuration
 
-* **store**: The prerequisite for writing to the cache is that storage is enabled, that is, manually set **store** to `true` or keep the default value (the default is `true`).
+`prompt_cache_key` is used to improve routing affinity for requests with the same prefix. It does not change whether caching is enabled. The Chat and Responses examples in the quick start already include this parameter. Set it according to the following constraints:
 
-* **caching**:
+* **Session isolation**: Requests that continue the same context should use the same value; different users or parallel sessions should use different values.
 
-   * **You can only write to the cache for the current turn of conversation if cache writing is enabled for the previous turn of conversation request.**  Similarly, if a turn of request needs to write to the cache, you must ensure that cache writing is enabled for all previous turns of requests, that is, all previous turns have `"caching": {"type": "enabled"}` configured.
+* **Traffic control**: We recommend limiting the total traffic for the same value to 15 requests per minute. If this limit is exceeded, some requests may fall back to regular routing.
 
-   * As long as `"caching": {"type": "enabled"}` exists in previous turns, `json_schema` is not supported, but `json_object` is supported.
+* **Sensitive information**: Use an unreadable internal session ID. Do not pass phone numbers, email addresses, access credentials, or raw prompt text.
 
-> **Note**
+* **Rerouting boundaries**: Rerouting may occur when the service scales, a release is deployed, failover occurs, mappings expire, or protection policies are triggered. A hit cannot be guaranteed every time.
 
-> During the version switching process, the cache is temporarily unavailable. Requests made using the Responses API will not hit the cache, but the content will be cached and incur cache storage fees. After version switching is completed, caches from historical turns can be hit normally. For details, see [Version switching](manage-inference-endpoints.md#d7c15496).
+### Observation and billing
 
-* **instructions**: To write to the cache, the **instructions** parameter should be empty. If **instructions** is set in the current turn of request, this turn of conversation cannot call the existing cache, nor can it write the current turn of information to the cache.
+First prepare a stable prefix as described in [Optimize cache hits](context-cache.md#implicit-usage), then verify it in the following order:
 
-* **thinking**: The value of the **thinking** parameter in the request must be consistent with that of the previous turn to use or write to the cache.
+1. **First request**: Complete the first request with the same prefix and make sure the input reaches the threshold for the corresponding model.
 
-   * If `"thinking":{"type":"enabled"}` is set in the first turn, the same value must be used in subsequent turns to use or write to the cache.
+2. **Repeated request**: Send another request with the same prefix, and read Chat's `usage.prompt_tokens_details.cached_tokens`, Responses' `usage.input_tokens_details.cached_tokens`, or Messages' `usage.cache_read_input_tokens`.
 
-   * If the **thinking** parameter is not set in the first turn (no value is assigned), subsequent requests must also not set the **thinking** parameter if they need to write to the cache or call the existing cache.
+3. **Determine whether a hit occurred**: A cached token count greater than 0 indicates a hit for this request. If it is 0, check the input threshold, prefix stability, and routing conditions, and then perform bounded validation.
 
-* **tools**: The **tools** parameter can only be set in the first turn of requests, and all subsequent conversations will carry the cached input of the **tools** parameter information by default.
+4. **Exclude indirect signals**: Do not treat HTTP 200, a response ID, or a one\-time latency change as evidence of a hit. For factors that affect hits, see [Cache length threshold](context-cache.md#cache-threshold).
 
-   * Setting the **tools** parameter again in subsequent turns of conversation requests is not supported, which will cause conflicts and return errors.
+The cost of a request consists of:
 
-   * If the first turn of conversation information is deleted, all subsequent turns of conversation will not carry the cached input of the **tools** parameter information, and the **tools** parameter cannot be configured either.
+```text
+Standard input fee = (input_tokens - cached_tokens) × input unit price
+Cached input fee = cached_tokens × cached input unit price
+Output fee = output_tokens × output unit price
+Request fee = standard input fee + cached input fee + output fee
+```
 
-## Quick start
+Implicit cache currently does not charge a separate cache storage fee. The input unit price, cached input unit price, and output unit price are subject to [Model pricing](model-pricing.md).
 
-### Prerequisites
+## Explicit cache
 
-Before use, activate the model's "Inference (cache) pricing" capability on the [Model activation page](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement).
+Explicit cache is available only through the Responses API. Before use, you must [activate inference (cache) pricing](https://ai.byteplus.com/ark/region:ap-southeast-1/openManagement?LLM=%7B%7D&OpenTokenDrawer=false). When using or continuing to write to explicit cache, each request must set `caching.type=enabled`. `store` defaults to `true`, but response storage does not mean explicit cache is enabled. Explicit cache and implicit cache cannot take effect at the same time.
 
-### Prefix cache
+### Use session cache
 
-Prefix cache is suitable for scenarios that combine a fixed prefix with a dynamic suffix.
+Session cache continues turn by turn and is suitable for multi\-turn conversations and consecutive tool calls:
 
-> **Tip**
+1. **Enable in the first turn**: In the first turn, set `caching.type=enabled`, keep `store` set to `true`, and save the `id` returned in the response.
 
-* > For the first turn of input, you need to set `"store": true` (default is `true`) and `"caching": {"type": "enabled", "prefix": true}` to create prefix caching. In subsequent turns, you can reference the cached information through `previous_response_id`.
+2. **Continue in the next turn**: In the next turn, set `caching.type=enabled`, and pass the response `id` from the immediately preceding turn through `previous_response_id`.
 
-* > When creating a prefix cache with the `glm-5-3-flash-260828` model, you must set `role` to `user`.
+3. **Consecutive turns**: Repeat step 2 for each subsequent turn. We recommend adding a delay of about 100 milliseconds between consecutive multi\-turn requests. If the interval is too short, the call may fail.
 
-Restrictions for creating prefix caching: Input tokens must be greater than or equal to 256 tokens, otherwise an error will be reported; the`stream` parameter cannot be set to true.
+4. **Missing previous turn**: If any previous turn was not written to the cache, subsequent turns cannot backfill the context for that turn. In this case, rebuild the session chain from a still\-valid response or a new request.
 
-> When creating prefix caching, `total_tokens = input_tokens` in the returned `usage`, and `output_tokens` is always 0.
+#### How session cache works
 
-**Python**
+![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/context-cache-session-principle-v1.svg)
 
-```Python
-# coding=utf-8
-import os
-from arkruntime import Ark
+1. **Cache not enabled**: When session cache is not enabled, the initial information, the first N turns of conversation, and the question in turn N+1 all need to be recalculated and generate tokens.
 
-client = Ark(
-    base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
-    api_key=os.getenv('ARK_API_KEY'),
-)
+2. **Cache enabled**: When session cache is enabled, the initial information and the first N turns of conversation are directly reused as cached tokens. The question in turn N+1 is calculated separately.
 
-prefix_chunk = "The Gift of the Magi follows Della and Jim, who each sell a treasured possession to buy a meaningful Christmas gift for the other."
-# Repeat stable content so the prefix is safely above the 256-token minimum.
-long_prefix = prefix_chunk * 20
+3. **Write to the next turn**: The model generates the response for turn N+1 based on the cached tokens and the current input, and adds the current turn content to the session cache for reuse in the next turn.
 
-response = client.responses.create(
-    model="dola-seed-2-1-turbo-260628",
-    input=[
-            {
-             "role": "system",
-             "content": long_prefix,
-            }
+#### Code samples
+
+The following example shows the complete calls for creating the first turn, continuing from it, and handling consecutive turns.
+
+**cURL**
+
+Step 1: Create the first\-turn response and save the response ID.
+
+```Bash
+curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
+  -H "Authorization: Bearer $ARK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "dola-seed-2-1-turbo-260628",
+    "input":[
+                {
+                 "role":"system",
+                 "content":"You are a literary analysis assistant. Answer concisely and clearly. Here is an excerpt from The Gift of the Magi by O. Henry. <long excerpt>"
+                },
+                {
+                 "role": "user",
+                 "content":"Briefly summarize the story in 5 bullet points."
+                }
           ],
-    caching={"type": "enabled", "prefix": True},
-    thinking={"type": "disabled"},
-)
-print(response)
-
-second_response = client.responses.create(
-    model="dola-seed-2-1-turbo-260628",
-    previous_response_id=response.id,
-    input=[{"role": "user", "content": "Write a diary entry from the point of view of Della describing her emotions before selling her hair."}],
-    caching={"type": "enabled"},
-    thinking={"type": "disabled"},
-)
-print(second_response)
-
-third_response = client.responses.create(
-    model="dola-seed-2-1-turbo-260628",
-    previous_response_id=response.id,
-    input=[{"role": "user", "content": "Analyze how O. Henry uses irony in this part of the story. Provide a concise explanation."}],
-    caching={"type": "enabled"},
-    thinking={"type": "disabled"},
-)
-print(third_response)
+    "caching":{
+        "type":"enabled"
+    },
+    "thinking": {
+        "type": "disabled"
+    }
+}'
 ```
 
-**Go**
+Step 2: Continue using the previous turn's response ID.
 
-```Go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    "strings"
-
-    "github.com/volcengine/ark-runtime-go/arkruntime"
-    "github.com/volcengine/ark-runtime-go/arkruntime/model/responses"
-)
-
-func main() {
-    client := arkruntime.NewClientWithApiKey(
-        // Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
-        os.Getenv("ARK_API_KEY"),
-        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
-    )
-    ctx := context.Background()
-    prefix := true
-    prefixChunk := "The Gift of the Magi tells the story of Della and Jim, who, while living in poverty, each sell a treasured possession to prepare a Christmas gift for the other."
-    // Repeat stable content so the prefix is safely above the 256-token minimum.
-    longPrefix := strings.Repeat(prefixChunk, 20)
-    resp, err := client.CreateResponses(ctx, &responses.ResponsesRequest{
-        Model: "dola-seed-2-1-turbo-260628",
-        Input: responses.NewInputItemArrayResponsesInput([]responses.InputItem{
-            easyMessage(responses.MessageRoleSystem, longPrefix),
-        }),
-        Caching:  responses.NewOptResponseCaching(responses.ResponseCaching{Type: responses.NewOptCacheMode(responses.CacheModeEnabled), Prefix: responses.NewOptBool(prefix)}),
-        Thinking: responses.NewOptThinking(responses.Thinking{Type: responses.NewOptThinkingMode(responses.ThinkingModeDisabled)}),
-    })
-    if err != nil {
-        fmt.Printf("response error: %v", err)
-        return
-    }
-    fmt.Println(resp)
-
-    second_resp, second_err := client.CreateResponses(ctx, &responses.ResponsesRequest{
-        Model:              "dola-seed-2-1-turbo-260628",
-        PreviousResponseID: responses.NewOptString(resp.ID),
-        Input: responses.NewInputItemArrayResponsesInput([]responses.InputItem{
-            easyMessage(responses.MessageRoleUser, "Write a diary entry from Della's perspective describing how she felt before selling her long hair."),
-        }),
-        Caching:  responses.NewOptResponseCaching(responses.ResponseCaching{Type: responses.NewOptCacheMode(responses.CacheModeEnabled)}),
-        Thinking: responses.NewOptThinking(responses.Thinking{Type: responses.NewOptThinkingMode(responses.ThinkingModeDisabled)}),
-    })
-    if second_err != nil {
-        fmt.Printf("second response error: %v", second_err)
-        return
-    }
-    fmt.Println(second_resp)
-
-    third_resp, third_err := client.CreateResponses(ctx, &responses.ResponsesRequest{
-        Model:              "dola-seed-2-1-turbo-260628",
-        PreviousResponseID: responses.NewOptString(resp.ID),
-        Input: responses.NewInputItemArrayResponsesInput([]responses.InputItem{
-            easyMessage(responses.MessageRoleUser, "Analyze O. Henry's use of irony in this story excerpt and provide a concise explanation."),
-        }),
-        Caching:  responses.NewOptResponseCaching(responses.ResponseCaching{Type: responses.NewOptCacheMode(responses.CacheModeEnabled)}),
-        Thinking: responses.NewOptThinking(responses.Thinking{Type: responses.NewOptThinkingMode(responses.ThinkingModeDisabled)}),
-    })
-    if third_err != nil {
-        fmt.Printf("second response error: %v", third_err)
-        return
-    }
-    fmt.Println(third_resp)
-}
-
-func easyMessage(role responses.MessageRole, content string) responses.InputItem {
-    return responses.InputItem{
-        OneOf: responses.NewItemEasyMessageInputItemSum(
-            responses.ItemEasyMessage{
-                Role:    responses.NewOptMessageRole(role),
-                Content: responses.NewStringMessageContent(content),
-            },
-        ),
-    }
-}
+```Bash
+curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
+-H "Authorization: Bearer $ARK_API_KEY" \
+-H "Content-Type: application/json" \
+-d '{
+    "model": "dola-seed-2-1-turbo-260628",
+    "input": "Write a diary entry from the point of view of Della describing her emotions before selling her hair.",
+    "caching":{
+        "type":"enabled"
+    },
+    "thinking": {
+        "type": "disabled"
+    },
+    "previous_response_id": "<THE_ID_FROM_FIRST_CALL>"
+}'
 ```
 
-**Java**
+Step 3: Continue again using the previous turn's response ID.
 
-```Java
-package com.ark.sample;
-import com.volcengine.ark.runtime.service.ArkService;
-import com.volcengine.ark.runtime.models.responses.*;
-public class demo {
-    public static void main(String[] args) {
-        String apiKey = System.getenv("ARK_API_KEY");
-        // The base URL for model invocation
-        ArkService arkService = ArkService.builder().apiKey(apiKey).baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3").build();
-
-        String prefixChunk = "The Gift of the Magi follows Della and Jim, who each sell a treasured possession to buy a meaningful Christmas gift for the other.";
-        // Repeat stable content so the prefix is safely above the 256-token minimum.
-        String longPrefix = String.join("", java.util.Collections.nCopies(20, prefixChunk));
-
-        ResponsesRequest request = ResponsesRequest.builder()
-                .model("dola-seed-2-1-turbo-260628")
-                .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.SYSTEM).content(
-                                MessageContent.ofString(longPrefix)
-                        ).build())))
-                .caching(ResponseCaching.builder().type(CacheMode.ENABLED).prefix(true).build())
-                .thinking(Thinking.builder().type(ThinkingMode.DISABLED).build())
-                .build();
-        Response resp = arkService.createResponse(request);
-        System.out.println(resp);
-        System.out.println("---------------------");
-        ResponsesRequest request2 = ResponsesRequest.builder()
-                .model("dola-seed-2-1-turbo-260628")
-                .previousResponseId(resp.getId())
-                .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.USER).content(
-                                MessageContent.ofString("Write a diary entry from the point of view of Della describing her emotions before selling her hair.")
-                        ).build())))
-                .caching(ResponseCaching.builder().type(CacheMode.ENABLED).build())
-                .thinking(Thinking.builder().type(ThinkingMode.DISABLED).build())
-                .build();
-        Response resp2 = arkService.createResponse(request2);
-        System.out.println(resp2);
-        System.out.println("---------------------");
-        ResponsesRequest request3 = ResponsesRequest.builder()
-                .model("dola-seed-2-1-turbo-260628")
-                .previousResponseId(resp.getId())
-                .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.USER).content(
-                                MessageContent.ofString("Analyze how O. Henry uses irony in this part of the story. Provide a concise explanation.")
-                        ).build())))
-                .caching(ResponseCaching.builder().type(CacheMode.ENABLED).build())
-                .thinking(Thinking.builder().type(ThinkingMode.DISABLED).build())
-                .build();
-        Response resp3 = arkService.createResponse(request3);
-        System.out.println(resp3);
-
-        arkService.shutdownExecutor();
-    }
-}
+```Bash
+curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
+-H "Authorization: Bearer $ARK_API_KEY" \
+-H "Content-Type: application/json" \
+-d '{
+    "model": "dola-seed-2-1-turbo-260628",
+    "input": "Based on the original excerpt and the diary Della just wrote, imagine how Jame would feel when he read the diary entry.",
+    "caching":{
+        "type":"enabled"
+    },
+    "thinking": {
+        "type": "disabled"
+    },
+    "previous_response_id": "<THE_ID_FROM_SECOND_CALL>"
+}'
 ```
-
-**OpenAI SDK**
-
-```Python
-# coding=utf-8
-import os
-from openai import OpenAI
-
-client = OpenAI(
-    base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
-    api_key=os.getenv('ARK_API_KEY'),
-)
-
-prefix_chunk = "The Gift of the Magi follows Della and Jim, who each sell a treasured possession to buy a meaningful Christmas gift for the other."
-# Repeat stable content so the prefix is safely above the 256-token minimum.
-long_prefix = prefix_chunk * 20
-
-response = client.responses.create(
-    model="dola-seed-2-1-turbo-260628",
-    input=[
-            {
-             "role": "system",
-             "content": long_prefix,
-            }
-    ],
-    extra_body={
-        "caching": {"type": "enabled", "prefix": True},
-        "thinking":{"type":"disabled"}
-    }
-)
-print(response)
-
-second_response = client.responses.create(
-    model="dola-seed-2-1-turbo-260628",
-    previous_response_id=response.id,
-    input=[{"role": "user", "content": "Write a diary entry from the point of view of Della describing her emotions before selling her hair."}],
-    extra_body={
-        "caching": {"type": "enabled"},
-        "thinking":{"type":"disabled"}
-    }
-)
-print(second_response)
-
-third_response = client.responses.create(
-    model="dola-seed-2-1-turbo-260628",
-    previous_response_id=response.id,
-    input=[{"role": "user", "content": "Analyze how O. Henry uses irony in this part of the story. Provide a concise explanation."}],
-    extra_body={
-        "caching": {"type": "enabled"},
-        "thinking":{"type":"disabled"}
-    }
-)
-print(third_response)
-```
-
-**Curl**
-
-1. Create a cache and write content to it.
-
-   > **Tip**
-
-   > The input content must exceed 256 tokens; otherwise, prefix cache cannot be created.
-
-   ```Bash
-   PREFIX_CHUNK='The Gift of the Magi follows Della and Jim, who each sell a treasured possession to buy a meaningful Christmas gift for the other.'
-   LONG_PREFIX=""
-   for _ in {1..20}; do
-       LONG_PREFIX="\\${LONG_PREFIX}\\${PREFIX_CHUNK}"
-   done
-   
-   curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
-   -H "Authorization: Bearer $ARK_API_KEY" \
-   -H "Content-Type: application/json;charset=utf-8" \
-   -d @- <<EOF
-   {
-       "model": "dola-seed-2-1-turbo-260628",
-       "input":[
-                   {
-                    "role":"system",
-                    "content":"You are a literary analysis assistant. Use the following stable prefix to answer questions: \\${LONG_PREFIX}"
-                   }
-             ],
-       "caching":{
-           "type":"enabled",
-           "prefix": true
-       },
-       "thinking": {
-           "type": "disabled"
-       }
-   }
-   EOF
-   ```
-
-2. In the second round request, read and use the cache via the ID returned from the first round.
-
-   ```Bash
-   curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
-   -H "Authorization: Bearer $ARK_API_KEY" \
-   -H "Content-Type: application/json" \
-   -d '{
-       "model": "dola-seed-2-1-turbo-260628",
-       "input": "Write a diary entry from the point of view of Della describing her emotions before selling her hair.",
-       "caching":{
-           "type":"enabled"
-       },
-       "thinking": {
-           "type": "disabled"
-       },
-       "previous_response_id":"<THE_ID_FROM_FIRST_CALL>"
-   }'
-   ```
-
-3. In the third round request, you also use the ID returned from the first round to read and use the cache.
-
-   ```Bash
-   curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
-   -H "Authorization: Bearer $ARK_API_KEY" \
-   -H "Content-Type: application/json" \
-   -d '{
-       "model": "dola-seed-2-1-turbo-260628",
-       "input": "Analyze how O. Henry uses irony in this part of the story. Provide a concise explanation.",
-       "caching":{
-           "type":"enabled"
-       },
-       "thinking": {
-           "type": "disabled"
-       },
-       "previous_response_id":"<THE_ID_FROM_FIRST_CALL>"
-   }'
-   ```
-
-### Session caching
-
-The Responses API supports automatically storing historical conversation context and maintaining the cache. You can use cached input and reduce inference costs in scenarios such as multi\-turn conversations by calling `previous_response_id`.
 
 **Python**
 
@@ -867,7 +568,7 @@ public class demo {
 }
 ```
 
-**OpenAI SDK**
+**OpenAI Python SDK**
 
 ```Python
 import os
@@ -921,38 +622,67 @@ third_response = client.responses.create(
 print(third_response)
 ```
 
-**Curl**
+### Use prefix cache
 
-1. Create a cache and write content to it.
+Prefix cache writes a fixed\-length prefix to the cache for reuse by multiple requests. It is suitable for fixed knowledge, fixed role settings, or fixed tool definitions. The following examples all call the Responses API. The fixed prefix must be at least 256 tokens:
 
-   ```Bash
-   curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
-     -H "Authorization: Bearer $ARK_API_KEY" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "model": "dola-seed-2-1-turbo-260628",
-       "input":[
-                   {
-                    "role":"system",
-                    "content":"You are a literary analysis assistant. Answer concisely and clearly. Here is an excerpt from The Gift of the Magi by O. Henry. <long excerpt>"
-                   },
-                   {
-                    "role": "user",
-                    "content":"Briefly summarize the story in 5 bullet points."
-                   }
-             ],
-       "caching":{
-           "type":"enabled"
-       },
-       "thinking": {
-           "type": "disabled"
-       }
-   }'
-   ```
+1. **Create a fixed prefix**: Prepare a fixed prefix of at least 256 tokens. In the creation request, set `caching.type=enabled` and `caching.prefix=true`, and do not set `stream=true`.
 
-2. In the second round request, read and use the cache via the ID returned from the first round.
+2. **Save the response ID**: The creation request only writes the prefix and does not generate model output. `output_tokens` is 0. Save the `id` returned in the creation response.
 
-> If you need to update the cache, configure `"caching":{"type":"enabled"}` and use the ID of the returned request.
+3. **Reuse in subsequent requests**: Multiple subsequent requests set `caching.type=enabled` and use the same `previous_response_id` to reference the creation response ID. The fixed prefix itself is not updated with each turn. We recommend adding a delay of about 100 milliseconds between consecutive multi\-turn requests.
+
+4. **Creation failure**: If the creation response ID is not saved or the wrong ID is passed, the prefix cache cannot be reused. If creation fails, first check the token threshold, `stream`, `store`, `caching`, and combination restrictions.
+
+#### How prefix cache works
+
+![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/context-cache-prefix-principle-v1.svg)
+
+1. **Cache not enabled**: When prefix cache is not enabled, the initial information, the first N turns of history, and the input for turn N+1 are all included in computation.
+
+2. **Cache enabled**: When prefix cache is enabled, the initial information is reused directly as fixed\-prefix cached tokens and is not recomputed; the first N turns of history and the input for turn N+1 are still computed.
+
+3. **Generate a response**: The model generates a response based on the fixed\-prefix cache, historical tokens, and the input for the current turn; the fixed prefix itself is not updated across turns.
+
+#### Code samples
+
+The following examples show the complete calls for creating a fixed prefix, reusing it for the first time, and reusing it again.
+
+**cURL**
+
+Step 1: Create a fixed\-prefix cache.
+
+```Bash
+PREFIX_CHUNK='The Gift of the Magi follows Della and Jim, who each sell a treasured possession to buy a meaningful Christmas gift for the other.'
+LONG_PREFIX=""
+for _ in {1..20}; do
+    LONG_PREFIX="\\${LONG_PREFIX}\\${PREFIX_CHUNK}"
+done
+
+curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
+-H "Authorization: Bearer $ARK_API_KEY" \
+-H "Content-Type: application/json;charset=utf-8" \
+-d @- <<EOF
+{
+    "model": "dola-seed-2-1-turbo-260628",
+    "input":[
+                {
+                 "role":"system",
+                 "content":"You are a literary analysis assistant. Use the following stable prefix to answer questions: \\${LONG_PREFIX}"
+                }
+          ],
+    "caching":{
+        "type":"enabled",
+        "prefix": true
+    },
+    "thinking": {
+        "type": "disabled"
+    }
+}
+EOF
+```
+
+Step 2: Reuse the prefix cache for the first time.
 
 ```Bash
 curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
@@ -967,36 +697,303 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
     "thinking": {
         "type": "disabled"
     },
-    "previous_response_id": "<THE_ID_FROM_FIRST_CALL>"
+    "previous_response_id":"<THE_ID_FROM_FIRST_CALL>"
 }'
 ```
 
-3. In the third round request, read and use the cache via the ID returned from the second round.
+Step 3: Reuse the same prefix cache again.
 
-   ```Bash
-   curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
-   -H "Authorization: Bearer $ARK_API_KEY" \
-   -H "Content-Type: application/json" \
-   -d '{
-       "model": "dola-seed-2-1-turbo-260628",
-       "input": "Based on the original excerpt and the diary Della just wrote, imagine how Jame would feel when he read the diary entry.",
-       "caching":{
-           "type":"enabled"
-       },
-       "thinking": {
-           "type": "disabled"
-       },
-       "previous_response_id": "<THE_ID_FROM_SECOND_CALL>"
-   }'
-   ```
+```Bash
+curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
+-H "Authorization: Bearer $ARK_API_KEY" \
+-H "Content-Type: application/json" \
+-d '{
+    "model": "dola-seed-2-1-turbo-260628",
+    "input": "Analyze how O. Henry uses irony in this part of the story. Provide a concise explanation.",
+    "caching":{
+        "type":"enabled"
+    },
+    "thinking": {
+        "type": "disabled"
+    },
+    "previous_response_id":"<THE_ID_FROM_FIRST_CALL>"
+}'
+```
 
-## Manage cache
+**Python**
 
-### Control storage/cache lifecycle
+```Python
+# coding=utf-8
+import os
+from arkruntime import Ark
 
-You can specify the expiration time for context storage (`store`) and context caching (`caching`) through the `expire_at` parameter. The current maximum storage duration is 7 days, which is the current UTC UNIX timestamp plus 604800. When the `current time` exceeds the `expiration time`, the storage expires; the cache lifecycle is not reset when the cache/storage is used.
+client = Ark(
+    base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
+    api_key=os.getenv('ARK_API_KEY'),
+)
 
-When the storage/cache of the Responses API expires, you need to recreate the storage/cache content via the [Responses API](create-model-responses-api.md).
+prefix_chunk = "The Gift of the Magi follows Della and Jim, who each sell a treasured possession to buy a meaningful Christmas gift for the other."
+# Repeat stable content so the prefix is safely above the 256-token minimum.
+long_prefix = prefix_chunk * 20
+
+response = client.responses.create(
+    model="dola-seed-2-1-turbo-260628",
+    input=[
+            {
+             "role": "system",
+             "content": long_prefix,
+            }
+          ],
+    caching={"type": "enabled", "prefix": True},
+    thinking={"type": "disabled"},
+)
+print(response)
+
+second_response = client.responses.create(
+    model="dola-seed-2-1-turbo-260628",
+    previous_response_id=response.id,
+    input=[{"role": "user", "content": "Write a diary entry from the point of view of Della describing her emotions before selling her hair."}],
+    caching={"type": "enabled"},
+    thinking={"type": "disabled"},
+)
+print(second_response)
+
+third_response = client.responses.create(
+    model="dola-seed-2-1-turbo-260628",
+    previous_response_id=response.id,
+    input=[{"role": "user", "content": "Analyze how O. Henry uses irony in this part of the story. Provide a concise explanation."}],
+    caching={"type": "enabled"},
+    thinking={"type": "disabled"},
+)
+print(third_response)
+```
+
+**Go**
+
+```Go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    "strings"
+
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    "github.com/volcengine/ark-runtime-go/arkruntime/model/responses"
+)
+
+func main() {
+    client := arkruntime.NewClientWithApiKey(
+        // Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+        os.Getenv("ARK_API_KEY"),
+        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
+    )
+    ctx := context.Background()
+    prefix := true
+    prefixChunk := "The Gift of the Magi tells the story of Della and Jim, who, while living in poverty, each sell a treasured possession to prepare a Christmas gift for the other."
+    // Repeat stable content so the prefix is safely above the 256-token minimum.
+    longPrefix := strings.Repeat(prefixChunk, 20)
+    resp, err := client.CreateResponses(ctx, &responses.ResponsesRequest{
+        Model: "dola-seed-2-1-turbo-260628",
+        Input: responses.NewInputItemArrayResponsesInput([]responses.InputItem{
+            easyMessage(responses.MessageRoleSystem, longPrefix),
+        }),
+        Caching:  responses.NewOptResponseCaching(responses.ResponseCaching{Type: responses.NewOptCacheMode(responses.CacheModeEnabled), Prefix: responses.NewOptBool(prefix)}),
+        Thinking: responses.NewOptThinking(responses.Thinking{Type: responses.NewOptThinkingMode(responses.ThinkingModeDisabled)}),
+    })
+    if err != nil {
+        fmt.Printf("response error: %v", err)
+        return
+    }
+    fmt.Println(resp)
+
+    second_resp, second_err := client.CreateResponses(ctx, &responses.ResponsesRequest{
+        Model:              "dola-seed-2-1-turbo-260628",
+        PreviousResponseID: responses.NewOptString(resp.ID),
+        Input: responses.NewInputItemArrayResponsesInput([]responses.InputItem{
+            easyMessage(responses.MessageRoleUser, "Write a diary entry from Della's perspective describing how she felt before selling her long hair."),
+        }),
+        Caching:  responses.NewOptResponseCaching(responses.ResponseCaching{Type: responses.NewOptCacheMode(responses.CacheModeEnabled)}),
+        Thinking: responses.NewOptThinking(responses.Thinking{Type: responses.NewOptThinkingMode(responses.ThinkingModeDisabled)}),
+    })
+    if second_err != nil {
+        fmt.Printf("second response error: %v", second_err)
+        return
+    }
+    fmt.Println(second_resp)
+
+    third_resp, third_err := client.CreateResponses(ctx, &responses.ResponsesRequest{
+        Model:              "dola-seed-2-1-turbo-260628",
+        PreviousResponseID: responses.NewOptString(resp.ID),
+        Input: responses.NewInputItemArrayResponsesInput([]responses.InputItem{
+            easyMessage(responses.MessageRoleUser, "Analyze O. Henry's use of irony in this story excerpt and provide a concise explanation."),
+        }),
+        Caching:  responses.NewOptResponseCaching(responses.ResponseCaching{Type: responses.NewOptCacheMode(responses.CacheModeEnabled)}),
+        Thinking: responses.NewOptThinking(responses.Thinking{Type: responses.NewOptThinkingMode(responses.ThinkingModeDisabled)}),
+    })
+    if third_err != nil {
+        fmt.Printf("second response error: %v", third_err)
+        return
+    }
+    fmt.Println(third_resp)
+}
+
+func easyMessage(role responses.MessageRole, content string) responses.InputItem {
+    return responses.InputItem{
+        OneOf: responses.NewItemEasyMessageInputItemSum(
+            responses.ItemEasyMessage{
+                Role:    responses.NewOptMessageRole(role),
+                Content: responses.NewStringMessageContent(content),
+            },
+        ),
+    }
+}
+```
+
+**Java**
+
+```Java
+package com.ark.sample;
+import com.volcengine.ark.runtime.service.ArkService;
+import com.volcengine.ark.runtime.models.responses.*;
+public class demo {
+    public static void main(String[] args) {
+        String apiKey = System.getenv("ARK_API_KEY");
+        // The base URL for model invocation
+        ArkService arkService = ArkService.builder().apiKey(apiKey).baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3").build();
+
+        String prefixChunk = "The Gift of the Magi follows Della and Jim, who each sell a treasured possession to buy a meaningful Christmas gift for the other.";
+        // Repeat stable content so the prefix is safely above the 256-token minimum.
+        String longPrefix = String.join("", java.util.Collections.nCopies(20, prefixChunk));
+
+        ResponsesRequest request = ResponsesRequest.builder()
+                .model("dola-seed-2-1-turbo-260628")
+                .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.SYSTEM).content(
+                                MessageContent.ofString(longPrefix)
+                        ).build())))
+                .caching(ResponseCaching.builder().type(CacheMode.ENABLED).prefix(true).build())
+                .thinking(Thinking.builder().type(ThinkingMode.DISABLED).build())
+                .build();
+        Response resp = arkService.createResponse(request);
+        System.out.println(resp);
+        System.out.println("---------------------");
+        ResponsesRequest request2 = ResponsesRequest.builder()
+                .model("dola-seed-2-1-turbo-260628")
+                .previousResponseId(resp.getId())
+                .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.USER).content(
+                                MessageContent.ofString("Write a diary entry from the point of view of Della describing her emotions before selling her hair.")
+                        ).build())))
+                .caching(ResponseCaching.builder().type(CacheMode.ENABLED).build())
+                .thinking(Thinking.builder().type(ThinkingMode.DISABLED).build())
+                .build();
+        Response resp2 = arkService.createResponse(request2);
+        System.out.println(resp2);
+        System.out.println("---------------------");
+        ResponsesRequest request3 = ResponsesRequest.builder()
+                .model("dola-seed-2-1-turbo-260628")
+                .previousResponseId(resp.getId())
+                .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.USER).content(
+                                MessageContent.ofString("Analyze how O. Henry uses irony in this part of the story. Provide a concise explanation.")
+                        ).build())))
+                .caching(ResponseCaching.builder().type(CacheMode.ENABLED).build())
+                .thinking(Thinking.builder().type(ThinkingMode.DISABLED).build())
+                .build();
+        Response resp3 = arkService.createResponse(request3);
+        System.out.println(resp3);
+
+        arkService.shutdownExecutor();
+    }
+}
+```
+
+**OpenAI Python SDK**
+
+```Python
+# coding=utf-8
+import os
+from openai import OpenAI
+
+client = OpenAI(
+    base_url='https://ark.ap-southeast.bytepluses.com/api/v3',
+    api_key=os.getenv('ARK_API_KEY'),
+)
+
+prefix_chunk = "The Gift of the Magi follows Della and Jim, who each sell a treasured possession to buy a meaningful Christmas gift for the other."
+# Repeat stable content so the prefix is safely above the 256-token minimum.
+long_prefix = prefix_chunk * 20
+
+response = client.responses.create(
+    model="dola-seed-2-1-turbo-260628",
+    input=[
+            {
+             "role": "system",
+             "content": long_prefix,
+            }
+    ],
+    extra_body={
+        "caching": {"type": "enabled", "prefix": True},
+        "thinking":{"type":"disabled"}
+    }
+)
+print(response)
+
+second_response = client.responses.create(
+    model="dola-seed-2-1-turbo-260628",
+    previous_response_id=response.id,
+    input=[{"role": "user", "content": "Write a diary entry from the point of view of Della describing her emotions before selling her hair."}],
+    extra_body={
+        "caching": {"type": "enabled"},
+        "thinking":{"type":"disabled"}
+    }
+)
+print(second_response)
+
+third_response = client.responses.create(
+    model="dola-seed-2-1-turbo-260628",
+    previous_response_id=response.id,
+    input=[{"role": "user", "content": "Analyze how O. Henry uses irony in this part of the story. Provide a concise explanation."}],
+    extra_body={
+        "caching": {"type": "enabled"},
+        "thinking":{"type":"disabled"}
+    }
+)
+print(third_response)
+```
+
+### Management and cleanup
+
+#### Set lifecycle
+
+`expire_at` is an optional UTC Unix timestamp in seconds that takes effect for both response storage and explicit cache. Using the cache does not reset the lifecycle; for the default value and value range, see the "Custom expiration" row in [Supported models and usage limits](context-cache.md#explicit-support-limits).
+
+**cURL**
+
+```Bash
+EXPIRE_AT=$(($(date +%s) + 3600))
+
+curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
+  -H "Authorization: Bearer $ARK_API_KEY" \
+  -H "Content-Type: application/json" \
+  --data-binary @- <<JSON
+{
+  "model": "dola-seed-2-1-turbo-260628",
+  "input": [
+    {
+      "role": "system",
+      "content": "Hello"
+    }
+  ],
+  "expire_at": \\${EXPIRE_AT},
+  "caching": {
+    "type": "enabled"
+  },
+  "thinking": {
+    "type": "disabled"
+  }
+}
+JSON
+```
 
 **Python**
 
@@ -1113,7 +1110,7 @@ public class demo {
 }
 ```
 
-**OpenAI SDK**
+**OpenAI Python SDK**
 
 ```Python
 import os
@@ -1145,37 +1142,20 @@ response = client.responses.create(
 print(response.model_dump_json())
 ```
 
-**Curl**
+The example keeps the default `store` value of `true`; after creation, check the `expire_at` returned in the response. If a parameter is out of range, correct the timestamp and retry; after the cache expires, stop referencing the old response ID and create a new cache chain.
+
+#### Delete cache
+
+Call `DELETE /responses/{responseId}` to delete the specified response and its cache resources. Determine the deletion result from the returned `id`, `object=response`, and `deleted`; `deleted=true` indicates that deletion succeeded.
+
+**cURL**
 
 ```Bash
-EXPIRE_AT=$(($(date +%s) + 3600))
-
-curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
+curl "https://ark.ap-southeast.bytepluses.com/api/v3/responses/<RESPONSE_ID>" \
+  -X DELETE \
   -H "Authorization: Bearer $ARK_API_KEY" \
-  -H "Content-Type: application/json" \
-  --data-binary @- <<JSON
-{
-  "model": "dola-seed-2-1-turbo-260628",
-  "input": [
-    {
-      "role": "system",
-      "content": "Hello"
-    }
-  ],
-  "expire_at": \\${EXPIRE_AT},
-  "caching": {
-    "type": "enabled"
-  },
-  "thinking": {
-    "type": "disabled"
-  }
-}
-JSON
+  -H "Content-Type: application/json"
 ```
-
-### Delete cache
-
-The Responses API supports deleting caches by ID, which works the same way as deleting historical conversations. This allows you to independently control the amount of cached information based on your business needs, such as deleting unnecessary cached content to reduce redundant input and lower costs.
 
 **Python**
 
@@ -1244,7 +1224,7 @@ public class demo {
 }
 ```
 
-**OpenAI SDK**
+**OpenAI Python SDK**
 
 ```Python
 from openai import OpenAI
@@ -1260,118 +1240,149 @@ response = client.responses.delete("<RESPONSE_ID>")
 print(response)
 ```
 
-**Curl**
+The following diagram shows how information in turns 4, 5, and 6 is recomputed and cached again after the cache for turn 3 is deleted.
 
-```Bash
-curl "https://ark.ap-southeast.bytepluses.com/api/v3/responses/<RESPONSE_ID>" \
-  -X DELETE \
-  -H "Authorization: Bearer $ARK_API_KEY" \
-  -H "Content-Type: application/json"
+![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/context-cache-delete-principle-v1.svg)
+
+After deletion, check the returned `id`, `object=response`, and `deleted`, and check `cached_tokens` and the recomputed input in subsequent requests. State changes after deletion:
+
+* **Deletion succeeded**: The same `id`, `object=response`, and `deleted=true` are returned, and the response and its cache resources are no longer available.
+
+* **Deleting an intermediate turn**: Subsequent turns are recomputed and written to a new cache on the next request, and the recomputed content is billed as regular input.
+
+* **Deletion failed**: If `deleted=false` is returned or the request reports an error, check `responseId` and the error message first. Do not rebuild the chain directly.
+
+### Observation and billing
+
+A cache hit is determined by `usage.input_tokens_details.cached_tokens` being greater than 0; the echoed `caching.type=enabled` only indicates that the configuration for the current turn took effect.
+
+When continuing across turns, the previous turn's response, chain\-of\-thought, and tool content may be included in the input of subsequent requests, increasing `input_tokens`; you can use [context editing](responses-api-context-editing.md) to control the chain\-of\-thought and tool content carried over to subsequent requests.
+
+Explicit cache fees consist of two parts:
+
+1. **Request fees**: Regular input, cached input, and output. The formula is the same as for implicit cache.
+
+2. **Storage fees**: After explicit cache is enabled, newly cached tokens are accumulated for storage fees by calendar\-hour billing period.
+
+#### Storage fees and turns
+
+![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/context-cache-storage-rounds-v1.svg)
+
+In the diagram, orange indicates the cache that was hit. Turn 2 reuses the system prompt and question from turn 1; turn 3 continues to reuse the cached content from the first two turns and adds only the content from the current turn. Only the newly cached content added in each turn is included in the storage fees for that hour.
+
+Cache storage billing is accumulated by calendar hour:
+
+```text
+Cache storage fee = Σ(number of newly cached tokens in each calendar-hour billing period × storage unit price)
 ```
 
-Note that after you delete the cache for a specific turn, the cached information for subsequent turns will be recalculated and stored the next time a request is made. As shown in the following figure (the scenario in the figure is that the API is called to delete the conversation information of the 3rd turn after the 5th turn of request).
+When the cache validity period spans multiple billing periods, each billing period is calculated separately; billing periods shorter than 1 hour are rounded up to 1 hour. For example, if a cache is created at 10:57 and expires at 12:27, it is billed for three billing periods: 10:00\-11:00, 11:00\-12:00, and 12:00\-13:00. Storage unit prices and cached input unit prices are subject to [model pricing](model-pricing.md).
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e82470faec7f446c94dfcb55810fe08e~tplv-goo7wpa0wc-image.image)
+### Supported models and usage limits
 
-> **Note**
+Explicit cache applies only to Responses models whose model list entry indicates support for explicit caching. The default value is `disabled`, and the allowed values are session cache and prefix cache. The following table summarizes the required configuration, default behavior, direct verification, and key boundaries by task.
 
-> After you delete the cache for a specific turn, the cached information for subsequent turns will be recalculated and stored again on the next request.
+|Task |Required configuration |Default behavior |Direct verification |Key boundaries |
+|---|---|---|---|---|
+|Applies to |Use the Responses API; pass the model ID of a model that supports explicit cache, or the corresponding model's inference endpoint ID, to `model`. |Chat, Messages, and Batch do not provide the explicit cache integration contract described on this page. |The request returns a Responses response ID. |Explicit cache applies only to the Responses API. |
+|Enable session cache |`caching.type=enabled`; `store` is actually `true`. |`caching.type` defaults to `disabled`, so explicit cache is not enabled or written; `store` defaults to `true`, but only indicates that the response is stored. |The response echoes `caching.type=enabled`, and `usage.input_tokens_details.cached_tokens` is greater than 0. |`enabled` is a necessary condition but not a sufficient condition for hitting an existing cache. |
+|Disable explicit cache |`caching.type=disabled` |The current turn neither reads from nor writes to the explicit cache; subsequent turns cannot backfill this turn's context. |The response does not enable explicit cache. |The default is disabled; this does not indicate that the request failed. |
+|Session continuation |Set `caching.type=enabled` in each turn; pass the immediately preceding turn's response ID in `previous_response_id`. |Starts a new response chain and does not reference the created explicit cache. |The response ID chain is complete in each turn, and `cached_tokens` is greater than 0. |If any previous turn was not written, it cannot be backfilled; for multiple consecutive turns, use an interval of about 100 ms; session cache has no separate minimum input token threshold. |
+|Prefix creation |`caching.type=enabled`; `caching.prefix=true`; at least 256 input tokens; `stream` cannot be `true`. |`caching.prefix` defaults to `false`, so the response is generated normally and written to the session cache. |The creation response returns `id`, and `output_tokens` is 0. |Successful creation does not mean subsequent requests will automatically hit the cache. |
+|Prefix reuse |`caching.type=enabled`; pass the creation response ID in `previous_response_id`. |If the ID is not saved or the wrong ID is passed, this prefix cache cannot be reused. |`cached_tokens` is greater than 0 in subsequent requests. |A fixed prefix is not updated with each turn; multiple requests reference the same creation ID. |
+|Custom expiration |`expire_at` is a UTC Unix timestamp in seconds, later than the creation time and no later than the creation time plus 604800 seconds. |Use the default expiration time: creation time plus 259200 seconds. |The response returns the actual `expire_at`. |`expire_at` applies to both `store` and `caching`; using the cache does not reset its lifecycle. |
+|Combined usage |In multi\-turn requests, `thinking` must be consistent with the first turn; `tools` is set only in the first turn. |If the configuration is inconsistent, the cache cannot be used or written. |The request succeeds and `cached_tokens` is greater than 0. |`caching.type=enabled` conflicts with `instructions`; `json_schema` is not supported when a previous turn has cache enabled, so use `json_object` instead; setting `tools` again in subsequent turns causes a conflict. |
 
-When you make the 6th turn of request, the information from the 4th and 5th turns will be recalculated and cached, and this information will be billed as regular input instead of cached input.
+The following combinations will fail or not take effect:
 
-## Billing
+* **Prefix too short**: The fixed prefix in the prefix creation request has fewer than 256 tokens.
 
-Billing items for explicit cache include input, cached input, cache storage, and output. For specific unit prices, see [Model pricing](model-pricing.md).
+* **Expiration time out of range**: `expire_at` is not later than the creation time, or is later than the creation time plus 604800 seconds.
 
-* **Input (USD per thousand tokens)** : New text in the ongoing conversation, that is, historical conversation information that needs to be recalculated and cached after deletion.
+* **thinking configuration changes**: `thinking` in multi\-turn requests must remain consistent with the first turn; do not change parameters that were set or not set in the first turn in subsequent turns.
 
-* **Cached input (USD per thousand tokens)** : The input is preprocessed and cached content, and the billing rate is significantly lower than that for new input content.
+* **Streaming creation**: The prefix creation request sets `stream=true`; in this case, you can create the prefix cache with a non\-streaming request first.
 
-* **Storage (USD per thousand tokens per hour)** : Historical conversations are stored in the cache and incur storage fees. The fees are accumulated by multiplying the amount of cache used in each natural hour by the unit price.
+* **Instructions conflict**: `caching.type=enabled` is used together with `instructions`.
 
-   > **Note**
+* **json_schema conflict**: A previous turn with cache enabled uses `json_schema`; in this case, you can use `json_object` instead.
 
-   * > Storage fees are incurred as soon as the cache is created, and billing stops when the cache is manually deleted or expires.
+* **Tools set repeatedly**: `tools` is set again in subsequent turns.
 
-   * > Storage fees are billed at each natural hour. Any duration less than 1 hour is counted as 1 hour.
+* **Cache pricing not activated**: Inference (cache) pricing is not activated before explicit cache is used, and the request returns an error.
 
-* **Output (USD per thousand tokens)** : Content generated by the model based on input information. The billing method is the same as the inference that does not use session cache.
+Request failures usually come from model or endpoint configuration errors, inference (cache) pricing not being activated, or parameter combinations that do not meet the preceding restrictions. There are currently no confirmed cache parameters that are silently ignored; known conflicts return an error or appear as `cached_tokens=0`.
 
-The billed usage for each request can be viewed in the returned `usage` structure. See [Responses API](create-model-responses-api.md) for details.
-
-### Input tokens
-
-It can be calculated by `input_tokens - cached_tokens`.
-
-> **Tip**
-
-> The model input includes the chain\-of\-thought content from the previous turn, which increases the number of input tokens. You can enable [Context editing (Responses API)](responses-api-context-editing.md) to manage chain\-of\-thought content and tool call content and control input tokens. The cache hits are the intersection of the input content and the cached content after context editing.
-
-### Storage fees
-
-Storage fees are only incurred after the cache is enabled in the request, that is, the parameter is configured as `"caching": {"type": "enabled"}`. Calculated by natural hour, the storage fee is calculated by accumulating the number of newly added cache tokens generated by each turn of requests in that hour.
-
-> Storage is calculated by natural hour, and any duration less than 1 hour is counted as 1 hour.
-
-|Dimension |Note |
-|---|---|
-|Cached content |Caches the input content. |
-|Request diagram |![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/responses-api/new-202607221313.svg) |
-|Calculation for a single request |* **Cached content**: `input tokens`<br><br>* **Newly added cached content**: `cached content of the current turn of requests - cached content from the previous turn`<br><br>* **Cache storage fee**: `Within the cache validity period, the hourly storage fee is newly added cached content tokens × storage unit price` |
-
-### Cost calculation
-
-The cost of one request within 1 hour after enabling cache includes: token fee generated by the request and cache storage fee. The calculation formulas are as follows.
-
-```plaintext
-= Input cost + cached input cost + output cost
-= (input_tokens - cached_tokens) x input unit price + cached_tokens x cached input unit price + output_tokens x output unit price
-```
-
-```plaintext
-= Newly added cache storage fee
-= Newly added cached content tokens × storage unit price
-= (Cached content of the current turn of requests - cached content from the previous turn) × storage unit price
-```
+When a request fails, refer to the returned `error.code` and `error.message`. For error code descriptions, see [Error codes](error-codes.md).
 
 ## How it works
 
-Explicit cache supports two types: prefix cache and session cache.
+The client is responsible for organizing a stable prefix, saving the response ID, and continuing from it in subsequent requests; the ModelArk service is responsible for writing the cache, matching by prefix, and returning cache token usage. Response storage is only a prerequisite for explicit cache. `store=true` does not mean explicit cache is enabled; the `caching.type=enabled` echo only indicates that the configuration has taken effect, and an actual hit is still determined by whether cache tokens are greater than 0.
 
-### Prefix cache
+### Overall collaboration
 
-Stores initial information and does not need to be updated during each conversation. You can store initialization information, such as role settings and background knowledge, in the cache in advance. Subsequent calls can directly reuse it through a cache reference without repeatedly sending the same content, reducing repeated computation and lowering usage costs. Suitable for repeated use scenarios of static prompt templates such as standardized conversation openings, specific task instructions, rule\-based templates, and in\-depth analysis of ultra\-long texts.
+Implicit cache does not have a separate comparison diagram. For detailed diagrams of session and prefix in explicit cache, see [Use session cache integration](context-cache.md#session-cache) and [Use prefix cache](context-cache.md#prefix-cache). This section only describes the common collaboration sequence.
 
-|Diagram |Note |
-|---|---|
-|![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/principles-and-selection-03.svg) |1. When a user creates a cache, ModelArk processes the information into tokens that can be directly used for model inference, stores them in the cache, and generates an ID as the key.<br><br>2. ModelArk receives a new request, calculates the tokens of the new input, retrieves the corresponding information tokens based on the cache ID in the request, concatenates them, and inputs them to the model for inference.<br><br>3. The model outputs response information, and there is no need to update the information in the cache. |
+Stage descriptions:
 
-### Session caching
+* **Organize input**: The client places stable content at the beginning and dynamic questions at the end; session mode retains the response chain, and prefix mode prepares a fixed prefix.
 
-**Stores initial information** and **dynamically updates the cache with each turn of conversation**. In a new turn of requests, the cache information and input information are sent to the model together for inference. It is suitable for scenarios such as multi\-turn conversations and multi\-turn tool calls.
+* **Create or write**: Implicit cache is handled automatically; explicit cache requires `caching.type=enabled` and `store` to be actually `true`, and returns a response ID.
 
-|Diagram |Note |
-|---|---|
-|![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/advanced-usage/principles-and-selection-02.svg) |1. When a user creates a cache, ModelArk processes the information into tokens that can be directly used for model inference, stores them in the cache, and generates an ID as the key.<br><br>2. ModelArk receives a new request, calculates the tokens of the new input, retrieves the corresponding information tokens based on the cache ID in the request, concatenates them, and inputs them to the model for inference.<br><br>3. The model returns information, and ModelArk **stores the tokens of the response information into the cache** for use in the next request. The content actually written to the cache varies by model version. See the following description for details. |
+* **Reuse and observe**: Implicit mode relies on reusable identical prefixes in the input, which the system matches automatically; explicit mode keeps `caching.type=enabled` in subsequent requests, passes the correct `previous_response_id`, and then determines hits by cache tokens.
 
-> **Tip**
+* **Terminate**: The current flow ends when the response is returned, the cache expires or is deleted, or the request fails.
 
-> The cached content consists only of the **input** of the current request; the model response is not written directly to the cache. The model response and chain\-of\-thought content from the previous turn are included as part of the input for the next request. After cache writing is enabled for that turn, they enter the cache, so the number of input tokens increases. You can manage chain\-of\-thought content and tool call content through the context editing feature. For details, see [Input tokens](context-cache.md#input-token-count).
+### Hits and invalidation
 
-# FAQs
+* **Hit**: Cache tokens are greater than 0, indicating that this request reused part of the cached input.
 
-## Can explicit cache and implicit cache take effect at the same time?
+* **Miss**: Cache tokens are 0, indicating that this request did not perform any measurable cache read; this does not mean the cache capability is permanently unavailable.
 
-No. The explicit cache and implicit cache are mutually exclusive; when a request uses the explicit cache, the implicit cache does not take effect.
+* **Expiration or deletion**: After expiration, the old response ID can no longer be referenced; after an intermediate turn is deleted, subsequent content is recalculated and stored on the next request.
 
-## What are the common reasons why prefix cache creation fails?
+* **Model version switching**: Hits may be temporarily unavailable during the switching window, but requests may still write to the cache and incur storage fees; verify historical turns again after the switch is complete.
 
-There are three common reasons: first, the first turn is not configured as required with `"caching": {"type": "enabled", "prefix": true}`; second, the input tokens are fewer than 256; third, `stream=true` is set in the request. In addition, the first turn of the prefix cache depends on `store=true` by default (that is, the default value is true).
+For hit parameters and mode\-specific conditions for different APIs, see [implicit cache](context-cache.md#implicit-cache) and [explicit cache](context-cache.md#explicit-cache).
 
-## What happens after a cache for a turn is deleted?
+## FAQs
 
-After you delete the cache for a specific turn, the cached information for subsequent turns will be recalculated and stored again on the next request. The corresponding content will be billed as input rather than cache input until a new cache is established again.
+### Can explicit cache and implicit cache take effect at the same time?
 
-## How do I tell whether the implicit cache was hit?
+No. When a request uses explicit cache, implicit cache does not take effect. First choose a mode based on your active control requirements, and then interpret the results according to that mode's parameters and observability contract.
 
-Check the `usage.prompt_tokens_details.cached_tokens` parameter in the response. A value greater than 0 indicates a hit; a value equal to 0 indicates a miss.
+### What are the common reasons why prefix cache creation fails?
+
+Check whether the fixed prefix reaches 256 tokens, whether the creation request incorrectly sets `stream=true`, whether `caching.type` is `enabled`, whether `store` is actually `true`, and whether parameter combination restrictions involving `instructions`, `tools`, `json_schema`, and others are met.
+
+### Will implicit cache still be enabled if `prompt_cache_key` is not provided?
+
+Yes. Implicit cache is enabled automatically. `prompt_cache_key` is only used to optimize routing affinity; it is not a switch.
+
+### Why is implicit cache request successful but cached_tokens is 0?
+
+Check whether the input reaches the threshold for the corresponding model, whether the common prefix is stable, and whether the endpoint, model, and value of the optional `prompt_cache_key` remain consistent; do not switch to checking explicit cache parameters.
+
+### Why does explicit cache still miss after previous_response_id is provided?
+
+Confirm that the first turn and every subsequent request set `caching.type=enabled`, `store` is actually `true`, and `previous_response_id` corresponds to the correct prefix creation ID or the previous session turn ID. Also check the cache lifecycle and model version switching window. For the criteria, see [Hits and invalidation](context-cache.md#hit-expiry).
+
+### Why do costs increase after an intermediate turn cache is deleted?
+
+Subsequent turns are recalculated and stored on the next request. The recalculated content is first billed as normal input and also incurs new cache storage fees.
+
+## Related documents
+
+* [Quick start](quick-start.md): Complete API key configuration and your first model call.
+
+* [Model list](model-list.md#text-code-context-caching): Check whether the current model ID supports implicit or explicit cache.
+
+* [Chat API](chat-api.md): View the `prompt_cache_key` and `cached_tokens` parameters.
+
+* [Responses API](create-model-responses-api.md): View explicit cache parameters, response IDs, and lifecycle parameters.
+
+* [Messages API](messages-api.md): View the `cache_read_input_tokens` parameter.
+
+* [Batch API](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/batch-chat-api): View the current fixed zero\-value boundary for `cached_tokens` in Batch.
+
+* [Context editing](responses-api-context-editing.md): Control the chain\-of\-thought and tool content carried by subsequent requests.

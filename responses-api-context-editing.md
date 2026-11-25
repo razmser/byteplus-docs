@@ -22,12 +22,6 @@ Context editing can manage chain\-of\-thought content and tool call content in t
 
 * seed\-2\-0\-pro\-260328
 
-* seed\-2\-0\-lite\-260228
-
-* seed\-2\-0\-mini\-260215
-
-* seed\-2\-0\-code\-preview\-260328
-
 # API documentation
 
 [Responses API](create-model-responses-api.md)
@@ -45,7 +39,7 @@ Context editing can manage chain\-of\-thought content and tool call content in t
 
 The `clear_thinking` policy supports the following configuration:
 
-|Configuration options |Type |Default value |Note |
+|Configuration options |Type |Default value |Description |
 |---|---|---|---|
 |keep |Object / String |`{type: "thinking_turns", value: 1}` |Defines chain\-of\-thought retention policy. |
 
@@ -107,7 +101,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
 
 The `clear_tool_uses` policy supports the following configuration:
 
-|Configuration options |Type |Default value |Note |
+|Configuration options |Type |Default value |Description |
 |---|---|---|---|
 |trigger |Object | |Threshold that triggers the tool call content clearance policy. |
 |keep |object |3 tool call turns |Retain the last N rounds of tool call content. |

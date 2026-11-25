@@ -332,11 +332,12 @@ arkcli plans buy
 
 |Flag |Type |Description |
 |---|---|---|
-|`--plan` |string (required) |Plan name: coding\-plan \| coding\-plan\-team |
-|`--type` |string (required) |Tier: lite \| pro |
+|`--plan` |string (required) |Plan name: coding\-plan \| coding\-plan\-team; pass agent\-plan\-team with \-\-type agent\-plan\-team\-shared\-pool for an Agent Plan Team shared package (arkcli v1.0.64) |
+|`--type` |string (required) |Tier: lite \| pro; or agent\-plan\-team\-shared\-pool with \-\-plan agent\-plan\-team (arkcli v1.0.64) |
+|`--project-name` |string |[shared package] Project scope (default: default) (arkcli v1.0.64) |
 |`--duration` |int |Subscription length in months (1\-12, default 1) |
-|`--quantity` |int |Seat count (required for coding\-plan\-team) |
-|`--estimate` |bool |Request an online price estimate without placing an order |
+|`--quantity` |int |Seat count (required for coding\-plan\-team); shared\-package count when \-\-type is agent\-plan\-team\-shared\-pool |
+|`--dry-run` |bool |Request an online price estimate without placing an order (replaces the deprecated \-\-estimate since arkcli v1.0.64) |
 |`--yes` |bool |Return the BytePlus console subscription URL (payment_via_web) so the user can complete the purchase in the browser; the CLI never places an order or charges the account |
 
 ### plans get
@@ -382,10 +383,12 @@ arkcli plans renew
 
 |Flag |Type |Description |
 |---|---|---|
-|`--plan` |string (required) |Plan name: coding\-plan \| coding\-plan\-team |
+|`--plan` |string (required) |Plan name: coding\-plan \| coding\-plan\-team; pass agent\-plan\-team with \-\-type agent\-plan\-team\-shared\-pool for an Agent Plan Team shared package (arkcli v1.0.64) |
+|`--type` |string |Pass agent\-plan\-team\-shared\-pool with \-\-plan agent\-plan\-team to renew a shared package (arkcli v1.0.64); omit for seat renewals |
+|`--project-name` |string |[shared package] Project scope (default: default) (arkcli v1.0.64) |
 |`--duration` |int |Renewal length in months (1\-12, default 1) |
 |`--seat-ids` |string |Comma\-separated seat IDs to renew (required for coding\-plan\-team, e.g. seat\-001,seat\-002) |
-|`--estimate` |bool |Request an online renewal price estimate without placing an order |
+|`--dry-run` |bool |Request an online renewal price estimate without placing an order (replaces the deprecated \-\-estimate since arkcli v1.0.64) |
 |`--yes` |bool |Return the BytePlus console subscription URL (payment_via_web) so the user can complete the renewal in the browser; the CLI never renews or charges the account |
 
 ### plans team rotate\-apikey

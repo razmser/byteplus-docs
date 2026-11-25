@@ -14,7 +14,7 @@ Prompt engineering involves writing efficient and stable instructions for models
 
 * > Image generation: [Seedream 4.0\-4.5 prompt guide](seedream-4-0-5-0-prompt-guide.md)
 
-* > Video generation: [Seedance\-1.0\-pro&pro\-fast prompt guide](seedance-1-0-pro-pro-fast.md), [Dreamina Seedance 2.0 series prompt guide](seedance-2-0-prompt-guide.md).
+* > Video generation: [Dreamina Seedance 2.0 series prompt guide](seedance-2-0-prompt-guide.md)
 
 ## **Choose model and prompt strategy**
 

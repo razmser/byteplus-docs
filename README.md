@@ -2,7 +2,7 @@
 
 Markdown mirror of [BytePlus ModelArk's documentation](https://docs.byteplus.com/en/docs/ModelArk/).
 
-Contains **359 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
+Contains **355 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
 
 Links to mirrored pages point to local files; external links and images remain online. Code examples and OpenAPI blocks are preserved.
 
@@ -53,8 +53,6 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Cancel session task](cancel-session-task-api.md)
 - [CasePlatformV1BadcaseQuery — BytePlus ModelArk Seedance 2.x Generations Quality Diagnostics Result Query API](case-platform-v1-badcase-query-api.md)
 - [CasePlatformV1BadcaseReport - BytePlus ModelArk Seedance 2.x Generations Quality Diagnostics API](case-platform-v1-badcase-report-api.md)
-- [Query large language model quality issue results](case-platform-v1-seed-badcase-query-api.md)
-- [Report large language model quality issues](case-platform-v1-seed-badcase-report-api.md)
 - [Chat & Generation](chat-and-generation.md)
 - [Chat API](chat-api.md)
 - [Cloud sandbox reference](cloud-sandbox-reference.md)
@@ -293,8 +291,6 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Schedule agent runs](schedule-agent-runs.md)
 - [Common SDK usage examples](sdk-common-examples.md)
 - [Retrieve file](search-files-api.md)
-- [Query 3D generation quality issue results](seed3d-badcase-query.md)
-- [Report 3D generation quality issues](seed3d-badcase-report.md)
 - [Seedance-1.0-pro&pro-fast prompt guide](seedance-1-0-pro-pro-fast.md)
 - [Seedance-1.5-pro prompt guide](seedance-1-5-pro.md)
 - [Limited-time discount campaign rules for Seedance models](seedance-2-0-mini-fast-limited-time-discount.md)

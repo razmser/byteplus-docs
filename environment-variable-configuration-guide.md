@@ -6,7 +6,7 @@ This topic explains how to efficiently and correctly configure environment varia
 |---|---|---|---|
 |**macOS / Linux** |Bash / Zsh |`export ARK_API_KEY="value"` |`~/.zshenv` or `~/.bash_profile` |
 | |PowerShell |`$env:ARK_API_KEY = "value"` |`Microsoft.PowerShell_profile.ps1` |
-|**Windows** |Command prompt |`set ARK_API_KEY=value` |`setx ARK_API_KEY "value"` |
+|**Windows** |Command Prompt |`set ARK_API_KEY=value` |`setx ARK_API_KEY "value"` |
 | |PowerShell |`$env:ARK_API_KEY = "value"` |`[Environment]::SetEnvironmentVariable(...)` |
 
 ## Concepts
@@ -122,7 +122,7 @@ $env:ARK_API_KEY = "your-ark-api-key-here"
 
 Windows divides environment variables into "user variables" and "system variables." The former are valid only for the current user, while the latter are valid for all users.
 
-### Command prompt (CMD)
+### Command Prompt (CMD)
 
 #### Temporary configuration
 
@@ -156,7 +156,7 @@ $env:ARK_API_KEY = "your-ark-api-key-here"
 
 #### Permanent configuration
 
-The .NET API is the most reliable method.
+The.NET API is the most reliable method.
 
 ```PowerShell
 # Set a user variable
@@ -170,11 +170,11 @@ The .NET API is the most reliable method.
 
 1. Search for "Edit the system environment variables" in the Start menu and open it.
 
-2. In the "System Properties" dialog box, click the "Environment Variables..." button.
+2. In the "System Properties" dialog box, click "Environment Variables...".
 
 3. In the pop\-up window, you can add or modify "user variables" for your user account in the upper section, or add or modify "system variables" for all users in the lower section.
 
-4. Click "New..." and enter the variable name `ARK_API_KEY` and your key as the variable value.
+4. Click "New..." and enter `ARK_API_KEY` as the variable name and your key as the variable value.
 
 5. Click "OK" in each dialog box.
 
@@ -206,7 +206,7 @@ For permanent configuration, be sure to **restart your terminal or IDE** and che
 
 ## Advanced tips and practices
 
-### Security: Protect your keys
+### Security: protect your keys
 
 **Warning**: Never commit configuration files that contain sensitive information such as `ARK_API_KEY` to version control systems such as Git.
 

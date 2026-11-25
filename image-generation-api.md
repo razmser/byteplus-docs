@@ -1049,7 +1049,7 @@ The approximate visual style of the current text segment, including the similar 
 
 > **Note**
 
-> Style information is identified automatically by the model and may differ from the exact attributes in the original design file.
+> Style information is identified automatically by the model and may differ from the exact attributes in the original text layer.
 
 **similar_font_family** `string`  |  Similar font
 

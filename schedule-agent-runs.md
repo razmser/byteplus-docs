@@ -8,7 +8,7 @@ A deployment does not execute tasks itself. It stores a reusable session startup
 
 After you use a deployment, a recurring task is split into a configuration, startup record, execution session, and initial event template. When creating a schedule, running a one\-off catch\-up task, or troubleshooting results, first identify which layer the issue belongs to. This helps avoid mistaking "startup succeeded" for "task completed":
 
-|Object |Note |
+|Object |Description |
 |---|---|
 |Deployment |Stores the fixed agent version, environment, initial events, resources, Vault, and trigger schedule. After the configuration is created or updated, it applies only to subsequent new runs. |
 |Deployment Run |Records one manual or scheduled startup. A successful run means the platform has created the session and accepted the initial events. To determine whether subsequent agent tasks are complete, continue checking the session. |
@@ -47,7 +47,7 @@ minute hour day-of-month month day-of-week
 
 Common configurations:
 
-|Scenario |Expression |Note |
+|Scenario |Expression |Description |
 |---|---|---|
 |Every hour on the hour |`0 * * * *` |Runs at minute 0 of every hour |
 |Every day at 09:00 |`0 9 * * *` |Runs every day in the configured time zone |
@@ -65,7 +65,7 @@ The day\-of\-week field supports numbers `0-7` (`0` and `7` both indicate Sunday
 
 ## Create deployment
 
-The following example applies to a scenario where a business daily report is generated at 09:00 Beijing time every weekday.`schedule.timezone` is set to `Asia/Shanghai`, which means 09:00 in the cron expression uses Beijing time.
+The following example applies to a scenario where a business daily report is generated at 09:00 Beijing time every weekday. `schedule.timezone` is set to `Asia/Shanghai`, which means 09:00 in the cron expression uses Beijing time.
 
 ```Bash
 curl -sS --fail-with-body "https://ark.ap-southeast.bytepluses.com/api/v3/deployments" \
@@ -308,7 +308,7 @@ Archiving stops subsequent triggers. After archiving, the deployment cannot be u
 
 ## Understand configuration limits
 
-|Configuration |Limit |Note |
+|Configuration |Limit |Description |
 |---|---|---|
 |`initial_events` |50 entries |At least one entry. Currently, only `user.message` is supported. |
 |`resources` |500 items |Up to 10 memory stores. Self\-hosted environments do not support mounting resources. |

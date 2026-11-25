@@ -20,7 +20,7 @@ For the base URL and authentication used in the examples in this section, see [B
 
 ## Session state machine
 
-|Status |Note |
+|Status |Description |
 |---|---|
 |`idle` |The agent is waiting for input, such as a user message or tool confirmation. A standard newly created session starts in this status. |
 |`running` |The agent is executing a task. |
@@ -64,7 +64,7 @@ The session details API returns only the latest status, usage statistics, and co
 |Complete persisted events |[List session events](list-events-api.md) |Used for historical event queries and catch\-up after disconnection. It does not include preview frames. Get the complete execution process within a child thread through [List thread events](list-thread-events-api.md). |
 |Latest status, cumulative usage, and configuration snapshot |[Get session details](get-session-api.md) |Returns information such as the agent, runtime environment, resources, status, and tags. It does not include agent replies or the complete event history. |
 
-During normal interactions, receive agent replies and status in real time through SSE; to display usage or for billing, read the `session.usage` cumulative usage snapshot.`GET /sessions/{session_id}/events` is used only for historical event queries and follow\-up checks after disconnection. Do not determine that the current round succeeded based only on `status=idle`. For the complete process of sending tasks, receiving replies, and determining `stop_reason`, see [Session event stream](session-event-stream.md).
+During normal interactions, receive agent replies and status in real time through SSE; to display usage or for billing, read the `session.usage` cumulative usage snapshot. `GET /sessions/{session_id}/events` is used only for historical event queries and follow\-up checks after disconnection. Do not determine that the current round succeeded based only on `status=idle`. For the complete process of sending tasks, receiving replies, and determining `stop_reason`, see [Session event stream](session-event-stream.md).
 
 ## Retrieve a session
 

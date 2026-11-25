@@ -336,9 +336,11 @@ When the model encounters the string specified by the `stop_sequences` parameter
 
 * Kimi series (not available for BytePlus users) models support up to `5` stop sequences.
 
-Example: `["hello", "weather"]`.
+* DeepSeek V4, Kimi, and GLM series models support the `stop_sequences` parameter regardless of whether deep reasoning is enabled.
 
-> [Deep reasoning models](model-list.md#text-and-code) do not support this parameter by default, except for DeepSeek V4 models mentioned above.
+* Other [models with deep reasoning capabilities](model-list.md#text-and-code) support the `stop_sequences` parameter only when deep reasoning is disabled.
+
+Example: `["hello", "weather"]`.
 
 **stream** `boolean`  |  Whether the response content is returned in streaming mode.
 

@@ -150,7 +150,7 @@ A function call request initiated by the model.
 
 The output type. Fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `output.arguments`
 

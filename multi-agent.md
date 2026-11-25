@@ -396,7 +396,7 @@ Session
     └── Thread C: inline agent
 ```
 
-Each thread has a stable `session_thread_id` and stores messages and reasoning context independently.`parent_thread_id` records the creation relationship: the main thread returns `null`, and a child agent thread returns the ID of the parent thread that created it.
+Each thread has a stable `session_thread_id` and stores messages and reasoning context independently. `parent_thread_id` records the creation relationship: the main thread returns `null`, and a child agent thread returns the ID of the parent thread that created it.
 
 Threads in the same session share the environment, sandbox, file system, and bound vault credentials, but they do not automatically share conversation history. After one thread writes a file, other threads can read it; if the conclusion also needs to be passed along, the child agent should also return the file path and a summary.
 
@@ -651,7 +651,7 @@ The task for this turn succeeds only if all of the following conditions are met:
 
 > **Note**
 
-> HTTP 200 only indicates that the server has accepted the event.`session.status_idle` does not necessarily mean that the task succeeded. You still need to check `stop_reason` and the status of each thread.
+> HTTP 200 only indicates that the server has accepted the event. `session.status_idle` does not necessarily mean that the task succeeded. You still need to check `stop_reason` and the status of each thread.
 
 ## Manage sessions
 

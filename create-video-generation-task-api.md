@@ -70,7 +70,7 @@ For detailed rules, see [Activate, use, and cancel Dreamina Seedance 2.5 and 2.0
 
 ```json
 {
-    "model": "seedance-1-0-pro-250528",
+    "model": "seedance-1-0-pro-fast-251015",
     "content": [
         {
             "type": "text",
@@ -90,7 +90,7 @@ For detailed rules, see [Activate, use, and cancel Dreamina Seedance 2.5 and 2.0
 
 ```json
 {
-    "model": "seedance-1-0-pro-250528",
+    "model": "seedance-1-0-pro-fast-251015",
     "content": [
         {
             "type": "text",

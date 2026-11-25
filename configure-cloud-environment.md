@@ -14,7 +14,7 @@ In the console, click **Create environment** and configure the following items a
 
 * **Type**: Select the cloud\-hosted environment.
 
-* **Environment template**: Select a base template.`base` is suitable for standard command\-line, code execution, and file processing tasks; `browser` is suitable for web access, page parsing, or automation tasks that require browser runtime dependencies.
+* **Environment template**: Select a base template. `base` is suitable for standard command\-line, code execution, and file processing tasks; `browser` is suitable for web access, page parsing, or automation tasks that require browser runtime dependencies.
 
 * **Resource specification**: Select the CPU and memory specification for the cloud sandbox. If no option is selected, `1x` is used by default.
 
@@ -77,11 +77,11 @@ Main configuration items:
 
 * **`config.type`**: The runtime environment type. For a cloud\-hosted environment, the value is `cloud`.
 
-* **`config.networking.type`**: The outbound network access policy for the sandbox.`unrestricted` does not restrict access targets, but it is still subject to the platform's general security blocking policies. `limited` allows access only to explicitly configured domain names and network rules required for platform operation.
+* **`config.networking.type`**: The outbound network access policy for the sandbox. `unrestricted` does not restrict access targets, but it is still subject to the platform's general security blocking policies. `limited` allows access only to explicitly configured domain names and network rules required for platform operation.
 
-* **`config.template_id`**: The cloud environment template.`base` is the default template and is suitable for standard command\-line and code execution tasks; `browser` includes preinstalled browser runtime dependencies and is suitable for tasks that need to access web pages or perform browser automation. For template differences, see [Environment template](cloud-sandbox-reference.md#environment-templates).
+* **`config.template_id`**: The cloud environment template. `base` is the default template and is suitable for standard command\-line and code execution tasks; `browser` includes preinstalled browser runtime dependencies and is suitable for tasks that need to access web pages or perform browser automation. For template differences, see [Environment template](cloud-sandbox-reference.md#environment-templates).
 
-* **`config.spec`**: The resource specification for the cloud sandbox. If this parameter is not configured, `1x` is used by default.`1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory. For optional specifications and resource mappings, see [Sandbox specifications](cloud-sandbox-reference.md#sandbox-specs).
+* **`config.spec`**: The resource specification for the cloud sandbox. If this parameter is not configured, `1x` is used by default. `1x`, `2x`, `4x`, and `8x` correspond to 2, 4, 8, and 16 vCPUs, respectively. Each vCPU is paired with 2 GiB of memory. For optional specifications and resource mappings, see [Sandbox specifications](cloud-sandbox-reference.md#sandbox-specs).
 
 * **`config.packages`**: Install system packages and language dependencies during the prebuild phase. After configuration, sessions that use this environment can use these dependencies directly without reinstalling them. Dependency versions can be explicitly specified. If no version is specified, the latest version is installed.
 
@@ -180,7 +180,7 @@ The limited outbound access policy includes the following configuration items:
 
 ## Configure artifact storage
 
-When you need to store artifacts long\-term in your own TOS bucket, configure `config.tos` for the environment. To continue using ModelArk public TOS, omit this parameter.`config.tos` controls the persistent location used when the platform registers output artifacts with the Files API. It is not the same as the sandbox mount directory with `type: tos` in `resources`.
+When you need to store artifacts long\-term in your own TOS bucket, configure `config.tos` for the environment. To continue using ModelArk public TOS, omit this parameter. `config.tos` controls the persistent location used when the platform registers output artifacts with the Files API. It is not the same as the sandbox mount directory with `type: tos` in `resources`.
 
 |Your configuration |Artifact location |What you need to do |
 |---|---|---|

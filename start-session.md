@@ -112,7 +112,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/sessions \
 
 * An array with a maximum of 50 items. If omitted or set to `[]`, it is handled as a normal create request, and the session is created in the `idle` state.
 
-* Currently, only `user.message` is supported. Events such as tool results, tool confirmations, and interrupts are based on interactions that have already occurred in the session and can be sent only after the session starts.`user.message` content blocks are consistent with the send event API. They can mix text, images, documents, and video. For the parameter format, see [Session event structure reference](sessions-events-reference-v2.md).
+* Currently, only `user.message` is supported. Events such as tool results, tool confirmations, and interrupts are based on interactions that have already occurred in the session and can be sent only after the session starts. `user.message` content blocks are consistent with the send event API. They can mix text, images, documents, and video. For the parameter format, see [Session event structure reference](sessions-events-reference-v2.md).
 
 * Events are persisted in the order of the request. The create response does not echo `initial_events`; to confirm whether events have been saved, query with [Get session event list](list-events-api.md).
 

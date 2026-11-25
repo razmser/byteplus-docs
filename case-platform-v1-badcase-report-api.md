@@ -28,6 +28,52 @@ This API retrieves the original task data from upstream using `task_id`, so repo
 
    > **This API and its documentation apply to the BytePlus ModelArk service.**
 
+### Case types and the incentive program
+
+Choose `CaseType` according to the purpose of your feedback and decide whether to participate in the incentive program.
+
+|Case type |Purpose |Model requirements |Incentive program |
+|---|---|---|---|
+|`Badcase` |Report a quality issue for investigation. |Supported Seedance models. |Participates when `JoinIncentive=true` for Seedance 2.5 or later; earlier models do not participate. |
+|`Goodcase` |Report a good\-quality video without investigation. |Seedance 2.5 or later only. |All Goodcases participate, regardless of `JoinIncentive`. |
+
+When reporting a Goodcase or participating in the incentive program, `Feedback` is required and the task must belong to the caller's account.
+
+### Report by Session
+
+You can combine multiple tasks from a continuous creation session into a single Session case, with each task representing one turn. Each request can report only one Session containing 1 to 50 tasks.
+
+**Before reporting**
+
+* All tasks belong to the same account and use the same model.
+
+* Every task successfully generated a video and is neither a draft nor a final\-video task.
+
+* Task IDs are unique and have not previously been reported individually or as a turn in another Session.
+
+* All tasks satisfy the reporting window, account, and other validation requirements.
+
+**Build the request**
+
+1. Set `IdType` to `session`.
+
+2. Populate `Id` in generation order. The first task is turn 1.
+
+3. Provide feedback. Tasks in the same Session share `Feedback`, `FeedbackImages`, `BadcaseType`, `ContactInfo`, `Source`, `AccountId`, `CaseType`, and `JoinIncentive`. For timeline feedback, use `TimelineFeedbacks[].TaskId` to identify the turn. Times are relative to that turn's video.
+
+**Check acceptance**
+
+The service creates a single case only after all tasks pass validation. Check the response as follows:
+
+|Result |Response and resolution |
+|---|---|
+|Report accepted |Each task has its own entry in `Accepted`. All entries share the same `CaseId`, and `TurnNo` starts at 1 in `Id` order. |
+|Task validation failed |`Accepted` is empty and all tasks appear in `Rejected`. Tasks that failed validation return their specific error codes; the others return `40040`. Match results by `TaskId`; do not rely on the order of `Rejected`. |
+|Save failed |Returns `40046`. The entire Session was not saved. Retry later. |
+|Session reporting is unavailable in this environment |Returns `40038`. Use `task` reporting instead. |
+
+After a successful report, tasks cannot be reported individually or added to another Session. Repeated reports return `40003`.
+
 ### Request headers
 
 For ModelArk API key authentication, set `Authorization: Bearer <API_KEY>` and `Content-Type: application/json`. You can omit `AccountId` from the request body.
@@ -86,15 +132,23 @@ Value: CasePlatformV1BadcaseReport.
 
 Value: 2024\-01\-01.
 
+**ProjectName** `string` `Default default`  |  Project name
+
+The project name. If the resource is not in the default project, provide its actual project name.
+
 ### Body parameters
 
-**Feedback** `string` `Required`  |  Feedback description
+**Feedback** `string`  |  Feedback description
 
 Example: "Character hands are distorted, and lip movement does not match the dubbed audio". Problem description, 1–2000 characters; whitespace\-only strings are rejected. Persisted as a feedback annotation.
+
+Provide at least one of `Feedback` and `TimelineFeedbacks`; otherwise, error code `40014` is returned. When reporting a Goodcase or participating in the incentive program, `Feedback` is required; timeline feedback alone is insufficient.
 
 **Id** `string / string[]` `Required`  |  Task ID list
 
 Example: cgt\-20260501132104\-tfm9v. A single task_id, or a list of task_ids. At least 1, at most 50 — exceeding the limit returns 422 directly. The interface normalizes the submitted task_ids: it accepts either a single string or a list of strings, splits on comma, newline, space, tab and similar separators into a unified task_id list, and trims leading/trailing whitespace and empty fragments.
+
+When `IdType` is `session`, provide the task IDs for one Session in turn order, starting with turn 1. Each request can report only one Session, also containing 1 to 50 tasks.
 
 **AccountId** `string`  |  Account ID
 
@@ -102,7 +156,7 @@ Example: 2000000000. The BytePlus account ID the Id (task_id) belongs to. Requir
 
 **BadcaseType** `string / string[]`  |  Badcase types
 
-    Example: character_id_drift. Must be one of the enum values listed below; an invalid value returns a 422 parameter validation error for the whole request. Note that task_id\-based import currently supports Seedance 2.0 / Seedance 2.0 fast tasks only; if the model behind the task_id is out of scope, the backend returns a business error (for example 60002).
+    Example: character_id_drift. Must be one of the enum values listed below; an invalid value returns a 422 parameter validation error for the whole request. Note that task_id\-based import currently supports Seedance 2.x tasks; if the model behind the task_id is out of scope, the backend returns a business error (for example 60002).
 
 BadcaseType is accepted only when the task's model ID is one of the following:
 
@@ -140,6 +194,16 @@ Provide a single enum value or an array of enum values. Options: `character_id_d
 
 * `dreamina-seedance-2-0-mini-260615`
 
+**CaseType** `string` `Default Badcase`  |  Case type
+
+The type of case. Values:
+
+* **`Badcase`**: Report a quality issue for investigation.
+
+* **`Goodcase`**: Report a good\-quality video without investigation. Supported only for Seedance 2.5 or later. All Goodcases participate in the incentive program, and `Feedback` is required.
+
+Defaults to `Badcase` if omitted or `null`.
+
 **ContactInfo** `string`  |  Contact information
 
 Example: user@example.com. Contact info (email or phone), up to 255 characters.
@@ -162,6 +226,26 @@ Image references support the following forms:
 
 HTTPS image URLs must remain accessible for at least 24 hours after reporting.
 
+**IdType** `string` `Default task`  |  Reporting mode
+
+How tasks are organized. Values:
+
+* **`task`**: Create a separate case for each task.
+
+* **`session`**: Save multiple tasks as one multi\-turn case, in `Id` order. The entire Session is accepted only after every task passes validation.
+
+Defaults to `task` if omitted or `null`.
+
+**JoinIncentive** `boolean`  |  Incentive participation
+
+Whether to participate in the case incentive program. Applies only to Seedance 2.5 or later.
+
+* **`Badcase`**: Participates when set to `true`.
+
+* **`Goodcase`**: All Goodcases participate regardless of this field.
+
+Tasks from earlier models can still be reported but do not participate in the incentive program. Participation requires `Feedback`, and the task must belong to the caller's account.
+
 **Source** `string` `Default customer`  |  Feedback source
 
 The source of the generation quality feedback. Values:
@@ -180,7 +264,7 @@ Defaults to `customer` if omitted or `null`.
 
 Video timeline feedback. Each entry identifies its task using `TaskId`. Up to 20 entries are retained per task. Entries that exceed the limit or fail validation are returned in `RejectedTimelineFeedbacks`, without affecting creation of the main case record.
 
-Provide at least one of `Feedback` and `TimelineFeedbacks`.
+Provide at least one of `Feedback` and `TimelineFeedbacks`. When reporting by Session, each entry refers to the task for its turn, and times are relative to that turn's video.
 
 **EndTime** `number` `Required`  |  The end of the time range, in seconds
 
@@ -223,7 +307,7 @@ The table below lists the business\-logic error codes for this interface.
 |200 |40004 |task_id is still being generated; please wait for it to complete before submitting a badcase |The task behind task_id has not finished generating |
 |200 |40005 |task_id has already been submitted as a badcase |The same task_id appeared more than once in this request |
 |200 |70001 |This Account did not opt\-in data Diagnostic agreement yet. Please opt\-in ModelArk Data Diagnostic Agreement. |The account that owns this task has not enabled Model Generations Quality Diagnostics, so its inference data was never retained. **Evaluated per task_id and returned inside Rejected** — tasks owned by opted\-in accounts in the same batch are still accepted. Enable it as described under Notes. |
-|200 |60002 |"The ModelId in the request is not a supported Seedance 2.0 series model; only Seedance 2.0 and Seedance 2.0 fast are supported" or "The model behind task_id is not a Seedance 2.0 series model; badcase import currently only supports Seedance 2.0" |The ModelId in the request is not a supported Seedance 2.0 series model, or the model resolved from task_id is not in the supported series |
+|200 |60002 |See the error message returned by the API. |The requested `ModelId` or the model actually used by the task is not supported. Check the supported model range. |
 |200 |60003 |The actual model behind task_id does not match the ModelId in the request; the correct ModelId should be … |The ModelId in the request does not match the model resolved from task_id |
 |400 |40006 |AccountId is required when not authenticating with a ModelArk API key |Not authenticated with a ModelArk API Key, and AccountId was not provided in the request body |
 |422 |40007 |account_id must not be empty or whitespace |AccountId was provided but is empty or all whitespace |
@@ -231,6 +315,17 @@ The table below lists the business\-logic error codes for this interface.
 |422 |40009 |feedback must not be empty or whitespace |Feedback is empty or all whitespace |
 |422 |40010 |"badcase_type list must contain at least one value" or "badcase_type contains invalid value ''. Allowed values:" |BadcaseType was passed as an empty list, or with an invalid enum value |
 |422 |40011 |"id must contain at least one task_id" or "id may contain at most 50 task_ids" |After splitting, Id contains no valid task_id, or more than 50 task_ids |
+|422 |40014 |at least one of feedback and timeline_feedbacks must be provided |Neither `Feedback` nor `TimelineFeedbacks` is provided. Provide at least one of them. |
+|200 |40037 |See the error message returned by the API. |`CaseType` is `Goodcase`, but the task uses a model earlier than Seedance 2.5. Check the supported model range. |
+|400 |40038 |See the error message returned by the API. |`IdType` is `session`, but Session reporting is not yet available in this environment. The request is rejected before validation and writing. Use `task` reporting instead. |
+|200 |40039 |See the error message returned by the API. |When reporting by Session, the task count is outside the range of 1 to 50. Adjust the count. Parameter validation usually catches this first and returns `40011`. |
+|200 |40040 |See the error message returned by the API. |This task passed validation, but another task in the same Session did not, so the entire Session was not saved. Check the other tasks' error codes. |
+|200 |40041 |See the error message returned by the API. |This task belongs to a different account from the first turn. Ensure that all tasks in the Session belong to the same account. |
+|200 |40042 |See the error message returned by the API. |This task uses a different model from the first turn. Ensure that all tasks in the Session use the same model. |
+|200 |40043 |See the error message returned by the API. |This task is a draft or final\-video task and cannot be added to a Session. Report it individually using `task`. |
+|200 |40044 |See the error message returned by the API. |This task did not successfully generate a video and cannot be added to a Session. |
+|200 |40045 |See the error message returned by the API. |The task content cannot be read, for example because it was not found or did not pass content moderation. See the error message for details. |
+|200 |40046 |See the error message returned by the API. |An error occurred while saving the Session. The entire Session was not saved. Retry later. |
 
 ## Response parameters
 
@@ -245,6 +340,8 @@ Example: 1. Total number of submitted task_ids (the length of Id before deduplic
 **Accepted** `object[]`  |  Accepted task list
 
 task_ids that passed validation and have been pre\-written as cases.
+
+After a successful Session report, each task has its own entry. All entries share the same `CaseId`, and `TurnNo` starts at 1 in the order of `Id` in the request. An empty array is returned if the entire Session was not accepted.
 
 **CaseId** `string`  |  Case ID
 
@@ -270,9 +367,31 @@ Always "Success".
 
 the task_id as submitted.
 
+**CaseType** `string`  |  Case type
+
+`Accepted.CaseType`
+
+The type of this case. Options: `Badcase`, `Goodcase`.
+
+**JoinIncentive** `boolean`  |  Incentive participation
+
+`Accepted.JoinIncentive`
+
+Whether this case participates in the incentive program. Always `false` for models earlier than Seedance 2.5.
+
+**TurnNo** `integer`  |  Session turn
+
+`Accepted.TurnNo`
+
+The task's turn in the Session. Returned only when `IdType` is `session`. Starts at 1, following the order of `Id` in the request.
+
+**Min**: `1`
+
 **Rejected** `object[]`  |  Rejected task list
 
 task_ids that failed validation and were not written.
+
+When reporting by Session, if any task fails validation, every task appears in this list. Tasks that failed validation return their specific error codes; the others return `40040`. The response order is not guaranteed to match `Id` in the request. Match results by `TaskId`.
 
 **Code** `integer`  |  Error code
 

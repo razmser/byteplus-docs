@@ -35,7 +35,7 @@ The trust boundary of a self\-hosted environment lies between the ModelArk contr
 
 ## How data flows
 
-|Data |Whether it enters the ModelArk control plane |Whether it remains in the enterprise environment |Note |
+|Data |Whether it enters the ModelArk control plane |Whether it remains in the enterprise environment |Description |
 |---|---|---|---|
 |User message |Yes |Optional retention |Messages sent by the business application are persisted in the ModelArk event stream. |
 |Enterprise\-side tool call parameters |Yes |Received by the worker |Workers only receive the primary agent's Bash and file tool calls |
@@ -58,7 +58,7 @@ Business applications and workers currently both use standard ModelArk API keys.
 
 > **Warning**
 
-> Worker API keys are not environment\-specific credentials.`MA_ENVIRONMENT_ID` is used only to identify the work queue and does not narrow the authorization scope of the API key. If an API key is leaked, an attacker may access other ModelArk resources that the credential is authorized to operate on. Do not place any API key in the agent working directory, tool process environment, or logs.
+> Worker API keys are not environment\-specific credentials. `MA_ENVIRONMENT_ID` is used only to identify the work queue and does not narrow the authorization scope of the API key. If an API key is leaked, an attacker may access other ModelArk resources that the credential is authorized to operate on. Do not place any API key in the agent working directory, tool process environment, or logs.
 
 ### Credential storage
 
@@ -138,7 +138,7 @@ A self\-hosted worker only needs outbound access to the ModelArk API and does no
 
 > **Note**
 
-> Enterprise network policies only constrain requests initiated by the worker and sandbox.`web_fetch`, `web_search`, MCP, and multimodal tools are executed on the ModelArk side and do not use the network egress of the enterprise sandbox. When reviewing data egress risks, separately check the inputs, credentials, and results of these tools.
+> Enterprise network policies only constrain requests initiated by the worker and sandbox. `web_fetch`, `web_search`, MCP, and multimodal tools are executed on the ModelArk side and do not use the network egress of the enterprise sandbox. When reviewing data egress risks, separately check the inputs, credentials, and results of these tools.
 
 ## Tool execution security
 
@@ -220,7 +220,7 @@ After a work item enters the `stopped` state, sending a new tool result causes t
 
 Before deploying a self\-hosted environment, use the following table to confirm security controls and assess the risk of any unmet items based on the reasons.
 
-|Check item |Cause |
+|Check item |Reason |
 |---|---|
 |Use separate API keys for the business application and the worker |This supports independent rotation, revocation, and auditing, and prevents changes to worker credentials from also affecting the business application. |
 |Include the account and project permissions of the worker API key in the security review |`MA_ENVIRONMENT_ID` only locates the work queue and does not restrict API key permissions to a single environment. |

@@ -876,6 +876,8 @@ Session scene marker.
 
 * `default`: regular session.
 
+* `dreams`: a session used for Dream memory organization tasks.
+
 **initial_events** `object[]`  |  Initial event list
 
 A list of initial events sent when the session is created, up to 50 events. If you pass a non\-empty list, the server delivers the events in request order and starts the agent loop immediately after the session is created, without requiring another call to the send event API.
@@ -2385,6 +2387,8 @@ The ID of the region where the TOS mount source is located.
 Session scene marker.
 
 * `default`: regular session.
+
+* `dreams`: a session used for Dream memory organization tasks.
 
 **tags** `object[]`  |  Tag list
 

@@ -448,21 +448,22 @@ Pass images and text to the model for the following use cases and tasks:
 
 ```Python
 import os
-# Install SDK:python -m pip install --upgrade arkruntime
+# Install SDK:  python -m pip install --upgrade arkruntime
 from arkruntime import Ark
 
 client = Ark(
-    #The base URL for model invocation
+    # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
     # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
 imagesResponse = client.images.generate(
-    #Replace with Model ID
-    model="dola-seedream-5-0-pro-260628",
-    prompt="Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot in medium format, dramatic studio lighting.",
+    # Replace with Model ID
+    model="dola-seedream-5-5-261028",
+    prompt="Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.",
     size="2K",
+    output_format="png",
     response_format="url",
     watermark=True
 )
@@ -477,9 +478,10 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "dola-seedream-5-0-pro-260628",
+    "model": "dola-seedream-5-5-261028",
     "prompt": "Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.",
     "size": "2K",
+    "output_format":"png",
     "watermark": true
 }'
 ```
@@ -491,32 +493,37 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 ```Java
 package com.ark.sample;
 
+
 import com.volcengine.ark.runtime.models.images.*;
 import com.volcengine.ark.runtime.service.ArkService;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ImageGenerationsExample {
     public static void main(String[] args) {
-// Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+        // Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
         String apiKey = System.getenv("ARK_API_KEY");
         ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
         Dispatcher dispatcher = new Dispatcher();
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") //The base URL for model invocation
+                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                // The base URL for model invocation
                 .dispatcher(dispatcher)
                 .connectionPool(connectionPool)
                 .apiKey(apiKey)
                 .build();
 
         CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
-                .model("dola-seedream-5-0-pro-260628") //Replace with Model ID
+                .model("dola-seedream-5-5-261028") // Replace with Model ID
                 .prompt("Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.")
+
                 .size("2K")
-                .sequentialImageGeneration(SequentialImageGenerationMode.DISABLED)
+                .outputFormat(OutputFormat.PNG)
                 .responseFormat(ResponseFormat.URL)
-                .stream(false)
                 .watermark(true)
                 .build();
         ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
@@ -536,22 +543,28 @@ import (
     "context"
     "fmt"
     "os"
+
     "github.com/volcengine/ark-runtime-go/arkruntime"
     model "github.com/volcengine/ark-runtime-go/arkruntime/model/images"
 )
 
 func main() {
     client := arkruntime.NewClientWithApiKey(
-        os.Getenv("ARK_API_KEY"), // Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
-        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"), //The base URL for model invocation
+        // Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+        os.Getenv("ARK_API_KEY"),
+        // The base URL for model invocation
+        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
     )
     ctx := context.Background()
+    outputFormat := model.OutputFormatPNG
+
 
     generateReq := &model.CreateImageGenerationRequest{
-       Model:          "dola-seedream-5-0-pro-260628", //Replace with Model ID
-
+       Model:          "dola-seedream-5-5-261028", // Replace with Model ID
        Prompt:         model.NewOptString("Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting."),
+
        Size:           model.NewOptString("2K"),
+       OutputFormat: model.NewOptOutputFormat(outputFormat),
        ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
        Watermark:      model.NewOptBool(true),
     }
@@ -573,15 +586,18 @@ import os
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://ark.ap-southeast.bytepluses.com/api/v3", #The base URL for model invocation
-    api_key=os.getenv('ARK_API_KEY'),  # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+    # The base URL for model invocation
+    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
+    api_key=os.getenv('ARK_API_KEY'),
 )
 
 imagesResponse = client.images.generate(
-    #Replace with Model ID
-    model="dola-seedream-5-0-pro-260628",
+    # Replace with Model ID
+    model="dola-seedream-5-5-261028",
     prompt="Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.",
     size="2K",
+    output_format="png",
     response_format="url",
     extra_body={
         "watermark": True,
@@ -591,7 +607,7 @@ imagesResponse = client.images.generate(
 print(imagesResponse.data[0].url)
 ```
 
-* [Image generation tutorial](image-generation-tutorial.md): Capabilities of mainstream image generation models and how to call them through the API.
+* [Image generation tutorial](image-generation-tutorial.md): Learn about image generation model capabilities and how to call them through the API.
 
 * [Seedream 4.0-4.5 prompt guide](seedream-4-0-5-0-prompt-guide.md): Learn how to write prompts when using image generation models.
 

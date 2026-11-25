@@ -27,7 +27,7 @@ The three APIs differ in parameter names, hierarchy, and default response polici
 
 Supported models:
 
-* Seed models: seed\-2\-0\-pro\-260328, seed\-2\-0\-lite\-260228, seed\-2\-0\-mini\-260215
+* Dola models: seed\-2\-0\-pro\-260328
 
 * Open\-source models: deepseek\-v4\-pro\-260425, deepseek\-v4\-flash\-ga\-260731, deepseek\-v4\-1\-flash\-261017, deepseek\-v4\-1\-flash\-260910, glm\-5\-2\-260617
 
@@ -110,7 +110,7 @@ The models supported by the two passback methods are different. For details, see
 
 ### Non\-streaming response
 
-For a non\-streaming response, the encrypted content is in the **flat parameter** `encrypted_content` of the assistant message, at the same level as `reasoning_content` and `tool_calls`.`encrypted_content` is returned by default and does not need to be declared separately.
+For a non\-streaming response, the encrypted content is in the **flat parameter** `encrypted_content` of the assistant message, at the same level as `reasoning_content` and `tool_calls`. `encrypted_content` is returned by default and does not need to be declared separately.
 
 **Correct usage**: Add the entire assistant message object from the response to `messages` in the next round, and avoid selecting parameters to rebuild it.
 

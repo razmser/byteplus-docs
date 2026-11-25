@@ -977,7 +977,7 @@ The model returns OCR results for the current text layer in `data[].text_recogni
 ||`bounding_box.normalized` |Normalized integer coordinates for the text\-line bounding box, scaled to `[0, 1000]` from the output base image dimensions and formatted as `[left, top, right, bottom]`. Use these coordinates to calculate the text\-line position in the target canvas. |
 ||`lines[].runs[]` |Style runs for the current text line. Each run has consistent style. A line with uniform styling contains one run; a line with changes to font, color, bold styling, or other styles contains multiple runs. |
 ||`runs[].text` |Text in the current run, without line breaks. |
-||`runs[].style` |Approximate visual style for the text run. It includes the following eight fields. The model identifies styles automatically, so they can differ from the exact attributes in the original design file. |
+||`runs[].style` |Approximate visual style for the text run. It includes the following eight fields. The model identifies styles automatically, so they can differ from the exact attributes in the original text layer. |
 ||`style.similar_font_family` |Closest font name matched from appearance. Returns `unknown` when recognition is unavailable or confidence is insufficient. |
 ||`style.foreground_color` |Text color in uppercase `#RRGGBB` format, without an alpha channel. |
 ||`style.bold` |Whether the model recognized bold text. |
@@ -1056,7 +1056,7 @@ The following example corresponds to the text layer containing `Presented By :` 
 
 * **Font recognition**: `similar_font_family` is an approximate match and is not guaranteed to equal the original font. It returns `unknown` when recognition is unavailable or confidence is insufficient.
 
-* **Style recognition**: Style information is approximate. `false` means the model did not recognize the corresponding style.
+* **Style recognition**: Style information is approximate and may differ from the exact attributes in the original text layer. `false` means the model did not recognize the corresponding style.
 
 ## Customize image output
 

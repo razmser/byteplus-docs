@@ -20,7 +20,7 @@ This topic describes how to configure a self\-hosted environment from scratch, s
 
 ## Core concepts
 
-|Concept |Note |
+|Concept |Description |
 |---|---|
 |**Environment** |Agent runtime configuration. When `type` is `self_hosted`, it indicates a self\-hosted environment. |
 |**Worker** |An enterprise\-deployed process that polls the work queue and runs the primary agent's `bash`, `read`, `write`, `edit`, `glob`, and `grep` in the enterprise sandbox |
@@ -174,7 +174,7 @@ CSV
 test -s /workspace/input.csv
 ```
 
-This fixed input is used for the first tool call in step 5.`test` returns status code `0`, indicating that the file has been created and is not empty.
+This fixed input is used for the first tool call in step 5. `test` returns status code `0`, indicating that the file has been created and is not empty.
 
 **Go**
 
@@ -545,7 +545,7 @@ On the environment details page, confirm the following:
 
 ### Resident worker
 
-Suitable for direct execution on VMs, standalone containers, or existing isolated nodes.`EnvironmentWorker.run()` / `EnvironmentWorker.Run()` manages the complete lifecycle: polling, acknowledgment, heartbeats, enterprise\-side tool execution, result return, and work completion.
+Suitable for direct execution on VMs, standalone containers, or existing isolated nodes. `EnvironmentWorker.run()` / `EnvironmentWorker.Run()` manages the complete lifecycle: polling, acknowledgment, heartbeats, enterprise\-side tool execution, result return, and work completion.
 
 To scale out, start multiple worker processes or pods first, and set a separate `MA_WORKER_ID` for each instance. Do not let multiple workers share the same session working directory.
 

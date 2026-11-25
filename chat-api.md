@@ -1160,7 +1160,7 @@ Controls the online inference mode used.
 
 * `default`: This request only uses the [Online inference (standard)](online-inference-standard.md) mode, maintaining the standard service tier.
 
-   * Even if the inference endpoint being called has low latency throttling quota, it only uses the online inference (standard) mode.
+   * Even if the inference endpoint being called has low\-latency throttling quota, it uses only online inference (regular) mode.
 
 * `flex`: This request uses the [online inference (flex)](online-inference-flex.md) mode.
 
@@ -1174,9 +1174,11 @@ When the model encounters the string specified by the `stop` parameter, it will 
 
 * Kimi series (not available for BytePlus users) models support up to `5` stop words.
 
-Example: `["hello", "weather"]`.
+* DeepSeek V4, Kimi, and GLM series models support the `stop` parameter regardless of whether deep reasoning is enabled.
 
-> [Deep reasoning models](model-list.md#text-and-code) do not support this parameter by default, except for DeepSeek V4 models mentioned above.
+* Other [models with deep reasoning capabilities](model-list.md#text-and-code) support the `stop` parameter only when deep reasoning is disabled.
+
+Example: `["hello", "weather"]`.
 
 **stream** `boolean` `Default false`  |  Streaming response
 
@@ -1224,7 +1226,7 @@ It is generally recommended to adjust either `temperature` or `top_p`, while mod
 
 > **Note**
 
-* > For the `seed-2-0-pro-260328` and `seed-2-0-lite-260228` models, the **temperature** parameter is fixed as `1.0`, and manually specified parameter values are ignored.
+* > For the `seed-2-0-pro-260328` model, the **temperature** parameter is fixed as `1.0`, and manually specified parameter values are ignored.
 
 * > For `deepseek-v4-1-flash` series models, the **temperature** parameter does not take effect in reasoning mode.
 
@@ -1366,7 +1368,7 @@ It is generally recommended to adjust either `temperature` or `top_p`, while mod
 
 > **Note**
 
-* > For the `seed-2-0-pro-260328` and `seed-2-0-lite-260228` models, the top_p parameter is fixed as `0.95`, and manually specified parameter values are ignored.
+* > For the `seed-2-0-pro-260328` model, the top_p parameter is fixed as `0.95`, and manually specified parameter values are ignored.
 
 * > For the `glm-5-3-flash-260828` model, the default value is `0.95`.
 

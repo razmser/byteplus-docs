@@ -323,6 +323,24 @@ arkcli agent agent versions <agent-id>
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor/page number |
 
+### agent deployment
+
+Deployment command group (Volc only, arkcli v1.0.59): stores a reusable session\-launch configuration. Creating a Deployment does not run it; each manual or scheduled trigger produces an independent Run and Session, and Runs do not share conversation context.
+
+|Subcommand |Description |
+|---|---|
+|`deployment create` |Create a Deployment (does not run): \-\-name / \-\-agent\-id (\-\-agent\-version must accompany \-\-agent\-id; when no version is given the server pins the current version at save time) / \-\-environment\-id / \-\-initial\-events (JSON/YAML array or @file, 1–50 user.message entries or a single user.define_outcome) / \-\-resources / \-\-vault\-ids / \-\-tags / \-\-schedule ({type: cron, expression: five\-field cron, timezone: IANA timezone}) / \-\-file |
+|`deployment list` |List Deployments: \-\-agent\-id / \-\-status (active\|paused) / \-\-search / \-\-include\-archived / \-\-created\-at\-gte/lte / \-\-limit (≤100) / \-\-page (opaque cursor, copy next_page verbatim) / \-\-page\-all / \-\-page\-limit |
+|`deployment get <id>` |Show Deployment details |
+|`deployment update <id>` |Update configuration: \-\-schedule null removes the schedule while omitting preserves it; \-\-initial\-events cannot be null/empty on update; \-\-resources/\-\-vault\-ids null/[] clears, arrays replace wholesale |
+|`deployment pause <id>` / `deployment unpause <id>` |Pause / resume scheduled triggers; manual run still works while paused, and unpause does not backfill missed runs |
+|`deployment archive <id>` |Irreversible archive (requires \-\-yes); does not stop Sessions already created |
+|`deployment run <id>` |Trigger one run immediately, producing an independent Run and Session; not idempotent — on timeout or disconnect, query by Run ID before retrying |
+|`deployment runs list` |List runs: \-\-deployment\-id / \-\-trigger\-type (manual\|schedule) / \-\-has\-error / \-\-created\-at\-gt/lt / \-\-limit (≤1000) / \-\-page |
+|`deployment runs get <run-id>` |Show one run: a non\-empty error means launch failed; a non\-empty session_id only means the Session and initial_events were accepted — check Session events for task completion |
+
+Write commands support \-\-dry\-run (builds a local request plan only — no status queries, no archiving, no task launches); write requests are never auto\-retried, so verify with read\-only commands when the outcome is unclear.
+
 ### agent env create
 
 Create a managed agent environment
@@ -338,6 +356,9 @@ arkcli agent env create
 |`--description` |string |Environment description |
 |`--config` |string |Env config object |
 |`--setup-script` |string |Environment setup script, or @file; placed in Config.SetupScript |
+|`--template-id` |string |[Volc cloud env only] Environment template: base (default) \| browser (browser image; the server injects the configured version of the playwright\-cli Skill into the session's primary agent) (arkcli v1.0.59) |
+|`--build-script` |string |[Volc cloud env only] Pre\-build script (UTF\-8, ≤256KiB), or @file; placed in Config.BuildScript — used for pre\-building, distinct from the session\-init \-\-setup\-script (arkcli v1.0.59) |
+|`--spec` |string |[Volc cloud env only] Environment spec: 1x (2C4GiB) \| 2x (4C8GiB) \| 4x (8C16GiB) \| 8x (16C32GiB) (arkcli v1.0.59) |
 |`--metadata` |string |Metadata map object |
 |`--scope` |string |Environment scope |
 |`--runtime-type` |string |Environment runtime: cloud \| self_hosted (Config.Type) |
@@ -400,6 +421,9 @@ arkcli agent env update <environment-id>
 |`--description` |string |Environment description |
 |`--config` |string |Env config object |
 |`--setup-script` |string |Environment setup script, or @file; placed in Config.SetupScript |
+|`--template-id` |string |[Volc cloud env only] Environment template: base \| browser; omitted preserves the current value (arkcli v1.0.59) |
+|`--build-script` |string |[Volc cloud env only] Pre\-build script, or @file; omitted preserves, empty string clears (arkcli v1.0.59) |
+|`--spec` |string |[Volc cloud env only] Environment spec: 1x \| 2x \| 4x \| 8x; omitted preserves the current value (arkcli v1.0.59) |
 |`--metadata` |string |Metadata map object |
 |`--scope` |string |Environment scope |
 
@@ -754,6 +778,7 @@ arkcli agent session create
 |`--tags` |string |Tags map or tag array |
 |`--agent-overrides` |string |AgentWithOverrides object; inline JSON/YAML or @file |
 |`--environment-overrides` |string |EnvironmentWithOverrides object; inline JSON/YAML or @file |
+|`--initial-events` |string |[Volc only] Initial events submitted immediately at creation (JSON/YAML array or @file, Open snake_case); when explicitly provided, creation switches to the Open data plane and returns a snake_case Session (arkcli v1.0.59) |
 
 ### agent session delete
 
@@ -1368,3 +1393,20 @@ arkcli agent vault update <vault-id>
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--display-name` |string |Vault display name |
 |`--metadata` |string |Metadata map object |
+
+### agent webhook
+
+Webhook command group (Volc only, arkcli v1.0.59): asynchronously delivers resource changes and run states of the current account, Region and Project to the user's HTTP(S) receiver. A project\-level subscription — not a Session callback parameter and not a Lark Channel; payloads carry no model tokens, tool outputs or full resource snapshots. Up to 20 endpoints per project (including disabled ones).
+
+|Subcommand |Description |
+|---|---|
+|`webhook create` |Create an endpoint: requires \-\-url, \-\-events (repeatable or comma\-separated) and \-\-secret\-file; optional \-\-description / \-\-file (Url/Events/Description fields only, flags override). Returns wep\-\*; the signing secret is written only to the given 0600 file (never overwritten) and is never printed to stdout |
+|`webhook list` |List endpoints (Result array, unpaginated): \-\-status ACTIVE\|DISABLED |
+|`webhook get <endpoint-id>` |Read back URL, Events, Status, failure counts and recent delivery info (no secret) |
+|`webhook update <endpoint-id>` |Update \-\-url / \-\-events / \-\-description (at least one; omitted fields are preserved); \-\-events replaces the full subscription list on update, not append |
+|`webhook enable <endpoint-id>` / `webhook disable <endpoint-id>` |Enable / disable; enabling affects only future events — no replay of history and no restoration of cancelled deliveries |
+|`webhook delete <endpoint-id>` |Delete the endpoint, erase the signing secret and cancel pending deliveries (requires \-\-yes) |
+|`webhook reset-secret <endpoint-id>` |Rotate the signing secret immediately (\-\-secret\-file, requires \-\-yes); the old secret is invalidated at once — coordinate the receiver to switch keys |
+|`webhook test <endpoint-id>` |Send a real webhook.test event (requires \-\-yes); the returned whe\-\* only means enqueued |
+|`webhook events list <endpoint-id>` |List delivery events: \-\-limit (1–100 per page) / \-\-page (opaque cursor) / \-\-event\-id / \-\-event\-type |
+|`webhook events get <endpoint-id> <event-id>` |Show the event and its Delivery for this endpoint — the way to tell whether delivery actually succeeded |

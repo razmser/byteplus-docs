@@ -162,7 +162,7 @@ The API returns HTTP 200 to indicate that the cancellation request has been proc
 |`state` is `queued` or `running`, with a `message` |The task could not be canceled at the current execution stage, such as when video generation has already started. |Continue querying until the task ends naturally. |
 |Another terminal state is returned |The task had already ended before the cancellation request was processed. |Handle the result according to the returned status. |
 
-If you need to stop a specific task, use the cancel task API first.`user.interrupt` interrupts the current execution process of the session, finds tasks in the current session whose status is `queued` or `running`, and then attempts to cancel them one by one. This process is not atomic. If cancellation of a single task fails, other tasks will still continue to be processed; it also does not guarantee that all tasks have stopped. When multiple background tasks exist in a session, do not use it as a substitute for cancellation by `task_id`.
+If you need to stop a specific task, use the cancel task API first. `user.interrupt` interrupts the current execution process of the session, finds tasks in the current session whose status is `queued` or `running`, and then attempts to cancel them one by one. This process is not atomic. If cancellation of a single task fails, other tasks will still continue to be processed; it also does not guarantee that all tasks have stopped. When multiple background tasks exist in a session, do not use it as a substitute for cancellation by `task_id`.
 
 ## Handle events after task completion
 
