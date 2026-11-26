@@ -1555,7 +1555,7 @@ Use the `watermark` parameter to control whether an AI\-generated watermark is a
 
 * When the generated video does not meet expectations, it is recommended to modify the prompt, replace abstract descriptions with concrete ones, remove unimportant parts, and place important content at the front.
 
-* For more prompt usage tips, see [Seedance-1.0-pro&pro-fast prompt guide](seedance-1-0-pro-pro-fast.md).
+* For more prompt usage tips, see [Dreamina Seedance 2.0 series prompt guide](seedance-2-0-prompt-guide.md).
 
 # Advanced usage
 

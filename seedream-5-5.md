@@ -29,7 +29,7 @@ Seedream 5.5 builds on the image\-generation and layer\-decomposition capabiliti
 ||Image\-to\-image |✓, up to 10 reference images; no alpha channel required for inputs |✓, one PNG reference image with an alpha channel |✓, one PNG reference image with an alpha channel |
 |Maximum output count for layer decomposition ||✓, 2\-100 images including the base image and layers |— |— |
 |[Rich-text OCR](seedream-5-5.md#rich-text-ocr) ||✓ |— |— |
-|Model parameters |Resolution<br><br>> Image generation<br><br><br> |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |
+|Model parameters |Resolution<br><br>> Image generation<br><br><br> |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2880x2880`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |
 ||Resolution<br><br>> Layer decomposition<br><br><br> |1K, 1.5K, 2K, auto (default) |1K, 1.5K, 2K, auto (default) |1K, 1.5K, 2K, auto (default) |
 ||Output format |png (default), jpeg |png, jpeg (default) |png, jpeg (default) |
 ||Background type<br><br>> Image generation<br><br><br> |auto (default), transparent, opaque |transparent, opaque (default) |transparent, opaque (default) |
@@ -1090,9 +1090,9 @@ Describe aspect ratio, image shape, or use in `prompt`; the model determines the
 
 **Method 2: Specify pixel dimensions (** **`widthxheight`** **)**
 
-* Total pixels: [`1280x720` (921600), `2048x2048x1.1025` (4624220)]
+* **Total pixel range**: [`1280x720` (921600), `2880x2880` (8294400)]
 
-* Aspect ratio: [1/16, 16]
+* **Aspect ratio range**: [1/16, 16]
 
 > **Pixel dimensions**
 

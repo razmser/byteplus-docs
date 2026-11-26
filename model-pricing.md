@@ -312,7 +312,7 @@ To get more estimated prices, please use the [Price Calculator - SD 1.0 Pro](htt
 
 |Model ID |Input image |Output image<br><br>> P is the total pixel count of a single output image. |
 |---|---|---|
-|`dola-seedream-5-5-261028` |$0.008 |* 921,600 ≤ P ≤ 1536² × 1.05² (2,601,123.84): $0.020<br><br>* 1536² × 1.05² (2,601,123.84) < P ≤ 2048² × 1.05² (4,624,220.16): $0.035 |
+|`dola-seedream-5-5-261028` |$0.008 |* 921,600 ≤ P ≤ 1536² × 1.05² (2,601,123.84): $0.020<br><br>* 1536² × 1.05² (2,601,123.84) < P ≤ 2048² × 1.05² (4,624,220.16): $0.035<br><br>* 2048² × 1.05² (4,624,220.16) < P ≤ 2880² (8,294,400): $0.079 |
 |`dola-seedream-5-0-pro-260628` |* First image: Free<br><br>* From the second image: $0.003<br><br>> Pricing varies by image generation scenario. |* Single\-image generation:<br><br>   * P ≤ 2.61 million (1.5K or lower): $0.045<br><br>   * P \> 2.61 million (higher than 1.5K): $0.09<br><br>* Layer decomposition:<br><br>   * P ≤ 2.61 million (1.5K or lower): $0.0225<br><br>   * P \> 2.61 million (higher than 1.5K): $0.045 |
 |`dola-seedream-5-0-flash-260915` |Free |$0.018 |
 |`seedream-5-0-lite-260128` |Free |$0.035 |

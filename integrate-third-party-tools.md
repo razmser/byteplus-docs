@@ -303,11 +303,11 @@ The following uses `dola-seed-2-1-turbo-260628` as an example. The configuration
 
    * > Windows: `C:\Users\<username>\.claude.json`
 
-```JSON
-{
-  "hasCompletedOnboarding": true
-}
-```
+   ```JSON
+   {
+     "hasCompletedOnboarding": true
+   }
+   ```
 
 After saving the configuration file, run the subsequent commands in a new terminal window.
 
@@ -501,7 +501,7 @@ opencode --version
 
 * Windows: C:\Users<your_username\>.config\opencode\opencode.json
 
-Using the model `seed-1-8-251228` as an example, the configuration is as follows.
+Using the model `seed-2-0-lite-260428` as an example, the configuration is as follows.
 
 > **Tip**
 
@@ -521,8 +521,8 @@ Using the model `seed-1-8-251228` as an example, the configuration is as follows
             "apiKey": "<ARK_API_KEY>"
           },
           "models": {
-        "seed-1-8-251228": { 
-          "name": "seed-1-8-251228"
+        "seed-2-0-lite-260428": { 
+          "name": "seed-2-0-lite-260428"
         }
           }
         }
@@ -538,7 +538,7 @@ Using the model `seed-1-8-251228` as an example, the configuration is as follows
    opencode
    ```
 
-2. Enter `/models`, select the configured `seed-1-8-251228` model, and use it in OpenCode.
+2. Enter `/models`, select the configured `seed-2-0-lite-260428` model, and use it in OpenCode.
 
 ## Integrate second\-party/third\-party MCP servers
 
@@ -618,8 +618,8 @@ The installation command in a Windows PowerShell environment is as follows:
         "api": "openai-completions",
         "models": [
           {
-            "id": "seed-1-8-251228",
-            "name": "seed-1-8-251228"
+            "id": "seed-2-0-lite-260428",
+            "name": "seed-2-0-lite-260428"
           }
         ]
       }
@@ -628,10 +628,10 @@ The installation command in a Windows PowerShell environment is as follows:
   "agents": {
     "defaults": {
       "model": {
-        "primary": "byteplus/seed-1-8-251228"
+        "primary": "byteplus/seed-2-0-lite-260428"
       },
       "models": {
-        "byteplus/seed-1-8-251228": {}
+        "byteplus/seed-2-0-lite-260428": {}
       }
     }
   },
@@ -675,8 +675,8 @@ The installation command in a Windows PowerShell environment is as follows:
         "api": "openai-completions",
         "models": [
           {
-            "id": "seed-1-8-251228",
-            "name": "seed-1-8-251228"
+            "id": "seed-2-0-lite-260428",
+            "name": "seed-2-0-lite-260428"
           }
         ]
       }
@@ -685,10 +685,10 @@ The installation command in a Windows PowerShell environment is as follows:
   "agents": {
     "defaults": {
       "model": {
-        "primary": "byteplus/seed-1-8-251228"
+        "primary": "byteplus/seed-2-0-lite-260428"
       },
       "models": {
-        "byteplus/seed-1-8-251228": {}
+        "byteplus/seed-2-0-lite-260428": {}
       }
     }
   },

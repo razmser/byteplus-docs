@@ -500,7 +500,7 @@ Configuration file path on Windows: `%USERPROFILE%\.config\opencode\opencode.jso
 
    3. Select **Expand thinking** to view the model's reasoning output.
 
-   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/beb557544bfe466bbc41b242c8ecf7cb~tplv-goo7wpa0wc-image.image)
+      ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/beb557544bfe466bbc41b242c8ecf7cb~tplv-goo7wpa0wc-image.image)
 
 # Error code
 

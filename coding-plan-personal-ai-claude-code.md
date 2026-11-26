@@ -228,11 +228,11 @@ Windows Claude Code configuration file path: `C:\Users\<username>\.claude\settin
 
    * > Windows: `C:\Users\<username>\.claude.json`
 
-```JSON
-{
-  "hasCompletedOnboarding": true
-}
-```
+   ```JSON
+   {
+     "hasCompletedOnboarding": true
+   }
+   ```
 
 After saving the configuration file, execute subsequent commands in a new terminal window.
 
@@ -266,7 +266,7 @@ If the following prompt appears, it may be because you have previously logged in
 
    > [How to enable thinking mode in Claude Code?](coding-plan-personal-faq.md#5e379f69)
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/631742d8a5814d68a5cbc62988ba8cab~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/631742d8a5814d68a5cbc62988ba8cab~tplv-goo7wpa0wc-image.image)
 
 # Switch models
 

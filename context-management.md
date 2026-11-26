@@ -1021,7 +1021,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "seed-2-0-lite-260228",
+    "model": "seed-2-1-turbo-260915",
     "messages": [
         {
             "role": "system",
@@ -1097,7 +1097,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "seed-2-0-lite-260228",
+    "model": "seed-2-1-turbo-260915",
     "messages": [
         {
             "role": "system",
@@ -1160,7 +1160,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
     -H "Authorization: Bearer $ARK_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "seed-2-0-lite-260228",
+        "model": "seed-2-1-turbo-260915",
         "input": [
             {
                 "role": "system",
@@ -1201,7 +1201,7 @@ The information returned by the model contains key parameters such as `id`, `cal
     "created_at": 1766126702,
     "id": "resp_0217661267019147d8950efa0e2f7c9d9cc7a1cc971272cf4548c",
     "max_output_tokens": 32768,
-    "model": "seed-2-0-lite-260228",
+    "model": "seed-2-1-turbo-260915",
     "object": "response",
     "output": [
         {
@@ -1237,7 +1237,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
     -H "Authorization: Bearer $ARK_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "seed-2-0-lite-260228",
+        "model": "seed-2-1-turbo-260915",
         "input": [
             {
                 "type": "function_call_output",

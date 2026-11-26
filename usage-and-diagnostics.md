@@ -44,7 +44,7 @@ arkcli billing list
 |`--mine-by` |string |Scope of \-\-mine: endpoint (default, 'infra ownership' — total spend on endpoints I deployed, regardless of caller) \| apikey (cost causation — bills caused by my API keys). Two views never overlap and cannot be added together: endpoint rolls up by which infra was used; apikey rolls up by who paid. Default aligns with usage stats \-\-mine\-by. |
 |`--limit` |int |Pagination mode: return at most N rows per wire call (1\-300). In multi fan\-out (\-\-end / \-\-mine), this applies per fan\-out; total returned ≤ limit × fanout_count. Always check is_truncated + partial_failures summary before summing. |
 |`--offset` |int |Pagination mode: skip N rows per wire call. Loop offset += limit until offset \>= total_records (single fan\-out) or use shell loop for multi fan\-out. |
-|`--output` |string |Write the full Output (items + summary + partial_failures) to FILE as JSON; stdout shows metadata only (items omitted). Auto\-raises the internal page cap to 1000 (300k rows) so large accounts can dump full detail in one go; user \-\-page\-limit=N still wins. |
+|`--output` |string |Write the full Output (items + summary + partial_failures) to FILE as JSON; stdout shows metadata only (items omitted). Auto\-raises the internal page cap to 1000 (300k rows) so large accounts can dump full detail in one go; an explicit \-\-page\-limit=N still takes precedence. |
 
 ## doctor
 
@@ -64,7 +64,7 @@ arkcli doctor monitor collect --endpoint <endpoint-id> --metric request.rpm.by_a
 
 |Subcommand |Description |
 |---|---|
-|`monitor collect` |Collect metric series; \-\-endpoint selects the endpoint (mutually exclusive with \-\-mine / \-\-model / \-\-name\-regex / \-\-status), repeatable \-\-metric, \-\-window (default 5m) / \-\-step / \-\-range time window, \-\-summary\-only for the summary only |
+|`monitor collect` |Collect metric series; \-\-endpoint selects the endpoint (mutually exclusive with \-\-mine / \-\-model / \-\-name\-regex / \-\-status), repeatable \-\-metric, \-\-window (default 5m) / \-\-step / \-\-range time window, \-\-summary\-only prints only the summary |
 |`monitor snapshot` |Capture a point\-in\-time metric snapshot of the endpoint selected via \-\-endpoint |
 |`monitor watch` |Continuous watch on the endpoint selected via \-\-endpoint; \-\-interval (default 15s), \-\-duration (default 5m), \-\-alert\-on threshold alerting, \-\-alert\-for consecutive\-alert count |
 |`monitor top` |Top endpoints by usage |
@@ -99,7 +99,7 @@ arkcli doctor account
 
 ### doctor error
 
-Diagnose an Ark error code and route to its fix reference
+Diagnose an Ark error code and route to the corresponding fix reference
 
 ```Bash
 arkcli doctor error <code>
@@ -130,7 +130,7 @@ arkcli doctor metrics <id>
 |---|---|---|
 |`--auto-bind` |bool |When BytePlus VMP and the ModelArk service\-linked role are ready but no workspace is bound, reuse the first workspace or create ark_default and bind ModelArk telemetry (if the subscription / cross\-service authorization is missing, still provide the LinkOpenMgmtCloudProduct link; do not enable it for the user) |
 |`--filter` |stringArray |Inject an extra label\-matcher (repeatable, label=value); template must declare a ${@filters} directive (default: []) |
-|`--format` |string |Output shape (bare\-form 'metrics' only — list/describe always print JSON): json \| scalar \| table |
+|`--format` |string |Output format (only for the bare form 'metrics' — list/describe always print JSON): json \| scalar \| table |
 |`--param` |stringArray |Bind a catalog parameter (repeatable, key=value) (default: []) |
 |`--step` |string |Sample step (Go duration; default = window/60 clamped to [10s,60s]) |
 |`--window` |string |Lookback window (Go duration; '7d' not supported) (default: 1h) |
@@ -184,7 +184,7 @@ arkcli doctor model <model-name>
 
 ## usage
 
-ModelArk usage queries: `usage stats` (tokens/requests, 5\-30 min delay), `usage plan` (plan quota snapshot), `usage balance` (free quota / media asset library / plan), `usage seats --with-usage` (team seat usage).
+ModelArk usage queries: `usage stats` (tokens/requests, 5\-30 min delay), `usage plan` (plan quota snapshot), `usage plan-details` (Agent Plan per\-model time series, in\-plan vs out\-of\-plan), `usage balance` (free quota / media asset library / plan), `usage seats --with-usage` (team seat usage).
 
 * stats reports inference volume (near realtime); billing reports settled amounts (T+1 financial view) — never mix the two;
 
@@ -206,13 +206,13 @@ arkcli usage balance
 |`--page-number` |int |[free\-quota] Page number (1\-based) |
 |`--page-size` |int |[free\-quota] Page size (default 20; reduced from 50 to keep ListModelChargeItems within the 10s timeout budget) |
 |`--project` |string |[media\-asset] Project scope; defaults to active profile project |
-|`--product` |string |[plan] Plan id: coding\-plan \| coding\-plan\-team \| agent\-plan\-team\-shared\-pool (Agent Plan Team shared package, the only Agent Plan usage offered on BytePlus, arkcli v1.0.64) |
-|`--all` |bool |[plan] Query Coding Plan subscriptions even if not subscribed |
+|`--product` |string |[plan] Plan id: agent\-plan \| agent\-plan\-team \| coding\-plan \| coding\-plan\-team \| agent\-plan\-team\-shared\-pool (full Agent Plan support since arkcli v1.0.66) |
+|`--all` |bool |[plan] Query all supported personal plans, even if not subscribed |
 |`--seat` |string |[plan] Filter to a specific SeatID (team\-edition only) |
 
 ### usage plan
 
-Query Coding Plan and Coding Plan Team quota and period usage
+Query Agent Plan / Coding Plan quota and period usage (full Agent Plan support since arkcli v1.0.66)
 
 ```Bash
 arkcli usage plan
@@ -220,15 +220,39 @@ arkcli usage plan
 
 |Flag |Type |Description |
 |---|---|---|
-|`--product` |string |Plan product id: coding\-plan \| coding\-plan\-team \| agent\-plan\-team\-shared\-pool (Agent Plan Team shared package, arkcli v1.0.64; exposes only the monthly period and requires an enterprise administrator). Default = auto\-discover Coding Plan subscriptions. |
+|`--product` |string |Plan product id: agent\-plan \| agent\-plan\-team \| coding\-plan \| coding\-plan\-team \| agent\-plan\-team\-shared\-pool (shared package exposes only the monthly period and requires an enterprise administrator, arkcli v1.0.64). Default = auto\-discover all subscriptions. |
 |`--plan` |string |Mutually exclusive alias of \-\-product (arkcli v1.0.64) |
-|`--all` |bool |Query coding\-plan and coding\-plan\-team even if not subscribed. Mutually exclusive with \-\-product. |
+|`--all` |bool |Query all supported plans even if not subscribed. Mutually exclusive with \-\-product. |
 |`--seat` |string |[team] Specific SeatID; defaults to caller's bound seat via GetSeatInfo |
 |`--seat-ids` |string |Mutually exclusive alias of \-\-seat; accepts exactly one SeatID (arkcli v1.0.64) |
 
+### usage plan\-details
+
+Query Agent Plan usage details (per\-model time series) for personal or team subscription. Requires \-\-start; \-\-end defaults to today; \-\-interval defaults to Day. Coding Plan has no per\-model details endpoint — do not substitute stats.
+
+```Bash
+arkcli usage plan-details
+```
+
+|Flag |Type |Description |
+|---|---|---|
+|`--start` |string (required) |Start date (YYYY\-MM\-DD). Required. Backend limits range ≤ 31 days, history ≤ 6 months. |
+|`--end` |string |End date (YYYY\-MM\-DD, inclusive). Default = today. |
+|`--interval` |string |Query granularity: Day \| Hour |
+|`--model` |string_slice |Filter by customer\-facing model/harness ObjectName (repeatable). Omit to skip group\-by\-model. |
+|`--product` |string |agent\-plan (default, personal) \| agent\-plan\-team \| agent\-plan\-team\-shared\-pool (shared package, arkcli v1.0.64) |
+|`--plan` |string |Mutually exclusive alias of \-\-product (plan family): agent\-plan \| agent\-plan\-team \| coding\-plan \| coding\-plan\-team (arkcli v1.0.64) |
+|`--type` |string |Pass agent\-plan\-team\-shared\-pool with \-\-plan agent\-plan\-team to query shared\-package details (arkcli v1.0.64) |
+|`--project-name` |string |[shared package] Project scope (default: default) (arkcli v1.0.64) |
+|`--seat` |string_slice |[team] SeatID (repeatable, single call ≤ 1000); defaults to caller's bound seat via GetSeatInfo |
+|`--seat-ids` |string_slice |Mutually exclusive alias of \-\-seat; comma\-separated SeatIDs (arkcli v1.0.64) |
+|`--all-seats` |bool |[team, admin] ListSeatInfos to fetch all seat IDs in the team, then batch query (overridden by \-\-seat if both given) |
+|`--seat-user-id` |string_slice |[team] Server\-side filter by sub\-user ID (repeatable, admin\-scope) |
+|`--seat-user-name` |string_slice |[team] Server\-side filter by sub\-user name (repeatable, admin\-scope) |
+
 ### usage seats
 
-List Coding Plan Team seats (admin view). Requires admin permission; sub\-user calls return AccessDenied.
+List Agent Plan Team / Coding Plan Team seats (admin view). Requires admin permission; sub\-user calls return AccessDenied.
 
 ```Bash
 arkcli usage seats
@@ -236,8 +260,8 @@ arkcli usage seats
 
 |Flag |Type |Description |
 |---|---|---|
-|`--product` |string (required) |Team plan id (required): coding\-plan\-team |
-|`--biz-info` |string |Filter by Coding Plan tier: lite \| pro |
+|`--product` |string (required) |Team plan id (required): agent\-plan\-team \| coding\-plan\-team |
+|`--biz-info` |string |Filter by tier: small/medium/large/max (AgentPlan) \| lite/pro (CodingPlan) |
 |`--billing-status` |string_slice |Filter by billing status (repeatable): Pending / Running / Expired / Reclaimed |
 |`--seat-status` |string |Filter by seat status: Idle / Active |
 |`--user-id` |string_slice |Filter by sub\-user ID (repeatable; \>1 triggers client\-side fan\-out per user, results merged & deduped by SeatID) |
@@ -248,7 +272,7 @@ arkcli usage seats
 |`--page-number` |int |1\-based page number; pass to disable auto\-paginate and fetch a single page |
 |`--sort-by` |string |Sort field |
 |`--sort-order` |string |Sort order: ASC \| DESC |
-|`--with-usage` |bool |Join Coding Plan Team per\-seat usage. Adds coding_usage to each row. |
+|`--with-usage` |bool |[Team product only] Join per\-seat usage: AgentPlan→ListSeatAFPUsage (used/total/percent), CodingPlan→ListSeatInfoUsages (percent only). Adds afp_usage / coding_usage to each row. |
 
 ### usage stats
 

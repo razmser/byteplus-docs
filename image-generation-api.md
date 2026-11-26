@@ -218,15 +218,15 @@ Choose one of the following methods; do not combine them:
 
 * Method 2: Specify width and height in pixels (`widthxheight`).
 
-   * Total pixels: [`1280x720` (921,600), `2048x2048x1.1025` (4,624,220)]
+   * **Total pixel range**: [`1280x720` (921,600), `2880x2880` (8,294,400)]
 
-   * Aspect ratio: [1/16, 16]
+   * **Aspect ratio range**: [1/16, 16]
 
 > **tip**
 
 > For method 2, both the total\-pixel and aspect\-ratio ranges must be met. Total pixels are the product of a single image's width and height, not limits on either dimension separately.
 
-* > **Valid example**: `2880x1440`. It has 4,147,200 pixels, within [921,600, 4,624,220], and an aspect ratio of 2, within [1/16, 16].
+* > **Valid example**: `2880x1440`. It has 4,147,200 pixels, within [921,600, 8,294,400], and an aspect ratio of 2, within [1/16, 16].
 
 * > **Invalid example**: `512x512`. It has 262,144 pixels, below the minimum of 921,600.
 

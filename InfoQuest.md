@@ -16,7 +16,7 @@ If you need to equip your AI model with real\-time internet search capabilities,
 
    * `Authorization` authorization information: as shown in the figure below.
 
-   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e36f997ff1f84c1bbd05e6108f54a4e4~tplv-goo7wpa0wc-image.image)
+      ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e36f997ff1f84c1bbd05e6108f54a4e4~tplv-goo7wpa0wc-image.image)
 
 ## **Procedure**
 

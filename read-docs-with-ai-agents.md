@@ -6,7 +6,7 @@ Use the ModelArk `llms.txt` index to discover documentation and fetch only the r
 
 |Priority |Method |Use case |Description |
 |---|---|---|---|
-|1 |[llms.txt files](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/read-ark-docs-with-llms-txt) |The agent needs to discover relevant pages or retrieve bulk content |Use `llms.txt` to discover documents. Use `llms-full.txt` or a full\-section file for a knowledge base or offline retrieval. |
+|1 |[llms.txt files](read-ark-docs-with-llms-txt.md) |The agent needs to discover relevant pages or retrieve bulk content |Use `llms.txt` to discover documents. Use `llms-full.txt` or a full\-section file for a knowledge base or offline retrieval. |
 |2 |[Markdown mirror](read-docs-from-urls.md#read-markdown) |The target page URL is known and only the document body is needed |Append `.md` to the documentation page URL to receive `text/markdown` without navigation and styling code from the HTML page. |
 |3 |[HTML page](read-docs-from-urls.md#read-html) |The agent can only use a web\-reading tool, or no Markdown mirror is available |Web\-reading tools can usually extract the body, but raw HTML also includes navigation, scripts, styles, and page metadata that add irrelevant context. |
 
@@ -37,8 +37,8 @@ Add the following rules to the system prompt of an agent.
 ```text
 Before answering product questions, read the latest official documentation in this order:
 The current site documentation URL prefix is https://ai.byteplus.com/ark/region:ap-southeast-1/docs.
-1. Fetch https://ai.byteplus.com/ark/llms.txt.
-   Locate relevant pages by title and summary, then fetch their Markdown links.
+1. Fetch https://ai.byteplus.com/ark/llms.txt
+   and locate relevant pages by title and summary, then fetch their Markdown links.
 2. For a knowledge base or offline retrieval, fetch
    https://ai.byteplus.com/ark/llms-full.txt or a Full section link in llms.txt.
    Do not inject the complete full-site file into one conversation.
@@ -61,7 +61,7 @@ The current site documentation URL prefix is https://ai.byteplus.com/ark/region:
 
 ## Related documents
 
-* Discover pages or retrieve a section or the full site. See [llms.txt](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/read-ark-docs-with-llms-txt).
+* Discover pages or retrieve a section or the full site. See [llms.txt](read-ark-docs-with-llms-txt.md).
 
 * Read a Markdown mirror or an HTML page directly. See [From URLs](read-docs-from-urls.md).
 

@@ -2,15 +2,12 @@
 
 Data\-plane workflows and the records they produce: the `+chat`, `+gen` and `+understand` workflows, plus the domains that query their sessions and tasks afterwards.
 
-
-* Open\-ended dialogue uses `+chat`, tasks with a defined output shape use `+understand`, generation uses `+gen`;
+* Open\-ended dialogue uses `+chat`, tasks with a defined output format use `+understand`, generation uses `+gen`;
 
 * `chat` and `gen` manage data\-plane artifacts after the fact (`get` / `list` / `delete`) and never start a new call themselves;
 
 * All three workflows accept a temporary API key / base URL / endpoint, so scripts and CI runs are reproducible.
 
-
-<span id="chat-command"></span>
 ## +chat
 
 Fast chat / reasoning via the Responses API (multimodal with @file)
@@ -18,8 +15,6 @@ Fast chat / reasoning via the Responses API (multimodal with @file)
 ```Bash
 arkcli +chat <prompt>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -40,7 +35,7 @@ arkcli +chat <prompt>
 |`--caching` |string |Server\-side prompt cache: enabled \| disabled |
 |`--cache-prefix` |bool |Enable prefix\-cache mode (only meaningful with \-\-caching enabled) |
 |`--thinking` |string |Internal reasoning: auto \| enabled \| disabled |
-|`--expire-at` |int |Stored response GC timestamp (epoch seconds; only meaningful with \-\-store) |
+|`--expire-at` |int |Expiry timestamp for the stored response (epoch seconds; only meaningful with \-\-store) |
 |`--include-events` |bool |Stream mode only: emit each SDK event as one NDJSON line on stdout instead of human\-readable text |
 |`--text-format` |string |Output format: text \| json_object \| json_schema |
 |`--text-schema` |string |Path to a JSON Schema file (required when \-\-text\-format=json_schema) |
@@ -48,8 +43,6 @@ arkcli +chat <prompt>
 |`--text-strict` |bool |Force strict schema compliance (only meaningful with \-\-text\-format=json_schema) |
 |`--no-progress` |bool |Suppress the periodic stderr heartbeat shown during non\-stream calls |
 
-
-<span id="gen-command"></span>
 ## +gen
 
 Generate an asset from a prompt (image returns inline; video returns a task id immediately — pass \-\-wait to block until the video finishes)
@@ -57,8 +50,6 @@ Generate an asset from a prompt (image returns inline; video returns a task id i
 ```Bash
 arkcli +gen <prompt>
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -82,7 +73,7 @@ arkcli +gen <prompt>
 |`--response-format` |string |Image response format: url \| b64_json (image task; server default url) |
 |`--prompt-thinking` |string |Optimize\-prompt thinking mode: auto \| enabled \| disabled (image task; only relevant when \-\-optimize\-prompt is set) |
 |`--prompt-mode` |string |Optimize\-prompt mode: standard \| fast (image task) |
-|`--sequential` |string |Sequential image generation: auto \| disabled. Empty leaves arkcli's automatic auto\-mode (when \-\-image\-count \> 1) in place; pass disabled to force single\-image generation even with \-\-image\-count \> 1 |
+|`--sequential` |string |Sequential image generation: auto \| disabled. Empty keeps arkcli's automatic behavior (enabled when \-\-image\-count \> 1); pass disabled to force single\-image generation even with \-\-image\-count \> 1 |
 |`--ratio` |string |Output aspect ratio override, e.g. 16:9 / 9:16 / 1:1 (video task) |
 |`--camera-fixed` |bool |Lock the virtual camera (video task) |
 |`--return-last-frame` |bool |Return last frame URL alongside final video (video task) |
@@ -96,13 +87,12 @@ arkcli +gen <prompt>
 |`--extra-body` |string |Forward\-compat JSON object whose keys merge into the top\-level wire request, e.g. \-\-extra\-body '{"new_field":"value"}' (video task) |
 |`--tools` |string_slice |Enable a tool; currently supports web_search. Repeatable. |
 |`--stream` |bool |Stream image generation frames as NDJSON (image task only); each line is one image_generation.\* event JSON |
-|`--save-to` |string |Directory to save generated asset locally (default: current dir; pass \-\-save\-to="" to disable) (default: .) |
+|`--save-to` |string |Directory to save generated asset locally (default: current dir; pass \-\-save\-to="" to disable) |
 |`--force` |bool |Skip per\-model supported_params validation and submit as\-is (escape hatch when the model catalog is stale) |
 |`--open` |bool |Open the generated asset(s) with the OS default app after download. Default: auto — opens only when stdout is an interactive terminal (a human ran it), stays quiet under agents/pipes/CI. Pass \-\-open to force on, \-\-no\-open to force off. |
 |`--no-open` |bool |Never auto\-open the generated asset(s), even on an interactive terminal (overrides the auto/\-\-open default). |
+|`--no-gallery` |bool |Do not copy generated images into the product state gallery (also controlled by ARKCLI_NO_GALLERY) |
 
-
-<span id="understand-command"></span>
 ## +understand
 
 Multimodal understanding (image/doc/video) via sub\-skills over the Responses API; omit the sub\-skill to auto\-route by \-\-input modality
@@ -110,8 +100,6 @@ Multimodal understanding (image/doc/video) via sub\-skills over the Responses AP
 ```Bash
 arkcli +understand <sub-skill|prompt> [prompt]
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -129,19 +117,14 @@ arkcli +understand <sub-skill|prompt> [prompt]
 |`--no-progress` |bool |Suppress the periodic stderr heartbeat shown during non\-stream calls |
 |`--timeout` |string |Maximum time for local file preparation and inference (for example 2m or 10m) |
 
-
-<span id="domain-chat"></span>
 ## chat
 
 Conversation record management: `chat get` inspects history, `chat delete` removes records, `chat list-input-items` lists session inputs.
-
 
 * Data\-plane artifacts: records are produced by Responses API calls such as `+chat`; this domain handles post\-hoc query and cleanup;
 
 * Read\-mostly; deletion has a confirmation gate.
 
-
-<span id="chat-delete-command"></span>
 ### chat delete
 
 Delete a stored response by ID
@@ -150,8 +133,6 @@ Delete a stored response by ID
 arkcli chat delete <response-id>
 ```
 
-
-<span id="chat-get-command"></span>
 ### chat get
 
 Fetch a stored response by ID
@@ -160,14 +141,10 @@ Fetch a stored response by ID
 arkcli chat get <response-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
-|`--include` |string_slice |Include hint (image_url\|audio_url\|encrypted_content); repeat for multiple. NOTE: SDK ↔ backend versions can drift — current production accepts none of the documented values on some accounts; if you hit `Invalid value for 'include'` simply drop the flag |
+|`--include` |string_slice |Include hint (image_url\|audio_url\|encrypted_content); repeat for multiple. If the server returns `Invalid value for 'include'`, the account or model may not support these values — retry without the flag |
 
-
-<span id="chat-list-input-items-command"></span>
 ### chat list\-input\-items
 
 Page through a stored response's input items
@@ -176,29 +153,22 @@ Page through a stored response's input items
 arkcli chat list-input-items <response-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--after` |string |Cursor: list items after this item ID |
 |`--before` |string |Cursor: list items before this item ID |
 |`--limit` |int |Page size (1\-100, server default 20) |
 |`--order` |string |Sort order: asc \| desc (server default desc) |
-|`--include` |string_slice |Include hint (image_url\|audio_url\|encrypted_content); repeat for multiple. NOTE: SDK ↔ backend versions can drift — current production accepts none of the documented values on some accounts; if you hit `Invalid value for 'include'` simply drop the flag |
+|`--include` |string_slice |Include hint (image_url\|audio_url\|encrypted_content); repeat for multiple. If the server returns `Invalid value for 'include'`, the account or model may not support these values — retry without the flag |
 
-
-<span id="domain-gen"></span>
 ## gen
 
 Generation task record management: `gen get` queries task details and results, `gen list` shows history, `gen delete` removes records.
-
 
 * Tasks are produced by the `+gen` workflow; this domain handles post\-hoc query, retrieval, and cleanup;
 
 * Video tasks execute asynchronously — poll status until rendering completes.
 
-
-<span id="gen-delete-command"></span>
 ### gen delete
 
 Delete an async content\-generation task by ID (must confirm with \-\-yes when non\-interactive)
@@ -207,14 +177,10 @@ Delete an async content\-generation task by ID (must confirm with \-\-yes when n
 arkcli gen delete <task-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
 |`--yes` |bool |Skip interactive confirmation (inline\-friendly) |
 
-
-<span id="gen-get-command"></span>
 ### gen get
 
 Fetch an async content\-generation task by ID (auto\-downloads the asset once the task has succeeded)
@@ -223,16 +189,12 @@ Fetch an async content\-generation task by ID (auto\-downloads the asset once th
 arkcli gen get <task-id>
 ```
 
-
-
 |Flag |Type |Description |
 |---|---|---|
-|`--save-to` |string |Directory to save the asset locally once the task succeeded (default: current dir; pass \-\-save\-to="" to disable) (default: .) |
+|`--save-to` |string |Directory to save the asset locally once the task succeeded (default: current dir; pass \-\-save\-to="" to disable) |
 |`--open` |bool |Open the downloaded asset with the OS default app. Default: auto — opens only on an interactive terminal, stays quiet under agents/pipes/CI. Pass \-\-open to force on, \-\-no\-open to force off. |
 |`--no-open` |bool |Never auto\-open the downloaded asset, even on an interactive terminal (overrides the auto/\-\-open default). |
 
-
-<span id="gen-list-command"></span>
 ### gen list
 
 Page through async content\-generation tasks (video / 3D / future modalities)
@@ -240,8 +202,6 @@ Page through async content\-generation tasks (video / 3D / future modalities)
 ```Bash
 arkcli gen list
 ```
-
-
 
 |Flag |Type |Description |
 |---|---|---|
@@ -251,3 +211,21 @@ arkcli gen list
 |`--model` |string |Filter by model name or endpoint ID |
 |`--service-tier` |string |Filter by service tier override |
 |`--task-id` |string_slice |Filter by task ID; repeat for multiple |
+
+### gen gallery
+
+Local gallery management: images produced by `+gen` are archived into a gallery under the product state directory; this command only touches local state and never calls the control plane.
+
+```Bash
+arkcli gen gallery list
+```
+
+```Bash
+arkcli gen gallery clean --older-than 168h --yes
+```
+
+|Flag |Type |Description |
+|---|---|---|
+|`--older-than` |duration |Only remove files older than this duration (e.g. 168h); mutually exclusive with \-\-all |
+|`--all` |bool |Delete all regular files in the gallery; mutually exclusive with \-\-older\-than |
+|`--yes` |bool |Skip interactive confirmation |

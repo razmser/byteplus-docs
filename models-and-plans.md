@@ -4,7 +4,7 @@ Models and plans: querying and activating public foundation models, subscription
 
 * `models` covers public foundation models only; account custom models (`cm-*`) live under `models custommodel`;
 
-* `plans` covers Coding Plan and Coding Plan Team (personal and enterprise, including seat assignment and API key rotation); `pricing` returns discounted unit prices and subscription prices;
+* `plans` covers Agent Plan / Coding Plan (full Agent Plan support since arkcli v1.0.66) (personal and enterprise, including seat assignment and API key rotation); `pricing` returns discounted unit prices and subscription prices;
 
 * `iam` queries identity and project lists, mainly for diagnostics and first\-login project selection;
 
@@ -116,8 +116,6 @@ Choose the exact model ID from the [Model list](model-list.md), such as `seed-2-
 * Covers public foundation models only; account custom models (cm\-\*) live under `models custommodel`;
 
 * Activation is not deployment: `activate` only enables billing; to create a callable endpoint use `+deploy` or the `infer` domain;
-
-* For latency\-sensitive selection, refer to TTFT/TPOT rankings and input\-length comparisons.
 
 ### models activate
 
@@ -316,7 +314,7 @@ arkcli models versions <model-name>
 
 ## plans
 
-ModelArk subscription plan management (Coding Plan and Coding Plan Team): list holdings, buy, renew, model catalogs, API Key rotation; team edition includes full seat management (seat\-list / seat\-assign / rotate\-apikey).
+ModelArk subscription plan management (Agent Plan / Coding Plan, personal + team (full Agent Plan support since arkcli v1.0.66)): list holdings, buy, renew, model catalogs, API Key rotation; team edition includes full seat management (seat\-list / seat\-assign / rotate\-apikey).
 
 * Purchase parameters are clarified step by step; on `payment_failed` with an Order ID you resume or cancel the existing order instead of re\-buying;
 
@@ -324,7 +322,7 @@ ModelArk subscription plan management (Coding Plan and Coding Plan Team): list h
 
 ### plans buy
 
-Prepare a Coding Plan purchase (personal or team); the CLI does not place the order — with \-\-yes it returns the BytePlus console subscription URL for the user to complete in the browser
+Review an Agent Plan / Coding Plan purchase (personal or team) or an Agent Plan Team shared package; with \-\-yes the CLI creates an unpaid pre\-order and returns the BytePlus payment URL for browser checkout (full Agent Plan support since arkcli v1.0.66)
 
 ```Bash
 arkcli plans buy
@@ -332,13 +330,14 @@ arkcli plans buy
 
 |Flag |Type |Description |
 |---|---|---|
-|`--plan` |string (required) |Plan name: coding\-plan \| coding\-plan\-team; pass agent\-plan\-team with \-\-type agent\-plan\-team\-shared\-pool for an Agent Plan Team shared package (arkcli v1.0.64) |
-|`--type` |string (required) |Tier: lite \| pro; or agent\-plan\-team\-shared\-pool with \-\-plan agent\-plan\-team (arkcli v1.0.64) |
+|`--plan` |string (required) |Plan name: agent\-plan \| coding\-plan \| agent\-plan\-team \| coding\-plan\-team (coding\-plan\-team is legacy/allowlist\-managed only); pass agent\-plan\-team with \-\-type agent\-plan\-team\-shared\-pool for an Agent Plan Team shared package (arkcli v1.0.64) |
+|`--type` |string (required) |Tier: small / medium / large / max (agent\-plan\*) \| lite / pro (coding\-plan\*); or agent\-plan\-team\-shared\-pool with \-\-plan agent\-plan\-team (arkcli v1.0.64) |
 |`--project-name` |string |[shared package] Project scope (default: default) (arkcli v1.0.64) |
 |`--duration` |int |Subscription length in months (1\-12, default 1) |
-|`--quantity` |int |Seat count (required for coding\-plan\-team); shared\-package count when \-\-type is agent\-plan\-team\-shared\-pool |
-|`--dry-run` |bool |Request an online price estimate without placing an order (replaces the deprecated \-\-estimate since arkcli v1.0.64) |
-|`--yes` |bool |Return the BytePlus console subscription URL (payment_via_web) so the user can complete the purchase in the browser; the CLI never places an order or charges the account |
+|`--quantity` |int |Seat count (required for \*\-team plans); shared\-package count when \-\-type is agent\-plan\-team\-shared\-pool |
+|`--dry-run` |bool |Preview the request metadata without sending it |
+|`--estimate` |bool |Request an online price estimate without placing an order |
+|`--yes` |bool |Confirm the purchase and create an unpaid pre\-order; complete payment in the BytePlus browser checkout (the CLI never auto\-charges the account) |
 
 ### plans get
 
@@ -350,7 +349,7 @@ arkcli plans get
 
 ### plans model\-apply
 
-Set the ark\-code\-latest route target of a Coding Plan (auto or a concrete shadow model)
+Set the ark\-code\-latest route target of a plan (auto or a concrete shadow model)
 
 ```Bash
 arkcli plans model-apply
@@ -358,12 +357,13 @@ arkcli plans model-apply
 
 |Flag |Type |Description |
 |---|---|---|
-|`--plan` |string (required) |Plan name: coding\-plan \| coding\-plan\-team |
+|`--plan` |string |Plan name: agent\-plan \| coding\-plan \| agent\-plan\-team \| coding\-plan\-team (default: agent\-plan\-team) (full Agent Plan support since arkcli v1.0.66) |
+|`--type` |string |Use agent\-plan\-team\-shared\-pool with \-\-plan agent\-plan\-team; shared\-package model\-apply is not supported in phase one |
 |`--model` |string |Route target: model id, output name, or "auto"; required in non\-interactive mode |
 
 ### plans model\-list
 
-List models supported by a Coding Plan and the current ark\-latest\-model
+List models supported by a plan, their capabilities, and the current ark\-latest\-model (auto\-detects the only active plan when omitted)
 
 ```Bash
 arkcli plans model-list
@@ -371,11 +371,14 @@ arkcli plans model-list
 
 |Flag |Type |Description |
 |---|---|---|
-|`--plan` |string (required) |Plan name: coding\-plan \| coding\-plan\-team |
+|`--plan` |string |Plan name: agent\-plan \| coding\-plan \| agent\-plan\-team \| coding\-plan\-team (omitted: auto\-detect the only active plan) (full Agent Plan support since arkcli v1.0.66) |
+|`--type` |string |Use agent\-plan\-team\-shared\-pool with \-\-plan agent\-plan\-team to query the shared\-package model catalog |
+|`--project-name` |string |[shared\-pool] Project scope (default: default) |
+|`--mode` |string |Model catalog: all \| direct \| routing (default: all) |
 
 ### plans renew
 
-Prepare a Coding Plan renewal (personal or team); the CLI does not renew — with \-\-yes it returns the BytePlus console subscription URL for the user to complete in the browser
+Review an Agent Plan / Coding Plan renewal (personal or team) or an Agent Plan Team shared package; with \-\-yes the CLI creates an unpaid renewal pre\-order and returns the BytePlus payment URL for browser checkout (full Agent Plan support since arkcli v1.0.66)
 
 ```Bash
 arkcli plans renew
@@ -383,17 +386,18 @@ arkcli plans renew
 
 |Flag |Type |Description |
 |---|---|---|
-|`--plan` |string (required) |Plan name: coding\-plan \| coding\-plan\-team; pass agent\-plan\-team with \-\-type agent\-plan\-team\-shared\-pool for an Agent Plan Team shared package (arkcli v1.0.64) |
+|`--plan` |string (required) |Plan name: agent\-plan \| coding\-plan \| agent\-plan\-team \| coding\-plan\-team; pass agent\-plan\-team with \-\-type agent\-plan\-team\-shared\-pool to renew an Agent Plan Team shared package (arkcli v1.0.64) |
 |`--type` |string |Pass agent\-plan\-team\-shared\-pool with \-\-plan agent\-plan\-team to renew a shared package (arkcli v1.0.64); omit for seat renewals |
 |`--project-name` |string |[shared package] Project scope (default: default) (arkcli v1.0.64) |
 |`--duration` |int |Renewal length in months (1\-12, default 1) |
-|`--seat-ids` |string |Comma\-separated seat IDs to renew (required for coding\-plan\-team, e.g. seat\-001,seat\-002) |
-|`--dry-run` |bool |Request an online renewal price estimate without placing an order (replaces the deprecated \-\-estimate since arkcli v1.0.64) |
-|`--yes` |bool |Return the BytePlus console subscription URL (payment_via_web) so the user can complete the renewal in the browser; the CLI never renews or charges the account |
+|`--seat-ids` |string |Comma\-separated seat IDs to renew (required for \*\-team seat renewals, e.g. seat\-001,seat\-002) |
+|`--dry-run` |bool |Preview the request metadata without sending it |
+|`--estimate` |bool |Request an online renewal price estimate without placing an order |
+|`--yes` |bool |Confirm the renewal and create an unpaid renewal pre\-order; complete payment in the BytePlus browser checkout (the CLI never auto\-charges the account) |
 
 ### plans team rotate\-apikey
 
-Rotate Coding Plan Team seat API Keys; old keys are invalidated immediately
+Rotate (regenerate) Agent Plan / Coding Plan enterprise seat API Keys; old keys are invalidated immediately
 
 ```Bash
 arkcli plans team rotate-apikey
@@ -401,12 +405,12 @@ arkcli plans team rotate-apikey
 
 |Flag |Type |Description |
 |---|---|---|
-|`--seat-ids` |string |Comma\-separated Coding Plan Team seat IDs for admin batch rotation (required) |
+|`--seat-ids` |string |Comma\-separated seat IDs for admin batch rotation; omit to rotate your own agent\-plan\-team seat |
 |`--yes` |bool |Skip the [Y/N] confirmation prompt (non\-interactive) |
 
 ### plans team seat\-assign
 
-Assign Coding Plan Team seats to sub\-users via GrantSeats; repeat \-\-bind for batch assignment
+Assign Agent Plan Team / Coding Plan Team seats to sub\-users via GrantSeats; repeat \-\-bind for batch assignment
 
 ```Bash
 arkcli plans team seat-assign
@@ -414,13 +418,13 @@ arkcli plans team seat-assign
 
 |Flag |Type |Description |
 |---|---|---|
-|`--plan` |string (required) |Plan name: coding\-plan\-team |
+|`--plan` |string (required) |Plan name: agent\-plan\-team \| coding\-plan\-team |
 |`--bind` |string_slice (required) |Seat\-to\-user binding (repeatable). Format: \-\-bind seat\-001=user\-123 OR \-\-bind seat\-001=user\-123:user\-name (skips IAM lookup) |
 |`--project-name` |string |Project name (default: default) |
 
 ### plans team seat\-list
 
-List Coding Plan Team seats with filters
+List enterprise plan seats (Agent Plan Team / Coding Plan Team) with filters
 
 ```Bash
 arkcli plans team seat-list
@@ -428,8 +432,8 @@ arkcli plans team seat-list
 
 |Flag |Type |Description |
 |---|---|---|
-|`--plan` |string (required) |Plan name: coding\-plan\-team |
-|`--type` |string |Tier filter: lite \| pro |
+|`--plan` |string (required) |Plan name: agent\-plan\-team \| coding\-plan\-team |
+|`--type` |string |Tier filter: small/medium/large/max (agent\-plan\-team) \| lite/pro (coding\-plan\-team) |
 |`--seat-ids` |string |Comma\-separated seat IDs (max 1000), e.g. seat\-001,seat\-002 |
 |`--user-name` |string |Filter by bound sub\-user name |
 |`--seat-status` |int |Seat binding status: 1=Idle, 2=Active |
@@ -440,7 +444,7 @@ arkcli plans team seat-list
 
 ## pricing
 
-Query foundation model settlement prices (including per\-account discounts) and Coding Plan and Coding Plan Team subscription prices.
+Query foundation model settlement prices (including per\-account discounts) and AgentPlan/CodingPlan subscription prices.
 
 * `Price` is the final post\-contract/promotion/subscription unit price; `OriginalPrice` is the list price;
 
@@ -464,7 +468,7 @@ arkcli pricing models
 
 ### pricing plans
 
-List BytePlus Coding Plan subscription pricing (personal & enterprise)
+List BytePlus AgentPlan / CodingPlan subscription pricing (personal & enterprise, full Agent Plan support since arkcli v1.0.66)
 
 ```Bash
 arkcli pricing plans
@@ -472,6 +476,6 @@ arkcli pricing plans
 
 |Flag |Type |Description |
 |---|---|---|
-|`--plan` |string |Filter to a single Coding Plan id, e.g. coding\-plan\-personal\-lite |
-|`--product` |string |Filter by product: coding\-plan |
+|`--plan` |string |Filter to a single plan id, e.g. agent\-plan\-personal\-small |
+|`--product` |string |Filter by product: agent\-plan \| coding\-plan |
 |`--edition` |string |Filter by edition: personal \| enterprise |

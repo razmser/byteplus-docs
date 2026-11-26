@@ -180,11 +180,11 @@ After obtaining the **Resource ID** of the target API key, you can query bills o
 
    1. Go to the [Split bills](https://console.byteplus.com/finance/bill/split-bill) page, click "Set product split dimensions", and select `apikey_id`.
 
-   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/67219291004e4aca980160cd825efa69~tplv-goo7wpa0wc-image.image)
+      ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/67219291004e4aca980160cd825efa69~tplv-goo7wpa0wc-image.image)
 
    2. Paste the copied Resource ID into the **Split item ID** search box for precise query.
 
-   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/d215abc64c27473795b75d3a419e6fc7~tplv-goo7wpa0wc-image.image)
+      ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/d215abc64c27473795b75d3a419e6fc7~tplv-goo7wpa0wc-image.image)
 
 ## Limits and notes
 

@@ -28,7 +28,7 @@ Visit the [ModelArk Coding Plan page](https://www.byteplus.com/en/activity/codin
 
    > Before creating ArkClaw with a sub\-account, contact your account administrator to grant the sub\-account the following IAM permissions: `iam:CreateRole`, `iam:GetRole`, `iam:AttachRolePolicy`, and `iam:ListAttachedRolePolicies`. After the permissions are configured, you can start creating ArkClaw.
 
-![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/79cbdc0f7edb4ce6b211d553febb9f63~tplv-goo7wpa0wc-image.image)
+   ![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/79cbdc0f7edb4ce6b211d553febb9f63~tplv-goo7wpa0wc-image.image)
 
 4. Once creation is successful, you can converse with ArkClaw in ModelArk.
 

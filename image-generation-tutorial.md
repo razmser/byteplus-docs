@@ -35,7 +35,7 @@ The following table compares the capabilities and parameters of each Seedream mo
 |[Native RGBA images](seedream-5-5.md#native-rgba) | |✓, text\-to\-image and image\-to\-image |✓, single transparent PNG image\-to\-image only |✓, single transparent PNG image\-to\-image only |✗ |✗ |✗ |
 |[Rich-text OCR](seedream-5-5.md#rich-text-ocr) | |✓ |✗ |✗ |✗ |✗ |✗ |
 |[Streaming output](image-generation-tutorial.md#e5bef0d7) | |✗ |✗ |✗ |✓ |✓ |✓ |
-|Model parameters |Resolution<br><br>> Image generation<br><br><br> |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `2K`, `3K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1920x1920`, `4096x4096`] |* Method 1: Resolution preset: `2K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1920x1920`, `4096x4096`] |* Method 1: Resolution preset: `1K`, `2K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `4096x4096`] |
+|Model parameters |Resolution<br><br>> Image generation<br><br><br> |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2880x2880`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `2K`, `3K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1920x1920`, `4096x4096`] |* Method 1: Resolution preset: `2K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1920x1920`, `4096x4096`] |* Method 1: Resolution preset: `1K`, `2K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `4096x4096`] |
 ||Resolution<br><br>> Layer decomposition<br><br><br> |1K, 1.5K, 2K, auto |1K, 1.5K, 2K, auto |1K, 1.5K, 2K, auto |✗ |✗ |✗ |
 ||Output format |png, jpeg |png, jpeg |png, jpeg |png, jpeg |jpeg |jpeg |
 ||Prompt optimization mode |standard mode |standard mode, fast mode |standard mode |standard mode |standard mode |standard mode, fast mode |
@@ -1837,7 +1837,8 @@ When setting explicit pixel dimensions, both the total pixel range and the aspec
 
 |Model |Total pixel range |Aspect ratio range |
 |---|---|---|
-|Dola Seedream 5.5, Seedream 5.0 pro / flash |[921,600, 4,624,220] |[1/16, 16] |
+|Dola Seedream 5.5 |[921,600, 8,294,400] |[1/16, 16] |
+|Seedream 5.0 pro / flash |[921,600, 4,624,220] |[1/16, 16] |
 |Seedream 5.0 lite / 4.5 |[3,686,400, 16,777,216] |[1/16, 16] |
 |Seedream 4.0 |[921,600, 16,777,216] |[1/16, 16] |
 

@@ -32,19 +32,19 @@ arkcli +deploy
 |`--inference-foundry` |string |Inference foundry configuration (JSON string) |
 |`--tags` |string |Tags (JSON string) |
 |`--yes` |bool |Confirm creation of the billable Endpoint with the disclosed parameters. If model activation is also required, non\-interactive execution still needs ARKCLI_ALLOW_HEADLESS_ACTIVATION=1; \-\-yes alone cannot authorize activation. |
-|`--allow-data-collected` |bool |Allow data collected |
+|`--allow-data-collected` |bool |Allow data collection for the endpoint (maps to the CreateEndpoint AllowDataCollected field) |
 |`--service-info` |string |Service info (JSON string) |
-|`--need-watermark` |bool |Need watermark |
+|`--need-watermark` |bool |Require watermarks on generated content (CreateEndpoint NeedWatermark) |
 |`--watermark-info` |string |Watermark info (JSON string) |
 |`--intelligent-router` |string |Intelligent router configuration (JSON string) |
-|`--is-intelligent` |bool |Is intelligent |
+|`--is-intelligent` |bool |Enable intelligent endpoint mode (CreateEndpoint IsIntelligent) |
 |`--fallback` |string |Fallback configuration (JSON string) |
 |`--limit-coefficient` |string |Limit coefficient configuration (JSON string) |
 |`--deployment-type` |string |Deployment type |
-|`--is-agentic` |bool |Is agentic |
+|`--is-agentic` |bool |Enable agentic endpoint mode (CreateEndpoint IsAgentic) |
 |`--agentic-strategy` |string |Agentic strategy configuration (JSON string) |
-|`--is-aicc` |bool |Is AICC |
-|`--specify-region` |string |Specify region |
+|`--is-aicc` |bool |Enable AICC mode (CreateEndpoint IsAicc) |
+|`--specify-region` |string |Pin the endpoint to a specific region (CreateEndpoint SpecifyRegion) |
 |`--set-default` |string |Promote the successfully created endpoint as the active profile default for the given modality (text\|image\|video). |
 
 ## dataset
@@ -333,18 +333,18 @@ arkcli infer endpoint update <endpoint-id>
 |`--description` |string |New endpoint description (use empty string to clear) |
 |`--rpm` |int |Text RPM, must be provided together with \-\-tpm |
 |`--tpm` |int |Text TPM, must be provided together with \-\-rpm |
-|`--fast-tpm` |int |Low\-latency Fast TPM (arkcli v1.0.65) |
-|`--flex-tpm` |int |Low\-priority Flex TPM (arkcli v1.0.65) |
-|`--off-peak-flex-tpm` |int |Off\-peak low\-priority Flex TPM (arkcli v1.0.65) |
-|`--ipm` |int |Image IPM (images per minute) (arkcli v1.0.65) |
+|`--fast-tpm` |int |Low\-latency Fast TPM (arkcli v1.0.65; first shipped for BytePlus in v1.0.66) |
+|`--flex-tpm` |int |Low\-priority Flex TPM (arkcli v1.0.65; first shipped for BytePlus in v1.0.66) |
+|`--off-peak-flex-tpm` |int |Off\-peak low\-priority Flex TPM (arkcli v1.0.65; first shipped for BytePlus in v1.0.66) |
+|`--ipm` |int |Image IPM (images per minute) (arkcli v1.0.65; first shipped for BytePlus in v1.0.66) |
 |`--cg-concurrent-requests` |int |Standard\-resolution video task concurrency |
 |`--cg-create-task-rpm` |int |Standard\-resolution video CreateTask RPM |
-|`--cg-concurrent-requests-4k` |int |4K video task concurrency (arkcli v1.0.65) |
-|`--cg-create-task-rpm-4k` |int |4K video CreateTask RPM (arkcli v1.0.65) |
-|`--audio-concurrent-requests` |int |Audio request concurrency (independent of video task concurrency) (arkcli v1.0.65) |
-|`--audio-rpm` |int |Audio request RPM (independent of video CreateTask RPM) (arkcli v1.0.65) |
+|`--cg-concurrent-requests-4k` |int |4K video task concurrency (arkcli v1.0.65; first shipped for BytePlus in v1.0.66) |
+|`--cg-create-task-rpm-4k` |int |4K video CreateTask RPM (arkcli v1.0.65; first shipped for BytePlus in v1.0.66) |
+|`--audio-concurrent-requests` |int |Audio request concurrency (independent of video task concurrency) (arkcli v1.0.65; first shipped for BytePlus in v1.0.66) |
+|`--audio-rpm` |int |Audio request RPM (independent of video CreateTask RPM) (arkcli v1.0.65; first shipped for BytePlus in v1.0.66) |
 
-Rate limit rules (arkcli v1.0.65):
+Rate limit rules (arkcli v1.0.65; first shipped for BytePlus in v1.0.66):
 
 * All rate\-limit flags accept integers \>= \-1: a positive integer sets the endpoint override; 0 is an explicit zero; \-1 removes the corresponding endpoint override (it does not lift model quotas or promise unlimited throughput).
 
@@ -391,7 +391,7 @@ arkcli train finetune artifacts list <mcj-id>
 
 ### train finetune capability get
 
-Show which finetune training methods a foundation model (or the source of a custom model) supports. Pass \-\-model + optional \-\-version for a foundation model, OR \-\-model\-id for a custom model (cm\-xxx) — the latter resolves to its source FoundationModel under the hood, mirroring maas\-fe's CustomBoard which derives continued\-finetune support from the base's FinetuneTypes (custom models don't carry their own capability list). Returns supported_types (arkcli flag form: sft / lora / dpo / dpo\-lora / grpo / grpo\-lora / ppo / opd / opd\-lora / pt — matches `train finetune create --type`) and supported_types_wire (backend CustomizationType literal). \-\-version semantics: with \-\-model, empty \-\-version returns the primary version only; \-\-version is mutually exclusive with \-\-model\-id (cm's bound source version is resolved automatically — pass either, never both). Pair with `models finetune-config` to fetch the hyperparameter schema for a chosen \-\-type.
+Show which finetune training methods a foundation model (or the source of a custom model) supports. Pass \-\-model + optional \-\-version for a foundation model, OR \-\-model\-id for a custom model (cm\-xxx) — the latter resolves to its source FoundationModel under the hood, mirroring maas\-fe's CustomBoard which derives continued\-finetune support from the base's FinetuneTypes (custom models don't carry their own capability list). Returns supported_types (arkcli flag form: sft / lora / dpo / dpo\-lora / grpo / grpo\-lora / ppo / opd / opd\-lora / pt / sdt — matches `train finetune create --type`) and supported_types_wire (backend CustomizationType literal). \-\-version semantics: with \-\-model, empty \-\-version returns the primary version only; \-\-version is mutually exclusive with \-\-model\-id (cm's bound source version is resolved automatically — pass either, never both). Pair with `models finetune-config` to fetch the hyperparameter schema for a chosen \-\-type.
 
 ```Bash
 arkcli train finetune capability get
@@ -414,7 +414,7 @@ arkcli train finetune create
 |Flag |Type |Description |
 |---|---|---|
 |`--name` |string |Job name (required in non\-interactive environments; omit in an interactive terminal to launch the guided wizard) |
-|`--type` |string |Customization type: sft \| lora \| dpo \| dpo\-lora \| grpo \| grpo\-lora \| ppo \| opd \| opd\-lora \| pt (required in non\-interactive environments; omit in an interactive terminal to launch the guided wizard) |
+|`--type` |string |Customization type: sft \| lora \| dpo \| dpo\-lora \| grpo \| grpo\-lora \| ppo \| opd \| opd\-lora \| pt \| sdt (required in non\-interactive environments; omit in an interactive terminal to launch the guided wizard) |
 |`--description` |string |Job description |
 |`--model` |string |Base model name, mutually exclusive with \-\-model\-id. Verify the model and training type with `arkcli train finetune capability get` before creating a job |
 |`--model-version` |string |Base model version, used with \-\-model. Choose a version returned by `arkcli models versions <MODEL_NAME>` |
@@ -497,7 +497,7 @@ arkcli train finetune list
 |`--sort-order` |string |Sort order: Asc \| Desc |
 |`--phase` |string_slice |Filter by phase (can repeat): Preprocessing \| Queued \| Deploying \| Running \| Pausing \| Paused \| Terminating \| Terminated \| Completing \| Completed \| Failed |
 |`--name` |string |Filter by job name (fuzzy match) |
-|`--customization-type` |string_slice |Filter by customization type (can repeat): FinetuneSft \| FinetuneLoRA \| DPO \| DPOLoRA \| GRPO \| GRPOLoRA \| PPO \| OPD \| OPDLoRA \| Pretrain |
+|`--customization-type` |string_slice |Filter by customization type (can repeat): FinetuneSft \| FinetuneLoRA \| DPO \| DPOLoRA \| GRPO \| GRPOLoRA \| PPO \| OPD \| OPDLoRA \| Pretrain \| SDT |
 |`--create-time-after` |string |Filter jobs created after this time (RFC3339, e.g. 2026\-01\-01T00:00:00Z) |
 |`--create-time-before` |string |Filter jobs created before this time (RFC3339) |
 |`--mine` |bool |Only include jobs created by the current BytePlus SSO sub\-user, using the `sys:ark:createdBy` tag filter. Requires a sub\-user login; root accounts are not supported. |
@@ -550,7 +550,7 @@ arkcli train finetune pause <job-id>
 
 ### train finetune pricing
 
-Get fine\-tuning pricing for a foundation model. \-\-billing\-method=token filters foundation\-model charge items to entries matching \-\-type: lora / lora\-sft / dpo\-lora / grpo\-lora / opd\-lora → LoRA finetune; sft / dpo / grpo / ppo / opd / pt → full\-model finetune. Empty \-\-type returns all finetune\-related charge items. \-\-billing\-method=instance resolves the exact model\-version/type hyperparameter schema, lists eligible training resource templates, and joins their FlavorSum hourly prices. When \-\-type is given, arkcli cross\-checks against `train finetune capability get` and refuses if the model doesn't support that training method (returning generic charge\-item pricing for an unsupported method would mislead callers).
+Get fine\-tuning pricing for a foundation model. \-\-billing\-method=token filters foundation\-model charge items to entries matching \-\-type: lora / lora\-sft / dpo\-lora / grpo\-lora / opd\-lora → LoRA finetune; sft / dpo / grpo / ppo / opd / pt / sdt → full\-model finetune. Empty \-\-type returns all finetune\-related charge items. \-\-billing\-method=instance resolves the exact model\-version/type hyperparameter schema, lists eligible training resource templates, and joins their FlavorSum hourly prices. When \-\-type is given, arkcli cross\-checks against `train finetune capability get` and refuses if the model doesn't support that training method (returning generic charge\-item pricing for an unsupported method would mislead callers).
 
 ```Bash
 arkcli train finetune pricing
@@ -559,7 +559,7 @@ arkcli train finetune pricing
 |Flag |Type |Description |
 |---|---|---|
 |`--model` |string (required) |Foundation model name. Select a model that supports the requested training type using `arkcli train finetune capability get` |
-|`--type` |string |Customization type: sft \| lora \| lora\-sft \| dpo \| dpo\-lora \| grpo \| grpo\-lora \| ppo \| opd \| opd\-lora \| pt; empty = all |
+|`--type` |string |Customization type: sft \| lora \| lora\-sft \| dpo \| dpo\-lora \| grpo \| grpo\-lora \| ppo \| opd \| opd\-lora \| pt \| sdt; empty = all |
 |`--billing-method` |string |Billing method: token \| instance |
 |`--model-version` |string |Foundation model version; required by \-\-billing\-method=instance |
 |`--hyperparameters` |string |Instance pricing only: JSON dict or @file; merged with model defaults and scalar \-\-epochs/\-\-lr/\-\-lora\-rank/\-\-beta overrides |
@@ -582,7 +582,7 @@ arkcli train finetune resource-group list
 |`--model` |string |Foundation model name; mutually exclusive with \-\-model\-id |
 |`--model-version` |string |Foundation model version; required with \-\-model |
 |`--model-id` |string |Existing custom model ID; resolves its foundation model and is mutually exclusive with \-\-model/\-\-model\-version |
-|`--type` |string (required) |Customization type: sft \| lora \| dpo \| dpo\-lora \| grpo \| grpo\-lora \| ppo \| opd \| opd\-lora \| pt |
+|`--type` |string (required) |Customization type: sft \| lora \| dpo \| dpo\-lora \| grpo \| grpo\-lora \| ppo \| opd \| opd\-lora \| pt \| sdt |
 |`--hyperparameters` |string |Hyperparameter JSON or @file; keep it identical to job creation |
 |`--epochs` |int |Convenience override for epoch |
 |`--lr` |string |Convenience override for learning_rate |

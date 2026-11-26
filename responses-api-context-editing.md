@@ -78,7 +78,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
     -H "Authorization: Bearer $ARK_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "seed-2-0-lite-260228",
+        "model": "seed-2-1-turbo-260915",
         "input": "Differences between reasoning and non-reasoning models",
         "thinking":{"type": "enabled"},
         "context_management": {
@@ -136,7 +136,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
     -H "Authorization: Bearer $ARK_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "seed-2-0-lite-260228",
+        "model": "seed-2-1-turbo-260915",
         "input": [
             {
                 "role": "system",
@@ -194,7 +194,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
     -H "Authorization: Bearer $ARK_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
-        "model": "seed-2-0-lite-260228",
+        "model": "seed-2-1-turbo-260915",
         "input": [
             {
                 "role": "system",

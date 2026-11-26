@@ -339,25 +339,11 @@ The following models support using the **thinking** parameter in the Responses A
 
 * seed\-2\-0\-pro\-260328: supports `enabled` (default) and `disabled`.
 
-* seed\-2\-0\-lite\-260228: supports `enabled` (default) and `disabled`.
-
-* seed\-2\-0\-mini\-260215: supports `enabled` (default) and `disabled`.
-
 * seed\-2\-0\-code\-preview\-260328: supports `enabled` (default) and `disabled`.
-
-* seed\-1\-8\-251228: supports `enabled` (default) and `disabled`.
 
 * glm\-5\-3\-flash\-260828: supports `enabled` (default). (**Thinking is always enabled, and disabling thinking is no longer supported.** )
 
 * glm\-5\-2\-260617: supports `enabled` (default) and `disabled`.
-
-* seed\-1\-6\-250615: supports `enabled` (default) and `disabled`.
-
-* seed\-1\-6\-250915: supports `enabled` (default) and `disabled`.
-
-* seed\-1\-6\-flash\-250715: supports `enabled` (default) and `disabled`.
-
-* seed\-1\-6\-flash\-250615: supports `enabled` (default) and `disabled`.
 
 * deepseek\-v4\-1\-flash\-261017: supports `enabled` (default) and `disabled`.
 
@@ -549,7 +535,7 @@ The following table shows the models that support adjusting the chain\-of\-thoug
 |Supported models |Default value |Compatibility mapping |
 |---|---|---|
 |\* `dola-seed-2-1-turbo-260628` | | |
-|* `seed-2-0-lite-260428`<br><br>* `seed-2-0-mini-260428`<br><br>* `seed-2-0-pro-260328`<br><br>* `seed-2-0-lite-260228`<br><br>* `seed-2-0-mini-260215`<br><br>* `seed-2-0-code-preview-260328`<br><br>* `seed-1-8-251228`<br><br>* `seed-1-6-250915`<br><br>   `glm-5-3-flash-260828` |`medium`<br><br>`max` |* If `minimal` is passed: Reasoning will be turned off.<br><br>* If `none` is passed: It will be mapped to `minimal`.<br><br>* If `xhigh` / `max` is passed: it will be mapped to `high`.<br><br>* If `none` / `minimal` / `low` is passed: It will be mapped to `low`.<br><br>* If `medium` / `high` is passed: It will be mapped to `high`.<br><br>* If `xhigh` / `max` is passed: It will be mapped to `max`. |
+|* `seed-2-0-lite-260428`<br><br>* `seed-2-0-mini-260428`<br><br>* `seed-2-0-pro-260328`<br><br>* `seed-2-0-code-preview-260328`<br><br>   `glm-5-3-flash-260828` |`medium`<br><br>`max` |* If `minimal` is passed: Reasoning will be turned off.<br><br>* If `none` is passed: It will be mapped to `minimal`.<br><br>* If `xhigh` / `max` is passed: it will be mapped to `high`.<br><br>* If `none` / `minimal` / `low` is passed: It will be mapped to `low`.<br><br>* If `medium` / `high` is passed: It will be mapped to `high`.<br><br>* If `xhigh` / `max` is passed: It will be mapped to `max`. |
 |`glm-5-2-260617` |`max` |* If `none` / `minimal` is passed: Reasoning will be turned off.<br><br>* If `low` / `medium` is passed: It will be mapped to `high`.<br><br>* If `xhigh` is passed: It will be mapped to `max`. |
 |* `deepseek-v4-1-flash-261017`<br><br>* `deepseek-v4-1-flash-260910`<br><br>* `deepseek-v4-1-flash-economy-261017` |`high` |* If `none` is passed: Reasoning will be turned off.<br><br>* If `minimal` is passed: It will be mapped to `low`.<br><br>* If `medium` / `xhigh` is passed: It will be mapped to `high`. |
 |* `deepseek-v4-pro-ga-260813`<br><br>* `deepseek-v4-flash-ga-260731` |`high` |* If `none` / `minimal` is passed: Reasoning will be turned off.<br><br>* If `medium` is passed: It will be mapped to `low`<br><br>* If `xhigh` is passed: It will be mapped to `high` |

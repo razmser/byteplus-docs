@@ -55,7 +55,7 @@ arkcli +iterate <agent-id>
 |`--tags` |string |Session tags map or tag array |
 |`--agent-overrides` |string |AgentWithOverrides object; inline JSON/YAML or @file |
 |`--environment-overrides` |string |EnvironmentWithOverrides object; inline JSON/YAML or @file |
-|`--message` |string |Send one message after creating the session, then exit after idle |
+|`--message` |string |Send one message after creating the session, then exit once the session goes idle |
 |`--session-thread-id` |string |Target session thread id for the first message / REPL |
 |`--no-event-deltas` |bool |Do not request PRD event_start/event_delta frames; use complete events only |
 |`--raw` |bool |Print raw NDJSON stream events when chatting |
@@ -111,7 +111,7 @@ arkcli +new session [agent-id]
 |`--message` |string |Send one message and exit after the session returns idle |
 |`--session-thread-id` |string |Target session thread id |
 |`--no-event-deltas` |bool |Do not request PRD event_start/event_delta frames; use complete events only |
-|`--max-event-chars` |int |Maximum characters shown for pretty event text; default 2000, 0 means unlimited |
+|`--max-event-chars` |int |Maximum characters shown for rendered event text; default 2000, 0 means unlimited |
 |`--raw` |bool |Print raw NDJSON stream events |
 
 ## +new\-agent
@@ -140,7 +140,7 @@ arkcli +new-agent
 |`--system` |string |System prompt, or @file to read from disk |
 |`--tool` |string_slice |Full Tools array replacement. If omitted, arkcli sends the default agent_toolset_20260701; pass [] to disable defaults |
 |`--mcp-server` |string_slice |MCP server object; repeatable or pass an array |
-|`--skill` |string_slice |Custom/Ark skill object; repeatable or pass an array. Bare skill\-xxx IDs omit Version to use the latest |
+|`--skill` |string_slice |Custom/Ark skill object; repeatable or pass an array. Bare skill\-xxx IDs omit Version to use the latest as a custom TOP skill; s\-xxx SkillHub IDs must be passed as explicit objects |
 |`--skill-zip` |string_slice |Local skill zip package to upload via CreateSkill and attach as a custom skill; repeatable |
 |`--multiagent` |string |Multiagent config object |
 |`--metadata` |string |Metadata map object |
@@ -158,15 +158,15 @@ arkcli +tail <session-id>
 
 |Flag |Type |Description |
 |---|---|---|
-|`--after` |string |Cursor/event id after |
-|`--before` |string |Cursor/event id before |
+|`--after` |string |Pagination cursor: return events after this event ID |
+|`--before` |string |Pagination cursor: return events before this event ID |
 |`--since` |string |Cursor/time lower bound |
 |`--created-after` |string |Event created_at lower bound (RFC3339) |
 |`--created-before` |string |Event created_at upper bound (RFC3339) |
 |`--type` |string_slice |Event type filter; repeatable or comma\-separated |
 |`--session-thread-id` |string |Filter by session thread id |
 |`--no-event-deltas` |bool |Do not request PRD event_start/event_delta frames; use complete events only |
-|`--max-event-chars` |int |Maximum characters shown for pretty event text; default 2000, 0 means unlimited |
+|`--max-event-chars` |int |Maximum characters shown for rendered event text; default 2000, 0 means unlimited |
 |`--order` |string |Sort order: asc \| desc |
 |`--raw` |bool |Print raw NDJSON events instead of the human\-readable tail view |
 
@@ -228,7 +228,7 @@ arkcli agent agent create
 |`--system` |string |System prompt, or @file to read from disk |
 |`--tool` |string_slice |Full Tools array replacement. If omitted, arkcli sends the default agent_toolset_20260701; pass [] to disable defaults |
 |`--mcp-server` |string_slice |MCP server object; repeatable or pass an array |
-|`--skill` |string_slice |Custom/Ark skill object; repeatable or pass an array. Bare skill\-xxx IDs omit Version to use the latest |
+|`--skill` |string_slice |Custom/Ark skill object; repeatable or pass an array. Bare skill\-xxx IDs omit Version to use the latest as a custom TOP skill; s\-xxx SkillHub IDs must be passed as explicit objects |
 |`--skill-zip` |string_slice |Local skill zip package to upload via CreateSkill and attach as a custom skill; repeatable |
 |`--multiagent` |string |Multiagent config object |
 |`--metadata` |string |Metadata map object |
@@ -238,7 +238,7 @@ arkcli agent agent create
 
 ### agent agent delete
 
-Delete a managed agent and cascade its sessions (requires confirmation, or pass \-\-yes)
+Delete a managed agent together with all of its sessions (requires confirmation, or pass \-\-yes)
 
 ```Bash
 arkcli agent agent delete <agent-id>
@@ -271,8 +271,8 @@ arkcli agent agent list
 
 |Flag |Type |Description |
 |---|---|---|
-|`--created-at-gte` |string |Filter by create time lower bound (RFC3339) |
-|`--created-at-lte` |string |Filter by create time upper bound (RFC3339) |
+|`--created-at-gte` |string |Filter by creation time lower bound (RFC3339) |
+|`--created-at-lte` |string |Filter by creation time upper bound (RFC3339) |
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor/page number |
 |`--id` |string |Filter by agent id |
@@ -323,24 +323,6 @@ arkcli agent agent versions <agent-id>
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor/page number |
 
-### agent deployment
-
-Deployment command group (Volc only, arkcli v1.0.59): stores a reusable session\-launch configuration. Creating a Deployment does not run it; each manual or scheduled trigger produces an independent Run and Session, and Runs do not share conversation context.
-
-|Subcommand |Description |
-|---|---|
-|`deployment create` |Create a Deployment (does not run): \-\-name / \-\-agent\-id (\-\-agent\-version must accompany \-\-agent\-id; when no version is given the server pins the current version at save time) / \-\-environment\-id / \-\-initial\-events (JSON/YAML array or @file, 1–50 user.message entries or a single user.define_outcome) / \-\-resources / \-\-vault\-ids / \-\-tags / \-\-schedule ({type: cron, expression: five\-field cron, timezone: IANA timezone}) / \-\-file |
-|`deployment list` |List Deployments: \-\-agent\-id / \-\-status (active\|paused) / \-\-search / \-\-include\-archived / \-\-created\-at\-gte/lte / \-\-limit (≤100) / \-\-page (opaque cursor, copy next_page verbatim) / \-\-page\-all / \-\-page\-limit |
-|`deployment get <id>` |Show Deployment details |
-|`deployment update <id>` |Update configuration: \-\-schedule null removes the schedule while omitting preserves it; \-\-initial\-events cannot be null/empty on update; \-\-resources/\-\-vault\-ids null/[] clears, arrays replace wholesale |
-|`deployment pause <id>` / `deployment unpause <id>` |Pause / resume scheduled triggers; manual run still works while paused, and unpause does not backfill missed runs |
-|`deployment archive <id>` |Irreversible archive (requires \-\-yes); does not stop Sessions already created |
-|`deployment run <id>` |Trigger one run immediately, producing an independent Run and Session; not idempotent — on timeout or disconnect, query by Run ID before retrying |
-|`deployment runs list` |List runs: \-\-deployment\-id / \-\-trigger\-type (manual\|schedule) / \-\-has\-error / \-\-created\-at\-gt/lt / \-\-limit (≤1000) / \-\-page |
-|`deployment runs get <run-id>` |Show one run: a non\-empty error means launch failed; a non\-empty session_id only means the Session and initial_events were accepted — check Session events for task completion |
-
-Write commands support \-\-dry\-run (builds a local request plan only — no status queries, no archiving, no task launches); write requests are never auto\-retried, so verify with read\-only commands when the outcome is unclear.
-
 ### agent env create
 
 Create a managed agent environment
@@ -356,9 +338,6 @@ arkcli agent env create
 |`--description` |string |Environment description |
 |`--config` |string |Env config object |
 |`--setup-script` |string |Environment setup script, or @file; placed in Config.SetupScript |
-|`--template-id` |string |[Volc cloud env only] Environment template: base (default) \| browser (browser image; the server injects the configured version of the playwright\-cli Skill into the session's primary agent) (arkcli v1.0.59) |
-|`--build-script` |string |[Volc cloud env only] Pre\-build script (UTF\-8, ≤256KiB), or @file; placed in Config.BuildScript — used for pre\-building, distinct from the session\-init \-\-setup\-script (arkcli v1.0.59) |
-|`--spec` |string |[Volc cloud env only] Environment spec: 1x (2C4GiB) \| 2x (4C8GiB) \| 4x (8C16GiB) \| 8x (16C32GiB) (arkcli v1.0.59) |
 |`--metadata` |string |Metadata map object |
 |`--scope` |string |Environment scope |
 |`--runtime-type` |string |Environment runtime: cloud \| self_hosted (Config.Type) |
@@ -421,9 +400,6 @@ arkcli agent env update <environment-id>
 |`--description` |string |Environment description |
 |`--config` |string |Env config object |
 |`--setup-script` |string |Environment setup script, or @file; placed in Config.SetupScript |
-|`--template-id` |string |[Volc cloud env only] Environment template: base \| browser; omitted preserves the current value (arkcli v1.0.59) |
-|`--build-script` |string |[Volc cloud env only] Pre\-build script, or @file; omitted preserves, empty string clears (arkcli v1.0.59) |
-|`--spec` |string |[Volc cloud env only] Environment spec: 1x \| 2x \| 4x \| 8x; omitted preserves the current value (arkcli v1.0.59) |
 |`--metadata` |string |Metadata map object |
 |`--scope` |string |Environment scope |
 
@@ -458,7 +434,7 @@ arkcli agent env work stats <environment-id>
 
 ### agent env work stop
 
-Request a work item to stop
+Request that a work item stop
 
 ```Bash
 arkcli agent env work stop <environment-id> <work-id>
@@ -466,7 +442,7 @@ arkcli agent env work stop <environment-id> <work-id>
 
 |Flag |Type |Description |
 |---|---|---|
-|`--force` |bool |Immediately mark work stopped; does not prove the remote sandbox has exited |
+|`--force` |bool |Immediately mark the work as stopped; this does not guarantee the remote sandbox has exited |
 |`--yes` |bool |Confirm stopping this work item |
 
 ### agent file delete
@@ -778,7 +754,6 @@ arkcli agent session create
 |`--tags` |string |Tags map or tag array |
 |`--agent-overrides` |string |AgentWithOverrides object; inline JSON/YAML or @file |
 |`--environment-overrides` |string |EnvironmentWithOverrides object; inline JSON/YAML or @file |
-|`--initial-events` |string |[Volc only] Initial events submitted immediately at creation (JSON/YAML array or @file, Open snake_case); when explicitly provided, creation switches to the Open data plane and returns a snake_case Session (arkcli v1.0.59) |
 
 ### agent session delete
 
@@ -806,8 +781,8 @@ arkcli agent session events list <session-id>
 |`--file` |string |Path to a JSON/YAML request body. Use \- or omit \-\-file to read stdin |
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor/page number |
-|`--after` |string |Cursor/event id after |
-|`--before` |string |Cursor/event id before |
+|`--after` |string |Pagination cursor: return events after this event ID |
+|`--before` |string |Pagination cursor: return events before this event ID |
 |`--since` |string |Cursor/time lower bound |
 |`--created-after` |string |Event created_at lower bound (RFC3339) |
 |`--created-before` |string |Event created_at upper bound (RFC3339) |
@@ -838,7 +813,7 @@ arkcli agent session events send <session-id>
 |`--wait-interval` |int |Polling interval in seconds for local multimodal uploads; default 2 |
 |`--session-thread-id` |string |Target session thread id |
 |`--no-event-deltas` |bool |Do not request PRD event_start/event_delta frames; use complete events only |
-|`--max-event-chars` |int |Maximum characters shown for pretty event text; default 2000, 0 means unlimited |
+|`--max-event-chars` |int |Maximum characters shown for rendered event text; default 2000, 0 means unlimited |
 |`--stream` |bool |After sending, open the SSE event stream and wait until terminal; falls back to event\-list polling on timeout |
 |`--wait` |bool |Compatibility alias for \-\-stream; large payloads may return immediately unless \-\-stream is explicit |
 |`--wait-fallback-timeout` |int |Seconds to keep polling after the stream timeout; default 120 |
@@ -859,15 +834,15 @@ arkcli agent session events stream <session-id>
 
 |Flag |Type |Description |
 |---|---|---|
-|`--after` |string |Cursor/event id after |
-|`--before` |string |Cursor/event id before |
+|`--after` |string |Pagination cursor: return events after this event ID |
+|`--before` |string |Pagination cursor: return events before this event ID |
 |`--since` |string |Cursor/time lower bound |
 |`--created-after` |string |Event created_at lower bound (RFC3339) |
 |`--created-before` |string |Event created_at upper bound (RFC3339) |
 |`--type` |string_slice |Event type filter; repeatable or comma\-separated |
 |`--session-thread-id` |string |Filter by session thread id |
 |`--no-event-deltas` |bool |Do not request PRD event_start/event_delta frames; use complete events only |
-|`--max-event-chars` |int |Maximum characters shown for pretty event text; default 2000, 0 means unlimited |
+|`--max-event-chars` |int |Maximum characters shown for rendered event text; default 2000, 0 means unlimited |
 |`--order` |string |Sort order: asc \| desc |
 
 ### agent session get
@@ -1126,7 +1101,7 @@ arkcli agent skill list
 
 |Flag |Type |Description |
 |---|---|---|
-|`--source` |string |Skill source: custom \| ark \| all |
+|`--source` |string |Skill source: market \| custom \| ark \| all; all returns a combined view of custom and ark |
 |`--limit` |int |Page size (alias of \-\-page\-size) |
 |`--page` |string |Page number (alias of \-\-page\-number) |
 |`--page-number` |int |Page number |
@@ -1136,6 +1111,11 @@ arkcli agent skill list
 |`--ids` |string_slice |Filter custom skills by IDs; repeatable or comma\-separated |
 |`--name` |string |Filter by skill name |
 |`--display-title` |string |Filter by skill display title |
+|`--skill-space-id` |string |Filter by skill space id |
+|`--keywords` |string |Filter by keywords |
+|`--source-type` |string |Filter by source type |
+|`--status` |string_slice |Filter by status; repeatable or comma\-separated |
+|`--sharing` |bool |Filter market skills by visibility: true=community, false=custom |
 |`--sort-by` |string |Custom skill sort field for TOP ListSkills |
 |`--sort-order` |string |Custom skill sort order for TOP ListSkills |
 |`--create-time-gte` |string |Custom skill create time lower bound for TOP ListSkills |
@@ -1154,6 +1134,8 @@ arkcli agent skill search <query>
 |`--limit` |int |Page size |
 |`--page` |string |Page cursor/page number |
 |`--source` |string |Skill source: custom \| ark \| all |
+|`--private` |bool |Search private skills only |
+|`--type` |string |Agent skill type for the emitted refs: custom \| skill_hub |
 
 ### agent skill set\-protection
 
@@ -1393,20 +1375,3 @@ arkcli agent vault update <vault-id>
 |`--file` |string |Path to a JSON/YAML payload. Use \- or omit \-\-file to read stdin |
 |`--display-name` |string |Vault display name |
 |`--metadata` |string |Metadata map object |
-
-### agent webhook
-
-Webhook command group (Volc only, arkcli v1.0.59): asynchronously delivers resource changes and run states of the current account, Region and Project to the user's HTTP(S) receiver. A project\-level subscription — not a Session callback parameter and not a Lark Channel; payloads carry no model tokens, tool outputs or full resource snapshots. Up to 20 endpoints per project (including disabled ones).
-
-|Subcommand |Description |
-|---|---|
-|`webhook create` |Create an endpoint: requires \-\-url, \-\-events (repeatable or comma\-separated) and \-\-secret\-file; optional \-\-description / \-\-file (Url/Events/Description fields only, flags override). Returns wep\-\*; the signing secret is written only to the given 0600 file (never overwritten) and is never printed to stdout |
-|`webhook list` |List endpoints (Result array, unpaginated): \-\-status ACTIVE\|DISABLED |
-|`webhook get <endpoint-id>` |Read back URL, Events, Status, failure counts and recent delivery info (no secret) |
-|`webhook update <endpoint-id>` |Update \-\-url / \-\-events / \-\-description (at least one; omitted fields are preserved); \-\-events replaces the full subscription list on update, not append |
-|`webhook enable <endpoint-id>` / `webhook disable <endpoint-id>` |Enable / disable; enabling affects only future events — no replay of history and no restoration of cancelled deliveries |
-|`webhook delete <endpoint-id>` |Delete the endpoint, erase the signing secret and cancel pending deliveries (requires \-\-yes) |
-|`webhook reset-secret <endpoint-id>` |Rotate the signing secret immediately (\-\-secret\-file, requires \-\-yes); the old secret is invalidated at once — coordinate the receiver to switch keys |
-|`webhook test <endpoint-id>` |Send a real webhook.test event (requires \-\-yes); the returned whe\-\* only means enqueued |
-|`webhook events list <endpoint-id>` |List delivery events: \-\-limit (1–100 per page) / \-\-page (opaque cursor) / \-\-event\-id / \-\-event\-type |
-|`webhook events get <endpoint-id> <event-id>` |Show the event and its Delivery for this endpoint — the way to tell whether delivery actually succeeded |

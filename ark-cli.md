@@ -56,7 +56,7 @@ After configuration is complete, restart your AI agent. You can then describe yo
 
 |What you want to do |Message to send to the AI agent |
 |---|---|
-|Query models |Show me the Dola and Dreamina models available on ModelArk. |
+|Query models |Show me the Dola models. |
 |Query usage |Show me how many tokens this account has used today and this week. |
 |Query bills |Show me the latest bill and cost details. |
 |Query plans |Show me the current Coding Plan subscription and seat information. |
@@ -86,7 +86,7 @@ After configuration is complete, restart your AI agent. You can then describe yo
 |Billing and pricing |Query itemized ModelArk bills and break down costs by billing cycle, endpoint, API Key, or product; query model and plan prices. |`arkcli billing`, `arkcli pricing` |
 |Plans and seats |Query, purchase, and renew Coding Plan subscriptions; view supported models; and manage personal or team plans. |`arkcli plans` |
 |AI agent integration |Automatically detect local AI agents, and install, view, or uninstall Ark CLI skills. |`arkcli +connect` |
-|Diagnostics |Provides a unified diagnostics entry point for CLI health, account, error, infer\-endpoint, model, and metrics. |`arkcli doctor` |
+|Diagnostics |Provide a unified diagnostics entry point for CLI health, account, error, infer\-endpoint, model, and metrics. |`arkcli doctor` |
 
 ## Command syntax
 
@@ -123,11 +123,13 @@ arkcli train finetune create --help
 |`--base-url <url>` |Specify a custom data\-plane API base URL. |
 |`--debug` |Output request and response debugging information. |
 |`--dry-run` |Preview request metadata without sending the request. |
+|`--format <format>` |Output format: json, yaml, table, wide, csv, jsonl, pretty (default: json). |
+|`--lang <locale>` |CLI UI language. |
 |`--page-all` |Automatically retrieve data from all pages. |
 |`--page-delay` |Set the delay between page requests. The default value is 200 milliseconds. |
 |`--page-limit <n>` |When used with `--page-all`, limit the maximum number of pages to retrieve. The default value is 10. |
 |`--profile <name>` |Specify the profile to use. |
 |`--project-name <name>` |Override the current project. |
-|`--format json` |Set the output format to JSON, which is the default format. |
 |`--region <region>` |Override the current region. |
 |`--transform <path>` |Process the output using a GJSON expression. |
+|`--ui-lang <locale>` |Unambiguous CLI UI language override. |

@@ -6,7 +6,7 @@ Identity and configuration: sign\-in, local config, non\-interactive bootstrap, 
 
 * `profile` is the `type × region × project × owner_trn × api_keys` identity facet and the config source for all commands;
 
-* `resources` is read\-only and resolves an endpoint into its authoritative model and modality, the calibration baseline for Skills and the API Explorer.
+* `resources` is read\-only and resolves an endpoint into its authoritative model and modality — the authoritative reference for what the endpoint can actually run.
 
 ## auth
 
@@ -16,7 +16,7 @@ Authentication and credential management: SSO login, status inspection, logout, 
 
 * `auth login` signs in with BytePlus SSO and configures the profile;
 
-* Credential storage paths are an implementation detail — business code always reads `cfg.APIKey` from the profile, never the storage directly.
+* Your credentials are managed through the profile; use the `auth`/`profile` commands instead of editing credential storage files directly.
 
 ### auth apikey
 
@@ -53,6 +53,8 @@ arkcli auth login
 |Flag |Type |Description |
 |---|---|---|
 |`--code` |string |No\-browser Phase 2: enter the Base64 authorization code shown in the browser to complete login (for agents/sandboxes) |
+|`--credential-store` |string |Broker verifier storage backend: encrypted\-file (default, no keyring access) or keyring (fails fast when unavailable) |
+|`--login-mode` |string |Login mode: auto (falls back to the legacy flow by error type when the new flow fails) \| legacy (legacy flow only) \| broker (new flow only) |
 |`--no-browser` |bool |No\-browser mode: complete SSO login on any device, then manually paste the authorization code |
 
 ### auth logout
@@ -165,12 +167,12 @@ arkcli profile create
 |Flag |Type |Description |
 |---|---|---|
 |`--name` |string |Profile name (default: {type} *{region}* ) |
-|`--type` |string |Profile type: platform \| coding\-plan \| coding\-plan\-team \| agent\-plan\-team\-shared\-pool (agent\-plan\-team\-shared\-pool added in arkcli v1.0.64: Agent Plan Team shared package, the only Agent Plan type offered on BytePlus; must be paired with \-\-default\-api\-key carrying the admin\-distributed pool API key) |
+|`--type` |string |Profile type: platform \| agent\-plan \| agent\-plan\-team \| coding\-plan \| coding\-plan\-team \| agent\-plan\-team\-shared\-pool (full Agent Plan support since arkcli v1.0.66; agent\-plan\-team\-shared\-pool added in arkcli v1.0.64: Agent Plan Team shared package, must be paired with \-\-default\-api\-key carrying the admin\-distributed pool API key) |
 |`--region` |string |Region (fixed: ap\-southeast\-1) |
 |`--project` |string |Project name (default: default) |
 |`--default-api-key` |string |Default API key to bind (optional) |
 |`--owner-trn` |string |Owner TRN (optional; usually left empty for self\-heal) |
-|`--plan-tier` |string |[coding\-plan only] Force PlanTier (lite\|pro); bypasses ListSubscribeTrade detection |
+|`--plan-tier` |string |[personal plan only] Force PlanTier (small\|medium\|large\|max for Agent Plan, lite\|pro for Coding Plan); bypasses subscription detection |
 |`--set-default` |bool |Set this profile as default after creation |
 |`--no-interactive` |bool |Skip prompts; fail fast on missing required fields |
 
@@ -244,7 +246,7 @@ arkcli profile models list
 
 ### profile models refresh
 
-Re\-fetch text\-model list, update Resources.Text.Default (take first)
+Re\-fetch the text\-model list and update Resources.Text.Default to the first model in the list
 
 ```Bash
 arkcli profile models refresh
@@ -268,7 +270,7 @@ arkcli profile project [<project-name>]
 
 ### profile rename
 
-Set display name for a profile (can contain Chinese, spaces)
+Set display name for a profile (can contain Chinese characters and spaces)
 
 ```Bash
 arkcli profile rename <profile> --to <display-name>
@@ -276,7 +278,7 @@ arkcli profile rename <profile> --to <display-name>
 
 |Flag |Type |Description |
 |---|---|---|
-|`--to` |string (required) |Display name (can contain Chinese/spaces; empty string clears label) |
+|`--to` |string (required) |Display name (can contain Chinese characters and spaces; empty string clears label) |
 
 ### profile set\-default
 
@@ -318,7 +320,7 @@ Realtime control\-plane resource queries: list resources visible to the current/
 
 * Read\-only; never writes profile.yaml. With an ad\-hoc `ep-...`, resolve here first to decide between chat/understand/gen;
 
-* This is the calibration baseline for Skills and the API Explorer: returned model bindings and modalities are the real callable contract.
+* This is the authoritative reference for Skills and the API Explorer: returned model bindings and modalities are the real callable contract.
 
 ### resources list
 

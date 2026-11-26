@@ -598,14 +598,14 @@ Each line contains one piece of sample data in JSON format:
 
 1. Create a storage bucket (Bucket) for storing files (Objects). For detailed steps to create a bucket, refer to [the Object Storage Console Quick Start](https://docs.byteplus.com/en/docs/tos/docs-quick-start_1). An example directory structure is as follows:
 
-```Bash
-bucketname    # Bucket name
-├── sample  # Folder name in the bucket
-├── data.jsonl
-└── video   # Folder name in the bucket
-├── xxx.mp4
-└── xxxx.mp4
-```
+   ```Bash
+   bucketname    # Bucket name
+   ├── sample  # Folder name in the bucket
+   ├── data.jsonl
+   └── video   # Folder name in the bucket
+   ├── xxx.mp4
+   └── xxxx.mp4
+   ```
 
 2. Fill in the TOS object address in the JSONL file using the format "tos://${bucket}/${object}". For the structure above, the URL would be "tos://bucketname/video/xxx.mp4".**Note that the video files referenced by the TOS URL must be in the same bucket as the JSONL file.**  This format accelerates data processing, reduces time consumed by multi\-role transmission, and thereby improves training efficiency.After completing the above steps, **select the "Import from TOS" method when configuring data for the fine\-tuning task, and only upload the JSONL file.**
 

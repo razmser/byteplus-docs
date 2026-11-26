@@ -187,7 +187,7 @@ if __name__ == "__main__":
             {
                 "type": "audio_url",
                 "audio_url": {
-                    "url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/video-generation/r2v_tea_audio1.mp3"
+                    "url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/video-generation/r2v_tea_audio1.mp3"
                 },
                 "role": "reference_audio",
             },
@@ -263,7 +263,7 @@ public class ContentGenerationTaskExample {
         final String refImage1 = "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/video-generation/r2v_tea_pic1.jpg";
         final String refImage2 = "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/video-generation/r2v_tea_pic2.jpg";
         final String refVideo = "https://arkdocs-en.tos-ap-southeast-1.volces.com/videos/video-generation/r2v_tea_video1.mp4";
-        final String refAudio = "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/video-generation/r2v_tea_audio1.mp3";
+        final String refAudio = "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/video-generation/r2v_tea_audio1.mp3";
 
         // Output video parameters
         final boolean generateAudio = true;
@@ -414,7 +414,7 @@ func main() {
     refImage1 := "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/video-generation/r2v_tea_pic1.jpg"
     refImage2 := "https://arkdocs-en.tos-ap-southeast-1.volces.com/images/video-generation/r2v_tea_pic2.jpg"
     refVideo := "https://arkdocs-en.tos-ap-southeast-1.volces.com/videos/video-generation/r2v_tea_video1.mp4"
-    refAudio := "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/video-generation/r2v_tea_audio1.mp3"
+    refAudio := "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/video-generation/r2v_tea_audio1.mp3"
 
     // Output video parameters
     generateAudio := true
@@ -1635,7 +1635,7 @@ The following compatibility test results cover playback of videos with 10\-bit c
 
 
 <Tabs>
-<Tab zoneid="Ub8CJAxOst" title="Browser">
+<Tab zoneid="n9oeQHistI" title="Browser">
 <TabTitle>Browser</TabTitle>
 
 
@@ -1649,7 +1649,7 @@ The following compatibility test results cover playback of videos with 10\-bit c
 
 
 </Tab>
-<Tab zoneid="tkQOx7OcZZ" title="Player">
+<Tab zoneid="blP87tKTvN" title="Player">
 <TabTitle>Player</TabTitle>
 
 
@@ -1676,7 +1676,7 @@ The following compatibility test results cover playback of videos with 10\-bit c
 
 
 <Tabs>
-<Tab zoneid="yIw7SJ6X88" title="Browser">
+<Tab zoneid="JVpfwNT13w" title="Browser">
 <TabTitle>Browser</TabTitle>
 
 
@@ -1691,7 +1691,7 @@ The following compatibility test results cover playback of videos with 10\-bit c
 
 
 </Tab>
-<Tab zoneid="tb4lofiksR" title="Player">
+<Tab zoneid="dmChbs2XAY" title="Player">
 <TabTitle>Player</TabTitle>
 
 

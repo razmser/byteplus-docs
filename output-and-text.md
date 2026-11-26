@@ -578,7 +578,7 @@ Encrypted reasoning content. Original reasoning content that has been encrypted 
 
 **Supported models**:
 
-* ``seed\-2\-0\-lite\-260228`and later versions`
+* `seed-2-0-lite-260428 and later versions`
 
 **id** `string`  |  Item ID
 
@@ -1128,7 +1128,7 @@ Encrypted reasoning content. Original reasoning content that has been encrypted 
 
 **Supported models**:
 
-* ``seed\-2\-0\-lite\-260228`and later versions`
+* `seed-2-0-lite-260428 and later versions`
 
 **id** `string`  |  Item ID
 

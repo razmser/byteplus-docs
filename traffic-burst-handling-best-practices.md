@@ -452,7 +452,7 @@ def completion_with_backoff(**kwargs):
     return client.chat.completions.create(**kwargs)
 
 resp = completion_with_backoff(
-    model="seed-1-6-250615", messages=[{"role": "user", "content": "hello"}]
+    model="dola-seed-2-1-turbo-260628", messages=[{"role": "user", "content": "hello"}]
 )
 
 print(resp.choices[0].message.content)

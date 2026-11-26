@@ -82,6 +82,7 @@ arkcli helper configure <harness>
 |`--codex-profile` |string |(Codex profile mode only) Codex profile name; default: arkcli |
 |`--dsh-config-scope` |string |(DSH only) config scope: home (default, writes $DSH_HOME/cordis.patch.yml) \| profile (writes $DSH_HOME/profiles//cordis.patch.yml; requires \-\-dsh\-profile) |
 |`--dsh-profile` |string |(DSH only) DSH profile name for profile scope |
+|`--keep-native-websearch` |bool |Keep the harness's native WebSearch enabled |
 
 ### helper list
 

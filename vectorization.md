@@ -33,7 +33,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/embeddings/multimodal \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "skylark-embedding-vision-250615",
+    "model": "skylark-embedding-vision-251215",
     "encoding_format": "float",
     "input": [
         {
@@ -65,7 +65,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/embeddings/multimodal \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "skylark-embedding-vision-250615",
+    "model": "skylark-embedding-vision-251215",
     "instructions": "Target_modality: text and video.\nInstruction:Compress the text/video into one word.\nQuery:",
     "encoding_format": "float",
     "input": [
@@ -107,7 +107,7 @@ Sample model response:
         "object": "embedding"
     },
     "id": "021752133359863906427fb4b36437c414d645f52206dfc398f85",
-    "model": "skylark-embedding-vision-250615",
+    "model": "skylark-embedding-vision-251215",
     "object": "list",
     "usage": {
         "prompt_tokens": 25,
@@ -553,7 +553,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 ## Step 2: Obtain vectors
 
-Define functions for converting a text or image into a vector, which supports two types of input: text and image URL. Call the skylark\-embedding\-vision\-250615 model to obtain a vector of the float format, convert the vector into a NumPy array, and flatten the array to a one\-dimensional vector.
+Define functions for converting a text or image into a vector, which supports two types of input: text and image URL. Call the skylark\-embedding\-vision\-251215 model to obtain a vector of the float format, convert the vector into a NumPy array, and flatten the array to a one\-dimensional vector.
 
 **Note**: Configure an API key to prepare for subsequent data processing and analytics.
 
@@ -574,7 +574,7 @@ def get_embedding(input_data, input_type="text"):
     try:
         resp = client.multimodal_embeddings.create(
             multi_embedding={"type": "disabled"},
-            model="skylark-embedding-vision-250615",
+            model="skylark-embedding-vision-251215",
             encoding_format="float",
             input=[input_item]
         )
@@ -719,7 +719,7 @@ import os
 
 class MultimodalEmbedder:
     """Multimodal Embedding Batch Processing Tool (All-or-Nothing Failure Mode)"""
-    def __init__(self, api_key: str, model: str = "skylark-embedding-vision-250615",
+    def __init__(self, api_key: str, model: str = "skylark-embedding-vision-251215",
                  batch_size: int = 10, retries: int = 2):
         self.api_key = api_key
         self.model = model

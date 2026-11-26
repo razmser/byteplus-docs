@@ -18,10 +18,6 @@ Supported models are as follows:
 
    * seed\-2\-0\-pro\-260328
 
-   * seed\-2\-0\-lite\-260228
-
-   * seed\-2\-0\-mini\-260215
-
    * seed\-2\-0\-code\-preview\-260328
 
    * glm\-5\-3\-flash\-260828

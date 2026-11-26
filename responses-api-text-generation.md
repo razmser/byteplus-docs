@@ -799,10 +799,10 @@ Output example:
 
 ```Text
 event: response.created
-data: {"type":"response.created","response":{"created_at":1765508936,"id":"resp_021765508935818e7a9c000dd92b8b7b879cbc284c59191ff1d92","max_output_tokens":32768,"model":"seed-2-0-lite-260228","object":"response","thinking":{"type":"enabled"},"service_tier":"default","caching":{"type":"disabled"},"store":true,"expire_at":1765768135},"sequence_number":0}
+data: {"type":"response.created","response":{"created_at":1765508936,"id":"resp_021765508935818e7a9c000dd92b8b7b879cbc284c59191ff1d92","max_output_tokens":32768,"model":"seed-2-0-lite-260428","object":"response","thinking":{"type":"enabled"},"service_tier":"default","caching":{"type":"disabled"},"store":true,"expire_at":1765768135},"sequence_number":0}
 
 event: response.in_progress
-data: {"type":"response.in_progress","response":{"created_at":1765508936,"id":"resp_021765508935818e7a9c000dd92b8b7b879cbc284c59191ff1d92","max_output_tokens":32768,"model":"seed-2-0-lite-260228","object":"response","thinking":{"type":"enabled"},"service_tier":"default","caching":{"type":"disabled"},"store":true,"expire_at":1765768135},"sequence_number":1}
+data: {"type":"response.in_progress","response":{"created_at":1765508936,"id":"resp_021765508935818e7a9c000dd92b8b7b879cbc284c59191ff1d92","max_output_tokens":32768,"model":"seed-2-0-lite-260428","object":"response","thinking":{"type":"enabled"},"service_tier":"default","caching":{"type":"disabled"},"store":true,"expire_at":1765768135},"sequence_number":1}
 
 event: response.output_item.added
 data: {"type":"response.output_item.added","output_index":0,"item":{"id":"rs_02176550893661800000000000000000000ffffac150a0f16e055","type":"reasoning","status":"in_progress"},"sequence_number":2}
@@ -1316,10 +1316,6 @@ By prefilling part of the **assistant** role's content, you can guide and contro
 
 * seed\-2\-0\-pro\-260328
 
-* seed\-2\-0\-lite\-260228
-
-* seed\-2\-0\-mini\-260215
-
 * seed\-2\-0\-code\-preview\-260328
 
 * deepseek\-v4\-1\-flash\-261017
@@ -1366,7 +1362,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-      "model": "seed-1-8-251228",
+      "model": "dola-seed-2-1-turbo-260628",
       "input": [
           {"role": "user", "content": "Please write bubble sort code without any additional content."},
           {"role": "assistant", "content": "def bubble_sort(arr):", "partial": true}

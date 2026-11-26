@@ -2,15 +2,11 @@
 
 Responses API supports using ModelArk function calling to extend model capabilities, addressing limitations of large models in real\-time scenarios, complex workflow orchestration, and other issues, and enabling more accurate and efficient interactions and applications.
 
-<span id="07456946"></span>
 ## Quick start
 
 Using a weather query scenario as an example, this section describes how to use function call.
 
-
-<Tabs>
-<Tab zoneid="QJTs6HfHnm" title="Curl">
-<TabTitle>Curl</TabTitle>
+**Curl**
 
 **Request of round 1: Trigger tool calling**
 
@@ -19,7 +15,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "seed-2-0-lite-260228",
+    "model": "dola-seed-2-1-turbo-260628",
     "store": true,
     "input": [
         {
@@ -48,7 +44,6 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
   }'
 ```
 
-
 **Response of round 1: Return the function_call instruction**
 
 The model returns a tool call instruction. The key parameters are `call_id` (used to associate subsequent results) and `arguments` (call parameters):
@@ -57,7 +52,7 @@ The model returns a tool call instruction. The key parameters are `call_id` (use
 {
   "created_at": 1756980000,
   "id": "resp_02175698000123456789abcdef0123",
-  "model": "seed-2-0-lite-260228",
+  "model": "dola-seed-2-1-turbo-260628",
   "object": "response",
   "output": [
     {
@@ -75,7 +70,6 @@ The model returns a tool call instruction. The key parameters are `call_id` (use
 }
 ```
 
-
 **Execute the tool: Get the weather query result**
 
 The developer calls the actual weather tool (such as a third\-party weather API) based on `arguments`. Assume the returned result is:
@@ -90,7 +84,6 @@ The developer calls the actual weather tool (such as a third\-party weather API)
 }
 ```
 
-
 **Request of the second turn: pass back the results and generate the final response**
 
 Pass in the `response_id` and tool call results of the previous round, and then the model generates a response in natural language:
@@ -100,7 +93,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
   -H "Authorization: Bearer $ARK_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "seed-2-0-lite-260228",
+    "model": "dola-seed-2-1-turbo-260628",
     "previous_response_id": "resp_02175698000123456789abcdef0123",
     "input": [
       {
@@ -112,7 +105,6 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
   }'
 ```
 
-
 **Request of round 2: generate the final answer**
 
 The model returns a natural language response based on the tool call results:
@@ -122,7 +114,7 @@ The model returns a natural language response based on the tool call results:
     "created_at": 1762841326,
     "id": "resp_0217628413262947ed3dd5a26da08a73b6b7a2883108092b7ed59",
     "max_output_tokens": 32768,
-    "model": "seed-1-6-250915",
+    "model": "seed-2-0-lite-260428",
     "object": "response",
     "output": [
         {
@@ -171,11 +163,7 @@ The model returns a natural language response based on the tool call results:
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="rTktvQhEQ3" title="Python">
-<TabTitle>Python</TabTitle>
+**Python**
 
 ```Python
 import os
@@ -211,7 +199,7 @@ weather_tool = [
 # ------------------- First Round Request: Trigger Tool Call -------------------
 print("=== First Round Request: Trigger Tool Call ===")
 first_response = client.responses.create(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     store=True,
     input=[
         {
@@ -248,7 +236,7 @@ print(f"Tool return result: {tool_output}")
 # ------------------- Second Round Request: Return Result and Generate Final Response -------------------
 print("=== Second Round Request: Return Result and Generate Final Response ===")
 second_response = client.responses.create(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     previous_response_id=previous_response_id,
     input=[
         {
@@ -266,11 +254,7 @@ print("=== Final Answer  ===")
 print(final_answer.content[0].text)
 ```
 
-
-
-</Tab>
-<Tab zoneid="OTY6MeumxY" title="Go">
-<TabTitle>Go</TabTitle>
+**Go**
 
 ```Go
 package main
@@ -292,7 +276,7 @@ func main() {
     )
     tool := weatherTool()
     response, err := client.CreateResponses(context.Background(), &responses.ResponsesRequest{
-        Model: "seed-2-0-lite-260228",
+        Model: "dola-seed-2-1-turbo-260628",
         Input: responses.NewStringResponsesInput("What is the weather in Beijing today?"),
         Store: responses.NewOptBool(true),
         Tools: []responses.Tool{tool},
@@ -321,7 +305,7 @@ func main() {
         panic(err)
     }
     second, err := client.CreateResponses(context.Background(), &responses.ResponsesRequest{
-        Model:              "seed-2-0-lite-260228",
+        Model:              "dola-seed-2-1-turbo-260628",
         PreviousResponseID: responses.NewOptString(response.ID),
         Input: responses.NewInputItemArrayResponsesInput([]responses.InputItem{
             {
@@ -370,11 +354,7 @@ func functionCall(items []responses.OutputItem) (responses.ItemFunctionToolCall,
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="SyibZ6dMYE" title="Java">
-<TabTitle>Java</TabTitle>
+**Java**
 
 ```Java
 package com.ark.example;
@@ -413,7 +393,7 @@ public class demo {
                 .build();
         System.out.println("=== First Round Request: Trigger Tool Call ===");
         ResponsesRequest req = ResponsesRequest.builder()
-                .model("seed-2-0-lite-260228")
+                .model("dola-seed-2-1-turbo-260628")
                 .store(true)
                 .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.USER).content(
                                 MessageContent.ofList(java.util.Arrays.asList(ContentItemText.builder().text("Query the weather in Beijing today").build()))
@@ -455,7 +435,7 @@ public class demo {
 
         System.out.println("=== Second Round Request: Return Result and Generate Final Response ===");
         ResponsesRequest secondReq = ResponsesRequest.builder()
-                .model("seed-2-0-lite-260228")
+                .model("dola-seed-2-1-turbo-260628")
                 .previousResponseId(previousId)
                 .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemFunctionToolCallOutput.builder().callId(callId).output(MessageContent.ofString(objectMapper.writeValueAsString(toolOutput))).build())))
                 .tools(buildTools())
@@ -468,11 +448,7 @@ public class demo {
 }
 ```
 
-
-
-</Tab>
-<Tab zoneid="hDiM2TxeEk" title="OpenAI SDK">
-<TabTitle>OpenAI SDK</TabTitle>
+**OpenAI SDK**
 
 ```Python
 import os
@@ -508,7 +484,7 @@ weather_tool = [
 # ------------------- First Round Request: Trigger Tool Call -------------------
 print("=== First Round Request: Trigger Tool Call ===")
 first_response = client.responses.create(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     store=True,
     input=[
         {
@@ -544,7 +520,7 @@ print(f"Tool return result: {tool_output}")
 # ------------------- Second Round Request: Return Result and Generate Final Response-------------------
 print("=== Second Round Request: Return Result and Generate Final Response ===")
 second_response = client.responses.create(
-    model="seed-2-0-lite-260228",
+    model="dola-seed-2-1-turbo-260628",
     previous_response_id=previous_response_id,
     input=[
         {
@@ -561,8 +537,3 @@ final_answer = next(
 print("=== Final Answer ===")
 print(final_answer.content[0].text)
 ```
-
-
-
-</Tab>
-</Tabs>

@@ -616,7 +616,7 @@ Related documents:
 
 **Supported models**:
 
-* ``seed\-2\-0\-lite\-260228`and later versions`
+* `seed-2-0-lite-260428 and later versions`
 
 **name** `string`  |  Participant name
 
@@ -1504,7 +1504,7 @@ Related documents:
 
 **Supported models**:
 
-* ``seed\-2\-0\-lite\-260228`and later versions`
+* `seed-2-0-lite-260428 and later versions`
 
 **reasoning_content** `string`  |  Chain\-of\-thought content
 
@@ -1712,7 +1712,7 @@ Related documents:
 
 **Supported models**:
 
-* ``seed\-2\-0\-lite\-260228`and later versions`
+* `seed-2-0-lite-260428 and later versions`
 
 **reasoning_content** `string`  |  Chain\-of\-thought content
 

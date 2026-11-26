@@ -1254,7 +1254,7 @@ while round_count < max_rounds:
 
     # Call the model
     response = client.chat.completions.create(
-        model="seed-1-6-flash-250715",
+        model="seed-2-0-mini-260428",
         messages=messages,
         tools=tools
     )

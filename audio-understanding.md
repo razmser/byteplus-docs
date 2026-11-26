@@ -931,7 +931,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
             "content": [
                 {
                     "type": "input_audio",
-                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3"
+                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3"
                 },
                 {
                     "type": "input_text",
@@ -968,7 +968,7 @@ response = client.responses.create(
             "content": [
                 {
                     "type": "input_audio",
-                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3"
+                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3"
                 },
                 {
                     "type": "input_text",
@@ -1011,7 +1011,7 @@ func main() {
                 Role: responses.NewOptMessageRole(responses.MessageRoleUser),
                 Content: responses.NewContentItemArrayMessageContent(
                     []responses.ContentItem{
-            responses.ContentItem{OneOf: responses.NewContentItemAudioContentItemSum(responses.ContentItemAudio{Type: responses.ContentItemAudioTypeInputAudio, AudioURL: responses.NewOptString("https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3")})},
+            responses.ContentItem{OneOf: responses.NewContentItemAudioContentItemSum(responses.ContentItemAudio{Type: responses.ContentItemAudioTypeInputAudio, AudioURL: responses.NewOptString("https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3")})},
             responses.ContentItem{OneOf: responses.NewContentItemTextContentItemSum(responses.ContentItemText{Type: responses.ContentItemTextTypeInputText, Text: "Recognize the content in the audio."})},
                     },
                 ),
@@ -1049,7 +1049,7 @@ public class demo {
         ResponsesRequest request = ResponsesRequest.builder()
                 .model("seed-2-0-lite-260428")
                 .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.USER).content(
-                                MessageContent.ofList(java.util.Arrays.asList(ContentItemAudio.builder().audioUrl("https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3").build(), ContentItemText.builder().text("Recognize the content in the audio.").build()))
+                                MessageContent.ofList(java.util.Arrays.asList(ContentItemAudio.builder().audioUrl("https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3").build(), ContentItemText.builder().text("Recognize the content in the audio.").build()))
                         ).build())))
                 .build();
         Response resp = arkService.createResponse(request);
@@ -1082,7 +1082,7 @@ response = client.responses.create(
             "content": [
                 {
                     "type": "input_audio",
-                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3"
+                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3"
                 },
                 {
                     "type": "input_text",
@@ -1113,7 +1113,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/chat/completions \
                 {
                     "type": "input_audio",
                     "input_audio": {
-                        "url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3",
+                        "url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3",
                         "format": "mp3"
                     }
                 },
@@ -1153,7 +1153,7 @@ completion = client.chat.completions.create(
                 {
                     "type": "input_audio",
                     "input_audio": {
-                        "url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3",
+                        "url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3",
                         "format": "mp3"
                     }
                 },
@@ -1199,7 +1199,7 @@ public class Sample {
 
         ChatCompletionContentPartAudioInputAudio inputAudio = new ChatCompletionContentPartAudioInputAudio();
 
-        inputAudio.setUrl("https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3");
+        inputAudio.setUrl("https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3");
         inputAudio.setFormat("mp3");
 
         contentParts.add(ChatCompletionContentPartAudio.builder()
@@ -1531,7 +1531,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
         "content": [
           {
               "type": "input_audio",
-              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_understanding_single_qa.wav"
+              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_understanding_single_qa.wav"
           },
           {
               "type": "input_text",
@@ -1577,7 +1577,7 @@ Here are some simple code samples:
            "content": [
              {
                  "type": "input_audio",
-                 "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_demo_video_multispeaker_01.m4a"
+                 "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_demo_video_multispeaker_01.m4a"
              },
              {
                  "type": "input_text",
@@ -1636,7 +1636,7 @@ Note down the `id` of the response body (in this case it is `resp_02177727712885
            "content": [
              {
                  "type": "input_audio",
-                 "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_demo_video_multispeaker_02.m4a"
+                 "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_demo_video_multispeaker_02.m4a"
              },
              {
                  "type": "input_text",
@@ -1696,7 +1696,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
         "content": [
           {
               "type": "input_audio",
-              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_demo_video_caption.m4a"
+              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_demo_video_caption.m4a"
           },
           {
               "type": "input_text",
@@ -1746,7 +1746,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
         "content": [
           {
               "type": "input_audio",
-              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_demo_video_caption.m4a"
+              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_demo_video_caption.m4a"
           },
           {
               "type": "input_text",
@@ -1790,7 +1790,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
         "content": [
           {
               "type": "input_audio",
-              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_demo_video_caption.m4a"
+              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_demo_video_caption.m4a"
           },
           {
               "type": "input_text",
@@ -1830,7 +1830,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
         "content": [
           {
               "type": "input_audio",
-              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_demo_video_caption.m4a"
+              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_demo_video_caption.m4a"
           },
           {
               "type": "input_text",
@@ -1870,7 +1870,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
         "content": [
           {
               "type": "input_audio",
-              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_demo_video_multispeaker_01.m4a"
+              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_demo_video_multispeaker_01.m4a"
           },
           {
               "type": "input_text",
@@ -1916,7 +1916,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
         "content": [
           {
               "type": "input_audio",
-              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_demo_video_multispeaker_01.m4a"
+              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_demo_video_multispeaker_01.m4a"
           },
           {
               "type": "input_text",
@@ -1977,7 +1977,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
           },
           {
               "type": "input_audio",
-              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/advanced-usage/audio_demo_video_caption.m4a"
+              "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/advanced-usage/audio_demo_video_caption.m4a"
           }
         ]
       }
@@ -2014,7 +2014,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/responses \
             "content": [
                 {
                     "type": "input_audio",
-                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3"
+                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3"
                 },
                 {
                     "type": "input_text",
@@ -2056,7 +2056,7 @@ async def main():
             {"role": "user", "content": [
                 {
                     "type": "input_audio",
-                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3"
+                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3"
                 },
                 {
                     "type": "input_text",
@@ -2119,7 +2119,7 @@ func main() {
                 Role: responses.NewOptMessageRole(responses.MessageRoleUser),
                 Content: responses.NewContentItemArrayMessageContent(
                     []responses.ContentItem{
-            responses.ContentItem{OneOf: responses.NewContentItemAudioContentItemSum(responses.ContentItemAudio{Type: responses.ContentItemAudioTypeInputAudio, AudioURL: responses.NewOptString("https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3")})},
+            responses.ContentItem{OneOf: responses.NewContentItemAudioContentItemSum(responses.ContentItemAudio{Type: responses.ContentItemAudioTypeInputAudio, AudioURL: responses.NewOptString("https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3")})},
             responses.ContentItem{OneOf: responses.NewContentItemTextContentItemSum(responses.ContentItemText{Type: responses.ContentItemTextTypeInputText, Text: "Recognize the content in the audio."})},
                     },
                 ),
@@ -2194,7 +2194,7 @@ public class demo {
                 .input(ResponsesInput.ofList(java.util.Arrays.asList(ItemEasyMessage.builder().role(MessageRole.USER).content(
                                 MessageContent.ofList(java.util.Arrays.asList(ContentItemAudio.builder()
 
-                                                .audioUrl("https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3")
+                                                .audioUrl("https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3")
                                                 .build(), ContentItemText.builder()
 
                                                 .text("Recognize the content in the audio.")
@@ -2257,7 +2257,7 @@ response = client.responses.create(
             "content": [
                 {
                     "type": "input_audio",
-                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/files/resources/demo_audio.mp3"
+                    "audio_url": "https://arkdocs-en.tos-ap-southeast-1.volces.com/audio/resources/demo_audio.mp3"
                 },
                 {
                     "type": "input_text",

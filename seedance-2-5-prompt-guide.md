@@ -331,7 +331,7 @@ Example prompt:
 
    * Example:  *"Construct a complete story plot according to the storyboard sequence, and use the shots in a reasonable and coherent way."*
 
-   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/videos/video-generation/sd25-pe/img_014_To54dlVwsoe0grxwLOxcoOKWnbG.png)
+      ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/videos/video-generation/sd25-pe/img_014_To54dlVwsoe0grxwLOxcoOKWnbG.png)
 
 ### Keyframe reference
 

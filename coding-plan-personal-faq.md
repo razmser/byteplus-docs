@@ -109,45 +109,45 @@ API compatibility issue: The ModelArk API does not support the **developer** rol
 
    > The **compat** configuration must be placed at the model level and not at the provider level; otherwise, an `Unrecognized key: "compat"` error will occur.
 
-```JSON
-{
-  "models": {
-    "providers": {
-      "byteplus": {
-        "baseUrl": "https://ark.ap-southeast.bytepluses.com/api/coding/v3",
-        "apiKey": "<ARK_API_KEY>",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "<Model_Name>",
-            "name": "<Model_Name>",
-            "reasoning": true,
-            "input": ["text"],
-            "cost": {
-              "input": 0,
-              "output": 0,
-              "cacheRead": 0,
-              "cacheWrite": 0
-            },
-            "contextWindow": 200000,
-            "maxTokens": 8192,
-            "compat": {
-              "supportsDeveloperRole": false
-            }
-          }
-        ]
-      }
-    }
-  },
-  "agents": {
-    "defaults": {
-      "model": {
-        "primary": "byteplus/<Model_Name>"
-      }
-    }
-  }
-}
-```
+   ```JSON
+   {
+     "models": {
+       "providers": {
+         "byteplus": {
+           "baseUrl": "https://ark.ap-southeast.bytepluses.com/api/coding/v3",
+           "apiKey": "<ARK_API_KEY>",
+           "api": "openai-completions",
+           "models": [
+             {
+               "id": "<Model_Name>",
+               "name": "<Model_Name>",
+               "reasoning": true,
+               "input": ["text"],
+               "cost": {
+                 "input": 0,
+                 "output": 0,
+                 "cacheRead": 0,
+                 "cacheWrite": 0
+               },
+               "contextWindow": 200000,
+               "maxTokens": 8192,
+               "compat": {
+                 "supportsDeveloperRole": false
+               }
+             }
+           ]
+         }
+       }
+     },
+     "agents": {
+       "defaults": {
+         "model": {
+           "primary": "byteplus/<Model_Name>"
+         }
+       }
+     }
+   }
+   ```
 
 2. After modifying the configuration, execute the following command to restart the gateway.
 
@@ -288,27 +288,27 @@ openclaw gateway start
 
    * Turn on streaming output
 
-   ```Bash
-   openclaw config set channels.feishu.streaming true
-   ```
+      ```Bash
+      openclaw config set channels.feishu.streaming true
+      ```
 
    * Turn off streaming output
 
-   ```Bash
-   openclaw config set channels.feishu.streaming false
-   ```
+      ```Bash
+      openclaw config set channels.feishu.streaming false
+      ```
 
    * Turn on time display
 
-   ```Bash
-   openclaw config set channels.feishu.footer.elapsed true
-   ```
+      ```Bash
+      openclaw config set channels.feishu.footer.elapsed true
+      ```
 
    * Turn on status presentation
 
-   ```Bash
-   openclaw config set channels.feishu.footer.status true
-   ```
+      ```Bash
+      openclaw config set channels.feishu.footer.status true
+      ```
 
 2. After completing the configuration, you need to execute the following command to restart the service.
 
@@ -350,10 +350,10 @@ Currently, the default mode of the plugin in the group is: only replies when the
 
    4. Run the following command in the terminal to configure the Feishu bot. After completing the configuration, restart the service.
 
-   ```Bash
-   # Settings so that replies do not require @
-   openclaw config set channels.feishu.requireMention false --json
-   ```
+      ```Bash
+      # Settings so that replies do not require @
+      openclaw config set channels.feishu.requireMention false --json
+      ```
 
    The complete configuration example is as follows:
 
@@ -371,12 +371,12 @@ Currently, the default mode of the plugin in the group is: only replies when the
 
    2. Configure the message reply rules for the specified group. After completing the configuration, restart the service.
 
-   ```Bash
-   # 1. Set all groups by default to not require @
-   openclaw config set channels.feishu.requireMention false --json
-   # 2. Set specific groups to require @ (The group ID here is just an example and needs to be replaced with the actual group ID)
-   openclaw config set channels.feishu.groups.oc_xxxxxxxx.requireMention true --json
-   ```
+      ```Bash
+      # 1. Set all groups by default to not require @
+      openclaw config set channels.feishu.requireMention false --json
+      # 2. Set specific groups to require @ (The group ID here is just an example and needs to be replaced with the actual group ID)
+      openclaw config set channels.feishu.groups.oc_xxxxxxxx.requireMention true --json
+      ```
 
 ## Ark Helper
 
