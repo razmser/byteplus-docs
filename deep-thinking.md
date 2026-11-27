@@ -483,7 +483,7 @@ The **thinking** parameter controls whether to turn off deep reasoning, enabling
 
    * seed\-2\-0\-pro\-260328: supports `enabled` (default) and `disabled`.
 
-   * seed\-2\-0\-code\-preview\-260328: supports `enabled` (default) and `disabled`.
+      * seed\-2\-0\-code\-preview\-260328: supports `enabled` (default) and `disabled`.
 
    * glm\-5\-3\-flash\-260828: supports `enabled` (default). (**Thinking is always enabled, and disabling thinking is no longer supported.** )
 
@@ -499,7 +499,7 @@ The **thinking** parameter controls whether to turn off deep reasoning, enabling
 
    * deepseek\-v4\-flash\-ga\-260731: supports `enabled` (default) and `disabled`.
 
-   * deepseek\-v4\-pro\-260425: supports `enabled` (default) and `disabled`.
+      * deepseek\-v4\-pro\-260425: supports `enabled` (default) and `disabled`.
 
 * More information
 

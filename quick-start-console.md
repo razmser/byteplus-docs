@@ -6,9 +6,17 @@ The ModelArk Managed Agents console provides a visual interface, so you can crea
 
 ## Prerequisites
 
+> **Tip**
+
+* > A subaccount must have the `ArkAgentDevAccess` preset policy or higher permissions. If permissions are isolated by project, it must also have `ArkGlobalInitAccess` and project\-level `ArkAgentDevAccess`.
+
+* > `ArkAgentDevAccess` does not allow creating or managing API keys. If the current account cannot create API keys, contact the account administrator to obtain one.
+
+* > The Managed Agents service and models must be activated by an account administrator.
+
 ### 1. Get an API key
 
-Go to the [API keys page](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey), click **Create API key**, and use it as the access key for later integration with your business code.
+Go to the [API keys page](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey), click **Create API key**, and use it as the access key for later integration with your business code. If the current account does not have creation permissions, contact the account administrator to obtain an available API key.
 
 ### 2. Activate the Managed Agents service
 
@@ -80,13 +88,17 @@ Repeatedly adjust the **system prompt**, **tools**, and **skills** until the ses
 
 After the agent configuration is verified, you can integrate it into your business code in two steps.
 
+> **Tip**
+
+> Subaccounts with only the `ArkAgentDevAccess` permission cannot use the **API integration** feature (including create and use, and select one to use) on the session details page. If you need to call it through an API, contact the account administrator to obtain an API key.
+
 ### 1. Copy IDs from the console
 
 * Copy `agent_id` from the **Agent details page**.
 
 * Copy `environment_id` from the **Environment details page**.
 
-* Go to the [API keys page](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey), click **Create API key**, and use it as the access key.
+* Use the obtained API key as the access key. If the current account cannot create API keys, contact the account administrator to obtain one.
 
 ### 2. Reference the IDs in code to create a session
 

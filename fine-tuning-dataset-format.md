@@ -104,8 +104,8 @@ One JSON format data per line:
 
       |Model Version |enabled |disabled |auto |
       |---|---|---|---|
-      |seed\-1\-6\-250615 |✅ |✅ |✅ |
-      |seed\-1\-6\-flash\-250615 |✅ |✅ |❌ |
+      |seed\-1\-6\-250615 |● |● |● |
+      |seed\-1\-6\-flash\-250615 |● |● |— |
 
       * `enabled` indicates forcing the model to think; in this case, the sample needs to carry the reasoning_content field, otherwise the model performance will be affected.
 
@@ -856,8 +856,8 @@ Each line contains one JSON format data:
 
    |Model Version |enabled |disabled |auto |
    |---|---|---|---|
-   |seed\-1\-6\-250615 |✅ |✅ |✅ |
-   |seed\-1\-6\-flash\-250615 |✅ |✅ |❌ |
+   |seed\-1\-6\-250615 |● |● |● |
+   |seed\-1\-6\-flash\-250615 |● |● |— |
 
    * `enabled` indicates forcing the model to think; in this case, the assistant in choices must return with the reasoning_content field, otherwise the model performance will be affected
 

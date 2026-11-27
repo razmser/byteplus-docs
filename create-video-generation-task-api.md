@@ -697,10 +697,10 @@ Output video format.
 
 > |Player |macOS |Windows |
 > |---|---|---|
-> |IINA |✓ |✕ |
-> |VLC |✓ |✓ |
-> |MPV |✓ |✓ |
-> |ffplay |✓ |✓ |
+> |IINA |● |— |
+> |VLC |● |● |
+> |MPV |● |● |
+> |ffplay |● |● |
 
 **Supported models**
 

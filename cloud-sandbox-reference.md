@@ -151,16 +151,16 @@ The file system of the cloud sandbox is divided by purpose into three categories
 
 |Directory |Purpose |Agent read permission |Agent write permission |
 |---|---|---|---|
-|`$HOME` |User home |✓ |✓ |
-|`/workspace` |Workspace, the agent's main working directory<br><br>**Note**: `/workspace/AGENTS.md` (system prompt) has read\-only permissions. |✓ |✓ |
-|`/mnt` |Mount directory |✓ |✓ |
-|`/mnt/memory` |Agent memory directory, see [Memory](persistent-memory.md). |✓ |✗ |
-|`/mnt/skills` |Agent skills directory, see [Skills](skills.md). |✓ |✗ |
-|`/mnt/session/uploads` |Files API uploaded file mount directory, see [Upload and mount files](upload-and-mount-files.md). |✓ |✗ |
-|`/mnt/session/outputs` |Agent output directory. Files written here are registered with the Files API; when you need to write artifacts to your own TOS bucket, configure `config.tos`. |✓ |✓ |
-|`/mnt/session/storage` |The session's TOS resource mount directory. For details, see [Upload and mount files](upload-and-mount-files.md). |✓ |✓ |
-|`/tmp` |Temporary directory |✓ |✓ |
-|Any other path |\- |✗ |✗ |
+|`$HOME` |User home |● |● |
+|`/workspace` |Workspace, the agent's main working directory<br><br>**Note**: `/workspace/AGENTS.md` (system prompt) has read\-only permissions. |● |● |
+|`/mnt` |Mount directory |● |● |
+|`/mnt/memory` |Agent memory directory, see [Memory](persistent-memory.md). |● |— |
+|`/mnt/skills` |Agent skills directory, see [Skills](skills.md). |● |— |
+|`/mnt/session/uploads` |Files API uploaded file mount directory, see [Upload and mount files](upload-and-mount-files.md). |● |— |
+|`/mnt/session/outputs` |Agent output directory. Files written here are registered with the Files API; when you need to write artifacts to your own TOS bucket, configure `config.tos`. |● |● |
+|`/mnt/session/storage` |The session's TOS resource mount directory. For details, see [Upload and mount files](upload-and-mount-files.md). |● |● |
+|`/tmp` |Temporary directory |● |● |
+|Any other path |\- |— |— |
 
 ### Distinguish artifact storage from TOS resource mounts
 

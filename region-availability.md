@@ -97,20 +97,20 @@ For the full supported model list, see [Model list](model-list.md).
 
 |Capability or service |AP |EU |
 |---|---|---|
-|Foundation models (page) |✅ |✅ |
-|Model profile page |✅ | |
-|Starter apps |✅ | |
-|Playground |✅ | |
-|PromptPilot |✅ | |
-|Online inference |✅ |✅ |
-|Batch inference |✅ | |
-|Tuning and Dataset |✅ | |
-|Model activation management |✅ |✅ |
-|API keys |✅ |✅ |
-|Usage management |✅ |✅ |
-|Network configuration |✅ | |
-|Tokenizer tool |✅ | |
-|Project configuration |✅ |✅ |
+|Foundation models (page) |● |● |
+|Model profile page |● | |
+|Starter apps |● | |
+|Playground |● | |
+|PromptPilot |● | |
+|Online inference |● |● |
+|Batch inference |● | |
+|Tuning and Dataset |● | |
+|Model activation management |● |● |
+|API keys |● |● |
+|Usage management |● |● |
+|Network configuration |● | |
+|Tokenizer tool |● | |
+|Project configuration |● |● |
 
 # Related documents
 

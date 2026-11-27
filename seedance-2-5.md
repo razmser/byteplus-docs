@@ -251,24 +251,24 @@ You can replace `reference_image_url`, `reference_video_url`, and `reference_aud
 |Model name | |[Seedance 2.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5) |[Seedance 2.5 flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5-flash) |[Seedance 2.0](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |[Seedance 2.0 fast](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |[Seedance 2.0 mini](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |
 |---|---|---|---|---|---|---|
 |Model ID | |`dreamina-seedance-2-5-260628` |`dreamina-seedance-2-5-flash-261115` |`dreamina-seedance-2-0-260128` |`dreamina-seedance-2-0-fast-260128` |`dreamina-seedance-2-0-mini-260615` |
-|[Text-to-video](video-generation-tutorial.md#4e74bcee) | |✓ |✓ |✓ |✓ |✓ |
-|[First-frame-to-video](video-generation-tutorial.md#979b2d28) | |✓ |✓ |✓ |✓ |✓ |
-|[First-last-frame-to-video](video-generation-tutorial.md#0d55ca07) | |✓ |✓ |✓ |✓ |✓ |
-|[Omni reference](seedance-2-5.md#2.5_50_reference) |Image reference |✓ |✓ |✓ |✓ |✓ |
-||Video reference |✓ |✓ |✓ |✓ |✓ |
-||Audio reference |✓ |✓ |✗ (requires image/video) |✗ (requires image/video) |✗ (requires image/video) |
-||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |✓ |✓ |✓ |✓ |✓ |
-|[Edit video](seedance-2-5.md#2.5_edit) | |✓ |✓ |✓ |✓ |✓ |
-|[Extend video](seedance-2-5.md#2.5_extend) | |✓ |✓ |✓ |✓ |✓ |
-|[Generate video with audio](seedance-2-5.md#2.5_multi_language) | |✓ |✓ |✓ |✓ |✓ |
+|[Text-to-video](video-generation-tutorial.md#4e74bcee) | |● |● |● |● |● |
+|[First-frame-to-video](video-generation-tutorial.md#979b2d28) | |● |● |● |● |● |
+|[First-last-frame-to-video](video-generation-tutorial.md#0d55ca07) | |● |● |● |● |● |
+|[Omni reference](seedance-2-5.md#2.5_50_reference) |Image reference |● |● |● |● |● |
+||Video reference |● |● |● |● |● |
+||Audio reference |● |● |— (requires image/video) |— (requires image/video) |— (requires image/video) |
+||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |● |● |● |● |● |
+|[Edit video](seedance-2-5.md#2.5_edit) | |● |● |● |● |● |
+|[Extend video](seedance-2-5.md#2.5_extend) | |● |● |● |● |● |
+|[Generate video with audio](seedance-2-5.md#2.5_multi_language) | |● |● |● |● |● |
 |Maximum number of reference assets | |50 (30 images + 10 videos + 10 audios) |20 (10 images + 5 videos + 5 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |
-|[Draft mode](seedance-2-5.md#2.5_draft_mode) | |✓ |✗ |✗ |✗ |✗ |
-|[Return last frame](video-generation-tutorial.md#141cf7fa) | |✓ |✓ |✓ |✓ |✓ |
+|[Draft mode](seedance-2-5.md#2.5_draft_mode) | |● |— |— |— |— |
+|[Return last frame](video-generation-tutorial.md#141cf7fa) | |● |● |● |● |● |
 |[Output video specifications](seedance-2-5.md#2.5_video_output_specs) |[Output resolution](seedance-2-5.md#2.5_resolution) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |
 ||[Output aspect ratio](seedance-2-5.md#2.5_ratio) |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |
 ||[Output duration](seedance-2-5.md#2.5_duration) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |
 ||[Output video format](seedance-2-5.md#2.5_output_format) |mp4, mov |mp4, mov |mp4 |mp4 |mp4 |
-|[Offline inference](video-generation-tutorial.md#a0badaae) | |✗ |✗ |✗ |✗ |✗ |
+|[Offline inference](video-generation-tutorial.md#a0badaae) | |— |— |— |— |— |
 
 ## Key capabilities
 
@@ -3526,10 +3526,10 @@ Control the format of the output video through the **output_format** parameter.
 
 > |Player |macOS |Windows |
 > |---|---|---|
-> |IINA |✓ |✕ |
-> |VLC |✓ |✓ |
-> |mpv |✓ |✓ |
-> |ffplay |✓ |✓ |
+> |IINA |● |— |
+> |VLC |● |● |
+> |mpv |● |● |
+> |ffplay |● |● |
 
 ### Add a watermark to the video
 

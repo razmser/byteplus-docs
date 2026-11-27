@@ -220,11 +220,13 @@ Choose one of the following methods; do not combine them:
 
    * **Total pixel range**: [`1280x720` (921,600), `2880x2880` (8,294,400)]
 
+> For images with a 16:9 aspect ratio, the maximum supported output resolution is 3840 × 2160, which conforms to the UHD\-1 (4K UHD) specification.
+
    * **Aspect ratio range**: [1/16, 16]
 
-> **tip**
+> **Note**
 
-> For method 2, both the total\-pixel and aspect\-ratio ranges must be met. Total pixels are the product of a single image's width and height, not limits on either dimension separately.
+* > For method 2, both the total\-pixel and aspect\-ratio ranges must be met. Total pixels are the product of a single image's width and height, not limits on either dimension separately.
 
 * > **Valid example**: `2880x1440`. It has 4,147,200 pixels, within [921,600, 8,294,400], and an aspect ratio of 2, within [1/16, 16].
 

@@ -14,7 +14,7 @@ Choose an API based on your goal:
 
 * **To keep the same session and refresh the configuration**, use [Upgrade session](upgrade-session-api.md).
 
-By default, a single agent can have up to 1000 active sessions at the same time. When the quota is reached, the create session API returns HTTP 429 `SessionQuotaExceeded`. The actual quota may vary depending on the account configuration.
+By default, a single agent can have up to 10,000 active sessions at the same time (active means a status other than `archived` or `terminated`). When the quota is reached, the create session API returns HTTP 429 `SessionQuotaExceeded`. The actual quota may vary depending on the account configuration.
 
 > **Tip**
 

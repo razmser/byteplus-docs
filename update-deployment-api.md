@@ -54,7 +54,7 @@ The agent ID to use when creating or updating the deployment.
 
 `agent.type`
 
-Reference type. Fixed to `agent`.
+Reference type, fixed as `agent`.
 
 **version** `integer`  |  Agent version
 

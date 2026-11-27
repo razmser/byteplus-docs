@@ -30,7 +30,7 @@ The following flow applies to business applications in cloud and self\-hosted en
 
 5. Consider the current turn to have ended normally only when `session.status_idle` is received later and `stop_reason.type=end_turn`.
 
-If you need to display usage or perform billing, read the `session.usage` cumulative usage snapshot returned before `session.status_idle`.`session.usage` is not a condition for determining that the current turn is complete.
+If you need to display usage or perform billing, read the `session.usage` cumulative usage snapshot returned before `session.status_idle`. `session.usage` is not a condition for determining that the current turn is complete.
 
 > **Note**
 
@@ -362,7 +362,7 @@ Preview frames are not written to the event history and may be incomplete if the
 
 Do not use a successful HTTP response, `agent.message`, or SSE connection closure as the end condition for the current turn. The client should continue reading status events and handle the following results:
 
-When the session is about to enter `idle`, the server returns `session.usage` first, and then returns `session.status_idle`.`session.usage` provides only the latest cumulative usage and does not provide the processing result for the current turn. Regardless of whether `stop_reason` is `end_turn`, `requires_action`, or `retries_exhausted`, you should continue reading subsequent status events.
+When the session is about to enter `idle`, the server returns `session.usage` first, and then returns `session.status_idle`. `session.usage` provides only the latest cumulative usage and does not provide the processing result for the current turn. Regardless of whether `stop_reason` is `end_turn`, `requires_action`, or `retries_exhausted`, you should continue reading subsequent status events.
 
 |Status event |Stop reason |Client action |
 |---|---|---|
@@ -788,7 +788,7 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/sessions/sesn-20260701120100
 
 When the session is still `idle` and has not been terminated, follow the [send message](session-event-stream.md#send-message) workflow to send a `user.message` that contains real task content. The session changes from `idle` to `running`.
 
-If you need to continue preserving the sandbox state, send a `user.message` with non\-empty `content` before the current period expires. After the session completes the current task and enters `idle` again, the platform recalculates the 14\-day retention period. Omitting `content` or passing an empty array does not refresh the retention period.
+If you need to continue preserving the sandbox state, send a `user.message` with non\-empty `content` before the current period expires. After the session completes the current task and enters `idle` again, the platform recalculates the 21\-day retention period. Omitting `content` or passing an empty array does not refresh the retention period.
 
 If you need to retain events and agent artifacts for a long time, save the necessary data to your own storage. For retention and deletion impacts, see [Data retention and deletion impact](manage-session.md#checkpoint-retention).
 
@@ -838,11 +838,11 @@ The following `session.usage` example includes the session's cumulative runtime,
 
 The `video_generate` parameter is not returned when there is no video generation usage.
 
-`input_tokens` in the `session.usage` event is the total number of input tokens, including the portions read from and written to the cache; `cache_read_input_tokens` is the portion that hits the prompt cache.`cache_creation.ephemeral_1h_input_tokens` and `cache_creation.ephemeral_5m_input_tokens` currently always return `0`. They cannot be used to determine whether a session created a cache, or to calculate uncached input.
+`input_tokens` in the `session.usage` event is the total number of input tokens, including the portions read from and written to the cache; `cache_read_input_tokens` is the portion that hits the prompt cache. `cache_creation.ephemeral_1h_input_tokens` and `cache_creation.ephemeral_5m_input_tokens` currently always return `0`. They cannot be used to determine whether a session created a cache, or to calculate uncached input.
 
 `cache_creation_input_tokens` in `span.model_request_end.model_usage` returns the number of input tokens actually written to the prompt cache for a single model request. This differs from the placeholder parameter in `session.usage`.
 
-`session.usage.id` is generated from the corresponding `session.status_idle` event ID, in the format `sevt-usg-<idle_event_id>`. The two events have the same `processed_at`. The client should preserve the order returned by the server and not sort or deduplicate events only by `processed_at`.`usage.active_seconds` is the cumulative number of seconds that the session was actually running: only when a session returns from `running` to `idle` or ends with `terminated` does the system add the duration of that run; time for a session that is currently still running is not counted yet.
+`session.usage.id` is generated from the corresponding `session.status_idle` event ID, in the format `sevt-usg-<idle_event_id>`. The two events have the same `processed_at`. The client should preserve the order returned by the server and not sort or deduplicate events only by `processed_at`. `usage.active_seconds` is the cumulative number of seconds that the session was actually running: only when a session returns from `running` to `idle` or ends with `terminated` does the system add the duration of that run; time for a session that is currently still running is not counted yet.
 
 To query the latest cumulative usage and duration recorded by the server, call `GET /sessions/{session_id}` to read the session's `usage` and `stats`. To troubleshoot consumption and startup latency by thread, call `GET /sessions/{session_id}/threads/{thread_id}` to read the current thread's `usage` and `stats`. For the statistics integrity boundaries of existing sessions, see [Manage sessions](manage-session.md).
 

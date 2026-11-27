@@ -16,7 +16,7 @@ This API supports the following authentication method(s). For details, see [Base
 
 ### Body parameters
 
-**file** `object`  |  Uploaded file
+**file** `file`  |  Uploaded file
 
 The file to upload. It must be a binary file. For specific limits, see the Files API tutorial.
 

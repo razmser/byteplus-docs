@@ -23,11 +23,11 @@ Seedream 5.0 pro and Seedream 5.0 flash both support precise image editing by sp
 |Model name ||[Seedream 5.0 pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |[Seedream 5.0 flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |
 |---|---|---|---|
 |Model ID ||dola\-seedream\-5\-0\-pro\-260628 |dola\-seedream\-5\-0\-flash\-260915 |
-|[Text-to-image](image-generation-tutorial.md#9695d195) ||✓ |✓ |
-|[Single-image or multi-image image-to-image](image-generation-tutorial.md#8bc49063) ||✓ |✓ |
-|[Interactive editing](seedream-5-0-pro.md#interactive-edit) ||✓ |✓ |
-|[Layer decomposition](seedream-5-0-pro.md#layer-decomposition) ||✓ |✓ |
-|Native multilingual generation ||✓ |✓ |
+|[Text-to-image](image-generation-tutorial.md#9695d195) ||● |● |
+|[Single-image or multi-image image-to-image](image-generation-tutorial.md#8bc49063) ||● |● |
+|[Interactive editing](seedream-5-0-pro.md#interactive-edit) ||● |● |
+|[Layer decomposition](seedream-5-0-pro.md#layer-decomposition) ||● |● |
+|Native multilingual generation ||● |● |
 |Model parameters |Resolution |1K, 1.5K, 2K |1K, 1.5K, 2K |
 ||Output format |png, jpeg |png, jpeg |
 ||Prompt optimization mode |Standard mode, fast mode |Standard mode |

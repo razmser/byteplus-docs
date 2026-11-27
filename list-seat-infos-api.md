@@ -60,7 +60,7 @@ Seat ID list. A single request can include up to 1,000 IDs.
 
 Seat binding status. Supported values:
 
-* `1`: idle. The seat is not bound to an API key.
+* `1`: idle, indicating that the seat is not bound to an API key.
 
 * `2`: active, indicating that the seat is bound to an API key.
 

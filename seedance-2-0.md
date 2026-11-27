@@ -107,22 +107,22 @@ The Seedance 2.0 series models currently include Dreamina Seedance 2.0 (hereinaf
 |Model Name | |[Seedance 2.0](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |[Seedance 2.0 fast](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |[Seedance 2.0 mini](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini) |
 |---|---|---|---|---|
 |Model ID | |dreamina\-seedance\-2\-0\-260128 |dreamina\-seedance\-2\-0\-fast\-260128 |dreamina\-seedance\-2\-0\-mini\-260615 |
-|[Text to video](video-generation-tutorial.md#4e74bcee) | |✓ |✓ |✓ |
-|[Image to video (first frame)](video-generation-tutorial.md#979b2d28) | |✓ |✓ |✓ |
-|[Image to video (first and last frames)](video-generation-tutorial.md#0d55ca07) | |✓ |✓ |✓ |
-|[Omni reference](seedance-2-0.md#50e1b4ea) [New] |Image reference |✓ |✓ |✓ |
-||Video reference |✓ |✓ |✓ |
-||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |✓ |✓ |✓ |
-|[Edit video](seedance-2-0.md#75a28782) [New] | |✓ |✓ |✓ |
-|[Extend video](seedance-2-0.md#46d77653) [New] | |✓ |✓ |✓ |
-|[Generate videos with audio](video-generation-tutorial.md#979b2d28)<br><br>> "generate_audio": "true" | |✓ |✓ |✓ |
-|[Draft mode](video-generation-tutorial.md#5acd28c8) | |✗ |✗ |✗ |
-|[Return the last frame of the generated video](video-generation-tutorial.md#141cf7fa)<br><br>> "return_last_frame": "true" | |✓ |✓ |✓ |
+|[Text to video](video-generation-tutorial.md#4e74bcee) | |● |● |● |
+|[Image to video (first frame)](video-generation-tutorial.md#979b2d28) | |● |● |● |
+|[Image to video (first and last frames)](video-generation-tutorial.md#0d55ca07) | |● |● |● |
+|[Omni reference](seedance-2-0.md#50e1b4ea) [New] |Image reference |● |● |● |
+||Video reference |● |● |● |
+||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |● |● |● |
+|[Edit video](seedance-2-0.md#75a28782) [New] | |● |● |● |
+|[Extend video](seedance-2-0.md#46d77653) [New] | |● |● |● |
+|[Generate videos with audio](video-generation-tutorial.md#979b2d28)<br><br>> "generate_audio": "true" | |● |● |● |
+|[Draft mode](video-generation-tutorial.md#5acd28c8) | |— |— |— |
+|[Return the last frame of the generated video](video-generation-tutorial.md#141cf7fa)<br><br>> "return_last_frame": "true" | |● |● |● |
 |[Output video specifications](video-generation-tutorial.md#9fe4cce0) |Resolution<br><br>> "resolution": "720p" |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |
 ||Aspect ratio<br><br>> "ratio":"16:9" |21:9, 16:9, 4:3, 1:1, 3:4, 9:16 |21:9, 16:9, 4:3, 1:1, 3:4, 9:16 |21:9, 16:9, 4:3, 1:1, 3:4, 9:16 |
 ||Duration<br><br>> "duration": 5 |4–15 seconds |4–15 seconds |4–15 seconds |
 ||Video format |mp4 |mp4 |mp4 |
-|[Offline inference](video-generation-tutorial.md#a0badaae)<br><br>> "service_tier": "flex" | |✗ |✗ |✗ |
+|[Offline inference](video-generation-tutorial.md#a0badaae)<br><br>> "service_tier": "flex" | |— |— |— |
 |Online inference rate limits |Max. RPM |**Non\-4K**:<br><br><br>* Enterprise users: 600<br><br>* Individual users: 180<br><br>   **4K**:<br><br>* Enterprise users: 15<br><br>* Individual users: 15 |* Enterprise users: 600<br><br>* Individual users: 180 |* Enterprise users: 600<br><br>* Individual users: 180 |
 ||Max. concurrency |**Non\-4K**:<br><br><br>* Enterprise users: 10<br><br>* Individual users: 3<br><br>   **4K**:<br><br>* Enterprise users: 1<br><br>* Individual users: 1 |* Enterprise users: 10<br><br>* Individual users: 3 |* Enterprise users: 10<br><br>* Individual users: 3 |
 |Offline inference rate limits |Max. TPD |\- |\- |\- |
@@ -1635,7 +1635,7 @@ The following compatibility test results cover playback of videos with 10\-bit c
 
 
 <Tabs>
-<Tab zoneid="n9oeQHistI" title="Browser">
+<Tab zoneid="P1uTcUtIru" title="Browser">
 <TabTitle>Browser</TabTitle>
 
 
@@ -1649,7 +1649,7 @@ The following compatibility test results cover playback of videos with 10\-bit c
 
 
 </Tab>
-<Tab zoneid="blP87tKTvN" title="Player">
+<Tab zoneid="Jh7RjTrlxV" title="Player">
 <TabTitle>Player</TabTitle>
 
 
@@ -1676,7 +1676,7 @@ The following compatibility test results cover playback of videos with 10\-bit c
 
 
 <Tabs>
-<Tab zoneid="JVpfwNT13w" title="Browser">
+<Tab zoneid="v8zElOTIWr" title="Browser">
 <TabTitle>Browser</TabTitle>
 
 
@@ -1691,7 +1691,7 @@ The following compatibility test results cover playback of videos with 10\-bit c
 
 
 </Tab>
-<Tab zoneid="dmChbs2XAY" title="Player">
+<Tab zoneid="VUDGbEauGu" title="Player">
 <TabTitle>Player</TabTitle>
 
 

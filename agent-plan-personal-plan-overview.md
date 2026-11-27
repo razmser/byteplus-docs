@@ -30,19 +30,19 @@ Models and harness availability vary by plan, as detailed below:
 
 |Category |Domain |Model name |Length limits (tokens) |Small |Medium |Large |Max |
 |---|---|---|---|---|---|---|---|
-|Model |Text generation (fast) |seed\-2.0\-mini |* Context window: 256K<br><br>* Maximum output: 128K |✓ |✓ |✓ |✓ |
-||Text generation (standard) |seed\-2.0\-lite |* Context window: 256K<br><br>* Maximum output: 128K |✓ |✓ |✓ |✓ |
-||Text generation (advanced) |dola\-seed\-2.1\-turbo |* Context window: 256K<br><br>* Maximum output: 256K |✓ |✓ |✓ |✓ |
-||Text generation (advanced) |deepseek\-v4.1\-flash\-economy |* Context window: 1024K<br><br>* Maximum output: 384K |✓ |✓ |✓ |✓ |
-||Text generation (advanced) |deepseek\-v4.1\-flash |* Context window: 1024K<br><br>* Maximum output: 384K |✓ |✓ |✓ |✓ |
-||Text generation (advanced) |deepseek\-v4\-pro |* Context window: 1024K<br><br>* Maximum output: 384K |✓ |✓ |✓ |✓ |
-||Embedding |skylark\-embedding\-vision |* Context window: 128K |✓ |✓ |✓ |✓ |
-||Image generation |dola\-seedream\-5.5 |\- |✓ |✓ |✓ |✓ |
-||Image generation |dola\-seedream\-5.0\-flash |\- |✓ |✓ |✓ |✓ |
-||Image generation |dola\-seedream\-5.0\-pro |\- |✓ |✓ |✓ |✓ |
-||Video generation |dreamina\-seedance\-2.5\-flash |\- |✗ |✗ |✓ |✓ |
-||Video generation |dreamina\-seedance\-2.5 |\- |✗ |✗ |✓ |✓ |
-|Harness |BytePlus Searchinfinity |\- |\- |✓ |✓ |✓ |✓ |
+|Model |Text generation (fast) |seed\-2.0\-mini |* Context window: 256K<br><br>* Maximum output: 128K |● |● |● |● |
+||Text generation (standard) |seed\-2.0\-lite |* Context window: 256K<br><br>* Maximum output: 128K |● |● |● |● |
+||Text generation (advanced) |dola\-seed\-2.1\-turbo |* Context window: 256K<br><br>* Maximum output: 256K |● |● |● |● |
+||Text generation (advanced) |deepseek\-v4.1\-flash\-economy |* Context window: 1024K<br><br>* Maximum output: 384K |● |● |● |● |
+||Text generation (advanced) |deepseek\-v4.1\-flash |* Context window: 1024K<br><br>* Maximum output: 384K |● |● |● |● |
+||Text generation (advanced) |deepseek\-v4\-pro |* Context window: 1024K<br><br>* Maximum output: 384K |● |● |● |● |
+||Embedding |skylark\-embedding\-vision |* Context window: 128K |● |● |● |● |
+||Image generation |dola\-seedream\-5.5 |\- |● |● |● |● |
+||Image generation |dola\-seedream\-5.0\-flash |\- |● |● |● |● |
+||Image generation |dola\-seedream\-5.0\-pro |\- |● |● |● |● |
+||Video generation |dreamina\-seedance\-2.5\-flash |\- |— |— |● |● |
+||Video generation |dreamina\-seedance\-2.5 |\- |— |— |● |● |
+|Harness |BytePlus Searchinfinity |\- |\- |● |● |● |● |
 
 ### Usage notes
 

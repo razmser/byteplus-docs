@@ -481,19 +481,19 @@ print(imagesResponse.data[0].url)
 
 |Model | |dreamina\-seedance\-2.5 |dreamina\-seedance\-2.5\-flash |
 |---|---|---|---|
-|Text\-to\-video | |✓ |✓ |
-|Image\-to\-video, first frame | |✓ |✓ |
-|Image\-to\-video, first and last frames | |✓ |✓ |
-|Multimodal reference |Image reference |✓ |✓ |
-||Video reference |✓ |✓ |
-||Audio reference |✓ |✓ |
-||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |✓ |✓ |
-|Video editing | |✓ |✓ |
-|Video extension | |✓ |✓ |
-|Video generation with audio | |✓ |✓ |
+|Text\-to\-video | |● |● |
+|Image\-to\-video, first frame | |● |● |
+|Image\-to\-video, first and last frames | |● |● |
+|Multimodal reference |Image reference |● |● |
+||Video reference |● |● |
+||Audio reference |● |● |
+||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |● |● |
+|Video editing | |● |● |
+|Video extension | |● |● |
+|Video generation with audio | |● |● |
 |Maximum reference assets | |50 (30 images + 10 videos + 10 audio files) |20 (10 images + 5 videos + 5 audio files) |
-|Draft mode | |✓ |✗ |
-|Return the last\-frame image of the generated video | |✓ |✓ |
+|Draft mode | |● |— |
+|Return the last\-frame image of the generated video | |● |● |
 |Output video specifications |Output resolution |* 480p (8\-bit depth)<br><br>* 720p (8\-bit depth)<br><br>* 1080p (10\-bit depth)<br><br>* 4K (10\-bit depth) |* 480p (8\-bit depth)<br><br>* 720p (8\-bit depth) |
 ||Output aspect ratio |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |
 ||Output duration |4~30 seconds; \-1 (the model automatically selects the optimal duration within the valid range) |4~30 seconds; \-1 (the model automatically selects the optimal duration within the valid range) |
@@ -504,14 +504,14 @@ print(imagesResponse.data[0].url)
 
 |Model ||dola\-seedream\-5.5 |dola\-seedream\-5.0\-pro |dola\-seedream\-5.0\-flash |
 |---|---|---|---|---|
-|Text\-to\-image ||✓ |✓ |✓ |
-|Single\-image image generation ||✓ |✓ |✓ |
-|Multiple\-reference image generation ||✓, up to 10 reference images |✓, up to 10 reference images |✓, up to 10 reference images |
-|Layer decomposition ||✓, 1 base image + up to 99 layers |✓, 1 base image + up to 16 layers |✓, 1 base image + up to 16 layers |
-|Native alpha channel |Text\-to\-image |✓ |— |— |
-||Image\-to\-image |✓, up to 10 reference images; input images do not need an alpha channel |✓, only 1 PNG reference image with an alpha channel |✓, only 1 PNG reference image with an alpha channel |
-|Maximum output image count<br><br>> Layer decomposition ||✓, specify 2–100 images, including the base image and layers |— |— |
-|Rich text OCR ||✓ |— |— |
+|Text\-to\-image ||● |● |● |
+|Single\-image image generation ||● |● |● |
+|Multiple\-reference image generation ||●, up to 10 reference images |●, up to 10 reference images |●, up to 10 reference images |
+|Layer decomposition ||●, 1 base image + up to 99 layers |●, 1 base image + up to 16 layers |●, 1 base image + up to 16 layers |
+|Native alpha channel |Text\-to\-image |● |— |— |
+||Image\-to\-image |●, up to 10 reference images; input images do not need an alpha channel |●, only 1 PNG reference image with an alpha channel |●, only 1 PNG reference image with an alpha channel |
+|Maximum output image count<br><br>> Layer decomposition ||●, specify 2–100 images, including the base image and layers |— |— |
+|Rich text OCR ||● |— |— |
 |Model parameters |Resolution<br><br>> Image generation<br><br><br> |* Method 1: Specify a resolution tier: `1K`, `1.5K`, `2K`<br><br>* Method 2: Specify width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Specify a resolution tier: `1K`, `1.5K`, `2K`<br><br>* Method 2: Specify width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Specify a resolution tier: `1K`, `1.5K`, `2K`<br><br>* Method 2: Specify width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |
 ||Resolution<br><br>> Layer decomposition<br><br><br> |1K, 1.5K, 2K, auto (default) |1K, 1.5K, 2K, auto (default) |1K, 1.5K, 2K, auto (default) |
 ||Image file format |png (default), jpeg |png, jpeg (default) |png, jpeg (default) |

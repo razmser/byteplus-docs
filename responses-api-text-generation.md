@@ -1316,8 +1316,6 @@ By prefilling part of the **assistant** role's content, you can guide and contro
 
 * seed\-2\-0\-pro\-260328
 
-* seed\-2\-0\-code\-preview\-260328
-
 * deepseek\-v4\-1\-flash\-261017
 
 * deepseek\-v4\-1\-flash\-260910

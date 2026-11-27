@@ -52,6 +52,4 @@ Webhook test event ID, starting with `whe-`. The callback body and the `webhook-
 
 **type** `string`  |  Object type
 
-Object type. Fixed to `agent`.
-
-Value is fixed to `event`.
+Object type, fixed as `event`.

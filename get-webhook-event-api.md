@@ -76,7 +76,7 @@ Delivery information for this event for the current endpoint. This parameter is 
 
 `delivery.status`
 
-Delivery status.`RUNNING` indicates that the delivery has not completed; `SUCCEEDED` indicates that the delivery succeeded; `FAILED` indicates that the delivery ultimately failed; `CANCELED` indicates that deliveries that have not started or are waiting to be retried were canceled because the endpoint was disabled or a subscribed event type was removed; `EXPIRED` indicates that the delivery did not complete within the 24\-hour delivery window.
+Delivery status.`RUNNING` indicates that the delivery has not completed; `SUCCEEDED` indicates that the delivery succeeded; `FAILED` indicates that the delivery ultimately failed; `CANCELED` indicates that deliveries that had not started or were waiting to be retried were canceled because the endpoint was disabled or a subscribed event type was removed; `EXPIRED` indicates that the delivery did not complete within the 24\-hour delivery window.
 
 **attempt_count** `integer`  |  Attempt count
 

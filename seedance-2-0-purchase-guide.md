@@ -38,10 +38,10 @@ For detailed benefits and terms, please refer to the following.
 
 |Type |Price |Real\-Person Verification & Upload (Console) |Real\-Person Verification & Upload (Assets API) |Virtual Portrait Asset Upload (Console & API) |Private Asset Library Quota |Asset Upload Rate Limit (CreateAsset) |Creative Support |
 |---|---|---|---|---|---|---|---|
-|**Basic Creation Rights** (Free tier) |Free |✅ (Console only) |❌ |❌ |Assets: 50 / Asset Groups: 50 |Max QPM: 3 | <br><br>/ |
-|**Advanced Creation Rights (Entry)**  |Free |✅ |✅ |✅ |Assets: 50 / Asset Groups: 50 |Max QPM: 3 | <br><br>/ |
-|**Advanced Creation Rights** |$14,000/year<br><br>$1,400/month |✅ |✅ |✅ |Assets: 1M / Asset Groups: 1M |Max QPM: 120 |Clear pathway to substantiate usage rights |
-|**Advanced Creation Rights (Premium)**  |$42,000/year<br><br>$4,200/month |✅ |✅ |✅ |Assets: 5M / Asset Groups: 5M |Max QPM: 300 |Clear pathway to substantiate usage rights |
+|**Basic Creation Rights** (Free tier) |Free |● (Console only) |— |— |Assets: 50 / Asset Groups: 50 |Max QPM: 3 | <br><br>/ |
+|**Advanced Creation Rights (Entry)**  |Free |● |● |● |Assets: 50 / Asset Groups: 50 |Max QPM: 3 | <br><br>/ |
+|**Advanced Creation Rights** |$14,000/year<br><br>$1,400/month |● |● |● |Assets: 1M / Asset Groups: 1M |Max QPM: 120 |Clear pathway to substantiate usage rights |
+|**Advanced Creation Rights (Premium)**  |$42,000/year<br><br>$4,200/month |● |● |● |Assets: 5M / Asset Groups: 5M |Max QPM: 300 |Clear pathway to substantiate usage rights |
 
 # How to Subscribe
 

@@ -138,11 +138,11 @@ Base model name.
 
 Object type, fixed as `model`.
 
-**version** `string`  |  Version
+**version** `string`  |  Model version
 
 `data.version`
 
-Version.
+Model version.
 
 **api_supported** `object`  |  Supported APIs
 

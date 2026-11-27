@@ -90,7 +90,7 @@ Text input to the model `object`
 
 Text content input to the model.
 
-**text** `string`  |  Text only
+**text** `string`  |  Text
 
 `data.content.text`
 
@@ -378,7 +378,7 @@ Historical tool function call records, used to pass back function calls previous
 
 The type identifier of the input item. Fixed to `function_call`.
 
-**arguments** `string`  |  Parameter
+**arguments** `string`  |  Arguments
 
 `data.arguments`
 
@@ -448,7 +448,7 @@ Text input to the model `object`
 
 Text content input to the model.
 
-**text** `string`  |  Text only
+**text** `string`  |  Text
 
 `data.output.text`
 
@@ -969,22 +969,6 @@ The unique ID of the tool call.
 `data.output`
 
 The returned result of the tool call.
-
-Context element `object`
-
-Represents the context that the model needs to reference when generating a response. This item can include text, image, and video input, as well as previous assistant responses and outputs from tool calls.
-
-**id** `string`  |  Item ID
-
-`data.id`
-
-The referenced context item ID.
-
-**type** `string`  |  Type
-
-`data.type`
-
-The type of the input item. Fixed to `item_reference`.
 
 **first_id** `string`  |  First ID
 

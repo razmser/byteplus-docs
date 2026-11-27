@@ -6,7 +6,7 @@ Run your first ModelArk\-managed agent in four steps: create an agent, create an
 
 ### 1. Obtain and configure an API key
 
-1. **Get an API key**: go to the [API keys page](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey) and create your API key.
+1. **Get an API key**: go to the [API keys page](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey) and create your API key. Sub\-accounts with only the `ArkAgentDevAccess` permission cannot create API keys or view API keys in plaintext. If you use this type of account, contact the account administrator to obtain an available API key.
 
 2. **Configure the environment variable**: run the following command in the terminal. Replace `your_api_key_here` with your ModelArk API key to configure the API key as an environment variable.
 
@@ -720,18 +720,18 @@ Writing one\-off tasks into `system` reduces the reusability of the agent defini
 
 ## Next steps
 
-[Define an agent](define-agent.md)
+**Define an agent**
 
 Define the agent's model, system prompt, tool set, and runtime behavior.
 
-[Configure the environment](configure-cloud-environment.md)
+**Configure the environment**
 
 Configure the cloud sandbox environment where the agent runs, including the network, preinstalled dependencies, and environment variables.
 
-[Agent tools](tools.md)
+**Agent tools**
 
 Configure the set of tools that the agent can call in a session.
 
-[Session event stream](session-event-stream.md)
+**Session event stream**
 
 Receive agent messages, tool calls, and status updates in real time through the SSE event stream.

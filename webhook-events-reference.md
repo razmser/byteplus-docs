@@ -110,7 +110,7 @@ The event type, resource ID, and associated context required by the event.
 
 `session.status_idled.data.type`
 
-Event type, fixed as `session.status_idle`.
+Event type. Fixed to `session.status_idled`.
 
 **id** `string`  |  Resource ID
 

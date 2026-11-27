@@ -457,6 +457,20 @@ arkcli agent file delete <file-id>
 |---|---|---|
 |`--yes` |bool |Confirm deletion |
 
+### agent file download
+
+Download a file's content to a new local file via a freshly signed URL; existing files are never overwritten (arkcli v1.0.67)
+
+```Bash
+arkcli agent file download <file-id> --output <path>
+```
+
+|Flag |Type |Description |
+|---|---|---|
+|`--output` |string |New output file path (required); the parent directory must already exist |
+
+Data\-plane command. Maximum file size is 1 GiB; the CLI refetches file metadata and a signed download URL before downloading, then verifies the downloaded size and prints a local sha256 checksum. Supports `--dry-run` to preview the plan without any request or write.
+
 ### agent file get
 
 Get a file's metadata from the ARK Files store
@@ -713,6 +727,48 @@ arkcli agent model list
 |`--refresh-cache` |bool |Refresh the full\-version ArkModels cache synchronously; respect failure cooldown; query mode also refreshes search caches |
 |`--include-all` |bool |Skip the selected usage's support filter; include all models with capability flags |
 |`--primary-only` |bool |Keep only primary versions from the complete model catalog |
+
+### agent session archive
+
+Irreversibly archive a session; history is preserved and running tasks are not interrupted automatically (arkcli v1.0.49)
+
+```Bash
+arkcli agent session archive <session-id>
+```
+
+|Flag |Type |Description |
+|---|---|---|
+|`--yes` |bool |Confirm this irreversible operation (required) |
+
+### agent session artifacts export
+
+Download all registered session artifacts (purpose=agent) into a new local directory (arkcli v1.0.67)
+
+```Bash
+arkcli agent session artifacts export <session-id> --output <dir>
+```
+
+|Flag |Type |Description |
+|---|---|---|
+|`--output` |string |New output directory (required); its parent must exist and the directory itself must not |
+|`--limit` |int |Files per page (1–1000; default 100) |
+
+Data\-plane command. Iterates all pages automatically (no `--page-all` needed); if the listing exceeds the `--page-limit` page budget, the command fails before downloading. Each file is saved under a numbered subdirectory with its base name preserved, and a manifest.json (file ID, original filename, relative path, size, SHA256) is written once all downloads finish. The export covers registered purpose=agent files within the page budget — it is not a sandbox or workspace snapshot. Supports `--dry-run` to preview the plan.
+
+### agent session artifacts list
+
+List registered session artifacts (purpose=agent); this is not the sandbox filesystem (arkcli v1.0.67)
+
+```Bash
+arkcli agent session artifacts list <session-id>
+```
+
+|Flag |Type |Description |
+|---|---|---|
+|`--limit` |int |Files per page (1–1000; default 100) |
+|`--after` |string |Files last_id cursor from the same session |
+
+Data\-plane command. Returns a single page by default; `--page-all` follows pagination (up to 10 pages by default, adjustable with `--page-limit`). Only a listing that starts from the first page and returns `listing_complete=true` has traversed all current artifacts; a running session may still produce new files afterwards.
 
 ### agent session compact
 

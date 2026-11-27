@@ -364,7 +364,7 @@ Value is fixed to `env_oauth`.
 
 `auth.expires_at`
 
-The expiration time of the access token in RFC 3339 format. When automatic refresh is enabled, provide this parameter together with `refresh`. If omitted, the server cannot determine when to proactively refresh.
+The expiration time of the access token in RFC 3339 format. When automatic refresh is enabled, provide this parameter together with `refresh`. If this parameter is omitted, the server cannot determine when to proactively refresh.
 
 **provider_name** `string`  |  OAuth service identifier
 

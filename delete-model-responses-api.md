@@ -24,7 +24,7 @@ The ID of the response to delete.
 
 **deleted** `boolean`  |  Whether the deletion was successful
 
-Value range:
+Valid values:
 
 * `true`: Deleted successfully.
 

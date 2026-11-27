@@ -4,112 +4,71 @@
 
 Creates a text memory in the specified memory store. After creation, you can mount the memory store to a session so that the agent can read or update the memories in it. Before calling this API, create a memory store and use the ID returned by the create or query memory store API.
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+> **Tip**
 
+> When creating a memory, the response does not return the memory content (`content`). If you need the body, call the query memory details API.
 
-<div data-tips="true" data-tips-type="tip">When creating a memory, the response does not return the memory content (<code>content</code>). If you need the body, call the query memory details API.</div>
+> **Common causes of creation failures**:
 
+* > The memory store does not exist or is inaccessible.
 
-<div data-tips="true" data-tips-type="tip"><strong>Common causes of creation failures</strong>:</div>
+* > The path format is invalid.
 
+* > The memory content is not valid UTF\-8 text.
 
+* > The memory content exceeds 100 KiB.
 
-* <div data-tips="true" data-tips-type="tip">The memory store does not exist or is inaccessible.</div>
-
-
-* <div data-tips="true" data-tips-type="tip">The path format is invalid.</div>
-
-
-* <div data-tips="true" data-tips-type="tip">The memory content is not valid UTF\-8 text.</div>
-
-
-* <div data-tips="true" data-tips-type="tip">The memory content exceeds 100 KiB.</div>
-
-
-
-<span id="authentication"></span>
 ## Authentication
 
-This API supports the following authentication methods. For details, see [Base URL and authentication](base-url-and-authentication.md).
+This API supports the following authentication method(s). For details, see [Base URL and authentication](base-url-and-authentication.md).
 
-
-* API Key authentication. Go to the [API Key management](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey) page. Obtain a long\-lived API key.
-
-
+* API Key authentication. Go to the [API Key Management](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey) page. Obtain a long\-lived API key.
 
 ---
 
-
-
-<span id="request-parameters"></span>
 ## Request parameters
 
-<span id="path-parameters"></span>
 ### Path parameters
-
 
 **memory_store_id** `string` `Required`  |  Memory store ID
 
 Used to specify the target memory store. It starts with `memstore-`. Pass the full ID returned by the create or query memory store API. Do not concatenate it yourself.
 
-
-&nbsp;
-
-<span id="body-parameters"></span>
 ### Body parameters
-
 
 **content** `string` `Required`  |  Memory content
 
 The body written to the memory file.
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+> **Note**
 
-
-<div data-tips="true" data-tips-type="warning">Memory content must be valid UTF\-8 text. Empty strings are allowed, and the content must not exceed 102400 bytes (100 KiB).</div>
-
-
-
+> Memory content must be valid UTF\-8 text. Empty strings are allowed, and the content must not exceed 102400 bytes (100 KiB).
 
 **path** `string` `Required`  |  Memory path
 
 The file path of the memory in the memory store.
 
-<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+> **Note**
 
+> The path must start with `/` and end with `.md` or `.txt`. It must not exceed 1024 bytes after UTF\-8 encoding, and must not contain control characters, `%`, `;`, or `?`. Path segments must not be empty, `.`, or `..`.
 
-<div data-tips="true" data-tips-type="warning">The path must start with <code>/</code> and end with <code>.md</code> or <code>.txt</code>. It must not exceed 1024 bytes after UTF\-8 encoding, and must not contain control characters, <code>%</code>, <code>;</code>, or <code>?</code>. Path segments must not be empty, <code>.</code>, or <code>..</code>.</div>
-
-
-
-&nbsp;
-
-<span id="response-parameters"></span>
 ## Response parameters
-
 
 **content_sha256** `string`  |  Content digest
 
-The SHA\-256 digest of the memory body, represented as a lowercase hexadecimal string. It can be used to verify content integrity.
+The SHA\-256 digest of the memory content, represented as a lowercase hexadecimal string. It can be used to verify content integrity.
 
+**content_size_bytes** `integer`  |  Content bytes
 
-
-**content_size_bytes** `integer`  |  Content size in bytes
-
-The number of bytes in the memory body after UTF\-8 encoding.
-
-
+The number of bytes in the memory content after UTF\-8 encoding.
 
 **created_at** `string`  |  Creation time
 
 The time when the memory was created, in RFC 3339 UTC format.
 
-
-
 **created_by** `object`  |  Creator
 
 Information about the operator who created the memory.
-
 
 **type** `string`  |  Operator type
 
@@ -117,46 +76,31 @@ Information about the operator who created the memory.
 
 The operator type. It is fixed as `user_actor`, indicating that this memory was created by the current API caller.
 
-
-
 **user_id** `string`  |  User ID
 
 `created_by.user_id`
 
 The ID of the user who wrote this memory.
 
-
-
-
 **id** `string`  |  Memory ID
 
 The memory ID generated by the server, starting with `mem-`. Pass it as the `memory_id` path parameter when subsequently querying, updating, or deleting the memory.
-
-
 
 **memory_store_id** `string`  |  Memory store ID
 
 The ID of the memory store to which this memory belongs.
 
-
-
 **memory_version_id** `string`  |  Version ID
 
 The current version identifier of the memory entry. This value changes after the content or path is successfully updated.
-
-
 
 **path** `string`  |  Memory path
 
 The file path of the memory in the memory store.
 
-
-
 **type** `string`  |  Object type
 
 Object type. Fixed to `memory`.
-
-
 
 **updated_at** `string`  |  Update time
 

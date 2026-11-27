@@ -1,6 +1,6 @@
 # Usage detail CSV parsing best practices
 
-This document describes how to parse the CSV file at the *DownloadUrl* returned by [Query a usage record export task](get-record-export-task-api.md). It covers field descriptions, switch times, effective rules, `charge_value_list` parsing, multimodal usage coverage, compatibility strategies, and sample code in multiple languages.
+This document describes how to parse the CSV file at the *DownloadUrl* returned by [Query a usage record export task](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/get-record-export-task-api). It covers field descriptions, switch times, effective rules, `charge_value_list` parsing, multimodal usage coverage, compatibility strategies, and sample code in multiple languages.
 
 ## CSV format and version changes
 

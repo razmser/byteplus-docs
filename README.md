@@ -2,7 +2,7 @@
 
 Markdown mirror of [BytePlus ModelArk's documentation](https://docs.byteplus.com/en/docs/ModelArk/).
 
-Contains **433 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
+Contains **431 pages**, discovered from the [page index](https://docs.byteplus.com/docs/en/modelark/llms.txt).
 
 Links to mirrored pages point to local files; external links and images remain online. Code examples and OpenAPI blocks are preserved.
 
@@ -156,7 +156,6 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Create memory store](create-memory-store-api.md)
 - [Create a model response](create-model-responses-api.md)
 - [Create personal plan](create-personal-plan-api.md)
-- [Create a usage record export task](create-record-export-task-api.md)
 - [Create session](create-session-api.md)
 - [Create shared package](create-shared-package-api.md)
 - [Create skill](create-skill-api.md)
@@ -225,7 +224,6 @@ Generated files are replaced by the next successful sync. Original content belon
 - [Get memory store](get-memory-store-api.md)
 - [GetModelActivation - Query model activation details](get-model-activation-api.md)
 - [Query personal edition packages](get-personal-plan-api.md)
-- [Query a usage record export task](get-record-export-task-api.md)
 - [Get session resource](get-resource-api.md)
 - [Retrieve response context](get-response-context-api.md)
 - [Get AFP quota usage for one or more seats](get-seat-afp-usage-api.md)

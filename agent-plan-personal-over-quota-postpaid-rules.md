@@ -18,18 +18,18 @@ The following table lists the models that support overage postpaid billing and t
 
 |Model category |Model |Supports overage postpaid billing |Postpaid model price |Postpaid billing details |
 |---|---|---|---|---|
-|Text generation (fast) |seed\-2.0\-mini |✓ |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
-|Text generation (standard) |seed\-2.0\-lite |✓ |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
-|Text generation (standard) |deepseek\-v4\-flash |✓ |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
-|Text generation (advanced) |dola\-seed\-2.1\-turbo |✓ |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
-|Text generation (advanced) |deepseek\-v4\-pro |✓ |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
-|Text generation (advanced) |deepseek\-v4.1\-flash |✓ |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
-|Embedding |skylark\-embedding\-vision |✓ |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
-|Image generation |dola\-seedream\-5.5 |✗ |\- |\- |
-|Image generation |dola\-seedream\-5.0\-flash |✗ |\- |\- |
-|Image generation |dola\-seedream\-5.0\-pro |✗ |\- |\- |
-|Video generation |dreamina\-seedance\-2.5\-flash |✗ |\- |\- |
-|Video generation |dreamina\-seedance\-2.5 |✗ |\- |\- |
+|Text generation (fast) |seed\-2.0\-mini |● |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
+|Text generation (standard) |seed\-2.0\-lite |● |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
+|Text generation (standard) |deepseek\-v4\-flash |● |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
+|Text generation (advanced) |dola\-seed\-2.1\-turbo |● |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
+|Text generation (advanced) |deepseek\-v4\-pro |● |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
+|Text generation (advanced) |deepseek\-v4.1\-flash |● |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
+|Embedding |skylark\-embedding\-vision |● |[Model pricing](model-service-pricing.md) |[Model billing details](model-service-pricing.md) |
+|Image generation |dola\-seedream\-5.5 |— |\- |\- |
+|Image generation |dola\-seedream\-5.0\-flash |— |\- |\- |
+|Image generation |dola\-seedream\-5.0\-pro |— |\- |\- |
+|Video generation |dreamina\-seedance\-2.5\-flash |— |\- |\- |
+|Video generation |dreamina\-seedance\-2.5 |— |\- |\- |
 
 # Harness overage postpaid rules
 

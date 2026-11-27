@@ -4,7 +4,7 @@
 
 ## Usage
 
-After reporting a badcase with CasePlatformV1BadcaseReport, you can use this API to query how it was processed.
+After reporting a badcase with CasePlatformV1BadcaseReport, you can use this API to query how it was processed and any applicable incentive result.
 
 The report API retrieves the original task data from upstream using `task_id`, so submit the report within the **3\-day (72\-hour)**  window. BytePlus cleans up task logs on the hour; plan to submit within **72 hours**. Reported cases are retained long term, as described below; the reporting window is not a deadline for querying a reported case.
 
@@ -102,7 +102,7 @@ Value: 2024\-01\-01.
 
 **Id** `string / string[]` `Required`  |  Task ID list
 
-Example: cgt\-20260501132104\-tfm9v. A single task_id, or a list of task_ids. 1–50; exceeding the limit returns 422. Duplicate task_ids within one request are deduplicated and reported once. Split on comma, newline, space, tab and similar separators, with leading/trailing whitespace and empty fragments trimmed.
+Example: cgt\-20260501132104\-tfm9v. A single task_id, or a list of task_ids. 1–50 after splitting and removing empty entries, before deduplication; exceeding the limit returns 422. Duplicate task_ids within one request are deduplicated and reported once. Split on comma, newline, space, tab and similar separators, with leading/trailing whitespace and empty fragments trimmed.
 
 ### Screenshot download failure reasons
 
@@ -144,6 +144,72 @@ The table below lists the business\-logic error codes for this interface.
 |403 |70001 |This Account did not opt\-in data Diagnostic agreement yet. Please opt\-in ModelArk Data Diagnostic Agreement. |The calling account has not enabled Model Generations Quality Diagnostics. **The whole request is refused** — no Accepted or Rejected is returned. Enable it as described under Notes. |
 
 **70001 behaves differently here than on the report API.**  Reporting may cover several accounts in one batch, so it evaluates the agreement per task_id and rejects only the tasks whose owner has not opted in. Querying is self\-service: it takes no AccountId and only ever reads back your own badcases, so an account that has not opted in has nothing it may read and the request is refused outright — including badcases it submitted before opting out.
+
+### Incentive result
+
+Read `Result.Accepted[].Incentive.Status` for the eligibility decision and `TokenAmount` for the quantity in tokens. `Accepted[].Status` tracks the investigation separately.
+
+|Case outcome |`Incentive.Status` |`Incentive.TokenAmount` |
+|---|---|---|
+|Did not join the program |`Incentive` is `null` |— |
+|Joined, result pending |`unknown` |`null` |
+|Joined, did not qualify |`miss` |`0` |
+|Joined, qualified |`hit` |Non\-negative integer, which can be `0` |
+
+Use `Status` to determine eligibility, including when `TokenAmount` is `0`. Query again later if the result is `unknown`.
+
+The first task qualifies for an incentive while the investigation is in progress. The second investigation is complete and its incentive result is still pending.
+
+```json
+{
+  "ResponseMetadata": {
+    "RequestId": "example-request-id",
+    "Action": "CasePlatformV1BadcaseQuery",
+    "Version": "2024-01-01",
+    "Service": "ark",
+    "Region": "ap-southeast-1"
+  },
+  "Result": {
+    "Total": 2,
+    "Accepted": [
+      {
+        "TaskId": "cgt-20261124101500-abc12",
+        "Status": "processing",
+        "BadcaseType": [],
+        "Feedback": "The subject changes between shots.",
+        "FeedbackImages": [],
+        "TimelineFeedbacks": [],
+        "SubmitTime": "2026-11-24T10:45:00Z",
+        "ProblemLabel": "",
+        "SolutionNote": null,
+        "Incentive": {
+          "Status": "hit",
+          "TokenAmount": 1500
+        }
+      },
+      {
+        "TaskId": "cgt-20261124103000-def34",
+        "Status": "done",
+        "BadcaseType": [],
+        "Feedback": "The last shot flickers.",
+        "FeedbackImages": [],
+        "TimelineFeedbacks": [],
+        "SubmitTime": "2026-11-24T11:00:00Z",
+        "ProblemLabel": "Flicker",
+        "SolutionNote": {
+          "Text": "Shorten the final shot and smooth the lighting transition.",
+          "Attachments": null
+        },
+        "Incentive": {
+          "Status": "unknown",
+          "TokenAmount": null
+        }
+      }
+    ],
+    "Rejected": []
+  }
+}
+```
 
 ## Response parameters
 
@@ -241,6 +307,32 @@ This status is independent of the investigation status in `Accepted[].Status`.
 
 A presigned screenshot URL, regenerated on each query and valid for approximately 10 minutes. `null` while the download is pending or if it failed. Query again to obtain a new URL after it expires.
 
+**Incentive** `object / null`  |  Incentive result
+
+`Accepted.Incentive`
+
+The incentive result for the reported case. Returns `null` if the case did not join the program; otherwise returns an object. The incentive decision is independent of the investigation status in `Accepted[].Status`.
+
+**Status** `string`  |  Incentive decision
+
+`Accepted.Incentive.Status`
+
+* `unknown`: Joined the program; the result is pending. Query again later.
+
+* `miss`: Joined the program but did not qualify.
+
+* `hit`: Joined the program and qualified.
+
+Use this field to determine eligibility. A `TokenAmount` of `0` can still indicate a qualifying case.
+
+**TokenAmount** `integer / null`  |  Incentive token amount
+
+`Accepted.Incentive.TokenAmount`
+
+The quantity in tokens: `null` when `Status` is `unknown`, `0` when it is `miss`, and a non\-negative integer (possibly `0`) when it is `hit`.
+
+**Min**: `0`
+
 **ProblemLabel** `string`  |  Issue label
 
 `Accepted.ProblemLabel`
@@ -251,17 +343,13 @@ issue label assigned by support staff. An empty string while processing.
 
 `Accepted.SolutionNote`
 
-the solution note written for you: text plus attachments. null while processing.
-
-object `object`
+The solution note: text plus attachments. Null while processing or when no note is available.
 
 **Attachments** `object[] / null`  |  image/file attachments
 
 `Accepted.SolutionNote.Attachments`
 
 each {Type, Url, Name, MimeType}. The file URL is re\-signed when read, so use it promptly rather than storing it. May be `null`. Attachments can also be videos or audio.
-
-Attachment[] `object[]`
 
 **Type** `string`  |  File type
 
@@ -287,15 +375,11 @@ The Multipurpose Internet Mail Extensions (MIME) type. May be `null`.
 
 The file name. May be `null`.
 
-null `null`
-
 **Text** `string / null`  |  the note text
 
 `Accepted.SolutionNote.Text`
 
 May be `null`.
-
-null `null`
 
 **SubmitTime** `string / null`  |  Submission time
 

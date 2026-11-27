@@ -26,21 +26,21 @@ The following table compares the capabilities and parameters of each Seedream mo
 |Model Name | |[Seedream 5.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-5) |[Seedream 5.0 pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |[Seedream 5.0 flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |[Seedream 5.0 lite](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-5-0) |[Seedream 4.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-5) |[Seedream 4.0](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-0) |
 |---|---|---|---|---|---|---|---|
 |Model ID | |dola\-seedream\-5\-5\-261028 |dola\-seedream\-5\-0\-pro\-260628 |dola\-seedream\-5\-0\-flash\-260915 |seedream\-5\-0\-260128 (also supports: seedream\-5\-0\-lite\-260128) |seedream\-4\-5\-251128 |seedream\-4\-0\-250828 |
-|[Text-to-image](image-generation-tutorial.md#9695d195) | |✓ |✓ |✓ |✓ |✓ |✓ |
-|[Text-to-multiple images](image-generation-tutorial.md#ec79cfda) | |✗ |✗ |✗ |✓ |✓ |✓ |
-|[Single/multiple images to image](image-generation-tutorial.md#8bc49063) | |✓, up to 10 reference images |✓, up to 10 reference images |✓, up to 10 reference images |✓, up to 14 reference images |✓, up to 14 reference images |✓, up to 14 reference images |
-|[Single/multiple images to multiple images](image-generation-tutorial.md#fc9f85e4) | |✗ |✗ |✗ |✓ |✓ |✓ |
-|[Interactive editing](image-generation-tutorial.md#interactive_edit) | |✓ |✓ |✓ |✗ |✗ |✗ |
-|[Layer decomposition](seedream-5-0-pro.md#layer-decomposition) | |✓ |✓ |✓ |✗ |✗ |✗ |
-|[Native RGBA images](seedream-5-5.md#native-rgba) | |✓, text\-to\-image and image\-to\-image |✓, single transparent PNG image\-to\-image only |✓, single transparent PNG image\-to\-image only |✗ |✗ |✗ |
-|[Rich-text OCR](seedream-5-5.md#rich-text-ocr) | |✓ |✗ |✗ |✗ |✗ |✗ |
-|[Streaming output](image-generation-tutorial.md#e5bef0d7) | |✗ |✗ |✗ |✓ |✓ |✓ |
+|[Text-to-image](image-generation-tutorial.md#9695d195) | |● |● |● |● |● |● |
+|[Text-to-multiple images](image-generation-tutorial.md#ec79cfda) | |— |— |— |● |● |● |
+|[Single/multiple images to image](image-generation-tutorial.md#8bc49063) | |●, up to 10 reference images |●, up to 10 reference images |●, up to 10 reference images |●, up to 14 reference images |●, up to 14 reference images |●, up to 14 reference images |
+|[Single/multiple images to multiple images](image-generation-tutorial.md#fc9f85e4) | |— |— |— |● |● |● |
+|[Interactive editing](image-generation-tutorial.md#interactive_edit) | |● |● |● |— |— |— |
+|[Layer decomposition](seedream-5-0-pro.md#layer-decomposition) | |● |● |● |— |— |— |
+|[Native RGBA images](seedream-5-5.md#native-rgba) | |●, text\-to\-image and image\-to\-image |●, single transparent PNG image\-to\-image only |●, single transparent PNG image\-to\-image only |— |— |— |
+|[Rich-text OCR](seedream-5-5.md#rich-text-ocr) | |● |— |— |— |— |— |
+|[Streaming output](image-generation-tutorial.md#e5bef0d7) | |— |— |— |● |● |● |
 |Model parameters |Resolution<br><br>> Image generation<br><br><br> |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2880x2880`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `2K`, `3K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1920x1920`, `4096x4096`] |* Method 1: Resolution preset: `2K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1920x1920`, `4096x4096`] |* Method 1: Resolution preset: `1K`, `2K`, `4K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `4096x4096`] |
-||Resolution<br><br>> Layer decomposition<br><br><br> |1K, 1.5K, 2K, auto |1K, 1.5K, 2K, auto |1K, 1.5K, 2K, auto |✗ |✗ |✗ |
+||Resolution<br><br>> Layer decomposition<br><br><br> |1K, 1.5K, 2K, auto |1K, 1.5K, 2K, auto |1K, 1.5K, 2K, auto |— |— |— |
 ||Output format |png, jpeg |png, jpeg |png, jpeg |png, jpeg |jpeg |jpeg |
 ||Prompt optimization mode |standard mode |standard mode, fast mode |standard mode |standard mode |standard mode |standard mode, fast mode |
 ||Number of generated images |Single image; layer decomposition supports up to one base image and 99 layers |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Number of input reference images + number of generated images ≤ 15. | | |
-||Maximum output image count<br><br>> Layer decomposition<br><br><br> |2\-100 images, including the base image |✗ |✗ |✗ |✗ |✗ |
+||Maximum output image count<br><br>> Layer decomposition<br><br><br> |2\-100 images, including the base image |— |— |— |— |— |
 |Max Images per Minute | |[Image generation](model-list.md#image-generation) |500 |500 |500 |500 |500 |
 
 # Prerequisites

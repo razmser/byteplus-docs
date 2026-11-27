@@ -381,24 +381,24 @@ This table lists the capabilities supported by all Seedance models to help you c
 |Model name | |[Dreamina Seedance 2.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5&projectName=default) |[Dreamina Seedance 2.5 flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-5-flash&projectName=default) |[Dreamina Seedance 2.0](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0&projectName=default) |[Dreamina Seedance 2.0 fast](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast&projectName=default) |[Dreamina Seedance 2.0 mini](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-mini&projectName=default) |[Seedance 1.0 pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedance-1-0-pro&projectName=default) |[Seedance 1.0 pro fast](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedance-1-0-pro-fast&projectName=default) |
 |---|---|---|---|---|---|---|---|---|
 |Model ID | |`dreamina-seedance-2-5-260628` |`dreamina-seedance-2-5-flash-261115` |`dreamina-seedance-2-0-260128` |`dreamina-seedance-2-0-fast-260128` |`dreamina-seedance-2-0-mini-260615` |`seedance-1-0-pro-250528` |`seedance-1-0-pro-fast-251015` |
-|[Text to video](video-generation-tutorial.md#4e74bcee) | |✓ |✓ |✓ |✓ |✓ |✓ |✓ |
-|[Image to video - first frame](video-generation-tutorial.md#979b2d28) | |✓ |✓ |✓ |✓ |✓ |✓ |✓ |
-|[Image to video - first and last frames](video-generation-tutorial.md#0d55ca07) | |✓ |✓ |✓ |✓ |✓ |✓ |✗ |
-|[Omni reference](seedance-2-0.md#50e1b4ea) |Image reference |✓ |✓ |✓ |✓ |✓ |✗ |✗ |
-||Video reference |✓ |✓ |✓ |✓ |✓ |✗ |✗ |
-||Audio reference |✓ |✓ |✗ (must be used with an image or video) |✗ (must be used with an image or video) |✗ (must be used with an image or video) |✗ |✗ |
-||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |✓ |✓ |✓ |✓ |✓ |✗ |✗ |
-|[Edit video](seedance-2-0.md#75a28782) | |✓ |✓ |✓ |✓ |✓ |✗ |✗ |
-|[Extend video](seedance-2-0.md#46d77653) | |✓ |✓ |✓ |✓ |✓ |✗ |✗ |
-|[Generate videos with audio](video-generation-tutorial.md#979b2d28) | |✓ |✓ |✓ |✓ |✓ |✗ |✗ |
-|[Draft mode](video-generation-tutorial.md#5acd28c8) | |✓ |✗ |✗ |✗ |✗ |✗ |✗ |
-|[Return the last frame of the generated video](video-generation-tutorial.md#141cf7fa) | |✓ |✓ |✓ |✓ |✓ |✓ |✓ |
+|[Text to video](video-generation-tutorial.md#4e74bcee) | |● |● |● |● |● |● |● |
+|[Image to video - first frame](video-generation-tutorial.md#979b2d28) | |● |● |● |● |● |● |● |
+|[Image to video - first and last frames](video-generation-tutorial.md#0d55ca07) | |● |● |● |● |● |● |— |
+|[Omni reference](seedance-2-0.md#50e1b4ea) |Image reference |● |● |● |● |● |— |— |
+||Video reference |● |● |● |● |● |— |— |
+||Audio reference |● |● |— (must be used with an image or video) |— (must be used with an image or video) |— (must be used with an image or video) |— |— |
+||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |● |● |● |● |● |— |— |
+|[Edit video](seedance-2-0.md#75a28782) | |● |● |● |● |● |— |— |
+|[Extend video](seedance-2-0.md#46d77653) | |● |● |● |● |● |— |— |
+|[Generate videos with audio](video-generation-tutorial.md#979b2d28) | |● |● |● |● |● |— |— |
+|[Draft mode](video-generation-tutorial.md#5acd28c8) | |● |— |— |— |— |— |— |
+|[Return the last frame of the generated video](video-generation-tutorial.md#141cf7fa) | |● |● |● |● |● |● |● |
 |[Output video specifications](video-generation-tutorial.md#9fe4cce0) |Resolution |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |480p<br><br>720p<br><br>1080p |480p<br><br>720p<br><br>1080p |
 | |Aspect ratio |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |
 | |Frame rate |24 fps |24 fps |24 fps |24 fps |24 fps |24 fps |24 fps |
 | |Duration |4\-30 seconds |4\-30 seconds |4\-15 seconds |4\-15 seconds |4\-15 seconds |2\-12 seconds |2\-12 seconds |
 | |Output format |MP4, MOV |MP4, MOV |MP4 |MP4 |MP4 |MP4 |MP4 |
-|[Offline inference](video-generation-tutorial.md#a0badaae) | |✗ |✗ |✗ |✗ |✗ |✓ |✓ |
+|[Offline inference](video-generation-tutorial.md#a0badaae) | |— |— |— |— |— |● |● |
 
 # Basic usage
 
@@ -1484,7 +1484,7 @@ The pixel dimensions of output videos for each model are listed below:
 ||3:4 |1248×1664 |1248×1664 |1248×1664 |
 ||9:16 |1080×1920 |1080×1920 |1088×1920 |
 ||21:9 |2206×946 |2206×946 |2176×928 |
-|4k<br><br>> Dreamina Seedance 2.5 flash, Dreamina Seedance 2.0 Fast, and Dreamina Seedance 2.0 Mini do not support 4K |16:9 |3840×2160 |3840×2160 |*  |
+|4k<br><br>> Dreamina Seedance 2.5 flash, Dreamina Seedance 2.0 Fast, and Dreamina Seedance 2.0 Mini do not support 4K |16:9 |3840×2160 |3840×2160 |\- |
 ||4:3 |3326×2494 |3326×2494 |\- |
 ||1:1 |2880×2880 |2880×2880 |\- |
 ||3:4 |2494×3326 |2494×3326 |\- |

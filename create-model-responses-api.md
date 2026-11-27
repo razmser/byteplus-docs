@@ -1026,24 +1026,6 @@ The unique ID of the tool call.
 
 The returned result of the tool call.
 
-Context element `object`
-
-Represents the context that the model needs to reference when generating a response. This item can include text, image, and video input, as well as previous assistant responses and outputs from tool calls.
-
-**id** `string` `Required`  |  Item ID
-
-`input.id`
-
-The referenced context item ID.
-
-**type** `string` `Required`  |  Type
-
-`input.type`
-
-Input element type identifier.
-
-Value is fixed to `item_reference`.
-
 **model** `string` `Required`  |  Model ID
 
 The model ID called by this request, used to specify the model that processes the input content.

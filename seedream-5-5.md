@@ -21,14 +21,14 @@ Seedream 5.5 builds on the image\-generation and layer\-decomposition capabiliti
 |Model ||[Seedream 5.5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-5) |[Seedream 5.0 pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |[Seedream 5.0 flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |
 |---|---|---|---|---|
 |Model ID ||dola\-seedream\-5\-5\-261028 |dola\-seedream\-5\-0\-pro\-260628 |dola\-seedream\-5\-0\-flash\-260915 |
-|[Text-to-image](image-generation-tutorial.md#9695d195) ||✓ |✓ |✓ |
-|[Single-image-to-image](image-generation-tutorial.md#8bc49063) ||✓ |✓ |✓ |
-|[Multi-reference-to-image](image-generation-tutorial.md#4a35e28f) ||✓, up to 10 images |✓, up to 10 images |✓, up to 10 images |
+|[Text-to-image](image-generation-tutorial.md#9695d195) ||● |● |● |
+|[Single-image-to-image](image-generation-tutorial.md#8bc49063) ||● |● |● |
+|[Multi-reference-to-image](image-generation-tutorial.md#4a35e28f) ||●, up to 10 images |●, up to 10 images |●, up to 10 images |
 |Layer decomposition ||1 base image + up to 99 layers |1 base image + up to 16 layers |1 base image + up to 16 layers |
-|[Native RGBA images](seedream-5-5.md#native-rgba) |Text\-to\-image |✓ |— |— |
-||Image\-to\-image |✓, up to 10 reference images; no alpha channel required for inputs |✓, one PNG reference image with an alpha channel |✓, one PNG reference image with an alpha channel |
-|Maximum output count for layer decomposition ||✓, 2\-100 images including the base image and layers |— |— |
-|[Rich-text OCR](seedream-5-5.md#rich-text-ocr) ||✓ |— |— |
+|[Native RGBA images](seedream-5-5.md#native-rgba) |Text\-to\-image |● |— |— |
+||Image\-to\-image |●, up to 10 reference images; no alpha channel required for inputs |●, one PNG reference image with an alpha channel |●, one PNG reference image with an alpha channel |
+|Maximum output count for layer decomposition ||●, 2\-100 images including the base image and layers |— |— |
+|[Rich-text OCR](seedream-5-5.md#rich-text-ocr) ||● |— |— |
 |Model parameters |Resolution<br><br>> Image generation<br><br><br> |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2880x2880`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |* Method 1: Resolution preset: `1K`, `1.5K`, `2K`<br><br>* Method 2: Width and height in pixels: [`1280x720`, `2048x2048x1.1025`] |
 ||Resolution<br><br>> Layer decomposition<br><br><br> |1K, 1.5K, 2K, auto (default) |1K, 1.5K, 2K, auto (default) |1K, 1.5K, 2K, auto (default) |
 ||Output format |png (default), jpeg |png, jpeg (default) |png, jpeg (default) |
@@ -1091,6 +1091,8 @@ Describe aspect ratio, image shape, or use in `prompt`; the model determines the
 **Method 2: Specify pixel dimensions (** **`widthxheight`** **)**
 
 * **Total pixel range**: [`1280x720` (921600), `2880x2880` (8294400)]
+
+> For images with a 16:9 aspect ratio, the maximum supported output resolution is 3840 × 2160, which conforms to the UHD\-1 (4K UHD) specification.
 
 * **Aspect ratio range**: [1/16, 16]
 
