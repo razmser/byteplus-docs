@@ -20,7 +20,7 @@ This tutorial introduces the key capabilities and usage of Seedance 2.5 series m
 
 > **danger**
 
-> Seedance 2.5 series models have special constraints for **video editing, first\-frame/first\-last\-frame video generation, and video extension tasks**. Violating these constraints triggers an [error](seedance-2-5.md#2.5_error_handling).
+> Seedance 2.5 series models have special constraints for **video editing, first\-frame/first\-last\-frame video generation, and video extension tasks**. Violating these constraints triggers an [error](https://docs.byteplus.com/en/docs/178/121388#2.5_error_handling).
 
 > **Before calling the model, read the following carefully and make sure the task type, prompt intent, and parameter configuration are consistent.**
 
@@ -54,7 +54,7 @@ For an omni reference\-to\-video task, if you do not explicitly distinguish the 
 
    > **Note**
 
-   > When `omni_reference_task_type` is set to `auto`, the model may classify the task as reference\-to\-video, video editing, or video extension based on the prompt intent. Video editing and video extension have special parameter constraints. **Using the recommended configuration satisfies these constraints and reduces**[**asynchronous errors**](seedance-2-5.md#2.5_error_handling)**after task creation.**
+   > When `omni_reference_task_type` is set to `auto`, the model may classify the task as reference\-to\-video, video editing, or video extension based on the prompt intent. Video editing and video extension have special parameter constraints. **Using the recommended configuration satisfies these constraints and reduces**[**asynchronous errors**](https://docs.byteplus.com/en/docs/178/121388#2.5_error_handling)**after task creation.**
 
 #### Video editing
 
@@ -212,13 +212,13 @@ You can replace `reference_image_url`, `reference_video_url`, and `reference_aud
 
 **Card**
 
-[Double the generated video duration](seedance-2-5.md#2.5_30s_video)
+[Double the generated video duration](https://docs.byteplus.com/en/docs/178/121388#2.5_30s_video)
 
 * The maximum generated video duration is extended from 15 seconds to 30 seconds.
 
 **Card**
 
-[More reference assets](seedance-2-5.md#2.5_50_reference)
+[More reference assets](https://docs.byteplus.com/en/docs/178/121388#2.5_50_reference)
 
 * The maximum number of reference images increases from 9 to 30 for Seedance 2.5 and 10 for Seedance 2.5 flash.
 
@@ -228,7 +228,7 @@ You can replace `reference_image_url`, `reference_video_url`, and `reference_aud
 
 **Card**
 
-[Smarter aspect ratio and duration control](seedance-2-5.md#2.5_smart_ratio_duration)
+[Smarter aspect ratio and duration control](https://docs.byteplus.com/en/docs/178/121388#2.5_smart_ratio_duration)
 
 * For video editing, the output video retains the input video's aspect ratio and duration.
 
@@ -236,13 +236,13 @@ You can replace `reference_image_url`, `reference_video_url`, and `reference_aud
 
 **Card**
 
-[New mov output format](seedance-2-5.md#2.5_output_format)
+[New mov output format](https://docs.byteplus.com/en/docs/178/121388#2.5_output_format)
 
 * The new mov output format uses H.264 video encoding, yuv444p chroma sampling, and PCM audio encoding to improve color fidelity and audiovisual consistency for video editing and extension.
 
 **Card**
 
-[Native multilingual support](seedance-2-5.md#2.5_multi_language)
+[Native multilingual support](https://docs.byteplus.com/en/docs/178/121388#2.5_multi_language)
 
 * Supports 11 languages: Chinese, English, Spanish, Indonesian, Malay, Thai, Arabic, Portuguese, Vietnamese, Japanese, and Korean.
 
@@ -254,20 +254,20 @@ You can replace `reference_image_url`, `reference_video_url`, and `reference_aud
 |[Text-to-video](video-generation-tutorial.md#4e74bcee) | |● |● |● |● |● |
 |[First-frame-to-video](video-generation-tutorial.md#979b2d28) | |● |● |● |● |● |
 |[First-last-frame-to-video](video-generation-tutorial.md#0d55ca07) | |● |● |● |● |● |
-|[Omni reference](seedance-2-5.md#2.5_50_reference) |Image reference |● |● |● |● |● |
+|[Omni reference](https://docs.byteplus.com/en/docs/178/121388#2.5_50_reference) |Image reference |● |● |● |● |● |
 ||Video reference |● |● |● |● |● |
 ||Audio reference |● |● |— (requires image/video) |— (requires image/video) |— (requires image/video) |
 ||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |● |● |● |● |● |
-|[Edit video](seedance-2-5.md#2.5_edit) | |● |● |● |● |● |
-|[Extend video](seedance-2-5.md#2.5_extend) | |● |● |● |● |● |
-|[Generate video with audio](seedance-2-5.md#2.5_multi_language) | |● |● |● |● |● |
+|[Edit video](https://docs.byteplus.com/en/docs/178/121388#2.5_edit) | |● |● |● |● |● |
+|[Extend video](https://docs.byteplus.com/en/docs/178/121388#2.5_extend) | |● |● |● |● |● |
+|[Generate video with audio](https://docs.byteplus.com/en/docs/178/121388#2.5_multi_language) | |● |● |● |● |● |
 |Maximum number of reference assets | |50 (30 images + 10 videos + 10 audios) |20 (10 images + 5 videos + 5 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |15 (9 images + 3 videos + 3 audios) |
-|[Draft mode](seedance-2-5.md#2.5_draft_mode) | |● |— |— |— |— |
+|[Draft mode](https://docs.byteplus.com/en/docs/178/121388#2.5_draft_mode) | |● |— |— |— |— |
 |[Return last frame](video-generation-tutorial.md#141cf7fa) | |● |● |● |● |● |
-|[Output video specifications](seedance-2-5.md#2.5_video_output_specs) |[Output resolution](seedance-2-5.md#2.5_resolution) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |
-||[Output aspect ratio](seedance-2-5.md#2.5_ratio) |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |
-||[Output duration](seedance-2-5.md#2.5_duration) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |
-||[Output video format](seedance-2-5.md#2.5_output_format) |mp4, mov |mp4, mov |mp4 |mp4 |mp4 |
+|[Output video specifications](https://docs.byteplus.com/en/docs/178/121388#2.5_video_output_specs) |[Output resolution](https://docs.byteplus.com/en/docs/178/121388#2.5_resolution) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (10\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth)<br><br>* 1080p (8\-bit color depth)<br><br>* 4k (10\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |* 480p (8\-bit color depth)<br><br>* 720p (8\-bit color depth) |
+||[Output aspect ratio](https://docs.byteplus.com/en/docs/178/121388#2.5_ratio) |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |21:9, 16:9, 4:3,<br><br>1:1, 3:4, 9:16, adaptive |
+||[Output duration](https://docs.byteplus.com/en/docs/178/121388#2.5_duration) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–30 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |4–15 seconds; \-1 (the model automatically selects the optimal duration within the valid duration range) |
+||[Output video format](https://docs.byteplus.com/en/docs/178/121388#2.5_output_format) |mp4, mov |mp4, mov |mp4 |mp4 |mp4 |
 |[Offline inference](video-generation-tutorial.md#a0badaae) | |— |— |— |— |— |
 
 ## Key capabilities
@@ -2701,7 +2701,7 @@ Seedance 2.5 series also supports the following basic capabilities. For detailed
 
 * [Text-to-video](video-generation-tutorial.md#4e74bcee): Generate a video from a text prompt.
 
-* [Draft mode](seedance-2-5.md#2.5_draft_mode) (supported only by Seedance 2.5): Generate a 480p Draft video to validate the result before generating a high\-quality final video.
+* [Draft mode](https://docs.byteplus.com/en/docs/178/121388#2.5_draft_mode) (supported only by Seedance 2.5): Generate a 480p Draft video to validate the result before generating a high\-quality final video.
 
 ## Draft mode support
 

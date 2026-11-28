@@ -71,9 +71,9 @@ If you want to migrate your business from online inference to batch inference at
 
 * You have [obtained the API Key](https://ai.byteplus.com/ark/region:ap-southeast-1/apiKey?apikey=%7B%7D).
 
-> * If you use Access Key authentication, see [Base URL and authentication](base-url-and-authentication.md).
+>    * If you use Access Key authentication, see [Base URL and authentication](base-url-and-authentication.md).
 
-> * For more secure use of API Key/Access Key, we recommend that you [Configure API Key to environment variables](quick-start.md#da0e9d90).
+>    * For more secure use of API Key/Access Key, we recommend that you [Configure API Key to environment variables](quick-start.md#da0e9d90).
 
 * You have [created a batch inference endpoint](batch-inference-via-console.md#d581da34).
 

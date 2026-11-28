@@ -385,11 +385,11 @@ Open VSCode and search for `claude code` in the extension marketplace to install
 
 ### Configure environment variables
 
-1. Open Settings from the bottom\-left in VS Code, then go to **Extensions** \- **Claude Code**.
+   1. Open Settings from the bottom\-left in VS Code, then go to **Extensions** \- **Claude Code**.
 
-   ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/claude-code-VS.png)
+      ![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/CodingPlan/claude-code-VS.png)
 
-2. In the **Claude Code: Environment Variables** section, click **Edit in settings.json** to modify `claudeCode.environmentVariables` and `claudeCode.selectedModel`.
+   2. In the **Claude Code: Environment Variables** section, click **Edit in settings.json** to modify `claudeCode.environmentVariables` and `claudeCode.selectedModel`.
 
 > **tip**
 

@@ -209,7 +209,7 @@ codex
 
 ## Integrate second\-party/third\-party MCP servers
 
-If the built\-in tools do not cover your use case, you can integrate second\-party or third\-party MCP servers in Codex CLI. For how to obtain them, see [Get an MCP server](integrate-third-party-tools.md#c5f28d13).
+If the built\-in tools do not cover your use case, you can integrate second\-party or third\-party MCP servers in Codex CLI. For how to obtain them, see [Get an MCP server](https://docs.byteplus.com/en/docs/178/121412#c5f28d13).
 
 Edit `~/.codex/config.toml` (`%USERPROFILE%\.codex\config.toml` on Windows) and add the MCP server configuration.
 
@@ -465,7 +465,7 @@ After installation, restart the IDE, then click the Claude Code icon to go to th
 
 ## Integrate with second\-party/third\-party MCP servers and skills
 
-If the built\-in tools do not cover your use case, you can integrate second\-party and third\-party MCP servers and skills in Claude Code (for how to obtain MCP servers, see [Get an MCP server](integrate-third-party-tools.md#c5f28d13)).
+If the built\-in tools do not cover your use case, you can integrate second\-party and third\-party MCP servers and skills in Claude Code (for how to obtain MCP servers, see [Get an MCP server](https://docs.byteplus.com/en/docs/178/121412#c5f28d13)).
 
 1. Integrate an MCP server: run the following command to add one (using the stdio type as an example).
 
@@ -542,7 +542,7 @@ Using the model `seed-2-0-lite-260428` as an example, the configuration is as fo
 
 ## Integrate second\-party/third\-party MCP servers
 
-If the built\-in tools do not cover your use case, OpenCode supports configuring second\-party and third\-party MCP servers in settings (for how to obtain MCP servers, see [Get an MCP server](integrate-third-party-tools.md#c5f28d13)). For specific operations, see the OpenCode official documentation.
+If the built\-in tools do not cover your use case, OpenCode supports configuring second\-party and third\-party MCP servers in settings (for how to obtain MCP servers, see [Get an MCP server](https://docs.byteplus.com/en/docs/178/121412#c5f28d13)). For specific operations, see the OpenCode official documentation.
 
 # Integrate with OpenClaw (formerly Clawdbot)
 
@@ -755,7 +755,7 @@ After selecting the model, you can use TRAE for development tasks.
 
 ## Integrate second\-party/third\-party MCP servers
 
-If the built\-in tools do not cover your use case, TRAE supports configuring second\-party and third\-party MCP servers in settings (for how to obtain them, see [Get an MCP server](integrate-third-party-tools.md#c5f28d13)). For detailed instructions, see the TRAE official documentation.
+If the built\-in tools do not cover your use case, TRAE supports configuring second\-party and third\-party MCP servers in settings (for how to obtain them, see [Get an MCP server](https://docs.byteplus.com/en/docs/178/121412#c5f28d13)). For detailed instructions, see the TRAE official documentation.
 
 # Integrate DeepSeek Harness
 
@@ -890,7 +890,7 @@ After the configuration is complete, you can enter your requirements in the inpu
 
 ## Integrate second\-party/third\-party MCP servers
 
-If the built\-in tools do not cover your use case, Cline supports configuring second\-party and third\-party MCP servers in settings. For how to obtain them, see [Get an MCP server](integrate-third-party-tools.md#c5f28d13). For detailed steps, see the Cline official documentation.
+If the built\-in tools do not cover your use case, Cline supports configuring second\-party and third\-party MCP servers in settings. For how to obtain them, see [Get an MCP server](https://docs.byteplus.com/en/docs/178/121412#c5f28d13). For detailed steps, see the Cline official documentation.
 
 # Integrate Cursor
 
@@ -938,7 +938,7 @@ After the configuration is complete, you can enter your requirements in the inpu
 
 ## Integrate second\-party/third\-party MCP servers
 
-If the built\-in tools do not cover your use case, Roo Code supports configuring second\-party and third\-party MCP servers in settings. For how to obtain them, see [Get an MCP server](integrate-third-party-tools.md#c5f28d13). For detailed steps, see the Roo Code official documentation.
+If the built\-in tools do not cover your use case, Roo Code supports configuring second\-party and third\-party MCP servers in settings. For how to obtain them, see [Get an MCP server](https://docs.byteplus.com/en/docs/178/121412#c5f28d13). For detailed steps, see the Roo Code official documentation.
 
 # Integrate Kilo Code
 
@@ -964,4 +964,4 @@ After the configuration is complete, you can enter your requirements in the inpu
 
 ## Integrate second\-party/third\-party MCP servers
 
-If the built\-in tools do not cover your use case, Kilo Code supports configuring second\-party and third\-party MCP servers in settings (for how to obtain them, see [Get an MCP server](integrate-third-party-tools.md#c5f28d13)); for specific steps, see the official Kilo Code documentation.
+If the built\-in tools do not cover your use case, Kilo Code supports configuring second\-party and third\-party MCP servers in settings (for how to obtain them, see [Get an MCP server](https://docs.byteplus.com/en/docs/178/121412#c5f28d13)); for specific steps, see the official Kilo Code documentation.
